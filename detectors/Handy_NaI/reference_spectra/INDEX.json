@@ -49,7 +49,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Ba-133   A=813600 Bq.spe",
@@ -76,7 +77,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Ba-133 A=813000 Bq  in KT1-5.spe",
@@ -103,7 +105,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Ba-133 A=813600 Bq  in KT1-10.spe",
@@ -128,7 +131,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "background/Work/Handy/Handy(NaI)/Spe/Background140207.spe",
@@ -179,7 +183,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Co-60 A=197600 Bq  in KT1-10.spe",
@@ -205,7 +210,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Co-60 A=197600 Bq  in KT1-20.spe",
@@ -231,7 +237,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Co-60 A=197600 Bq  in KT1-5.spe",
@@ -257,7 +264,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Cs-134   A=95100 Bq.spe",
@@ -284,7 +292,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Cs-134 A=95100 Bq  in KT1-10.spe",
@@ -310,7 +319,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Cs-134 A=95100 Bq  in KT1-20.spe",
@@ -336,7 +346,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Cs-134 A=95100 Bq  in KT1-5.spe",
@@ -362,7 +373,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Cs-137  A=74800 Bq.spe",
@@ -389,7 +401,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Eu-152  A=243600 Bq  in KT1-10.spe",
@@ -415,7 +428,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Eu-152  A=243600 Bq  in KT1-5.spe",
@@ -441,7 +455,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Eu-152  A=243600 Bq.spe",
@@ -468,7 +483,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/EU-152 A=243600 Bq  in KT1-20.spe",
@@ -494,7 +510,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Eu-152 Calibr.spe",
@@ -520,7 +537,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Na-22   A=91900 Bq.spe",
@@ -546,7 +564,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Na-22  A=91900 Bq  in KT1-10.spe",
@@ -572,7 +591,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Na-22  A=91900 Bq  in KT1-20.spe",
@@ -598,7 +618,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Na-22 A=91900 Bq  in KT1-5.spe",
@@ -624,7 +645,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Th-228  A=67700 Bq  in KT1-5.spe",
@@ -650,7 +672,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Th-228  A=67700 Bq in KT1-10.spe",
@@ -676,7 +699,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Th-232  A=16700 Bq  in KT1-5.spe",
@@ -702,7 +726,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Th-232  A=16700 Bq.spe",
@@ -729,7 +754,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Th-232Calibr.spe",
@@ -755,7 +781,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Ti-44   A=72400 Bq.spe",
@@ -782,7 +809,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Ti-44 A=72400 Bq  in KT1-10.spe",
@@ -808,7 +836,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Ti-44 A=72400 Bq  in KT1-20.spe",
@@ -834,7 +863,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     },
     {
       "spe": "Work/Handy/Handy(NaI)/Spe/Ti-44 A=72400 Bq  in KT1-5.spe",
@@ -860,7 +890,8 @@
       "background_spe": "Background140207.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": true
     }
   ],
   "scrubbed": 2,
@@ -869,5 +900,19 @@
   "backgrounds": [
     "Background140207.spe",
     "Background140207.spe"
+  ],
+  "backgrounds_available": [
+    {
+      "spe": "background/Work/Handy/Handy(NaI)/Data/Background140207.spe",
+      "geometry": "Point-15cm",
+      "note": "Th-232  A=67700 Бк  в КТ1-10  на расстоянии 15 см дата аттестации источника 1.11.2006 г.",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(NaI)/Spe/Background140207.spe",
+      "geometry": "Point-15cm",
+      "note": "Th-232  A=67700 Бк  в КТ1-10  на расстоянии 15 см дата аттестации источника 1.11.2006 г.",
+      "energy_cal_degree": null
+    }
   ]
 }

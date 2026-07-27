@@ -24,7 +24,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Ba133_#SRC-13_24sm.spe",
@@ -49,7 +50,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Background_1.spe",
@@ -459,7 +461,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_1.spe",
@@ -484,7 +487,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_10.spe",
@@ -509,7 +513,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_2.spe",
@@ -544,7 +549,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_3.spe",
@@ -579,7 +585,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_4.spe",
@@ -614,7 +621,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_5.spe",
@@ -649,7 +657,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_6.spe",
@@ -684,7 +693,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_7.spe",
@@ -719,7 +729,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_8.spe",
@@ -754,7 +765,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_9.spe",
@@ -789,7 +801,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-16_24sm.spe",
@@ -824,7 +837,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Co57_#SRC-15_24sm.spe",
@@ -849,7 +863,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Co60_#SRC-13_24sm.spe",
@@ -874,7 +889,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Cs137_#SRC-13_24sm.spe",
@@ -909,7 +925,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Eu152_#SRC-13_24sm.spe",
@@ -934,7 +951,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Mn54_#SRC-15_24sm.spe",
@@ -969,7 +987,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Na22_#SRC-15_24sm.spe",
@@ -1004,7 +1023,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Na22_#SRC-13_24sm.spe",
@@ -1039,7 +1059,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Th228_#SRC-17_24sm.spe",
@@ -1074,7 +1095,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Ti44_#SRC-18_24sm.spe",
@@ -1109,7 +1131,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Handy/Handy(LaBr)/Spe/Zn65_#SRC-15_24sm.spe",
@@ -1144,7 +1167,8 @@
       "background_spe": "Background_1.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     }
   ],
   "scrubbed": 41,
@@ -1168,5 +1192,110 @@
     "Фон без защиты_7.spe",
     "Фон без защиты_8.spe",
     "Фон без защиты_9.spe"
-  ]
+  ],
+  "backgrounds_available": [
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Background_1.spe",
+      "geometry": "Point24",
+      "note": "Background",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Background_10.spe",
+      "geometry": "Point24",
+      "note": "Background",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Background_2.spe",
+      "geometry": "Point24",
+      "note": "Background",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Background_3.spe",
+      "geometry": "Point24",
+      "note": "Background",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Background_4.spe",
+      "geometry": "Point24",
+      "note": "Фон без защиты",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Background_5.spe",
+      "geometry": "Point24",
+      "note": "Background",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Bckg_10.spe",
+      "geometry": "Точечная",
+      "note": "Фон без защиты",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/MarBckg_14.spe",
+      "geometry": "Point24",
+      "note": "Background(Self)",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_1.spe",
+      "geometry": "Точечная",
+      "note": "Фон без защиты",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_2.spe",
+      "geometry": "Точечная",
+      "note": "Фон без защиты",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_3.spe",
+      "geometry": "Точечная",
+      "note": "Фон без защиты",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_4.spe",
+      "geometry": "Точечная",
+      "note": "Фон без защиты",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_5.spe",
+      "geometry": "Точечная",
+      "note": "Фон без защиты",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_6.spe",
+      "geometry": "Точечная",
+      "note": "Фон без защиты",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_7.spe",
+      "geometry": "Точечная",
+      "note": "Фон без защиты",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_8.spe",
+      "geometry": "Точечная",
+      "note": "Фон без защиты",
+      "energy_cal_degree": null
+    },
+    {
+      "spe": "background/Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_9.spe",
+      "geometry": "Точечная",
+      "note": "Фон без защиты",
+      "energy_cal_degree": null
+    }
+  ],
+  "background_pairing_note": "У этого класса фон вынесен из папок измерений, поэтому 24 пар подобраны автоматически прежней эвристикой и человеком не проверены. Достоверной считается только пара, где фон лежал рядом с измерением (background_curated=true). Конвертер больше таких пар не создаёт."
 }

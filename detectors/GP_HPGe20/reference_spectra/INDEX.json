@@ -103,7 +103,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/joint processing/Barrel_10cm_D2.spe",
@@ -129,7 +130,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/joint processing/Barrel_10cm_D3.spe",
@@ -155,7 +157,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/joint processing/NZK_50cm_D1.spe",
@@ -181,7 +184,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/joint processing/NZK_50cm_D2.spe",
@@ -207,7 +211,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/joint processing/NZK_50cm_D3.spe",
@@ -233,7 +238,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/joint processing/NZK_50cm_D4.spe",
@@ -259,7 +265,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m08085_mix09.spe",
@@ -289,7 +296,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_cs06.spe",
@@ -316,7 +324,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_cs16.spe",
@@ -343,7 +352,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_k06.spe",
@@ -370,7 +380,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_k16.spe",
@@ -397,7 +408,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_ra06.spe",
@@ -434,7 +446,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_ra16.spe",
@@ -461,7 +474,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_th06.spe",
@@ -488,7 +502,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_th16.spe",
@@ -515,7 +530,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Am241-SRC-01-25cm.spe",
@@ -541,7 +557,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Ba133-SRC-01-25cm.spe",
@@ -567,7 +584,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Cd109-SRC-01-25cm.spe",
@@ -593,7 +611,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Ce139-SRC-01-25cm.spe",
@@ -619,7 +638,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Co57-SRC-01-25cm.spe",
@@ -645,7 +665,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Co60-SRC-01-25cm.spe",
@@ -671,7 +692,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Cs137-SRC-01-25cm.spe",
@@ -698,7 +720,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Eu152-SRC-01-25cm.spe",
@@ -735,7 +758,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Mn54-SRC-01-25cm.spe",
@@ -761,7 +785,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Sn113-SRC-01-25cm.spe",
@@ -787,7 +812,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Th228-SRC-01-25cm.spe",
@@ -813,7 +839,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Y88-SRC-01-25cm.spe",
@@ -853,7 +880,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Th228--BadCalibre.spe",
@@ -879,7 +907,8 @@
       "background_spe": "Bckg_1.spe",
       "background_cal_degree": 5,
       "background_embedded": false,
-      "background_dropped_high_order": true
+      "background_dropped_high_order": true,
+      "background_curated": false
     }
   ],
   "scrubbed": 25,
@@ -889,5 +918,26 @@
     "Bckg_1.spe",
     "Bckg_15.spe",
     "Bckg_5.spe"
-  ]
+  ],
+  "backgrounds_available": [
+    {
+      "spe": "background/Work/GP/HPGe(20_)/Spe/Background/Bckg_1.spe",
+      "geometry": "MARINELLI",
+      "note": "Distilled water",
+      "energy_cal_degree": 5
+    },
+    {
+      "spe": "background/Work/GP/HPGe(20_)/Spe/Background/Bckg_15.spe",
+      "geometry": "MARINELLI",
+      "note": "Distilled Water",
+      "energy_cal_degree": 5
+    },
+    {
+      "spe": "background/Work/GP/HPGe(20_)/Spe/Background/Bckg_5.spe",
+      "geometry": "MARINELLI",
+      "note": "Distilled Water",
+      "energy_cal_degree": 2
+    }
+  ],
+  "background_pairing_note": "У этого класса фон вынесен из папок измерений, поэтому 29 пар подобраны автоматически прежней эвристикой и человеком не проверены. Достоверной считается только пара, где фон лежал рядом с измерением (background_curated=true). Конвертер больше таких пар не создаёт."
 }

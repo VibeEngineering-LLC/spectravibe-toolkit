@@ -114,21 +114,22 @@ def find_backgrounds(spes: list) -> list:
 
 
 def pick_background(sample: Path, backgrounds: list):
-    """Nearest background: same folder, then nearest ancestor, then the class one."""
-    if not backgrounds:
-        return None
+    """Фон только из папки самого измерения — иначе никакого.
+
+    Признак верной пары — курирование: фон, положенный человеком рядом с
+    образцом, снят под эту задачу, и заголовок это подтверждать не обязан.
+    В `reference_kits/Denta_120mL/Cs-137/` фон пустой защиты записан как
+    `GEOMETRY=Точечная-5см`, а в комментарии сказано, что он обслуживает Дента,
+    Чашку-60 и Точечную-5см; сверка полей забраковала бы верную пару.
+
+    Обратное тоже верно: пара, которую никто не складывал, ничем не
+    подтверждается. Прежняя эвристика подбирала фон по числу совпавших имён
+    каталогов в пути и раздавала маринелли с дистиллированной водой точечным
+    измерениям на 25 см, бочке Barrel-SKG и НЗК-150. Ложная пара хуже
+    отсутствующей: вычитание по ней считается молча.
+    """
     same = [b for b in backgrounds if b.parent == sample.parent]
-    if same:
-        return same[0]
-    best, best_depth = None, -1
-    for b in backgrounds:
-        try:
-            common = len(set(b.parts) & set(sample.parts))
-        except TypeError:
-            common = 0
-        if common > best_depth:
-            best, best_depth = b, common
-    return best
+    return same[0] if same else None
 
 
 def publish_class(name: str, source_root: Path, xml_all: bool = False) -> dict:
@@ -240,6 +241,9 @@ def publish_class(name: str, source_root: Path, xml_all: bool = False) -> dict:
             "becqmoni_reads_as_linear": bool(
                 spec.energy_cal and poly_degree(spec) > BQ_MAX_POLY_ORDER),
             "background_spe": (str(bg_path.name) if bg_path is not None else None),
+            # Пара считается достоверной, только если фон лежал в папке самого
+            # измерения — см. pick_background.
+            "background_curated": bg_path is not None,
             "background_cal_degree": bg_degree,
             "background_embedded": bg_path is not None and not bg_dropped,
             "background_dropped_high_order": bg_dropped,

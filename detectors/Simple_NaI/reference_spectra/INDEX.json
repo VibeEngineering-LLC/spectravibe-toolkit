@@ -26,7 +26,8 @@
       "background_spe": null,
       "background_cal_degree": null,
       "background_embedded": false,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": null
     },
     {
       "spe": "Work/Simple/NaI(Demo)/Spe/Ba133_15_OSGI.spe",
@@ -52,7 +53,8 @@
       "background_spe": null,
       "background_cal_degree": null,
       "background_embedded": false,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": null
     },
     {
       "spe": "Work/Simple/NaI(Demo)/Spe/Co60_15_OSGI.spe",
@@ -79,7 +81,8 @@
       "background_spe": null,
       "background_cal_degree": null,
       "background_embedded": false,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": null
     },
     {
       "spe": "Work/Simple/NaI(Demo)/Spe/Cs137_15_OSGI.spe",
@@ -106,7 +109,8 @@
       "background_spe": null,
       "background_cal_degree": null,
       "background_embedded": false,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": null
     },
     {
       "spe": "Work/Simple/NaI(Demo)/Spe/Eu152_15_OSGI.spe",
@@ -133,7 +137,8 @@
       "background_spe": null,
       "background_cal_degree": null,
       "background_embedded": false,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": null
     },
     {
       "spe": "Work/Simple/NaI(Demo)/Spe/Th228_15_OSGI.spe",
@@ -160,11 +165,13 @@
       "background_spe": null,
       "background_cal_degree": null,
       "background_embedded": false,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": null
     }
   ],
   "scrubbed": 0,
   "failed": [],
   "xml_skipped_bulk": 0,
-  "backgrounds": []
+  "backgrounds": [],
+  "backgrounds_available": []
 }

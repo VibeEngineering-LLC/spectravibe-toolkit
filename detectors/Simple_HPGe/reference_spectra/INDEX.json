@@ -25,7 +25,8 @@
       "background_spe": "Фон_2MeV.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Co60_10cm.spe",
@@ -51,7 +52,8 @@
       "background_spe": "Фон_2MeV.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Eu152_10cm-BadCalibration.spe",
@@ -75,7 +77,8 @@
       "background_spe": "Фон_2MeV.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Eu152_10cm.spe",
@@ -101,7 +104,8 @@
       "background_spe": "Фон_2MeV.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Na22_10cm.spe",
@@ -127,7 +131,8 @@
       "background_spe": "Фон_2MeV.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Th228_10cm.spe",
@@ -152,7 +157,8 @@
       "background_spe": "Фон_2MeV.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Ti44_10cm.spe",
@@ -178,7 +184,8 @@
       "background_spe": "Фон_2MeV.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Y88_10cm.spe",
@@ -204,7 +211,8 @@
       "background_spe": "Фон_2MeV.spe",
       "background_cal_degree": null,
       "background_embedded": true,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": false
     },
     {
       "spe": "background/Work/Simple/HPGe(Demo)/SPE/Фон_2MeV.spe",
@@ -235,5 +243,14 @@
   "xml_skipped_bulk": 0,
   "backgrounds": [
     "Фон_2MeV.spe"
-  ]
+  ],
+  "backgrounds_available": [
+    {
+      "spe": "background/Work/Simple/HPGe(Demo)/SPE/Фон_2MeV.spe",
+      "geometry": "point-10cm",
+      "note": "Фон,  диапазон 2МэВ",
+      "energy_cal_degree": null
+    }
+  ],
+  "background_pairing_note": "У этого класса фон вынесен из папок измерений, поэтому 8 пар подобраны автоматически прежней эвристикой и человеком не проверены. Достоверной считается только пара, где фон лежал рядом с измерением (background_curated=true). Конвертер больше таких пар не создаёт."
 }

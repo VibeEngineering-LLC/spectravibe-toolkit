@@ -24,7 +24,8 @@
       "background_spe": null,
       "background_cal_degree": null,
       "background_embedded": false,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": null
     },
     {
       "spe": "Work/Simple/TeCd(Demo)/Spe/Am_10.spe",
@@ -49,7 +50,8 @@
       "background_spe": null,
       "background_cal_degree": null,
       "background_embedded": false,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": null
     },
     {
       "spe": "Work/Simple/TeCd(Demo)/Spe/AmCeCsCoY.spe",
@@ -75,7 +77,8 @@
       "background_spe": null,
       "background_cal_degree": null,
       "background_embedded": false,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": null
     },
     {
       "spe": "Work/Simple/TeCd(Demo)/Spe/Ce_10.spe",
@@ -100,7 +103,8 @@
       "background_spe": null,
       "background_cal_degree": null,
       "background_embedded": false,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": null
     },
     {
       "spe": "Work/Simple/TeCd(Demo)/Spe/Cs_10.spe",
@@ -125,7 +129,8 @@
       "background_spe": null,
       "background_cal_degree": null,
       "background_embedded": false,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": null
     },
     {
       "spe": "Work/Simple/TeCd(Demo)/Spe/Sn_10.spe",
@@ -150,11 +155,13 @@
       "background_spe": null,
       "background_cal_degree": null,
       "background_embedded": false,
-      "background_dropped_high_order": false
+      "background_dropped_high_order": false,
+      "background_curated": null
     }
   ],
   "scrubbed": 1,
   "failed": [],
   "xml_skipped_bulk": 0,
-  "backgrounds": []
+  "backgrounds": [],
+  "backgrounds_available": []
 }
