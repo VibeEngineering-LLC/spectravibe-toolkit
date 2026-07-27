@@ -1,0 +1,53 @@
+[Sets]
+ОИСН № Th 1606=
+ОИСН № Ra 1679=
+ОИСН № K 1545=
+ОИСН № Cs 1670=
+[ОИСН № Th 1606]
+Geometry=Маринелли
+Mass,g=1606
+Volume,ml=1000
+Material=Пластикат
+Date=25.04.2000
+Activity unit=Bq
+Thick,mm=18,1
+[ОИСН № Th 1606,structure]
+Th-232=
+[ОИСН № Th 1606,Th-232,Act]
+Th-232=3324,3
+[ОИСН № Ra 1679]
+Geometry=Маринелли
+Mass,g=1679
+Volume,ml=1000
+Material=Пластикат
+Date=25.04.2000
+Activity unit=Bq
+Thick,mm=18,1
+[ОИСН № Ra 1679,structure]
+Ra-226=
+[ОИСН № Ra 1679,Ra-226,Act]
+Ra-226=3173,3
+[ОИСН № K 1545]
+Geometry=Маринелли
+Mass,g=1545
+Volume,ml=1000
+Material=Пластикат
+Date=25.04.2000
+Activity unit=Bq
+Thick,mm=18,1
+[ОИСН № K 1545,structure]
+K-40=
+[ОИСН № K 1545,K-40,Act]
+K-40=3076,3
+[ОИСН № Cs 1670]
+Geometry=Маринелли
+Mass,g=1670
+Volume,ml=1000
+Material=Пластикат
+Date=25.04.2000
+Activity unit=Bq
+Thick,mm=18,1
+[ОИСН № Cs 1670,structure]
+Cs-137=
+[ОИСН № Cs 1670,Cs-137,Act]
+Cs-137=3307,3

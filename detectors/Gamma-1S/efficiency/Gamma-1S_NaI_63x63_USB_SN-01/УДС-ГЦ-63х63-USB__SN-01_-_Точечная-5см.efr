@@ -1,0 +1,250 @@
+[УДС-ГЦ-63х63-USB №SN-01;Точечная-5см;#1 (Co-57)]
+EfficiencyVersion=1.7.11918
+Date=06-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Точечная-5см
+Volume,ml=0
+Density,g/cm3=0
+Material={"Name":"","Ro":0,"Compound":[]}
+Thick,mm=0
+DThick,mm=0
+Layers={"Layers":[{"Material_RU":"РИСН-379","Material_EN":"RISN-379","Ro":1,"Width":2.3,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Distance,cm=5
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Co-57=0,0,1
+122.061=4.298577E-02,4.723,Co-57,5405,249,0
+
+[УДС-ГЦ-63х63-USB №SN-01;Точечная-5см;#1 (Mn-54)]
+EfficiencyVersion=1.7.11918
+Date=06-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Точечная-5см
+Volume,ml=0
+Density,g/cm3=0
+Material={"Name":"","Ro":0,"Compound":[]}
+Thick,mm=0
+DThick,mm=0
+Layers={"Layers":[{"Material_RU":"РИСН-379","Material_EN":"RISN-379","Ro":1,"Width":2.3,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Distance,cm=5
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Mn-54=0,0,1
+834.848=1.129982E-02,1.985,Mn-54,206784,2612,0
+
+[УДС-ГЦ-63х63-USB №SN-01;Точечная-5см;Eu-152 №04.21]
+EfficiencyVersion=1.7.11918
+Date=06-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Точечная-5см
+Volume,ml=0
+Density,g/cm3=not essential
+Material={"Name":"","Ro":0,"Compound":[]}
+Thick,mm=0
+DThick,mm=0
+Layers={"Layers":[{"Material_RU":"РИСН-379","Material_EN":"RISN-379","Ro":1,"Width":2.3,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Part=whole object
+Distance,cm=5
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Eu-152=142000,2,1
+121.782=4.137813E-02,2.9845,Eu-152,5931185.712,127105.738,28.53
+244.697=3.331484E-02,2.3578,Eu-152,1263727.841,14288.414,7.55
+344.279=2.504321E-02,2.4753,Eu-152,3345625.125,41804.798,26.59
+964.057=1.023209E-02,2.5585,Eu-152,745934.033,11345.328,14.51
+1408.013=5.909987E-03,2.0815,Eu-152,619694.813,2372.276,20.87
+
+[УДС-ГЦ-63х63-USB №SN-01;Точечная-5см;Cs-137 №SRC-01]
+EfficiencyVersion=1.7.11918
+Date=06-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Точечная-5см
+Volume,ml=0
+Density,g/cm3=not essential
+Material={"Name":"","Ro":0,"Compound":[]}
+Thick,mm=0
+DThick,mm=0
+Layers={"Layers":[{"Material_RU":"РИСН-379","Material_EN":"RISN-379","Ro":1,"Width":2.3,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Part=whole object
+Distance,cm=5
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Cs-137=106000,1.5,1
+661.657=1.3742E-02,1.5839,Cs-137,1880984.532,8597.178,85.13
+
+[УДС-ГЦ-63х63-USB №SN-01;Точечная-5см;Co-60 №043 02.2019]
+EfficiencyVersion=1.7.11918
+Date=06-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Точечная-5см
+Volume,ml=0
+Density,g/cm3=not essential
+Material={"Name":"","Ro":0,"Compound":[]}
+Thick,mm=0
+DThick,mm=0
+Layers={"Layers":[{"Material_RU":"РИСН-379","Material_EN":"RISN-379","Ro":1,"Width":2.3,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Part=whole object
+Distance,cm=5
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Co-60=105000,1.5,1
+1173.228=6.513874E-03,1.9575,Co-60,584153.206,7345.051,99.85
+1332.492=5.90343E-03,1.9296,Co-60,530112.638,6434.337,99.9826
+
+[УДС-ГЦ-63х63-USB №SN-01;Точечная-5см;Y-88 №SRC-02]
+EfficiencyVersion=1.7.11918
+Date=06-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Точечная-5см
+Volume,ml=0
+Density,g/cm3=not essential
+Material={"Name":"","Ro":0,"Compound":[]}
+Thick,mm=0
+DThick,mm=0
+Layers={"Layers":[{"Material_RU":"РИСН-379","Material_EN":"RISN-379","Ro":1,"Width":2.3,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Part=whole object
+Distance,cm=5
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Y-88=350000,1.5,1
+898.042=9.998491E-03,1.5534,Y-88,620665.982,1526.549,93.7
+1836.063=4.787202E-03,1.5698,Y-88,314613.463,1102.658,99.2
+
+[УДС-ГЦ-63х63-USB №SN-01;Точечная-5см;Zn-65 #SRC-08.2019]
+EfficiencyVersion=1.7.11918
+Date=06-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Точечная-5см
+Volume,ml=0
+Density,g/cm3=not essential
+Material={"Name":"","Ro":0,"Compound":[]}
+Thick,mm=0
+DThick,mm=0
+Layers={"Layers":[{"Material_RU":"РИСН-379","Material_EN":"RISN-379","Ro":1,"Width":2.3,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Part=whole object
+Distance,cm=5
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Zn-65=3100,1.5,1
+1115.539=8.189508E-03,2.0108,Zn-65,7378.661,97.708,50.04
+
+[УДС-ГЦ-63х63-USB №SN-01;Точечная-5см;Th-228 №SRC-04]
+EfficiencyVersion=1.7.11918
+Date=06-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Точечная-5см
+Volume,ml=0
+Density,g/cm3=not essential
+Material={"Name":"","Ro":0,"Compound":[]}
+Thick,mm=0
+DThick,mm=0
+Layers={"Layers":[{"Material_RU":"РИСН-379","Material_EN":"RISN-379","Ro":1,"Width":2.3,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Part=whole object
+Distance,cm=5
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Th-228=129000,1.5,1
+238.632=2.839861E-02,8.2757,Th-228,5381088.569,433578.569,43.6, No
+583.187=1.471679E-02,1.5888,Th-228,1965450.358,7513.784,30.73
+727.33=1.212129E-02,2.1734,Th-228,351367.352,2839.586,6.67
+860.557=1.021314E-02,1.9028,Th-228,200624.65,1537.61,4.52
+2614.511=3.032573E-03,1.5337,Th-228,475325.338,1519.502,36.0656
+
+[УДС-ГЦ-63х63-USB №SN-01;Точечная-5см;Na-22 #01.22]
+EfficiencyVersion=1.7.11918
+Date=06-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Точечная-5см
+Volume,ml=0
+Density,g/cm3=not essential
+Material={"Name":"","Ro":0,"Compound":[]}
+Thick,mm=0
+DThick,mm=0
+Layers={"Layers":[{"Material_RU":"РИСН-379","Material_EN":"RISN-379","Ro":1,"Width":2.3,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Part=whole object
+Distance,cm=5
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Na-22=229000,2.5,1
+1274.537=6.655385E-03,2.5178,Na-22,1635967.611,4882.212,99.94
+
+[УДС-ГЦ-63х63-USB №SN-01;Точечная-5см;Ba-133 #SRC-07]
+EfficiencyVersion=1.7.11918
+Date=06-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Точечная-5см
+Volume,ml=0
+Density,g/cm3=not essential
+Material={"Name":"","Ro":0,"Compound":[]}
+Thick,mm=0
+DThick,mm=0
+Layers={"Layers":[{"Material_RU":"РИСН-379","Material_EN":"RISN-379","Ro":1,"Width":2.3,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Part=whole object
+Distance,cm=5
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Ba-133=44100,1,1
+80.998=4.571469E-02,2.323,Ba-133,1397205.679,26380.351,32.9
+302.851=2.577367E-02,2.4845,Ba-133,439121.047,9489.588,18.34
+356.013=2.340067E-02,1.5792,Ba-133,1347809.885,10061.264,62
+
+[УДС-ГЦ-63х63-USB №SN-01;Точечная-5см;Am-241 045 02.2019]
+EfficiencyVersion=1.7.11918
+Date=06-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Точечная-5см
+Volume,ml=0
+Density,g/cm3=not essential
+Material={"Name":"","Ro":0,"Compound":[]}
+Thick,mm=0
+DThick,mm=0
+Layers={"Layers":[{"Material_RU":"РИСН-379","Material_EN":"RISN-379","Ro":1,"Width":2.3,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Part=whole object
+Distance,cm=5
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Am-241=103100,1.5,1
+59.541=4.462078E-02,4.6313,Am-241,2974698.048,126056.024,35.9
+
+[УДС-ГЦ-63х63-USB №SN-01;Точечная-5см;Cd-109 #SRC-09 04.2017]
+EfficiencyVersion=1.7.11918
+Date=06-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Точечная-5см
+Volume,ml=0
+Density,g/cm3=not essential
+Material={"Name":"","Ro":0,"Compound":[]}
+Thick,mm=0
+DThick,mm=0
+Layers={"Layers":[{"Material_RU":"РИСН-379","Material_EN":"RISN-379","Ro":1,"Width":2.3,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Part=whole object
+Distance,cm=5
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Cd-109=395000,1.5,1
+88.034=4.273808E-02,3.8751,Cd-109,19247.986,449.83,3.7
+

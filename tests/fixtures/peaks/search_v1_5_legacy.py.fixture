@@ -1,0 +1,336 @@
+"""
+Peak search in channel space.
+
+Implements the Mariscotti (1967) second-derivative-of-Gaussian filter,
+extended with the Currie L_C significance test for selecting genuine
+peaks from the filter output.
+
+This module operates in **channel space only**, before energy
+calibration. It is called both:
+  - by bootstrap calibration (Phase 1.2) to find anchor candidates
+    before any energy mapping exists
+  - by the main analysis pipeline (Phase 1.3) after calibration has
+    been established, using calibrated FWHM(E) as the adaptive filter
+    width
+
+The output of this module is small (a list of peaks, ~50–100 entries
+for a typical spectrum), so passing the result to the AI for review
+is token-cheap. The counts array is never returned.
+
+Methodology references:
+  - Mariscotti M.A., NIM 50 (1967) 309
+  - Gilmore & Joss, "Practical Gamma-ray Spectrometry" 3rd Ed., §9.3
+  - Currie L.A., Anal. Chem. 40 (1968) 586
+
+Token economy: AI sees only the returned list of Peak dataclasses. The
+filter convolution and Currie test live entirely in numpy.
+"""
+
+from __future__ import annotations
+
+import math
+from dataclasses import dataclass, field
+from typing import Optional
+
+import numpy as np
+
+
+# ============================================================================
+# Output dataclass
+# ============================================================================
+
+@dataclass
+class FoundPeak:
+    """
+    A peak found by the search algorithm.
+
+    All quantities are in **channel space** unless stated otherwise.
+    Energy is assigned later, after calibration.
+    """
+    channel: int                  # peak center, channel units (integer)
+    height: float                 # net counts at peak channel (above local continuum)
+    fwhm_channels: float          # full-width-at-half-maximum, channel units (estimate)
+    significance: float           # Currie L_C-style: net/sqrt(B) ≈ S/sqrt(B)
+    area_estimate: float = 0.0    # rough integral net counts (2.5·height·sigma)
+    sigma_area_estimate: float = 0.0
+    # Optional fields filled by the caller post-detection
+    energy_keV: Optional[float] = None
+    notes: list = field(default_factory=list)
+
+    @property
+    def sigma_channels(self) -> float:
+        return self.fwhm_channels / 2.355
+
+    def __repr__(self) -> str:
+        e = f", E={self.energy_keV:.2f} keV" if self.energy_keV is not None else ""
+        return (f"FoundPeak(ch={self.channel}, FWHM={self.fwhm_channels:.1f}ch, "
+                f"area≈{self.area_estimate:.0f}, σ_sig={self.significance:.1f}{e})")
+
+
+# ============================================================================
+# Mariscotti second-derivative filter
+# ============================================================================
+
+def _gaussian_second_derivative_kernel(fwhm_channels: float, half_width: int) -> np.ndarray:
+    """
+    Build the second-derivative-of-Gaussian filter kernel.
+
+    The kernel coefficients are derived from:
+        f(x) = exp(-x²/(2σ²))
+        f''(x) ∝ (x²/σ² - 1) · f(x)
+
+    We center, normalise to unit L2 norm, so that convolution against
+    a Gaussian peak produces a known-magnitude response.
+
+    half_width: kernel half-length in channels.
+                Typical value: ~1.5 · FWHM.
+    """
+    sigma = fwhm_channels / 2.355
+    x = np.arange(-half_width, half_width + 1, dtype=np.float64)
+    g = ((x / sigma) ** 2 - 1.0) * np.exp(-(x / sigma) ** 2 / 2.0)
+    # Center (remove DC component): a true second-derivative integrates to zero
+    g = g - g.mean()
+    # Unit L2 norm for stable significance
+    norm = math.sqrt(float((g * g).sum()))
+    if norm > 0:
+        g = g / norm
+    return g
+
+
+def mariscotti_search(
+    counts,
+    fwhm_channels: float,
+    sigma_threshold: float = 3.0,
+    min_separation_factor: float = 1.0,
+    edge_margin: Optional[int] = None,
+):
+    """
+    Find peaks via the Mariscotti second-derivative filter.
+
+    Args:
+        counts: 1-D counts array (numpy or list-like)
+        fwhm_channels: assumed peak FWHM in channels (single global value)
+        sigma_threshold: Currie L_C threshold for accepting a peak
+                         (default 3.0 corresponds roughly to α = 0.0013
+                         one-sided)
+        min_separation_factor: minimum allowed center-to-center distance
+                              between accepted peaks, expressed in
+                              multiples of FWHM (default 1.0 = peaks
+                              must be at least one FWHM apart)
+        edge_margin: number of channels at each edge to ignore. If None,
+                     defaults to 2·FWHM rounded up.
+
+    Returns:
+        List of FoundPeak, sorted by channel ascending.
+    """
+    counts = np.asarray(counts, dtype=np.float64)
+    n = counts.size
+    if n < 50 or fwhm_channels < 1.0:
+        return []
+
+    # Kernel: half-width 1.5·FWHM is the standard recommendation
+    half_width = max(int(math.ceil(1.5 * fwhm_channels)), 3)
+    kernel = _gaussian_second_derivative_kernel(fwhm_channels, half_width)
+
+    # Convolve. Use 'same' mode to keep indices aligned with channels.
+    # A negative sign so that peaks produce POSITIVE filter response
+    # (second derivative of a Gaussian is negative at center).
+    response = -np.convolve(counts, kernel, mode="same")
+
+    # Local-noise estimate for significance:
+    # Assume the data are Poisson, then the per-channel variance equals
+    # the counts. The variance of the filter output at channel i is:
+    #   Var = Σ_k counts[i+k] · kernel[k]²
+    # Compute this via convolution with kernel².
+    kernel_sq = kernel ** 2
+    var = np.convolve(np.maximum(counts, 1.0), kernel_sq, mode="same")
+    sigma_response = np.sqrt(np.maximum(var, 1e-12))
+
+    # Per-channel significance (Currie L_C style)
+    significance = response / sigma_response
+
+    # Edge masking — filter convolution near the boundaries is unreliable
+    if edge_margin is None:
+        edge_margin = int(math.ceil(2 * fwhm_channels))
+    significance[:edge_margin] = 0.0
+    significance[-edge_margin:] = 0.0
+
+    # Find local maxima above threshold
+    candidates = _local_maxima(significance, sigma_threshold)
+    if not candidates:
+        return []
+
+    # Enforce min separation: when two candidates are too close, keep the
+    # stronger one
+    min_sep = max(1, int(round(min_separation_factor * fwhm_channels)))
+    candidates = _enforce_separation(candidates, significance, min_sep)
+
+    # Convert to FoundPeak objects with crude area estimates
+    peaks = []
+    sigma_ch = fwhm_channels / 2.355
+    for ch in candidates:
+        # Quick continuum from outside ±2·FWHM
+        cont_l_lo = max(0, ch - int(round(3 * fwhm_channels)))
+        cont_l_hi = max(cont_l_lo + 1, ch - int(round(2 * fwhm_channels)))
+        cont_r_lo = min(n - 1, ch + int(round(2 * fwhm_channels)))
+        cont_r_hi = min(n, ch + int(round(3 * fwhm_channels)))
+        b_left = counts[cont_l_lo:cont_l_hi].mean() if cont_l_hi > cont_l_lo else 0.0
+        b_right = counts[cont_r_lo:cont_r_hi].mean() if cont_r_hi > cont_r_lo else 0.0
+        b = 0.5 * (b_left + b_right)
+
+        net_height = max(counts[ch] - b, 0.0)
+        # Gaussian area = sqrt(2π)·σ·height ≈ 2.507 · σ · height
+        area = 2.507 * sigma_ch * net_height
+
+        # ROI for σ_area: ±2·FWHM ≈ ~95% Gaussian coverage
+        roi_lo = max(0, ch - int(round(2 * fwhm_channels)))
+        roi_hi = min(n, ch + int(round(2 * fwhm_channels)) + 1)
+        roi_counts = float(counts[roi_lo:roi_hi].sum())
+        bg_in_roi = b * (roi_hi - roi_lo)
+        # Currie σ_area
+        sigma_area = math.sqrt(max(roi_counts + bg_in_roi, 1.0))
+
+        peaks.append(FoundPeak(
+            channel=int(ch),
+            height=net_height,
+            fwhm_channels=float(fwhm_channels),
+            significance=float(significance[ch]),
+            area_estimate=area,
+            sigma_area_estimate=sigma_area,
+        ))
+
+    peaks.sort(key=lambda p: p.channel)
+    return peaks
+
+
+# ============================================================================
+# Helpers
+# ============================================================================
+
+def _local_maxima(signal: np.ndarray, threshold: float) -> list:
+    """
+    Find indices of local maxima where signal > threshold.
+
+    A local maximum is defined as a sample strictly greater than both
+    its immediate neighbours. Plateaus (signal[i] == signal[i+1]) are
+    handled by selecting the leftmost index of the plateau.
+    """
+    n = signal.size
+    if n < 3:
+        return []
+    out = []
+    i = 1
+    while i < n - 1:
+        if signal[i] <= threshold:
+            i += 1
+            continue
+        # Check the basic local-max condition
+        left_ok = signal[i] > signal[i - 1]
+        if not left_ok:
+            i += 1
+            continue
+        # Walk through possible plateau
+        j = i
+        while j < n - 1 and signal[j + 1] == signal[i]:
+            j += 1
+        right_ok = (j < n - 1) and (signal[j] > signal[j + 1])
+        if right_ok:
+            out.append(i)
+        i = j + 1
+    return out
+
+
+def _enforce_separation(
+    candidates: list, significance: np.ndarray, min_sep: int
+) -> list:
+    """
+    Greedy thinning: process candidates in order of significance
+    (strongest first), accepting each one only if it lies at least
+    min_sep channels from every already-accepted candidate.
+    """
+    if not candidates:
+        return []
+    by_strength = sorted(candidates,
+                         key=lambda c: -significance[c])
+    accepted = []
+    for ch in by_strength:
+        if all(abs(ch - a) >= min_sep for a in accepted):
+            accepted.append(ch)
+    return sorted(accepted)
+
+
+# ============================================================================
+# Channel-space FWHM estimate per peak
+# ============================================================================
+
+def estimate_fwhm_at_peak(
+    counts,
+    channel: int,
+    initial_fwhm: float,
+    max_iter: int = 3,
+) -> Optional[float]:
+    """
+    Refine the FWHM estimate at a single found peak by interpolating
+    the half-maximum crossings.
+
+    Uses linear interpolation between channels where the count first
+    crosses (peak_height + background)/2 on either side. Returns None
+    if the half-maximum crossings cannot be found (peak too close to
+    edge or to a neighbouring peak).
+    """
+    counts = np.asarray(counts, dtype=np.float64)
+    n = counts.size
+    if not (1 <= channel < n - 1):
+        return None
+
+    # Continuum estimate from ±2·FWHM windows outside the peak
+    fwhm = initial_fwhm
+    for _ in range(max_iter):
+        w = int(math.ceil(2 * fwhm))
+        lo_l = max(0, channel - 3 * w)
+        hi_l = max(lo_l + 1, channel - 2 * w)
+        lo_r = min(n - 1, channel + 2 * w)
+        hi_r = min(n, channel + 3 * w)
+        if hi_l <= lo_l or hi_r <= lo_r:
+            return None
+        b = 0.5 * (counts[lo_l:hi_l].mean() + counts[lo_r:hi_r].mean())
+        peak = counts[channel]
+        half = b + 0.5 * (peak - b)
+        if half <= b:
+            return None
+
+        # Walk left: find first channel where counts drops to <= half
+        i_left = channel
+        while i_left > 0 and counts[i_left] > half:
+            i_left -= 1
+        if i_left == 0 and counts[i_left] > half:
+            return None  # didn't reach half-max on the left
+
+        # Walk right: find first channel where counts drops to <= half
+        i_right = channel
+        while i_right < n - 1 and counts[i_right] > half:
+            i_right += 1
+        if i_right == n - 1 and counts[i_right] > half:
+            return None
+
+        # Linear interpolation of crossings
+        # Left crossing: between i_left (below) and i_left+1 (above)
+        if counts[i_left + 1] == counts[i_left]:
+            x_left = float(i_left)
+        else:
+            x_left = i_left + (half - counts[i_left]) / (counts[i_left + 1] - counts[i_left])
+
+        # Right crossing: between i_right-1 (above) and i_right (below)
+        if counts[i_right] == counts[i_right - 1]:
+            x_right = float(i_right)
+        else:
+            x_right = i_right - 1 + (counts[i_right - 1] - half) / (counts[i_right - 1] - counts[i_right])
+
+        new_fwhm = x_right - x_left
+        if new_fwhm <= 0:
+            return None
+        if abs(new_fwhm - fwhm) / fwhm < 0.05:
+            return new_fwhm
+        fwhm = new_fwhm
+
+    return fwhm

@@ -1,0 +1,135 @@
+[ÓÄÑ-ÃÖ-63õ63-USB ¹SN-01;Ïåòðè-60;#1 (Ti-44)]
+EfficiencyVersion=1.7.11918
+Date=05-11-2024
+Detector=ÓÄÑ-ÃÖ-63õ63-USB ¹SN-01
+Geometry=Ïåòðè-60
+Volume,ml=60
+Density,g/cm3=1.6
+Material={"Name":"ÎÈÑÍ-16","Ro":1.6,"Compound":[{"1":0.022},{"6":0.206},{"7":0.009},{"8":0.049},{"26":0.714}]}
+Thick,mm=10
+DThick,mm=1
+Layers={"Layers":[{"Material_RU":"ÎÈÑÍ-16","Material_EN":"OISN-16","Ro":1.6,"Width":1,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Distance,cm=0
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Ti-44=0,0,1
+67.868=5.899764E-02,10.6201,Ti-44,27249,2696,93
+78.36=7.238008E-02,9.0542,Ti-44,32379,2730,96.4
+1157.02=1.459107E-02,4.0614,Ti-44,5797,182,99.9, No
+
+[ÓÄÑ-ÃÖ-63õ63-USB ¹SN-01;Ïåòðè-60;#1 (Eu-152)]
+EfficiencyVersion=1.7.11918
+Date=05-11-2024
+Detector=ÓÄÑ-ÃÖ-63õ63-USB ¹SN-01
+Geometry=Ïåòðè-60
+Volume,ml=60
+Density,g/cm3=1.6
+Material={"Name":"ÎÈÑÍ-16","Ro":1.6,"Compound":[{"1":0.022},{"6":0.206},{"7":0.009},{"8":0.049},{"26":0.714}]}
+Thick,mm=10
+DThick,mm=1
+Layers={"Layers":[{"Material_RU":"ÎÈÑÍ-16","Material_EN":"OISN-16","Ro":1.6,"Width":1,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Distance,cm=0
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Eu-152=0,0,1
+121.782=1.080348E-01,5.3785,Eu-152,14570,678,28.6
+344.279=5.964747E-02,3.6611,Eu-152,7118,146,26.5
+778.904=2.66105E-02,4.8486,Eu-152,1532,63,12.9
+964.079=2.174192E-02,5.203,Eu-152,1414,64,14.6
+1085.869=1.793317E-02,7.1133,Eu-152,814,54,10.2, No
+1112.069=1.874094E-02,6.5215,Eu-152,1134,68,13.6, No
+1408.006=1.538598E-02,4.6099,Eu-152,1435,55,21
+
+[ÓÄÑ-ÃÖ-63õ63-USB ¹SN-01;Ïåòðè-60;Th232_420-7-17]
+EfficiencyVersion=1.7.11918
+Date=05-11-2024
+Detector=ÓÄÑ-ÃÖ-63õ63-USB ¹SN-01
+Geometry=Ïåòðè-60
+Volume,ml=60
+Density,g/cm3=1.6
+Material={"Name":"ÎÈÑÍ-16","Ro":1.6,"Compound":[{"1":0.022},{"6":0.206},{"7":0.009},{"8":0.049},{"26":0.714}]}
+Thick,mm=10
+DThick,mm=1
+Layers={"Layers":[{"Material_RU":"ÎÈÑÍ-16","Material_EN":"OISN-16","Ro":1.6,"Width":1,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Part=whole object
+Distance,cm=0
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Th-232=186.24,3,1
+238.632=9.062932E-02,3.5445,Th-232,455748.334,6833.616,43.6
+338.32=7.812554E-02,3.7471,Th-232,101551.612,1505.807,11.27
+583.187=4.334782E-02,3.2715,Th-232,152488.443,1307.366,30.5
+911.204=3.190514E-02,3.8046,Th-232,94940.221,1663.927,25.8
+2614.511=8.785778E-03,3.3316,Th-232,36378.478,336.974,35.9
+
+[ÓÄÑ-ÃÖ-63õ63-USB ¹SN-01;Ïåòðè-60;Cs137_420-7-15]
+EfficiencyVersion=1.7.11918
+Date=05-11-2024
+Detector=ÓÄÑ-ÃÖ-63õ63-USB ¹SN-01
+Geometry=Ïåòðè-60
+Volume,ml=60
+Density,g/cm3=1.6
+Material={"Name":"ÎÈÑÍ-16","Ro":1.6,"Compound":[{"1":0.022},{"6":0.206},{"7":0.009},{"8":0.049},{"26":0.714}]}
+Thick,mm=10
+DThick,mm=1
+Layers={"Layers":[{"Material_RU":"ÎÈÑÍ-16","Material_EN":"OISN-16","Ro":1.6,"Width":1,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Part=whole object
+Distance,cm=0
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Cs-137=165,2.5,1
+661.657=3.544419E-02,2.5856,Cs-137,38224.442,236.51,85.13
+
+[ÓÄÑ-ÃÖ-63õ63-USB ¹SN-01;Ïåòðè-60;K40_420-7-21]
+EfficiencyVersion=1.7.11918
+Date=05-11-2024
+Detector=ÓÄÑ-ÃÖ-63õ63-USB ¹SN-01
+Geometry=Ïåòðè-60
+Volume,ml=60
+Density,g/cm3=1.55
+Material={"Name":"ÎÈÑÍ-16","Ro":1.6,"Compound":[{"1":0.022},{"6":0.206},{"7":0.009},{"8":0.049},{"26":0.714}]}
+Thick,mm=10
+DThick,mm=1
+Layers={"Layers":[{"Material_RU":"ÎÈÑÍ-16","Material_EN":"OISN-16","Ro":1.6,"Width":1,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Part=whole object
+Distance,cm=0
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+K-40=181.35,3,1
+1460.822=1.984676E-02,4.2471,K-40,3743.94,93.121,10.66
+
+[ÓÄÑ-ÃÖ-63õ63-USB ¹SN-01;Ïåòðè-60;Ra226_420-7-19]
+EfficiencyVersion=1.7.11918
+Date=05-11-2024
+Detector=ÓÄÑ-ÃÖ-63õ63-USB ¹SN-01
+Geometry=Ïåòðè-60
+Volume,ml=60
+Density,g/cm3=1.66666666666667
+Material={"Name":"ÎÈÑÍ-16","Ro":1.6,"Compound":[{"1":0.022},{"6":0.206},{"7":0.009},{"8":0.049},{"26":0.714}]}
+Thick,mm=10
+DThick,mm=1
+Layers={"Layers":[{"Material_RU":"ÎÈÑÍ-16","Material_EN":"OISN-16","Ro":1.6,"Width":1,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":true}
+Height=0
+Part=whole object
+Distance,cm=0
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Ra-226=179,3,1
+241.995=1.231789E-01,4.0677,Ra-226,21105.968,542.807,7.25, No
+295.223=6.775857E-02,4.038,Ra-226,29497.467,736.946,18.42
+351.932=6.250617E-02,3.5017,Ra-226,52590.066,743.631,35.6
+609.32=3.670985E-02,3.1791,Ra-226,39466.567,391.29,45.49
+1120.294=2.398277E-02,3.8867,Ra-226,8456.664,208.288,14.92
+1764.491=1.331256E-02,4.1465,Ra-226,4813.754,137.467,15.3
+

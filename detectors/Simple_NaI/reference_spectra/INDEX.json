@@ -1,0 +1,152 @@
+{
+  "class": "Simple_NaI",
+  "entries": [
+    {
+      "spe": "Work/Simple/NaI(Demo)/Spe/Am241_15_OSGI.spe",
+      "xml": "Work/Simple/NaI(Demo)/Spe/Am241_15_OSGI.xml",
+      "is_background": false,
+      "sample_id": "Am241_15_OSGI",
+      "passport_raw": "Am-241 A=103600 Бк на 13.04.2002 расст=15см ОСГИ №936",
+      "passport": null,
+      "detector": "БДС-Г-0090",
+      "daq_config": "NaI(Demo)",
+      "geometry": "ОСГИ-15см",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3600.0,
+      "real_time_s": 3612.7,
+      "channels": 1023,
+      "energy_cal": [
+        -30.76253,
+        2.686544,
+        0.0007731202,
+        -1.12527e-06,
+        5.746466e-10
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Simple/NaI(Demo)/Spe/Ba133_15_OSGI.spe",
+      "xml": "Work/Simple/NaI(Demo)/Spe/Ba133_15_OSGI.xml",
+      "is_background": false,
+      "sample_id": "Ba133_15_OSGI",
+      "passport_raw": "Ba-133 A=92700 Бк на 13.04.2002 расст=15см ОСГИ №936",
+      "passport": null,
+      "detector": "БДС-Г-0090",
+      "daq_config": "NaI(Demo)",
+      "geometry": "ОСГИ-15см",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3600.0,
+      "real_time_s": 3633.2,
+      "channels": 1023,
+      "energy_cal": [
+        -31.73352,
+        2.732511,
+        0.0003163846,
+        -1.658174e-07
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Simple/NaI(Demo)/Spe/Co60_15_OSGI.spe",
+      "xml": "Work/Simple/NaI(Demo)/Spe/Co60_15_OSGI.xml",
+      "is_background": false,
+      "sample_id": "Co60_15_OSGI",
+      "passport_raw": "Co-60 A=105000 Бк на 17.04.2002 расст=15см ОСГИ №936",
+      "passport": null,
+      "detector": "БДС-Г-0090",
+      "daq_config": "NaI(Demo)",
+      "geometry": "ОСГИ-15см",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3600.0,
+      "real_time_s": 3635.4,
+      "channels": 1023,
+      "energy_cal": [
+        -30.76253,
+        2.686544,
+        0.0007731202,
+        -1.12527e-06,
+        5.746466e-10
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Simple/NaI(Demo)/Spe/Cs137_15_OSGI.spe",
+      "xml": "Work/Simple/NaI(Demo)/Spe/Cs137_15_OSGI.xml",
+      "is_background": false,
+      "sample_id": "Cs137_15_OSGI",
+      "passport_raw": "Cs-137 A=98950 Бк на 13.04.2002 расст=15см ОСГИ №936",
+      "passport": null,
+      "detector": "БДС-Г-0090",
+      "daq_config": "NaI(Demo)",
+      "geometry": "ОСГИ-15см",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3600.0,
+      "real_time_s": 3623.0,
+      "channels": 1023,
+      "energy_cal": [
+        -30.76253,
+        2.686544,
+        0.0007731202,
+        -1.12527e-06,
+        5.746466e-10
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Simple/NaI(Demo)/Spe/Eu152_15_OSGI.spe",
+      "xml": "Work/Simple/NaI(Demo)/Spe/Eu152_15_OSGI.xml",
+      "is_background": false,
+      "sample_id": "Eu152_15_OSGI",
+      "passport_raw": "Eu-152 A=84400 Бк на 13.04.2002 расст=15см ОСГИ №936",
+      "passport": null,
+      "detector": "БДС-Г-0090",
+      "daq_config": "NaI(Demo)",
+      "geometry": null,
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3600.0,
+      "real_time_s": 3634.0,
+      "channels": 1023,
+      "energy_cal": [
+        -30.76253,
+        2.686544,
+        0.0007731202,
+        -1.12527e-06,
+        5.746466e-10
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Simple/NaI(Demo)/Spe/Th228_15_OSGI.spe",
+      "xml": "Work/Simple/NaI(Demo)/Spe/Th228_15_OSGI.xml",
+      "is_background": false,
+      "sample_id": "Th228_15_OSGI",
+      "passport_raw": "Th-228 A=29600 Бк на 04.06.2003 расст=15см ОСГИ №3515",
+      "passport": null,
+      "detector": "БДС-Г-0090",
+      "daq_config": "NaI(Demo)",
+      "geometry": "ОСГИ-15см",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3600.0,
+      "real_time_s": 3618.0,
+      "channels": 1023,
+      "energy_cal": [
+        -30.76253,
+        2.686544,
+        0.0007731202,
+        -1.12527e-06,
+        5.746466e-10
+      ],
+      "background_spe": null
+    }
+  ],
+  "scrubbed": 0,
+  "failed": [],
+  "xml_skipped_bulk": 0,
+  "backgrounds": []
+}

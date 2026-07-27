@@ -1,0 +1,82 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+.coverage
+
+# Project
+demo_reports/_test_*/
+
+# Windows
+desktop.ini
+Thumbs.db
+
+# macOS
+.DS_Store
+
+# Editors / IDE
+*.swp
+.idea/
+.vscode/
+
+# Build artifacts
+*.zip
+
+# Backups / temporary
+*.bak
+*.tmp
+_tmp/
+
+# F-115 — LSRM raw spectra: local-only working copy across ALL detector stations.
+# Visual templates built from these are anonymised (path → basename,
+# cert-S/N stripped) before commit. Raw .spe / passports stay on
+# operator machine, never in git. See detectors/Gamma-1C/README.md §7.
+# NOTE: Canonical detector folder = Gamma-1C (НЕ Gamma-1S).
+# Гамма-1с (кириллица) ≡ Gamma-1C (латиница омоглиф). User lock 2026-06-05.
+# Broadened 2026-06-06: covers all 11 detector raw_lsrm/ slots (multi-detector
+# LSRM-tree ingest — F-070 W4 + multi-station scope). Per-detector slots are
+# created lazily by distribute_lsrm_tree.py when source files exist.
+detectors/*/raw_lsrm/
+
+# Multi-detector LSRM staging area (root-level inbox). Operator copies
+# whole LSRM Work/ tree here; orchestrator classifies by folder source-pin
+# (README §9 crystal-class map) and distributes into detectors/<NAME>/raw_lsrm/Work/.
+# Gitignored: staging is transient, never committed. Removed post-distribution.
+_inbox_raw_lsrm/
+
+# Local-only working copies (operator machine, never in git).
+# Versioned skill source lives in-repo under scripts/; these are offline snapshots.
+archive/
+_archive/
+books_library-gamma-books_v2026-05-30/
+gamma-spectrum-analysis 1.7.7/
+gamma-spectrum-analysis_1.17.5/
+gamma-spectrum-analysis_1.17.18/
+gamma-spectrum-analysis_1.18.21/
+
+claude-skills/
+
+# External Sandia tools downloaded for oracle/probe work (Cambio CLI etc.).
+# 3rd-party binaries from GitHub releases — re-downloadable, not project source.
+# Drop scripts that need them under audit/_drafts/ with a 1-liner gh release download.
+audit/_tools/
+
+# RAG-индексы: построены по книжному корпусу третьих лиц (963 из 1116 docs —
+# дословные чанки). Локально нужны для rag_search, в публичный репозиторий НИКОГДА.
+references/knowledge_bm25.json
+references/knowledge_corpus.json
+references/knowledge_index.json
+
+# Gamma-1S: массовая выгрузка рабочего дерева ЛСРМ остаётся локальной.
+# В git публикуются только курированные наборы reference_kits/ и
+# reference_kits_becqmoni/ — пары «образец + фон» с описью и паспортными
+# активностями. Полное дерево пересобирается lsrm_tree_publish.py.
+detectors/Gamma-1S/reference_spectra/lsrm/
+detectors/Gamma-1S/reference_spectra/becqmoni/
+detectors/Gamma-1S/reference_spectra/README.md
+detectors/Gamma-1S/reference_spectra/INDEX.json
+detectors/Gamma-1S/certificates/
+scripts/convert/scrub_serials.py
+scripts/convert/reseal_device_guid.py

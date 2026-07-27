@@ -1,0 +1,8 @@
+{
+  "_doc": "Карта эталонных спектров → каноническая папка LSRM-ground-truth. Используется build_fwhm_model() для F-160 «всегда калибровать FWHM по LSRM-эталону». Ключ — basename .spe-файла (с расширением, как в spec.source_path). Значение — имя подпапки в references/lsrm_ground_truth/.",
+  "_format": "{ '<basename.spe>': '<ground_truth_folder>' }",
+  "_added": "2026-06-20 после F-160 уточнения «всегда нужно делать калибровку по fwhm полагаться на расчетную кривую нельзя»",
+  "mapping": {
+    "Th232_420-7-17_Маринелли_0cm.spe": "Th232_420-7-17_Marinelli_0cm"
+  }
+}

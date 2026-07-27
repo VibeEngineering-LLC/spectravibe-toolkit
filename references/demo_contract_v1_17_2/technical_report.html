@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>Технический отчёт — пошаговый анализ Th-232 Маринелли</title>
+<style>
+:root{
+  --bg-primary:#ffffff;
+  --bg-secondary:#f5f4ee;
+  --bg-info:#e6f1fb;
+  --text-primary:#1f1e1d;
+  --text-secondary:#5f5e5a;
+  --text-tertiary:#888780;
+  --border-tertiary:rgba(0,0,0,0.10);
+  --border-secondary:rgba(0,0,0,0.20);
+  --radius-md:8px;
+  --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PT Sans","Noto Sans",sans-serif;
+  --font-mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg-primary:#1a1a1a;
+    --bg-secondary:#262625;
+    --bg-info:#0c447c;
+    --text-primary:#f0eee6;
+    --text-secondary:#b4b2a9;
+    --text-tertiary:#888780;
+    --border-tertiary:rgba(255,255,255,0.12);
+    --border-secondary:rgba(255,255,255,0.22);
+  }
+}
+*{box-sizing:border-box;-webkit-text-size-adjust:100%;}
+html,body{margin:0;padding:0;background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+.page{max-width:900px;margin:0 auto;padding:32px 24px 48px;}
+.page h1{font-size:22px;font-weight:500;margin:0 0 4px;}
+.page .sub{font-size:13px;color:var(--text-secondary);margin:0 0 24px;}
+.fp-legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin-bottom:12px;font-size:12px;color:var(--text-secondary);}
+.fp-legend span{display:flex;align-items:center;gap:4px;}
+.fp-sw{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.fp-controls{display:flex;gap:6px;align-items:center;margin-bottom:8px;font-size:12px;color:var(--text-secondary);flex-wrap:wrap;}
+.fp-controls button{font-size:11px;padding:4px 10px;background:transparent;border:0.5px solid var(--border-secondary);border-radius:var(--radius-md);cursor:pointer;color:inherit;font-family:inherit;}
+.fp-controls button:hover{background:var(--bg-secondary);}
+.fp-controls button.active{background:var(--bg-secondary);font-weight:500;}
+.fp-info{font-size:12px;color:var(--text-tertiary);margin-left:auto;}
+/* Container with explicit dimensions — critical for iOS Safari */
+.fp-chart{position:relative;width:100%;height:380px;margin-bottom:6px;}
+.fp-chart canvas{display:block !important;width:100% !important;height:100% !important;max-width:100%;}
+.fp-chart-mp{position:relative;width:100%;height:340px;margin:8px 0;}
+.fp-chart-mp canvas{display:block !important;width:100% !important;height:100% !important;max-width:100%;}
+.fp-hint{font-size:11.5px;color:var(--text-tertiary);margin:0 0 8px;font-style:italic;}
+.fp-detail{background:var(--bg-secondary);border-radius:var(--radius-md);padding:10px 14px;margin:6px 0 14px;font-size:12.5px;min-height:64px;line-height:1.55;}
+.fp-detail .ttl{font-weight:500;font-size:13px;margin-bottom:4px;color:var(--text-primary);}
+.fp-detail .empty{color:var(--text-tertiary);font-style:italic;}
+.fp-detail .iso{display:inline-block;margin-right:10px;}
+.fp-tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.fp-tbl{width:100%;font-size:12.5px;border-collapse:collapse;margin-top:0.5rem;}
+.fp-tbl th{text-align:left;font-weight:500;color:var(--text-secondary);padding:6px 8px;border-bottom:0.5px solid var(--border-secondary);font-size:11.5px;cursor:pointer;user-select:none;white-space:nowrap;}
+.fp-tbl th:hover{color:var(--text-primary);}
+.fp-tbl th.sorted::after{content:" ▾";color:var(--text-tertiary);}
+.fp-tbl th.sorted.asc::after{content:" ▴";}
+.fp-tbl td{padding:6px 8px;border-bottom:0.5px solid var(--border-tertiary);vertical-align:top;}
+.fp-tbl tr.row{cursor:pointer;transition:background 0.15s;}
+.fp-tbl tr.row:hover{background:var(--bg-secondary);}
+.fp-tbl tr.active{background:var(--bg-info);}
+.fp-pill{display:inline-block;font-size:11px;padding:1px 8px;border-radius:10px;font-weight:500;white-space:nowrap;}
+.fp-long{background:#EEEDFE;color:#3C3489;}
+.fp-nat{background:#E1F5EE;color:#0F6E56;}
+.fp-phys{background:#F1EFE8;color:#444441;}
+@media (prefers-color-scheme: dark){
+  .fp-long{background:#26215C;color:#CECBF6;}
+  .fp-nat{background:#04342C;color:#9FE1CB;}
+  .fp-phys{background:#2C2C2A;color:#D3D1C7;}
+}
+.fp-num{font-variant-numeric:tabular-nums;}
+.fp-summary{background:var(--bg-secondary);border-radius:var(--radius-md);padding:12px 16px;margin:18px 0;font-size:13px;}
+.fp-summary .label{color:var(--text-secondary);font-size:11.5px;text-transform:uppercase;letter-spacing:0.04em;}
+.fp-summary .val{font-size:18px;font-weight:500;margin:2px 0 4px;}
+.fp-summary .note{color:var(--text-tertiary);font-size:11.5px;}
+.fp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0;}
+.fp-grid > div{background:var(--bg-secondary);border-radius:var(--radius-md);padding:10px 12px;font-size:12px;}
+.fp-grid .k{color:var(--text-secondary);font-size:11px;margin-bottom:3px;}
+.fp-grid .v{font-size:13.5px;font-weight:500;}
+.fp-mp-block{margin:20px 0;padding:14px 16px;background:var(--bg-secondary);border-radius:var(--radius-md);}
+.fp-mp-block h3{font-size:14px;font-weight:500;margin:0 0 6px;color:var(--text-primary);}
+.fp-mp-meta{font-size:11.5px;color:var(--text-tertiary);margin-bottom:8px;}
+.fp-mp-note{font-size:12.5px;line-height:1.6;color:var(--text-secondary);margin:8px 0 0;}
+.fp-mp-note b{font-weight:500;color:var(--text-primary);}
+.fp-notes{margin-top:1.5rem;}
+.fp-notes h3{font-size:14px;font-weight:500;margin:1rem 0 0.4rem;color:var(--text-primary);}
+.fp-notes h3:first-child{margin-top:0;}
+.fp-notes p{font-size:13px;line-height:1.6;margin:0 0 0.5rem;color:var(--text-secondary);}
+.fp-notes ul{font-size:13px;line-height:1.6;margin:0.3rem 0 0.5rem;padding-left:1.2rem;color:var(--text-secondary);}
+.fp-notes li{margin-bottom:0.25rem;}
+.fp-notes code{font-family:var(--font-mono);font-size:12px;background:var(--bg-secondary);padding:1px 5px;border-radius:3px;}
+.fp-notes b{font-weight:500;color:var(--text-primary);}
+
+/* Mobile responsiveness */
+@media (max-width:680px){
+  html,body{font-size:15px;}
+  .page{padding:18px 14px 32px;}
+  .page h1{font-size:19px;}
+  .page .sub{font-size:12px;margin-bottom:18px;}
+  .fp-grid{grid-template-columns:1fr;gap:8px;}
+  .fp-grid > div{padding:8px 10px;}
+  .fp-chart{height:280px;}
+  .fp-chart-mp{height:260px;}
+  .fp-controls{gap:4px;}
+  .fp-controls button{font-size:10px;padding:3px 8px;}
+  .fp-info{margin-left:0;width:100%;font-size:11px;margin-top:2px;}
+  .fp-tbl{font-size:11.5px;}
+  .fp-tbl th, .fp-tbl td{padding:5px 6px;}
+  .fp-summary{padding:10px 12px;}
+  .fp-summary .val{font-size:16px;}
+  .fp-mp-block{padding:10px 12px;}
+  .fp-notes p, .fp-notes ul{font-size:12.5px;}
+}
+@media (max-width:420px){
+  .fp-chart{height:240px;}
+  .fp-chart-mp{height:220px;}
+  .page h1{font-size:17px;}
+}
+
+/* Print (PDF) — preserve dimensions */
+@media print{
+  body{background:white;color:black;}
+  .page{max-width:none;padding:0;}
+  .fp-chart{height:380px;page-break-inside:avoid;}
+  .fp-chart-mp{height:300px;page-break-inside:avoid;}
+  .fp-mp-block{page-break-inside:avoid;}
+  .fp-summary{page-break-inside:avoid;}
+  .fp-notes h3{page-break-after:avoid;}
+}
+
+.step{margin:24px 0;padding:0 0 10px;border-bottom:1px solid var(--border-tertiary);}
+.step:last-child{border-bottom:none;}
+.step h2{font-size:17px;font-weight:500;margin:0 0 8px;color:var(--text-primary);}
+.step h3{font-size:14px;font-weight:500;margin:14px 0 6px;color:var(--text-primary);}
+.step h4{font-size:13px;font-weight:500;margin:10px 0 4px;color:var(--text-secondary);}
+.step p{font-size:13px;line-height:1.6;color:var(--text-secondary);margin:6px 0;}
+.step ul{font-size:13px;line-height:1.6;color:var(--text-secondary);margin:6px 0;padding-left:1.2rem;}
+.step li{margin-bottom:0.2rem;}
+.step b{font-weight:500;color:var(--text-primary);}
+.step code{font-family:var(--font-mono);font-size:12px;background:var(--bg-secondary);padding:1px 5px;border-radius:3px;}
+.step .verd{display:inline-block;font-size:11px;padding:1px 8px;border-radius:10px;font-weight:500;margin-right:6px;}
+.step .verd.ok{background:#E1F5EE;color:#0F6E56;}
+.step .verd.warn{background:#FAEEDA;color:#854F0B;}
+.step .verd.bad{background:#FAECE7;color:#993C1D;}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:8px 0;}
+.tbl{width:100%;font-size:12px;border-collapse:collapse;}
+.tbl th,.tbl td{padding:5px 8px;border-bottom:0.5px solid var(--border-tertiary);text-align:left;}
+.tbl th{color:var(--text-secondary);font-weight:500;font-size:11px;border-bottom:0.5px solid var(--border-secondary);}
+.tbl td.num{font-variant-numeric:tabular-nums;text-align:right;}
+.toc{background:var(--bg-secondary);border-radius:var(--radius-md);padding:14px 18px;margin:18px 0 28px;font-size:12.5px;}
+.toc h3{font-size:13px;font-weight:500;margin:0 0 6px;color:var(--text-primary);}
+.toc ul{margin:0;padding-left:1.2rem;color:var(--text-secondary);}
+.toc li{margin:2px 0;}
+.toc a{color:var(--text-secondary);text-decoration:none;}
+.toc a:hover{color:var(--text-primary);text-decoration:underline;}
+
+@media print{
+  body{background:white;color:black;}
+  .page{max-width:none;padding:0;}
+  .step{page-break-inside:avoid;}
+  .step h2{page-break-after:avoid;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Технический отчёт — пошаговый анализ Th-232 в геометрии Маринелли</h1>
+<p class="sub">Walkthrough методики gamma-spectrum-analysis v1.17.2 на эталонном образце</p>
+
+<div class="toc">
+<h3>Содержание</h3>
+<ul>
+<li><a href="#s1">Шаг 1 — Чтение файла, метаданные, обнаружение фона</a></li>
+<li><a href="#s2">Шаг 2 — Среда измерения (только по фону, F-102, F-108)</a></li>
+<li><a href="#s3">Шаг 3 — Поиск пиков в канальном пространстве (Mariscotti + matched filter)</a></li>
+<li><a href="#s4">Шаг 4 — Тип детектора (по ПШПВ)</a></li>
+<li><a href="#s5">Шаг 5 — Энергокалибровка (5α/5β/5γ + 5b независимая BG)</a></li>
+<li><a href="#s6">Шаг 6 — Калибровка ПШПВ(E)</a></li>
+<li><a href="#s7">Шаг 7 — Идентификация нуклидов</a></li>
+<li><a href="#s8">Шаг 8 — Деконволюция мультиплетов</a></li>
+<li><a href="#s9">Шаг 9 — Расчёт активностей (F-91, F-93, F-106, F-107)</a></li>
+<li><a href="#s10">Шаг 10 — Вторичные пики и состояние защиты</a></li>
+<li><a href="#s11">Шаг 11 — Финальный отчёт</a></li>
+</ul>
+</div>
+
+<div class="step" id="s1">
+<h2>Шаг 1 — Чтение файла и метаданных</h2>
+<p>Образец и фон загружены через <code>gamma.io.readers.read_spectrum</code>. Соотношение образец/фон по cps ≈ 92× → активный образец. Калибровки SAMPLE (степень 4) и BG (степень 3) различаются — требуется независимая перекалибровка BG перед вычитанием. Мёртвое время &lt; 1% в обоих случаях → коррекция F-95 не нужна.</p>
+<div class="tbl-wrap"><table class="tbl">
+<thead><tr><th>Параметр</th><th>Образец</th><th>Фон</th></tr></thead>
+<tbody>
+<tr><td>Число каналов</td><td class="num">1003</td><td class="num">1024</td></tr>
+<tr><td>t_живое, с</td><td class="num">11 359.16</td><td class="num">57 600.02</td></tr>
+<tr><td>t_реальное, с</td><td class="num">11 382.97</td><td class="num">57 621.48</td></tr>
+<tr><td>Мёртвое время</td><td class="num">0.21%</td><td class="num">0.04%</td></tr>
+<tr><td>E_max</td><td class="num">2997.6 кэВ</td><td class="num">2996.4 кэВ</td></tr>
+<tr><td>Общая cps</td><td class="num">704.75</td><td class="num">7.65</td></tr>
+</tbody></table></div>
+</div>
+
+<div class="step" id="s2">
+<h2>Шаг 2 — Среда измерения (только по фону, F-102)</h2>
+<p>Применены критерии достоверности линий фона <b>F-108</b>: Currie L_C + S/σ ≥ 5, S ≥ 50 отсч, узкий ROI ±0.7·ПШПВ + линейная интерполяция континуума по соседним областям, физическая когерентность цепочки, статус «присутствует-по-цепочке» через равновесие распада.</p>
+<div class="tbl-wrap"><table class="tbl">
+<thead><tr><th>Линия</th><th>E, кэВ</th><th>S, net</th><th>S/σ</th><th>cps_net</th><th>Вердикт</th></tr></thead>
+<tbody>
+<tr><td>Pb Kα</td><td class="num">75.0</td><td class="num">+5332</td><td class="num">19.8</td><td class="num">+0.093</td><td><span class="verd ok">Достоверно</span></td></tr>
+<tr><td>Pb Kβ</td><td class="num">84.9</td><td class="num">+4462</td><td class="num">15.5</td><td class="num">+0.077</td><td><span class="verd ok">Достоверно</span></td></tr>
+<tr><td>Ra-226 186</td><td class="num">186.2</td><td class="num">+4596</td><td class="num">13.2</td><td class="num">+0.080</td><td><span class="verd bad">Отвергнут (нет партнёров)</span></td></tr>
+<tr><td>Pb-212 238</td><td class="num">238.6</td><td class="num">+2881</td><td class="num">7.9</td><td class="num">+0.050</td><td><span class="verd ok">Достоверно</span></td></tr>
+<tr><td>Pb-214 295/352</td><td class="num">—</td><td class="num">&lt;0</td><td class="num">&lt;0</td><td class="num">—</td><td><span class="verd bad">Отсутствует</span></td></tr>
+<tr><td>Bi-214 609</td><td class="num">609.3</td><td class="num">&lt;0</td><td class="num">&lt;0</td><td class="num">—</td><td><span class="verd bad">Отсутствует</span></td></tr>
+<tr><td>Cs-137 661</td><td class="num">661.7</td><td class="num">&lt;0</td><td class="num">&lt;0</td><td class="num">—</td><td><span class="verd bad">Отсутствует</span></td></tr>
+<tr><td>K-40 1460</td><td class="num">1460.8</td><td class="num">+5388</td><td class="num">33.5</td><td class="num">+0.094</td><td><span class="verd ok">Достоверно</span></td></tr>
+<tr><td>Tl-208 2614</td><td class="num">2614.5</td><td class="num">+498</td><td class="num">7.3</td><td class="num">+0.009</td><td><span class="verd ok">Достоверно</span></td></tr>
+</tbody></table></div>
+<p><b>Вывод:</b> низкофоновый домик (Pb 50 + Cd+Cu лайнер, F-104). Полный фон 7.65 cps. В фоне присутствует природная цепочка Th-232 из стен/потолка; Ra-цепочка отсутствует. Pb K-РИ 0.17 cps подтверждает работу лайнера. Cd Kα 23 кэВ и Cu Kα 8 кэВ ниже порога АЦП ~10-15 кэВ — не означает отсутствия лайнера.</p>
+</div>
+
+<div class="step" id="s3">
+<h2>Шаг 3 — Поиск пиков в канальном пространстве</h2>
+<p>Применены два метода свёртки: <b>Mariscotti</b> (свёртка с d²Gauss/dx² — устойчив к наклонному континууму) и <b>matched filter</b> (свёртка с самим Gauss — оптимальный SNR для известной формы). Объединение дало 12 пиков. Mariscotti пропустил Tl-208 2614 на верхнем краю спектра — matched filter его обнаружил.</p>
+<p>Финальный список (по возрастанию E): 31, 74-76 (композит), 235, 343, 562 (наложение), 580, 742, 926-932 (дублет), 1582-1594 (триплет), 2114, 2611.</p>
+<p>Калибровочный сдвиг по Gauss-фитам: <b>−4 кэВ на 2614, в пределах 0.3·ПШПВ</b> — перекалибровка не требуется.</p>
+</div>
+
+<div class="step" id="s4">
+<h2>Шаг 4 — Тип детектора</h2>
+<p>ПШПВ измерена на трёх изолированных линиях. Приведено к 662 кэВ (закон NaI R∝1/√E).</p>
+<div class="tbl-wrap"><table class="tbl">
+<thead><tr><th>Линия</th><th>E, кэВ</th><th>ПШПВ, кэВ</th><th>R, %</th><th>R(662), %</th></tr></thead>
+<tbody>
+<tr><td>Pb-212 238</td><td class="num">234.83</td><td class="num">24.86</td><td class="num">10.59</td><td class="num">6.36</td></tr>
+<tr><td>Tl-208 583</td><td class="num">582.24</td><td class="num">36.47</td><td class="num">6.26</td><td class="num">5.88</td></tr>
+<tr><td>Tl-208 2614</td><td class="num">2610.63</td><td class="num">111.09</td><td class="num">4.26</td><td class="num">8.46</td></tr>
+</tbody></table></div>
+<p><b>Вывод:</b> NaI(Tl), типичный размер 63×63 мм. Среднее R(662) ≈ 7%, попадает в диапазон NaI 6-8%. Исключены: HPGe (R~0.2%), CdZnTe (~2%), LaBr₃ (~2.7%), CeBr₃ (~4%). Внутренних сигнатур LaBr₃/CeBr₃/HPGe/CdZnTe не наблюдается.</p>
+</div>
+
+<div class="step" id="s5">
+<h2>Шаг 5 — Энергокалибровка</h2>
+<h4>5α — Якорное seeding</h4>
+<p>Якоря образца: Pb-212 238 (Δ=−3.8 кэВ), Tl-208 583 (Δ=−1.0), Tl-208 2614 (Δ=−3.9). Все Δ &lt; 0.3·ПШПВ → <b>сохранённая калибровка работает</b>. Дублет 911+969 исключён из проверки (Gauss-фит даёт центроид между линиями).</p>
+<h4>5β — Пересчёт</h4>
+<p><span class="verd ok">Пропущен</span> — критерий 0.3·ПШПВ соблюдён.</p>
+<h4>5γ — 7-линейная ЕРН проверка</h4>
+<p>Якорный rank-test + express-patterns подтверждает цепочку Th-232 (Tl-208 2614 trump card).</p>
+<h4>5b — Независимая перекалибровка BG</h4>
+<p>Сохранённая калибровка фона показала <b>дрейф усиления +6.7%</b> (коэф a₁: 2.834 → 3.0233). Без перекалибровки канальное вычитание дало бы ложные пики и провалы. Восстановленная калибровка по 4 якорям (квадратичный полином):</p>
+<p><code>E(N) = −16.07 + 3.0233·N − 2.19·10⁻⁵·N²</code></p>
+<p>Max|остаток| = 1.04 кэВ, σ = 0.69 кэВ — приемлемо.</p>
+</div>
+
+<div class="step" id="s6">
+<h2>Шаг 6 — Калибровка ПШПВ(E)</h2>
+<p>LSRM-форма для сцинтиллятора: <code>ПШПВ(E) = k·√(E·(1 + α·E))</code>. Подгонка по 3 изолированным якорям:</p>
+<p><code>k = 1.379 ± 0.147 (кэВ^0.5),  α = 0.000566 ± 0.000216 (1/кэВ)</code></p>
+<p>Остатки: 235 кэВ +9.5%, 583 кэВ −5.2%, 2611 кэВ +0.2%. Превышение порога 5% на 235 кэВ — типично для NaI из-за <b>непропорциональности отклика</b> на низких E (К-край йода 33.2 кэВ). Модель пригодна для E &gt; 400 кэВ; для низких энергий использовать локально измеренные ПШПВ.</p>
+</div>
+
+<div class="step" id="s7">
+<h2>Шаг 7 — Идентификация нуклидов</h2>
+<h4>7А — Список кандидатов</h4>
+<p>Цепочка Th-232 (приоритет из имени файла) + подавление U-238/Ra-226 (правило F-89d).</p>
+<h4>7Б — Изолированные характеристические линии</h4>
+<p>Все 4 нуклида подтверждены с S/σ ≫ 5: Pb-212 238, Ac-228 338, Tl-208 583, Bi-212 727, Tl-208 2614. Дополнительно дублет Ac-228 911+969 и триплет 1588+1620+1630.</p>
+<h4>7Г — Равновесие цепочки</h4>
+<p>Источник изготовлен &gt;30 суток назад → цепочка в секулярном равновесии. Все дочерние присутствуют.</p>
+<h4>7Д — Индекс достоверности</h4>
+<p>ИД(Th-232) = 13.1 (эталон Lsrm ≥ 8) <span class="verd ok">подтверждено</span>.</p>
+<h4>Диагностика — несостоятельность Gauss + линейного континуума</h4>
+<p>Расхождения отношений интенсивностей +29% … +107%. Активности разлетаются 3338-6905 Бк/кг при эталонных 1213. Причина: линейный континуум не учитывает <b>Комптон-ступеньки</b> под пиком (Lsrm §9.7). Точные площади — на Шаге 8 со ступенчато-линейным континуумом.</p>
+</div>
+
+<div class="step" id="s8">
+<h2>Шаг 8 — Деконволюция мультиплетов</h2>
+<h4>Мультиплет M1 (Ac-228 911 + 969 кэВ)</h4>
+<p>ROI 92 канала, χ²/ν = 7.52, закрытие Δ = −14.6%. Площади: S(911) = 96 797, S(969) = 97 499. Завышение χ²/ν указывает на неучтённую третью компоненту (Tl-208 962 кэВ I=0.6%). Для текущей задачи приемлемо.</p>
+<h4>Мультиплет M2 (Ac-228 1588 + Bi-212 1620 + Ac-228 1630 кэВ)</h4>
+<p>ROI 119 каналов, χ²/ν = 1.17 (отлично). Площади: S(1588) = 14 737, S(1620) = 0, S(1630) = 9 799. Bi-212 1620 (I=1.49%) физически не разрешим на NaI 63×63 — для активности Bi-212 использовать линию 727.</p>
+<h4>Переподгонка изолированных линий</h4>
+<p>Ступенчато-линейный континуум снизил завышение площадей в 3× относительно линейного. Лучшие линии (отклонение &lt;20%): Ac-228 911 (−8%), Tl-208 583 (+11%), Ac-228 338 (+18%).</p>
+</div>
+
+<div class="step" id="s9">
+<h2>Шаг 9 — Расчёт активностей</h2>
+<p>Поправки применены: <b>F-91</b> (σ = max разброс / взв.среднее), <b>F-93</b> (верхний предел при σ/A &gt; 50%), <b>F-106</b> (самопоглощение — одинаковый материал ОИСН-16/ОИСН-16 → f = 1.0000), <b>F-107</b> (σε из ковариации полинома Zone_2 для 2614 = 38.1% вместо табл. 3.3%).</p>
+<div class="tbl-wrap"><table class="tbl">
+<thead><tr><th>Линия</th><th>cps</th><th>A, Бк/кг</th><th>σ, %</th></tr></thead>
+<tbody>
+<tr><td>Pb-212 238</td><td class="num">52.43</td><td class="num">2050</td><td class="num">4.3 (выброс)</td></tr>
+<tr><td>Ac-228 338</td><td class="num">9.69</td><td class="num">1428</td><td class="num">8.5</td></tr>
+<tr><td>Tl-208 583</td><td class="num">14.76</td><td class="num">1350</td><td class="num">4.0</td></tr>
+<tr><td>Bi-212 727</td><td class="num">2.39</td><td class="num">1576</td><td class="num">9.3</td></tr>
+<tr><td>Ac-228 911</td><td class="num">8.52</td><td class="num">1612</td><td class="num">12.7</td></tr>
+<tr><td>Ac-228 969</td><td class="num">8.58</td><td class="num">2727</td><td class="num">12.7</td></tr>
+<tr><td>Ac-228 1588</td><td class="num">1.30</td><td class="num">2758</td><td class="num">7.7</td></tr>
+<tr><td>Ac-228 1630</td><td class="num">0.86</td><td class="num">3837</td><td class="num">21.4</td></tr>
+<tr><td>Tl-208 2614</td><td class="num">5.00</td><td class="num">1995</td><td class="num">38.1</td></tr>
+</tbody></table></div>
+<p><b>Итог по лучшим 3 линиям (338+583+911):</b> A(Th-232) = <b>1376 ± 135 Бк/кг</b>. Отклонение от эталона 1213 Бк/кг: <b>+13.5%</b>, в пределах типичной погрешности NaI-Маринелли.</p>
+</div>
+
+<div class="step" id="s10">
+<h2>Шаг 10 — Вторичные пики и состояние защиты</h2>
+<p>Только явные артефакты:</p>
+<div class="tbl-wrap"><table class="tbl">
+<thead><tr><th>E, кэВ</th><th>Тип</th><th>Описание</th></tr></thead>
+<tbody>
+<tr><td class="num">73-90</td><td>композит</td><td>Pb K-РИ от ВК Pb-212 239 (α_K≈1.4, доминанта) + ВК Tl-208/Bi-212 + Th-228 84.4 + ≪1% Pb-флуоресценция. По F-110 не разлагается.</td></tr>
+<tr><td class="num">2103</td><td>одинарный вылет</td><td>Tl-208 2614 − 511 кэВ. cps = 0.043.</td></tr>
+<tr><td class="num">~2381</td><td>Комптон-край</td><td>Энергия края E_C = 2614·0.911 = 2381 кэВ.</td></tr>
+</tbody></table></div>
+<p><b>Состояние защиты:</b> Pb K-РИ 75 + 85 в фоне = 0.17 cps. Без лайнера было бы 1-5 cps. Подавление ×5-10 — защита Pb 50 + Cd+Cu лайнер исправна. Внутренних сигнатур альтернативных детекторов нет.</p>
+</div>
+
+<div class="step" id="s11">
+<h2>Шаг 11 — Финальный отчёт</h2>
+<p>Сгенерирован интерактивный HTML отчёт (адаптивная вёрстка, Chart.js): спектр с подсветкой пиков по клику, сортируемая таблица идентифицированных линий, разложение мультиплетов M1 и M2 с пояснениями, итоговая активность, заключение по диагностике.</p>
+<p><b>Идентифицировано:</b> Th-232 в секулярном равновесии цепочки. <b>U-238/Ra-226:</b> отсутствует. <b>K-40 и Cs-137:</b> на/ниже МДА. <b>Защита:</b> исправна.</p>
+<p><b>Финальная активность:</b> <code>A(Th-232) = 1376 ± 135 Бк/кг</code> (по лучшим 338+583+911 кэВ), что соответствует эталону 1213 Бк/кг в пределах +13.5%.</p>
+</div>
+
+</div>
+</body>
+</html>

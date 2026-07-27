@@ -1,0 +1,3 @@
+# graphify pilot (transient) — exclude the 114KB operator-report HTML template:
+# embedded JS/Chart.js, not source structure; would waste the local-LLM budget.
+*.html

@@ -1,0 +1,37 @@
+# Resolved pins live in requirements.lock (CI installs from lock);
+# this file documents minimum constraints for human readers and `pip install -e .`
+# dev installs. Upper bounds are applied only on numerically-sensitive deps whose
+# minor bumps have historically shifted peak-fit residuals at the 1e-6 keV level.
+#
+# DEEP-02 invariant (tests/build/test_requirements_lock_consistency.py):
+# the lock pin MUST satisfy the manifest bound here, otherwise the dev path
+# (`pip install -r requirements.txt`) resolves a different environment than the
+# CI/snapshot-validated path (`pip install -r requirements.lock`). Upper bound =
+# JUST ABOVE the validated minor: it blocks an unvalidated future minor bump
+# while still admitting the exact pin in requirements.lock. When the lock is
+# regenerated onto a newer validated minor, bump the ceiling here in the same commit.
+
+# Phase 0 (XML reader) — validated lock: numpy==2.3.5
+numpy>=1.24,<2.4
+
+# Phase 1+ (calibration, identification, deconvolution) — validated lock: scipy==1.17.1
+scipy>=1.10,<1.18
+# lmfit>=1.2
+
+# Phase 3 (reporting)
+matplotlib>=3.7
+# F-159 / v1.18.21.0 — Technical PDF report (контракт обязательного
+# комплекта отчётных документов). Использует platypus + DejaVuSans
+# (TTF берётся из matplotlib mpl-data/fonts/ttf).
+reportlab>=4.0
+
+# Phase 4 (testing)
+pytest>=7.4
+pytest-xdist>=3.5
+# pyyaml>=6.0
+
+# Phase 4+ (XXE/billion-laughs hardening — Project #5 SEC-01 closure 2026-06-05).
+# defusedxml is hard-imported at module scope by 5 IO parsers
+# (gamma.io.{atomspectra_xml,becqmoni_xml,cpt_io,lsrm_library,n42_2012}),
+# so clean install without it raises ModuleNotFoundError at gamma.io import time.
+defusedxml>=0.7.1

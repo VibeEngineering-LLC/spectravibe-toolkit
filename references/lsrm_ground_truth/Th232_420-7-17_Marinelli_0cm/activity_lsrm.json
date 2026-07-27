@@ -1,0 +1,52 @@
+{
+  "source": "LSRM Гамма-1С, окно «Информация об активности» (Base: C:\\LSRM\\Work\\BG\\Gamma-1S\\Spe - поверки\\Поверка 2024\\Маринелли)",
+  "spectrum_file": "detectors/Gamma-1C/reference_spectra/reference_kits/Marinelli_1L/Th-232/Th232_420-7-17_Маринелли_0cm.spe",
+  "session_label": "Th232_420-7-17_Маринелли_0cm",
+  "captured": "2026-06-20",
+  "nuclide_total": {
+    "nuclide": "Th-232",
+    "area_total_counts": 1470000,
+    "area_total_uncertainty_counts": 40000,
+    "activity": 2200,
+    "activity_uncertainty": 30,
+    "comment_units": "В окне LSRM подпись столбца: «Активность,Бк». Скорее всего это полная активность пробы в Бк (m=1.6 кг → A_specific = 2200/1.6 = 1375 Бк/кг). НО: при делении 2700/1.6=1687 vs наш Tl-208 1841 Бк/кг — совпадение лучше, чем при трактовке «Бк/кг». ВНИМАНИЕ: смысл «Неопр. активности» (30 для итога, 22 для 238 и т.п.) неоднозначен — числа слишком малы для абсолютных Бк, скорее это относительные σ%/абсолютные σ в малых единицах. Уточнить у оператора LSRM-документации."
+  },
+  "lines": [
+    {"library_energy_keV":  209.253, "area_counts":  83000,     "area_uncertainty_counts":  4000, "activity": 3870, "activity_uncertainty":  4},
+    {"library_energy_keV":  238.632, "area_counts": 668000,     "area_uncertainty_counts":  3000, "activity": 3100, "activity_uncertainty": 22, "highlighted_in_ui": "blue (selected/best?)"},
+    {"library_energy_keV":  328.000, "area_counts":  30800,     "area_uncertainty_counts":  2700, "activity": 2660, "activity_uncertainty":  9},
+    {"library_energy_keV":  338.320, "area_counts": 128800,     "area_uncertainty_counts":  2400, "activity": 3000, "activity_uncertainty": 16},
+    {"library_energy_keV":  463.004, "area_counts":  14800,     "area_uncertainty_counts":  1600, "activity": 1130, "activity_uncertainty": 11},
+    {"library_energy_keV":  510.770, "area_counts":  36800,     "area_uncertainty_counts":  1600, "activity": 1650, "activity_uncertainty": 16},
+    {"library_energy_keV":  583.187, "area_counts": 222200,     "area_uncertainty_counts":  1900, "activity": 3000, "activity_uncertainty": 15},
+    {"library_energy_keV":  911.204, "area_counts": 114300,     "area_uncertainty_counts":  1200, "activity": 2700, "activity_uncertainty": 16},
+    {"library_energy_keV":  964.766, "area_counts":  59000,     "area_uncertainty_counts":  8000, "activity": 7600, "activity_uncertainty": 13, "note": "явно выпадающая (overpredicted из-за дублета 964/968)"},
+    {"library_energy_keV":  968.971, "area_counts":  34000,     "area_uncertainty_counts":  8000, "activity": 1400, "activity_uncertainty": 22},
+    {"library_energy_keV": 1588.200, "area_counts":  10400,     "area_uncertainty_counts":  4000, "activity": 3300, "activity_uncertainty": 13},
+    {"library_energy_keV": 1620.500, "area_counts": "<13000",   "area_uncertainty_counts": null,  "activity": "<9000", "activity_uncertainty": null, "verdict": "upper-limit"},
+    {"library_energy_keV": 1630.627, "area_counts": "<13000",   "area_uncertainty_counts": null,  "activity": "<8900", "activity_uncertainty": null, "verdict": "upper-limit"},
+    {"library_energy_keV": 2614.511, "area_counts":  55300,     "area_uncertainty_counts":   600, "activity": 2700, "activity_uncertainty": 28}
+  ],
+  "certificate_for_this_sample": {
+    "name": "Th-232 ОИСН-16 17-09-2007",
+    "mass_kg": 1.6,
+    "A_specific_Bq_per_kg": 1940.0,
+    "sigma_relative": 0.06,
+    "A_total_Bq": 3104.0,
+    "sigma_total_Bq": 186.24
+  },
+  "comparison_vs_our_z_check": {
+    "doc": "Если LSRM «Активность» в Бк (полная), то деление на m=1.6 даёт Бк/кг. Сравнение с нашим cert_zcheck.json (HEAD прогон 2026-06-20_21-07_th232_marinelli_FINAL_A_B_gost):",
+    "table": [
+      {"line_keV": 2614.511, "lsrm_Bq": 2700, "lsrm_Bq_per_kg_if_div_m": 1687.5, "our_Bq_per_kg": 1841.3, "cert_Bq_per_kg": 1940.0},
+      {"line_keV":  911.204, "lsrm_Bq": 2700, "lsrm_Bq_per_kg_if_div_m": 1687.5, "our_Bq_per_kg": 1712.8, "cert_Bq_per_kg": 1940.0},
+      {"line_keV":  238.632, "lsrm_Bq": 3100, "lsrm_Bq_per_kg_if_div_m": 1937.5, "our_Bq_per_kg": 2224.2, "cert_Bq_per_kg": 1940.0},
+      {"line_keV":  583.187, "lsrm_Bq": 3000, "lsrm_Bq_per_kg_if_div_m": 1875.0, "our_Bq_per_kg": null,   "cert_Bq_per_kg": 1940.0, "note": "583 у нас coupled-multiplet, отдельной A нет в cert_zcheck"}
+    ]
+  },
+  "open_questions": [
+    "Единицы столбца «Активность,Бк» — полная или удельная? Если оператор подтвердит «полная Бк», деление на 1.6 даёт лучшее согласие с нашим расчётом.",
+    "Единицы «Неопр. активности» — Бк или %? Числа 22, 28 для активностей 3100, 2700 выглядят как малые абсолютные σ ИЛИ как проценты — критически разные.",
+    "Почему LSRM итог Th-232 = 2200 Бк (если полная), а средневзвешенное по линиям в районе 2700-3000 Бк — какая логика отбора линий в LSRM?"
+  ]
+}

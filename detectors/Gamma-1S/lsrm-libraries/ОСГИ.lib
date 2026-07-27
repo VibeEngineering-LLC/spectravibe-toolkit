@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!--SpectraLine Nuclear Data Information file © LSRM 2005-2020-->
+<Library library_type="gamma" library_version="2.0" database_version="25">
+  <Comment></Comment>
+  <Nuclide name="Eu-152" half_life_value="13.54" half_life_unit="year" gamma_constant="6.5" atomic_mass="152">
+    <Line energy="121.782" d_energy="0.0003" intensity="28.88" d_intensity="0.49" dbid="Eu-152_51"/>
+    <Line energy="244.699" d_energy="0.00160000000002469" intensity="7.52" d_intensity="0.09" dbid="Eu-152_79"/>
+    <Line energy="344.281" d_energy="0.00249999999999773" intensity="26.67" d_intensity="0.32" dbid="Eu-152_101"/>
+    <Line energy="411.118" d_energy="0.00150000000002137" intensity="2.24" d_intensity="0.03" dbid="Eu-152_121" used="false"/>
+    <Line energy="443.985" d_energy="0.17" intensity="3.12" d_intensity="0.035" dbid="Eu-152_126" used="false"/>
+    <Line energy="564.03" d_energy="0.0439999999999827" intensity="0.5" d_intensity="0.024" dbid="Eu-152_156" used="false"/>
+    <Line energy="688.68" d_energy="0.00999999999999091" intensity="0.86" d_intensity="0.015" dbid="Eu-152_178" used="false"/>
+    <Line energy="778.906" d_energy="0.0024" intensity="12.96" d_intensity="0.09" dbid="Eu-152_195"/>
+    <Line energy="867.379" d_energy="0.003" intensity="4.24" d_intensity="0.06" dbid="Eu-152_209" used="false"/>
+    <Line energy="964.053" d_energy="0.005" intensity="14.64" d_intensity="0.16" dbid="Eu-152_223"/>
+    <Line energy="1005.6" d_energy="0.330000000000041" intensity="0.66" d_intensity="0.02" dbid="Eu-152_229" used="false"/>
+    <Line energy="1085.836" d_energy="0.01" intensity="10.12" d_intensity="0.2" dbid="Eu-152_235"/>
+    <Line energy="1089.84" d_energy="0.102999999999838" intensity="1.73" d_intensity="0.05" dbid="Eu-152_236" used="false"/>
+    <Line energy="1112.07" d_energy="0.00600000000008549" intensity="13.51" d_intensity="0.1" dbid="Eu-152_238"/>
+    <Line energy="1212.923" d_energy="0.025000000000091" intensity="1.41" d_intensity="0.03" dbid="Eu-152_242" used="false"/>
+    <Line energy="1299.12" d_energy="0.0220000000001619" intensity="1.63" d_intensity="0.03" dbid="Eu-152_247" used="false"/>
+    <Line energy="1408.012" d_energy="0.003" intensity="20.85" d_intensity="0.08" dbid="Eu-152_254"/>
+    <Line energy="1457.619" d_energy="0.0240000000001146" intensity="0.5" d_intensity="0.02" dbid="Eu-152_256" used="false"/>
+  </Nuclide>
+  <Nuclide name="Eu-154" half_life_value="8.8" half_life_unit="year" gamma_constant="6.64" atomic_mass="154">
+    <Line energy="123.071" d_energy="0.0009" intensity="40.4" d_intensity="2.5" dbid="Eu-154_34"/>
+    <Line energy="247.94" d_energy="0.0109999999999957" intensity="6.8" d_intensity="0.37" dbid="Eu-154_57" used="false"/>
+    <Line energy="591.8" d_energy="0.0449999999999591" intensity="5.13" d_intensity="2.6" dbid="Eu-154_118" used="false"/>
+    <Line energy="723.32" d_energy="0.0186000000001059" intensity="20.4" d_intensity="1.5" dbid="Eu-154_136"/>
+    <Line energy="756.88" d_energy="0.0779999999999745" intensity="4.54" d_intensity="0.25" dbid="Eu-154_140" used="false"/>
+    <Line energy="996.34" d_energy="0.07" intensity="10.7" d_intensity="0.6" dbid="Eu-154_157"/>
+    <Line energy="1004.8" d_energy="0.07" intensity="18.3" d_intensity="0.5" dbid="Eu-154_158"/>
+    <Line energy="1274.53" d_energy="0.100999999999885" intensity="36" d_intensity="1.2" dbid="Eu-154_172"/>
+    <Line energy="1596.59" d_energy="0.1096" intensity="1.76" d_intensity="0.11" dbid="Eu-154_186" used="false"/>
+  </Nuclide>
+  <Nuclide name="Eu-155" half_life_value="4.68" half_life_unit="year" gamma_constant="0.32" atomic_mass="155">
+    <Line energy="86.545" d_energy="0.00130000000000052" intensity="30.5" d_intensity="1.2" dbid="Eu-155_37" used="false"/>
+    <Line energy="105.308" d_energy="0.001" intensity="20.5" d_intensity="0.9" dbid="Eu-155_38"/>
+  </Nuclide>
+  <Nuclide name="Ce-144" half_life_value="284.4" half_life_unit="day" gamma_constant="0.13" atomic_mass="144">
+    <Line energy="80.114" d_energy="0.00600000000000023" intensity="1.49" d_intensity="0.09" dbid="Ce-144_25" used="false"/>
+    <Line energy="133.531" d_energy="0.0160000000000196" intensity="11.09" d_intensity="0.16" dbid="Ce-144_27"/>
+  </Nuclide>
+  <Nuclide name="Th-232" half_life_value="14000000000" half_life_unit="year" gamma_constant="11.6" atomic_mass="232">
+    <Line energy="238.632" d_energy="0.002" intensity="44.6" d_intensity="1" dbid="Pb-212_35" used="false"/>
+    <Line energy="240.987" d_energy="0.006" intensity="3.95" d_intensity="0.13" dbid="Ra-224_25" used="false"/>
+    <Line energy="338.326" d_energy="0.00600000000002865" intensity="12.4" d_intensity="1" dbid="Ac-228_77"/>
+    <Line energy="463.007" d_energy="0.006" intensity="4.9" d_intensity="0.4" dbid="Ac-228_101" used="false"/>
+    <Line energy="510.74" d_energy="0.1" intensity="8.1" d_intensity="0.4" dbid="Tl-208_30"/>
+    <Line energy="583.191" d_energy="0.0040000000000191" intensity="30.4" d_intensity="0.4" dbid="Tl-208_32"/>
+    <Line energy="727.33" d_energy="0.009" intensity="6.63" d_intensity="0.07" dbid="Bi-212_52"/>
+    <Line energy="794.944" d_energy="0.005" intensity="4" d_intensity="9" dbid="Ac-228_173"/>
+    <Line energy="835.694" d_energy="0.0160000000000764" intensity="1.9" d_intensity="0.2" dbid="Ac-228_179" used="false"/>
+    <Line energy="860.564" d_energy="0.00699999999994816" intensity="4.4" d_intensity="0.2" dbid="Tl-208_48" used="false"/>
+    <Line energy="911.205" d_energy="0.004" intensity="27.7" d_intensity="2.2" dbid="Ac-228_192"/>
+    <Line energy="964.757" d_energy="0.01" intensity="5.2" d_intensity="0.6" dbid="Ac-228_206" used="false"/>
+    <Line energy="968.968" d_energy="0.017" intensity="17.3" d_intensity="1.5" dbid="Ac-228_207"/>
+    <Line energy="2614.533" d_energy="0.0219999999999345" intensity="35.84" d_intensity="0.08" dbid="Tl-208_69"/>
+  </Nuclide>
+  <Nuclide name="Ra-226" half_life_value="1608" half_life_unit="year" gamma_constant="9.14" atomic_mass="226">
+    <Line energy="185.97" d_energy="0.241000000000014" intensity="3.7" d_intensity="0.1" dbid="Ra-226_26" used="false"/>
+    <Line energy="241.97" d_energy="0.0250000000000057" intensity="7.5" d_intensity="0.4" dbid="Pb-214_40" used="false"/>
+    <Line energy="295.221" d_energy="3" intensity="18.9" d_intensity="0.8" dbid="Pb-214_43"/>
+    <Line energy="351.922" d_energy="10" intensity="36.3" d_intensity="1.9" dbid="Pb-214_48"/>
+    <Line energy="609.32" d_energy="0.005" intensity="45.5" d_intensity="3" dbid="Bi-214_121"/>
+    <Line energy="768.377" d_energy="0.0169999999999391" intensity="5.1" d_intensity="0.2" dbid="Bi-214_159" used="false"/>
+    <Line energy="1120.31" d_energy="20" intensity="15.8" d_intensity="0.6" dbid="Bi-214_222"/>
+    <Line energy="1238.13" d_energy="0.0080000000000382" intensity="6.14" d_intensity="0.2" dbid="Bi-214_238" used="false"/>
+    <Line energy="1377.709" d_energy="0.0399999999999636" intensity="4.23" d_intensity="0.13" dbid="Bi-214_257" used="false"/>
+    <Line energy="1408.006" d_energy="20" intensity="2.59" d_intensity="0.12" dbid="Bi-214_263" used="false"/>
+    <Line energy="1509.26" d_energy="20" intensity="2.26" d_intensity="0.08" dbid="Bi-214_273" used="false"/>
+    <Line energy="1729.648" d_energy="0.0529999999998836" intensity="3.14" d_intensity="0.1" dbid="Bi-214_300" used="false"/>
+    <Line energy="1764.551" d_energy="0.0599999999999454" intensity="16.6" d_intensity="0.6" dbid="Bi-214_304"/>
+    <Line energy="1847.49" d_energy="0.0609999999999218" intensity="2.19" d_intensity="0.08" dbid="Bi-214_309" used="false"/>
+    <Line energy="2118.558" d_energy="30" intensity="1.25" d_intensity="0.05" dbid="Bi-214_329" used="false"/>
+    <Line energy="2204.174" d_energy="0.114999999999782" intensity="5.25" d_intensity="0.15" dbid="Bi-214_337"/>
+    <Line energy="2447.84" d_energy="30" intensity="1.65" d_intensity="0.06" dbid="Bi-214_364" used="false"/>
+  </Nuclide>
+  <Nuclide name="K-40" half_life_value="1280000000" half_life_unit="year" gamma_constant="0.8" atomic_mass="40">
+    <Line energy="1460.8" d_energy="0.0199999999999818" intensity="10.7" d_intensity="0.2" dbid="K-40_8"/>
+  </Nuclide>
+  <Nuclide name="Cs-137" half_life_value="30.17" half_life_unit="year" gamma_constant="3.24" atomic_mass="137">
+    <Line energy="661.66" d_energy="0.003" intensity="85.08" d_intensity="0.16" dbid="Ba-137M_22"/>
+  </Nuclide>
+  <Nuclide name="Co-57" half_life_value="271.81" half_life_unit="day" gamma_constant="0.56" atomic_mass="57">
+    <Line energy="122.061" d_energy="0.000350000000011619" intensity="85.7" d_intensity="0.17" dbid="Co-57_15"/>
+    <Line energy="136.474" d_energy="0.000439999999997553" intensity="10.6" d_intensity="0.16" dbid="Co-57_17"/>
+  </Nuclide>
+  <Nuclide name="Na-22" half_life_value="2.6019" half_life_unit="year" gamma_constant="11.8" atomic_mass="22">
+    <Line energy="511" d_energy="0.0029999999999859" intensity="180.88" d_intensity="0.36" dbid="Na-22_3" used="false"/>
+    <Line energy="1274.543" d_energy="0.007" intensity="99.94" d_intensity="0.01" dbid="Na-22_4"/>
+  </Nuclide>
+  <Nuclide name="Mn-54" half_life_value="312.116" half_life_unit="day" gamma_constant="4.61" atomic_mass="54">
+    <Line energy="834.848" d_energy="0.003" intensity="99.98" d_intensity="0.01" dbid="Mn-54_15"/>
+  </Nuclide>
+  <Nuclide name="Co-60" half_life_value="5.2714" half_life_unit="year" gamma_constant="12.8" atomic_mass="60">
+    <Line energy="1173.237" d_energy="0.00900000000001455" intensity="99.89" d_intensity="0.04" dbid="Co-60_18"/>
+    <Line energy="1332.502" d_energy="0.00999999999999091" intensity="99.98" d_intensity="0.01" dbid="Co-60_19"/>
+  </Nuclide>
+  <Nuclide name="Zn-65" half_life_value="244.12" half_life_unit="day" gamma_constant="3.07" atomic_mass="65">
+    <Line energy="511" d_energy="0.0029999999999859" intensity="2.9" d_intensity="0.04" dbid="Zn-65_15" used="false"/>
+    <Line energy="1115.546" d_energy="0.00700000000006185" intensity="50.7" d_intensity="0.25" dbid="Zn-65_17"/>
+  </Nuclide>
+  <Nuclide name="Y-88" half_life_value="106.617" half_life_unit="day" gamma_constant="13.18" atomic_mass="88">
+    <Line energy="898.047" d_energy="0.00499999999999545" intensity="94.1" d_intensity="0.8" dbid="Y-88_22"/>
+    <Line energy="1836.066" d_energy="0.012" intensity="99.34" d_intensity="0.06" dbid="Y-88_26"/>
+  </Nuclide>
+  <Nuclide name="Sn-113" half_life_value="115.09" half_life_unit="day" gamma_constant="1.48" atomic_mass="113">
+    <Line energy="391.705" d_energy="0.007000000000005" intensity="64.9" d_intensity="0.5" dbid="Sn-113_26"/>
+  </Nuclide>
+  <Nuclide name="Ce-139" half_life_value="137.67" half_life_unit="day" gamma_constant="1.78" atomic_mass="139">
+    <Line energy="165.857" d_energy="0.0011" intensity="79.88" d_intensity="0.08" dbid="Ce-139_25"/>
+  </Nuclide>
+  <Nuclide name="Hg-203" half_life_value="46.595" half_life_unit="day" gamma_constant="1.29" atomic_mass="203">
+    <Line energy="279.197" d_energy="0.00180000000000291" intensity="81.56" d_intensity="0.07" dbid="Hg-203_26"/>
+  </Nuclide>
+  <Nuclide name="Am-241" half_life_value="432.1" half_life_unit="year" gamma_constant="0.14" atomic_mass="241">
+    <Line energy="59.537" d_energy="0.2" intensity="35.75" d_intensity="0.3" dbid="Am-241_29"/>
+  </Nuclide>
+  <Nuclide name="Rh-106" half_life_value="367" half_life_unit="day" gamma_constant="1.16" atomic_mass="106">
+    <Line energy="511.9" d_energy="0.0394999999999754" intensity="20.47" d_intensity="0.22" dbid="Rh-106_30"/>
+    <Line energy="616.15" d_energy="0.09" intensity="0.735" d_intensity="0.012" dbid="Rh-106_33" used="false"/>
+    <Line energy="621.9" d_energy="0.06" intensity="9.95" d_intensity="0.08" dbid="Rh-106_34"/>
+    <Line energy="873.5" d_energy="0.05" intensity="0.421" d_intensity="0.006" dbid="Rh-106_48" used="false"/>
+    <Line energy="1050.4" d_energy="0.06" intensity="1.452" d_intensity="0.013" dbid="Rh-106_53"/>
+    <Line energy="1128.1" d_energy="0.05" intensity="0.376" d_intensity="0.006" dbid="Rh-106_59" used="false"/>
+    <Line energy="1562.2" d_energy="0.06" intensity="0.148" d_intensity="0.016" dbid="Rh-106_81" used="false"/>
+  </Nuclide>
+  <Nuclide name="Sb-125" half_life_value="2.77" half_life_unit="year" gamma_constant="2.82" atomic_mass="125">
+    <Line energy="176.32" d_energy="0.00600000000000023" intensity="6.65" d_intensity="0.14" dbid="Sb-125_36"/>
+    <Line energy="380.458" d_energy="0.008" intensity="1.53" d_intensity="0.03" dbid="Sb-125_51" used="false"/>
+    <Line energy="427.911" d_energy="0.0369999999999777" intensity="29.8" d_intensity="0.5" dbid="Sb-125_54"/>
+    <Line energy="463.407" d_energy="0.0419999999999732" intensity="10.4" d_intensity="0.2" dbid="Sb-125_57"/>
+    <Line energy="600.597" d_energy="0.002" intensity="18" d_intensity="0.4" dbid="Sb-125_63"/>
+    <Line energy="606.73" d_energy="0.0170000000000528" intensity="5.07" d_intensity="0.11" dbid="Sb-125_64" used="false"/>
+    <Line energy="635.97" d_energy="0.0199999999999818" intensity="11.4" d_intensity="0.2" dbid="Sb-125_67"/>
+    <Line energy="671.431" d_energy="0.00999999999999091" intensity="1.81" d_intensity="0.04" dbid="Sb-125_69" used="false"/>
+  </Nuclide>
+  <Nuclide name="Ir-192" half_life_value="73.89" half_life_unit="day" gamma_constant="4.72" atomic_mass="192">
+    <Line energy="295.958" d_energy="0.00150000000002137" intensity="28.65" d_intensity="0.24" dbid="Ir-192_46"/>
+    <Line energy="308.457" d_energy="0.00193000000001575" intensity="29.66" d_intensity="0.25" dbid="Ir-192_47"/>
+    <Line energy="316.508" d_energy="0.00182000000000926" intensity="82.74" d_intensity="0.25" dbid="Ir-192_49"/>
+    <Line energy="468.072" d_energy="0.00315000000000509" intensity="47.7" d_intensity="0.7" dbid="Ir-192_58"/>
+    <Line energy="484.578" d_energy="0.00289999999995416" intensity="3.18" d_intensity="0.08" dbid="Ir-192_59" used="false"/>
+    <Line energy="588.585" d_energy="0.0040000000000191" intensity="4.5" d_intensity="0.09" dbid="Ir-192_63"/>
+    <Line energy="604.415" d_energy="0.00394999999991796" intensity="8.21" d_intensity="0.17" dbid="Ir-192_66"/>
+    <Line energy="612.466" d_energy="0.00385000000005675" intensity="5.34" d_intensity="0.12" dbid="Ir-192_67"/>
+  </Nuclide>
+  <Nuclide name="Co-56" half_life_value="77.9" half_life_unit="day" gamma_constant="17.9" atomic_mass="56">
+    <Line energy="846.768" d_energy="0.002" intensity="99.92" d_intensity="0.01" dbid="Co-56_30"/>
+    <Line energy="977.41" d_energy="0.0380000000000109" intensity="1.409" d_intensity="0.017" dbid="Co-56_33" used="false"/>
+    <Line energy="1037.843" d_energy="0.004" intensity="14.15" d_intensity="0.15" dbid="Co-56_35"/>
+    <Line energy="1175.103" d_energy="0.004" intensity="2.271" d_intensity="0.027" dbid="Co-56_41" used="false"/>
+    <Line energy="1238.286" d_energy="0.003" intensity="66.9" d_intensity="0.11" dbid="Co-56_45"/>
+    <Line energy="1360.209" d_energy="0.004" intensity="4.279" d_intensity="0.043" dbid="Co-56_48"/>
+    <Line energy="1771.349" d_energy="0.0080000000000382" intensity="15.57" d_intensity="0.16" dbid="Co-56_56"/>
+    <Line energy="2015.181" d_energy="0.0339999999998781" intensity="3.052" d_intensity="0.031" dbid="Co-56_59" used="false"/>
+    <Line energy="2034.755" d_energy="0.0359999999998308" intensity="7.76" d_intensity="0.08" dbid="Co-56_60"/>
+    <Line energy="2596.462" d_energy="2.03800000000001" intensity="16.94" d_intensity="0.18" dbid="Co-56_68"/>
+    <Line energy="3009.596" d_energy="0.0489999999999782" intensity="1.035" d_intensity="0.038" dbid="Co-56_70" used="false"/>
+    <Line energy="3201.96" d_energy="0.06899999999996" intensity="3.05" d_intensity="0.06" dbid="Co-56_71"/>
+    <Line energy="3253.419" d_energy="0.0840000000002874" intensity="7.5" d_intensity="0.15" dbid="Co-56_72"/>
+    <Line energy="3272.995" d_energy="0.0840000000002874" intensity="1.793" d_intensity="0.036" dbid="Co-56_73" used="false"/>
+  </Nuclide>
+  <Nuclide name="Ba-133" half_life_value="10.536" half_life_unit="year" gamma_constant="2.94" atomic_mass="133">
+    <Line energy="53.161" d_energy="0.0011999999999972" intensity="2.21" d_intensity="0.09" dbid="Ba-133_22" used="false"/>
+    <Line energy="80.995" d_energy="0.00289999999999679" intensity="35.1" d_intensity="0.21" dbid="Ba-133_25" used="false"/>
+    <Line energy="160.614" d_energy="0.00200000000000955" intensity="0.642" d_intensity="0.16" dbid="Ba-133_27" used="false"/>
+    <Line energy="223.313" d_energy="0.0762000000000001" intensity="0.444" d_intensity="0.12" dbid="Ba-133_28" used="false"/>
+    <Line energy="276.402" d_energy="0.0030999999999608" intensity="7.16" d_intensity="0.1" dbid="Ba-133_29"/>
+    <Line energy="302.852" d_energy="0.00119999999998299" intensity="18.35" d_intensity="0.18" dbid="Ba-133_30"/>
+    <Line energy="356.014" d_energy="0.00110000000000809" intensity="62.1" d_intensity="0.21" dbid="Ba-133_31"/>
+    <Line energy="383.852" d_energy="0.00349999999997408" intensity="8.92" d_intensity="0.09" dbid="Ba-133_33"/>
+  </Nuclide>
+  <Nuclide name="Ag-110m" half_life_value="249.75" half_life_unit="day" gamma_constant="15" atomic_mass="110">
+    <Line energy="657.764" d_energy="0.0040000000000191" intensity="94.43" d_intensity="0.2" dbid="Ag-110M_68"/>
+    <Line energy="677.62" d_energy="0.00170000000002801" intensity="10.66" d_intensity="0.15" dbid="Ag-110M_71"/>
+    <Line energy="687.013" d_energy="0.0039000000000442" intensity="6.44" d_intensity="0.07" dbid="Ag-110M_72" used="false"/>
+    <Line energy="706.683" d_energy="0.00699999999994816" intensity="16.61" d_intensity="0.12" dbid="Ag-110M_73"/>
+    <Line energy="763.943" d_energy="0.0017" intensity="22.32" d_intensity="0.2" dbid="Ag-110M_77"/>
+    <Line energy="884.687" d_energy="0.00890000000003965" intensity="72.9" d_intensity="0.8" dbid="Ag-110M_80"/>
+    <Line energy="937.494" d_energy="0.00900000000001455" intensity="34.4" d_intensity="0.36" dbid="Ag-110M_82"/>
+    <Line energy="1384.304" d_energy="0.0108999999999924" intensity="24.63" d_intensity="0.38" dbid="Ag-110M_96"/>
+    <Line energy="1505.042" d_energy="0.0139999999998963" intensity="13.14" d_intensity="0.13" dbid="Ag-110M_100"/>
+  </Nuclide>
+  <Nuclide name="Ta-182" half_life_value="114.43" half_life_unit="day" gamma_constant="6.3" atomic_mass="182">
+    <Line energy="67.75" d_energy="0.000299999999995748" intensity="45.37" d_intensity="0.16" dbid="Ta-182_25"/>
+    <Line energy="84.682" d_energy="0.00176000000000442" intensity="2.55" d_intensity="0.16" dbid="Ta-182_29"/>
+    <Line energy="100.404" d_energy="0.298049999999989" intensity="14.22" d_intensity="0.22" dbid="Ta-182_30"/>
+    <Line energy="152.431" d_energy="0.00109000000000492" intensity="6.97" d_intensity="0.13" dbid="Ta-182_35"/>
+    <Line energy="156.387" d_energy="0.000599999999991496" intensity="2.657" d_intensity="0.045" dbid="Ta-182_36" used="false"/>
+    <Line energy="179.395" d_energy="0.00119000000000824" intensity="3.11" d_intensity="0.06" dbid="Ta-182_37" used="false"/>
+    <Line energy="222.11" d_energy="0.00150000000002137" intensity="7.63" d_intensity="0.16" dbid="Ta-182_39"/>
+    <Line energy="229.322" d_energy="0.00130000000001473" intensity="3.671" d_intensity="0.039" dbid="Ta-182_40"/>
+    <Line energy="264.075" d_energy="0.000999999999976353" intensity="3.63" d_intensity="0.05" dbid="Ta-182_42"/>
+    <Line energy="1113.44" d_energy="0.0299999999999727" intensity="0.459" d_intensity="0.014" dbid="Ta-182_59" used="false"/>
+    <Line energy="1121.3" d_energy="0.00999999999999091" intensity="35.13" d_intensity="0.14" dbid="Ta-182_60"/>
+    <Line energy="1189.049" d_energy="0.00900000000001455" intensity="16.36" d_intensity="0.14" dbid="Ta-182_65"/>
+    <Line energy="1221.407" d_energy="0.0119999999999436" intensity="27.4" d_intensity="0.18" dbid="Ta-182_66"/>
+    <Line energy="1231.014" d_energy="0.00999999999999091" intensity="11.57" d_intensity="0.07" dbid="Ta-182_68"/>
+  </Nuclide>
+  <Nuclide name="Cs-134" half_life_value="2.062" half_life_unit="year" gamma_constant="8.72" atomic_mass="134">
+    <Line energy="475.4" d_energy="0.0349999999999682" intensity="1.49" d_intensity="0.03" dbid="Cs-134_37" used="false"/>
+    <Line energy="563.25" d_energy="0.005" intensity="8.39" d_intensity="0.06" dbid="Cs-134_38" used="false"/>
+    <Line energy="569.34" d_energy="0.00900000000001455" intensity="15.4" d_intensity="0.1" dbid="Cs-134_39" used="false"/>
+    <Line energy="604.7" d_energy="0.0209999999999582" intensity="97.6" d_intensity="0.3" dbid="Cs-134_40"/>
+    <Line energy="795.8" d_energy="0.0640000000000782" intensity="85.4" d_intensity="0.5" dbid="Cs-134_42"/>
+    <Line energy="801.9" d_energy="0.0529999999999973" intensity="8.46" d_intensity="0.25" dbid="Cs-134_43" used="false"/>
+    <Line energy="1038.6" d_energy="0.00999999999999091" intensity="1" d_intensity="0.01" dbid="Cs-134_46" used="false"/>
+    <Line energy="1167.9" d_energy="0.0679999999999836" intensity="1.82" d_intensity="0.03" dbid="Cs-134_47" used="false"/>
+    <Line energy="1365.2" d_energy="0.0150000000001" intensity="3.06" d_intensity="0.04" dbid="Cs-134_48" used="false"/>
+  </Nuclide>
+  <Nuclide name="ANNIGL" half_life_value="1000000000" half_life_unit="year" gamma_constant="2.95" artificial="true">
+    <Line energy="511" d_energy="0" intensity="100" d_intensity="0.01" dbid="ANNIGL_1"/>
+  </Nuclide>
+  <Nuclide name="Ru-103" half_life_value="39.36" half_life_unit="day" gamma_constant="2.8" atomic_mass="103">
+    <Line energy="497.09" d_energy="0.01" intensity="88.2" d_intensity="2.7" dbid="Ru-103_37"/>
+  </Nuclide>
+  <Nuclide name="Zr-95+" half_life_value="64.02" half_life_unit="day" gamma_constant="13.44" atomic_mass="95" artificial="true">
+    <Line energy="724.199" d_energy="0" intensity="44.2" d_intensity="0.17" dbid="Zr-95+_1"/>
+    <Line energy="756.729" d_energy="0" intensity="54.51" d_intensity="0.1" dbid="Zr-95+_2"/>
+    <Line energy="765.8" d_energy="0" intensity="220.27" d_intensity="0.51" dbid="Zr-95+_3"/>
+  </Nuclide>
+  <Nuclide name="Ho-166m" half_life_value="1000" half_life_unit="year" gamma_constant="2" atomic_mass="166">
+    <Line energy="80.6" d_energy="0.0240000000000009" intensity="20.96" d_intensity="0.38" dbid="Ho-166_23"/>
+    <Line energy="184.4" d_energy="0.1" intensity="119" d_intensity="0.18" dbid="Ho-166_24"/>
+    <Line energy="280.5" d_energy="96.1" intensity="50.9" d_intensity="0.06" dbid="Ho-166M_43"/>
+    <Line energy="300.8" d_energy="116.4" intensity="6.39" d_intensity="0.09" dbid="Ho-166M_44"/>
+    <Line energy="410.9" d_energy="109.9" intensity="19.83" d_intensity="0.2" dbid="Ho-166M_50"/>
+    <Line energy="529.8" d_energy="9" intensity="16.76" d_intensity="0.22" dbid="Ho-166_28"/>
+    <Line energy="711.7" d_energy="6.3660000000001" intensity="95.1" d_intensity="0.1" dbid="Ho-166_30"/>
+    <Line energy="752.3" d_energy="33.59" intensity="21.14" d_intensity="0.28" dbid="Ho-166M_76"/>
+    <Line energy="810.3" d_energy="24.41" intensity="100" d_intensity="0.05" dbid="Ho-166M_79"/>
+    <Line energy="830.6" d_energy="44.71" intensity="16.96" d_intensity="0.22" dbid="Ho-166M_80"/>
+  </Nuclide>
+  <Nuclide name="Cd-109" half_life_value="453" half_life_unit="day" gamma_constant="0.0143" atomic_mass="109">
+    <Line energy="88.034" d_energy="0.001" intensity="3.65" d_intensity="0.05" dbid="Ag-109M_21"/>
+  </Nuclide>
+  <Nuclide name="TI-44" half_life_value="63" half_life_unit="year" gamma_constant="12.14" atomic_mass="44">
+    <Line energy="67.875" d_energy="0.00709999999999411" intensity="94.4" d_intensity="1.5" dbid="Ti-44_13"/>
+    <Line energy="78.337" d_energy="0.0135999999999967" intensity="96.2" d_intensity="0.3" dbid="Ti-44_14"/>
+    <Line energy="511" d_energy="0.0029999999999859" intensity="188.64" d_intensity="0.1" dbid="Sc-44_10" used="false"/>
+    <Line energy="1157" d_energy="0.0199999999999818" intensity="99.88" d_intensity="0.1" dbid="Sc-44_12"/>
+    <Line energy="1499" d_energy="0.460000000000036" intensity="0.912" d_intensity="0.015" dbid="Sc-44_13"/>
+    <Line energy="2656" d_energy="0.480000000000018" intensity="0.115" d_intensity="0.006" dbid="Sc-44_18"/>
+  </Nuclide>
+  <Nuclide name="U-232" half_life_value="68.9" half_life_unit="year" atomic_mass="232">
+    <Line energy="74.81" d_energy="0.00499999999999545" intensity="10.363" d_intensity="0.3" dbid="Pb-212_21" used="false"/>
+    <Line energy="74.969" d_energy="0.0009" intensity="1.221" d_intensity="0.07" dbid="Tl-208_17" used="false"/>
+    <Line energy="77.11" d_energy="0.00300000000000011" intensity="17.438" d_intensity="0.5" dbid="Pb-212_22" used="false"/>
+    <Line energy="84.373" d_energy="0.003" intensity="1.216" d_intensity="0.2" dbid="Th-228_16" used="false"/>
+    <Line energy="87.3" d_energy="0" intensity="7.782" d_intensity="0.25" dbid="Tl-208_21" used="false"/>
+    <Line energy="238.632" d_energy="0.002" intensity="44.6" d_intensity="1" dbid="Pb-212_35"/>
+    <Line energy="240.987" d_energy="0.006" intensity="3.95" d_intensity="0.13" dbid="Ra-224_25" used="false"/>
+    <Line energy="277.358" d_energy="0.0129999999999768" intensity="2.26" d_intensity="0.09" dbid="Tl-208_28" used="false"/>
+    <Line energy="300.087" d_energy="0.01" intensity="3.268" d_intensity="0.03" dbid="Pb-212_36"/>
+    <Line energy="510.74" d_energy="0.1" intensity="8.094" d_intensity="0.3" dbid="Tl-208_30" used="false"/>
+    <Line energy="583.191" d_energy="0.0040000000000191" intensity="30.4" d_intensity="0.4" dbid="Tl-208_32"/>
+    <Line energy="727.33" d_energy="0.009" intensity="6.63" d_intensity="0.07" dbid="Bi-212_52"/>
+    <Line energy="785.37" d_energy="0.08" intensity="1.098" d_intensity="0.013" dbid="Bi-212_54" used="false"/>
+    <Line energy="860.564" d_energy="0.00699999999994816" intensity="4.4" d_intensity="0.2" dbid="Tl-208_48" used="false"/>
+    <Line energy="1620.5" d_energy="0.1" intensity="1.485" d_intensity="0.04" dbid="Bi-212_61"/>
+    <Line energy="2614.533" d_energy="0.0219999999999345" intensity="35.84" d_intensity="0.08" dbid="Tl-208_69"/>
+  </Nuclide>
+</Library>

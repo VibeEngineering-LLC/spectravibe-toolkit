@@ -1,0 +1,91 @@
+[УДС-ГЦ-63х63-USB №SN-01;Маринелли;Th232_420-7-17]
+EfficiencyVersion=1.7.11918
+Date=05-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Маринелли
+Volume,ml=1000
+Density,g/cm3=1.6
+Material={"Name":"ОИСН-16","Ro":1.6,"Compound":[{"1":0.022},{"6":0.206},{"7":0.009},{"8":0.049},{"26":0.714}]}
+Thick,mm=31
+DThick,mm=2
+Layers={"Layers":[{"Material_RU":"ОИСН-16","Material_EN":"OISN-16","Ro":1.6,"Width":3.1,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":false}
+Height=0
+Part=whole object
+Distance,cm=0
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Th-232=3104,3,1
+238.632=4.344207E-02,3.3692,Th-232,667828.705,6798.146,43.6
+338.32=3.325384E-02,3.7757,Th-232,132139.857,2053.05,11.27
+463.004=2.750433E-02,5.2862,Th-232,42669.923,1728.668,4.4
+583.187=2.171222E-02,3.2502,Th-232,233492.05,1803.473,30.5
+911.204=1.346059E-02,5.3194,Th-232,122448.008,5032.625,25.8
+2614.511=4.713864E-03,3.2719,Th-232,59667.734,406.367,35.9
+
+[УДС-ГЦ-63х63-USB №SN-01;Маринелли;K40_420-7-21]
+EfficiencyVersion=1.7.11918
+Date=05-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Маринелли
+Volume,ml=1000
+Density,g/cm3=1.55
+Material={"Name":"ОИСН-16","Ro":1.6,"Compound":[{"1":0.022},{"6":0.206},{"7":0.009},{"8":0.049},{"26":0.714}]}
+Thick,mm=31
+DThick,mm=2
+Layers={"Layers":[{"Material_RU":"ОИСН-16","Material_EN":"OISN-16","Ro":1.6,"Width":3.1,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":false}
+Height=0
+Part=whole object
+Distance,cm=0
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+K-40=3022.5,3,1
+1460.822=9.742536E-03,3.5411,K-40,21388.942,177.443,10.66
+
+[УДС-ГЦ-63х63-USB №SN-01;Маринелли;Cs137_420-7-15]
+EfficiencyVersion=1.7.11918
+Date=05-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Маринелли
+Volume,ml=1000
+Density,g/cm3=1.66
+Material={"Name":"ОИСН-16","Ro":1.6,"Compound":[{"1":0.022},{"6":0.206},{"7":0.009},{"8":0.049},{"26":0.714}]}
+Thick,mm=31
+DThick,mm=2
+Layers={"Layers":[{"Material_RU":"ОИСН-16","Material_EN":"OISN-16","Ro":1.6,"Width":3.1,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":false}
+Height=0
+Part=whole object
+Distance,cm=0
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Cs-137=2739,2.5,1
+661.657=1.8713E-02,2.5549,Cs-137,327437.742,1562.221,85.13
+
+[УДС-ГЦ-63х63-USB №SN-01;Маринелли;Ra226_420-7-19]
+EfficiencyVersion=1.7.11918
+Date=05-11-2024
+Detector=УДС-ГЦ-63х63-USB №SN-01
+Geometry=Маринелли
+Volume,ml=1000
+Density,g/cm3=1.67
+Material={"Name":"ОИСН-16","Ro":1.6,"Compound":[{"1":0.022},{"6":0.206},{"7":0.009},{"8":0.049},{"26":0.714}]}
+Thick,mm=31
+DThick,mm=2
+Layers={"Layers":[{"Material_RU":"ОИСН-16","Material_EN":"OISN-16","Ro":1.6,"Width":3.1,"dWidth":0,"Enable":true,"Distributed":true}],"Enable":false}
+Height=0
+Part=whole object
+Distance,cm=0
+DistanceUncert,cm=0
+DistanceCorrection=1
+CorrectionFile=
+Ra-226=2989.3,3,1
+241.995=5.053376E-02,3.5656,Ra-226,63201.016,1054.022,7.25
+295.223=3.246181E-02,3.9733,Ra-226,103149.445,2467.617,18.42
+351.932=3.228445E-02,3.4362,Ra-226,198265.831,2464.152,35.6
+609.32=1.982829E-02,3.0868,Ra-226,155598.598,989.798,45.49
+768.36=1.633088E-02,4.3307,Ra-226,13787.265,429.494,4.894
+1120.294=1.374746E-02,3.341,Ra-226,35383.082,515.408,14.92
+1764.491=8.106329E-03,3.5062,Ra-226,21395.386,385.988,15.3
+

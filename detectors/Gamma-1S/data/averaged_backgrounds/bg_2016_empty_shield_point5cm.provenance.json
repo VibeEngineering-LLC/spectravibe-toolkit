@@ -1,0 +1,93 @@
+{
+  "module": "gamma.io.average_lsrm.average_lsrm_spectra",
+  "version_introduced": "v1.7.21 (F-43); cumulative detection F-44 (v1.7.22)",
+  "aggregation_mode": "cumulative_last",
+  "n_inputs": 15,
+  "source_files": [
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_01.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_02.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_03.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_04.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_05.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_06.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_07.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_08.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_09.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_10.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_11.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_12.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_13.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_14.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2016\\фон пустая защита\\фон пустая защита_15.spe"
+  ],
+  "input_live_times_s": [
+    3600.001,
+    7200.001,
+    10800.002,
+    14400.003,
+    18000.005,
+    21600.006,
+    25200.007,
+    28800.009,
+    32400.01,
+    36000.011,
+    39600.013,
+    43200.014,
+    46800.015,
+    50400.016,
+    54000.017
+  ],
+  "input_real_times_s": [
+    3601.328,
+    7202.655,
+    10803.984,
+    14405.312,
+    18006.639,
+    21607.968,
+    25209.296,
+    28810.623,
+    32411.951,
+    36013.279,
+    39614.607,
+    43215.934,
+    46817.262,
+    50418.589,
+    54019.917
+  ],
+  "total_live_time_s": 54000.017,
+  "total_real_time_s": 54019.917,
+  "sigma_reduction_factor": 1.0,
+  "cumulative_detection": {
+    "is_cumulative": true,
+    "same_start_datetime": true,
+    "live_time_progression_ok": true,
+    "t_unit_seconds": 3600.001,
+    "longest_idx": 14,
+    "max_relative_deviation": 1.3888885033694807e-07
+  },
+  "cumulative_policy_requested": "auto",
+  "calibration": {
+    "reference_cal": [
+      -25.81408,
+      2.990863
+    ],
+    "calibration_check_skipped": "cumulative_last uses one input file; calibration agreement of others not required",
+    "channel_length_check_skipped": "cumulative_last uses one input file; channel length of others not required"
+  },
+  "identity": {
+    "detector_id": "УДС-ГЦ-63х63-USB №SN-01",
+    "geometry": "Точечная-5см",
+    "n_inputs": 15
+  },
+  "rel_gain_tolerance_applied": 0.005,
+  "abs_offset_tolerance_applied_keV": 2.0,
+  "require_same_detector": true,
+  "require_same_geometry": true,
+  "comment": "Background archive entry, context=2016_empty_shield, geometry=Точечная-5см, N=15 (2016 empty shielding bg (for Дента / Чашка-60 / Точечная-5см sample geometries))",
+  "pair_with_geometries": [
+    "Дента-120мл",
+    "Чашка Петри 60мл",
+    "Точечная-5см"
+  ],
+  "context_description": "2016 empty shielding bg (for Дента / Чашка-60 / Точечная-5см sample geometries)"
+}

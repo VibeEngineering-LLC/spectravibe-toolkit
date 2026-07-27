@@ -1,0 +1,215 @@
+{
+  "class": "Simple_HPGe",
+  "entries": [
+    {
+      "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Ba133_10cm.spe",
+      "xml": "Work/Simple/HPGe(Demo)/SPE/10cm/Ba133_10cm.xml",
+      "is_background": false,
+      "sample_id": "Ba133_10cm",
+      "passport_raw": "Ba-133 A=92700 Бк на 13.04.2002, ОСГИ-936, расст=10см,  диапазон 2МэВ",
+      "passport": null,
+      "detector": "BSI-10%",
+      "daq_config": "HPGe(Demo)",
+      "geometry": "point-10cm",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3540.1,
+      "real_time_s": 3600.0,
+      "channels": 8191,
+      "energy_cal": [
+        2.210846,
+        0.2410369,
+        4.11642e-08,
+        -1.5e-12
+      ],
+      "background_spe": "Фон_2MeV.spe"
+    },
+    {
+      "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Co60_10cm.spe",
+      "xml": "Work/Simple/HPGe(Demo)/SPE/10cm/Co60_10cm.xml",
+      "is_background": false,
+      "sample_id": "Co60_10cm",
+      "passport_raw": "Co-60 A=105000 Бк на 13.04.2002, ОСГИ-936, расст=10см,  диапазон 2МэВ",
+      "passport": null,
+      "detector": "BSI-10%",
+      "daq_config": "HPGe(Demo)",
+      "geometry": "point-10cm",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3479.0,
+      "real_time_s": 3600.0,
+      "channels": 8191,
+      "energy_cal": [
+        2.210846,
+        0.2410369,
+        4.11642e-08,
+        -1.5e-12
+      ],
+      "background_spe": "Фон_2MeV.spe"
+    },
+    {
+      "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Eu152_10cm-BadCalibration.spe",
+      "xml": "Work/Simple/HPGe(Demo)/SPE/10cm/Eu152_10cm-BadCalibration.xml",
+      "is_background": false,
+      "sample_id": "Eu152_10cm",
+      "passport_raw": "Eu152 A=84400 Бк на 13.04.2002, ОСГИ-968, расст=10см,  диапазон 2МэВ(Sum/T =   661.27 Sum*I/T = 848562.82)",
+      "passport": null,
+      "detector": "BSI-10%",
+      "daq_config": "HPGe(Demo)",
+      "geometry": "point-10cm",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3518.1,
+      "real_time_s": 3600.0,
+      "channels": 8191,
+      "energy_cal": [
+        23.67898,
+        0.2343585
+      ],
+      "background_spe": "Фон_2MeV.spe"
+    },
+    {
+      "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Eu152_10cm.spe",
+      "xml": "Work/Simple/HPGe(Demo)/SPE/10cm/Eu152_10cm.xml",
+      "is_background": false,
+      "sample_id": "Eu152_10cm",
+      "passport_raw": "Eu152 A=84400 Бк на 13.04.2002, ОСГИ-968, расст=10см,  диапазон 2МэВ(Sum/T =   661.27 Sum*I/T = 848562.82)",
+      "passport": null,
+      "detector": "BSI-10%",
+      "daq_config": "HPGe(Demo)",
+      "geometry": "point-10cm",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3518.1,
+      "real_time_s": 3600.0,
+      "channels": 8191,
+      "energy_cal": [
+        2.210846,
+        0.2410369,
+        4.11642e-08,
+        -1.5e-12
+      ],
+      "background_spe": "Фон_2MeV.spe"
+    },
+    {
+      "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Na22_10cm.spe",
+      "xml": "Work/Simple/HPGe(Demo)/SPE/10cm/Na22_10cm.xml",
+      "is_background": false,
+      "sample_id": "Na22_10cm",
+      "passport_raw": "Na-22 A=19000 Бк на 02.04.2004, ОСГИ-765, расст=10см,  диапазон 2МэВ",
+      "passport": null,
+      "detector": "BSI-10%",
+      "daq_config": "HPGe(Demo)",
+      "geometry": "point-10cm",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3560.8,
+      "real_time_s": 3600.0,
+      "channels": 8191,
+      "energy_cal": [
+        2.210846,
+        0.2410369,
+        4.11642e-08,
+        -1.5e-12
+      ],
+      "background_spe": "Фон_2MeV.spe"
+    },
+    {
+      "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Th228_10cm.spe",
+      "xml": "Work/Simple/HPGe(Demo)/SPE/10cm/Th228_10cm.xml",
+      "is_background": false,
+      "sample_id": "Th228_10cm",
+      "passport_raw": "Th-228 A=29600 Бк на 04.06.2003, ОСГИ-3515, расст=10см,  диапазон 2МэВ",
+      "passport": null,
+      "detector": "BSI-10%",
+      "daq_config": "HPGe(Demo)",
+      "geometry": "point-10cm",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3566.9,
+      "real_time_s": 3600.0,
+      "channels": 8191,
+      "energy_cal": [
+        2.035946,
+        0.2410621,
+        1.571797e-08
+      ],
+      "background_spe": "Фон_2MeV.spe"
+    },
+    {
+      "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Ti44_10cm.spe",
+      "xml": "Work/Simple/HPGe(Demo)/SPE/10cm/Ti44_10cm.xml",
+      "is_background": false,
+      "sample_id": "Ti44_10cm",
+      "passport_raw": "Ti-44 A=10000 Бк на 02.04.2004, ОСГИ-250, расст=10см,  диапазон 2МэВ",
+      "passport": null,
+      "detector": "BSI-10%",
+      "daq_config": "HPGe(Demo)",
+      "geometry": "point-10cm",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3574.9,
+      "real_time_s": 3600.0,
+      "channels": 8191,
+      "energy_cal": [
+        2.210846,
+        0.2410369,
+        4.11642e-08,
+        -1.5e-12
+      ],
+      "background_spe": "Фон_2MeV.spe"
+    },
+    {
+      "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Y88_10cm.spe",
+      "xml": "Work/Simple/HPGe(Demo)/SPE/10cm/Y88_10cm.xml",
+      "is_background": false,
+      "sample_id": "Y88_10cm",
+      "passport_raw": "Y-88 A=326700 Бк на 01.12.2003, ОСГИ-3833, расст=10cм,  диапазон 2МэВ",
+      "passport": null,
+      "detector": "BSI-10%",
+      "daq_config": "HPGe(Demo)",
+      "geometry": "point-10cm",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3453.7,
+      "real_time_s": 3600.0,
+      "channels": 8191,
+      "energy_cal": [
+        2.210846,
+        0.2410369,
+        4.11642e-08,
+        -1.5e-12
+      ],
+      "background_spe": "Фон_2MeV.spe"
+    },
+    {
+      "spe": "Work/Simple/HPGe(Demo)/SPE/Фон_2MeV.spe",
+      "xml": "Work/Simple/HPGe(Demo)/SPE/Фон_2MeV.xml",
+      "is_background": true,
+      "sample_id": "Фон_2MeV",
+      "passport_raw": "Фон,  диапазон 2МэВ",
+      "passport": null,
+      "detector": "BSI-10%",
+      "daq_config": "HPGe(Demo)",
+      "geometry": "point-10cm",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 55476.8,
+      "real_time_s": 55482.1,
+      "channels": 8191,
+      "energy_cal": [
+        2.652196,
+        0.2405198,
+        1.798957e-07,
+        -1.283e-11
+      ],
+      "background_spe": null
+    }
+  ],
+  "scrubbed": 3,
+  "failed": [],
+  "xml_skipped_bulk": 0,
+  "backgrounds": [
+    "Фон_2MeV.spe"
+  ]
+}

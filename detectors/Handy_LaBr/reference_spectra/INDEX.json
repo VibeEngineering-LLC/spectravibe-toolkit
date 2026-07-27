@@ -1,0 +1,1100 @@
+{
+  "class": "Handy_LaBr",
+  "entries": [
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Am241_#14-05_24sm.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Am241_#14-05_24sm.xml",
+      "is_background": false,
+      "sample_id": "Am241_#14-05_24sm",
+      "passport_raw": "A=100000 Bq dA=3% 06-06-2005",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T12:48:40",
+      "live_time_s": 3600.0,
+      "real_time_s": 3602.59,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Ba133_#SRC-13_24sm.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Ba133_#SRC-13_24sm.xml",
+      "is_background": false,
+      "sample_id": "Ba133_#SRC-13_24sm",
+      "passport_raw": "A=92700 Bq dA=3% 13-04-2002",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-04T10:32:23",
+      "live_time_s": 3600.0,
+      "real_time_s": 3603.53,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Background_1.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Background_1.xml",
+      "is_background": true,
+      "sample_id": "Background_1",
+      "passport_raw": "Background",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 3600.0,
+      "real_time_s": 3602.29,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Background_10.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Background_10.xml",
+      "is_background": true,
+      "sample_id": "Background_10",
+      "passport_raw": "Background",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 36000.01,
+      "real_time_s": 36022.86,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Background_2.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Background_2.xml",
+      "is_background": true,
+      "sample_id": "Background_2",
+      "passport_raw": "Background",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 7200.0,
+      "real_time_s": 7204.58,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Background_3.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Background_3.xml",
+      "is_background": true,
+      "sample_id": "Background_3",
+      "passport_raw": "Background",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 10800.0,
+      "real_time_s": 10806.86,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Background_4.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Background_4.xml",
+      "is_background": true,
+      "sample_id": "Background_4",
+      "passport_raw": "Фон без защиты",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 14400.0,
+      "real_time_s": 14409.15,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Background_5.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Background_5.xml",
+      "is_background": true,
+      "sample_id": "Background_5",
+      "passport_raw": "Background",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 18000.01,
+      "real_time_s": 18011.44,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Bckg_10.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Bckg_10.xml",
+      "is_background": true,
+      "sample_id": "Фон без защиты_10",
+      "passport_raw": "Фон без защиты",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 36000.01,
+      "real_time_s": 36022.86,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/MarBckg_14.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/MarBckg_14.xml",
+      "is_background": true,
+      "sample_id": "MarBckg_14",
+      "passport_raw": "Background(Self)",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "0.0",
+      "measured_at": "2008-06-30T19:04:52",
+      "live_time_s": 51649.63,
+      "real_time_s": 51675.51,
+      "channels": 1024,
+      "energy_cal": [
+        -0.1766174,
+        2.783982,
+        0.0001169595,
+        -2.492554e-08
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_1.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_1.xml",
+      "is_background": true,
+      "sample_id": "Фон без защиты_1",
+      "passport_raw": "Фон без защиты",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 3600.0,
+      "real_time_s": 3602.29,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_2.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_2.xml",
+      "is_background": true,
+      "sample_id": "Фон без защиты_2",
+      "passport_raw": "Фон без защиты",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 7200.0,
+      "real_time_s": 7204.58,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_3.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_3.xml",
+      "is_background": true,
+      "sample_id": "Фон без защиты_3",
+      "passport_raw": "Фон без защиты",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 10800.0,
+      "real_time_s": 10806.86,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_4.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_4.xml",
+      "is_background": true,
+      "sample_id": "Фон без защиты_4",
+      "passport_raw": "Фон без защиты",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 14400.0,
+      "real_time_s": 14409.15,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_5.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_5.xml",
+      "is_background": true,
+      "sample_id": "Фон без защиты_5",
+      "passport_raw": "Фон без защиты",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 18000.01,
+      "real_time_s": 18011.44,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_6.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_6.xml",
+      "is_background": true,
+      "sample_id": "Фон без защиты_6",
+      "passport_raw": "Фон без защиты",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 21600.01,
+      "real_time_s": 21613.72,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_7.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_7.xml",
+      "is_background": true,
+      "sample_id": "Фон без защиты_7",
+      "passport_raw": "Фон без защиты",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 25200.01,
+      "real_time_s": 25216.01,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_8.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_8.xml",
+      "is_background": true,
+      "sample_id": "Фон без защиты_8",
+      "passport_raw": "Фон без защиты",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 28800.01,
+      "real_time_s": 28818.29,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_9.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Background/Фон без защиты_9.xml",
+      "is_background": true,
+      "sample_id": "Фон без защиты_9",
+      "passport_raw": "Фон без защиты",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "0.0",
+      "measured_at": "2008-07-02T20:57:04",
+      "live_time_s": 32400.01,
+      "real_time_s": 32420.58,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Cd109_#SRC-14_24sm.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Cd109_#SRC-14_24sm.xml",
+      "is_background": false,
+      "sample_id": "Cd109_#SRC-14_24sm",
+      "passport_raw": "Cd-109 A=348500 Bq dA=5% 27-12-2006",
+      "passport": [
+        {
+          "nuclide": "Cd-109",
+          "value": 348500.0,
+          "unit": "Bq",
+          "uncertainty_pct": 5.0,
+          "reference_date": "2006-12-27",
+          "is_specific_activity": false,
+          "raw_match": "Cd-109 A=348500 Bq dA=5% 27-12-2006"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-02T16:23:19",
+      "live_time_s": 3600.0,
+      "real_time_s": 3602.46,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_1.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_1.xml",
+      "is_background": false,
+      "sample_id": "Ce139_#SRC-15_24sm_1",
+      "passport_raw": "A=149500 Bq dA=2% 31-03-2006",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T20:03:03",
+      "live_time_s": 3600.0,
+      "real_time_s": 3602.31,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_10.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_10.xml",
+      "is_background": false,
+      "sample_id": "Ce139_#SRC-15_24sm_10",
+      "passport_raw": "A=149500 Bq dA=2% 31-03-2006",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T20:03:03",
+      "live_time_s": 36000.01,
+      "real_time_s": 36023.16,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_2.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_2.xml",
+      "is_background": false,
+      "sample_id": "Ce139_#SRC-15_24sm_2",
+      "passport_raw": "подложка для источника на расстоянии 24 cм от крышки детектора  Ce-139 A=149500 Бк dA=2% 31-03-06",
+      "passport": [
+        {
+          "nuclide": "Ce-139",
+          "value": 149500.0,
+          "unit": "Бк",
+          "uncertainty_pct": 2.0,
+          "reference_date": "2006-03-31",
+          "is_specific_activity": false,
+          "raw_match": "Ce-139 A=149500 Бк dA=2% 31-03-06"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T20:03:03",
+      "live_time_s": 7200.0,
+      "real_time_s": 7204.63,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_3.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_3.xml",
+      "is_background": false,
+      "sample_id": "Ce139_#SRC-15_24sm_3",
+      "passport_raw": "подложка для источника на расстоянии 24 cм от крышки детектора  Ce-139 A=149500 Бк dA=2% 31-03-06",
+      "passport": [
+        {
+          "nuclide": "Ce-139",
+          "value": 149500.0,
+          "unit": "Бк",
+          "uncertainty_pct": 2.0,
+          "reference_date": "2006-03-31",
+          "is_specific_activity": false,
+          "raw_match": "Ce-139 A=149500 Бк dA=2% 31-03-06"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T20:03:03",
+      "live_time_s": 10800.0,
+      "real_time_s": 10806.95,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_4.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_4.xml",
+      "is_background": false,
+      "sample_id": "Ce139_#SRC-15_24sm_4",
+      "passport_raw": "подложка для источника на расстоянии 24 cм от крышки детектора  Ce-139 A=149500 Бк dA=2% 31-03-06",
+      "passport": [
+        {
+          "nuclide": "Ce-139",
+          "value": 149500.0,
+          "unit": "Бк",
+          "uncertainty_pct": 2.0,
+          "reference_date": "2006-03-31",
+          "is_specific_activity": false,
+          "raw_match": "Ce-139 A=149500 Бк dA=2% 31-03-06"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T20:03:03",
+      "live_time_s": 14400.0,
+      "real_time_s": 14409.26,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_5.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_5.xml",
+      "is_background": false,
+      "sample_id": "Ce139_#SRC-15_24sm_5",
+      "passport_raw": "Ce-139 A=149500 Bq dA=2% 31-03-2006",
+      "passport": [
+        {
+          "nuclide": "Ce-139",
+          "value": 149500.0,
+          "unit": "Bq",
+          "uncertainty_pct": 2.0,
+          "reference_date": "2006-03-31",
+          "is_specific_activity": false,
+          "raw_match": "Ce-139 A=149500 Bq dA=2% 31-03-2006"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T20:03:03",
+      "live_time_s": 18000.01,
+      "real_time_s": 18011.58,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_6.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_6.xml",
+      "is_background": false,
+      "sample_id": "Ce139_#SRC-15_24sm_6",
+      "passport_raw": "подложка для источника на расстоянии 24 cм от крышки детектора  Ce-139 A=149500 Бк dA=2% 31-03-06",
+      "passport": [
+        {
+          "nuclide": "Ce-139",
+          "value": 149500.0,
+          "unit": "Бк",
+          "uncertainty_pct": 2.0,
+          "reference_date": "2006-03-31",
+          "is_specific_activity": false,
+          "raw_match": "Ce-139 A=149500 Бк dA=2% 31-03-06"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T20:03:03",
+      "live_time_s": 21600.01,
+      "real_time_s": 21613.9,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_7.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_7.xml",
+      "is_background": false,
+      "sample_id": "Ce139_#SRC-15_24sm_7",
+      "passport_raw": "подложка для источника на расстоянии 24 cм от крышки детектора  Ce-139 A=149500 Бк dA=2% 31-03-06",
+      "passport": [
+        {
+          "nuclide": "Ce-139",
+          "value": 149500.0,
+          "unit": "Бк",
+          "uncertainty_pct": 2.0,
+          "reference_date": "2006-03-31",
+          "is_specific_activity": false,
+          "raw_match": "Ce-139 A=149500 Бк dA=2% 31-03-06"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T20:03:03",
+      "live_time_s": 25200.01,
+      "real_time_s": 25216.21,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_8.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_8.xml",
+      "is_background": false,
+      "sample_id": "Ce139_#SRC-15_24sm_8",
+      "passport_raw": "подложка для источника на расстоянии 24 cм от крышки детектора  Ce-139 A=149500 Бк dA=2% 31-03-06",
+      "passport": [
+        {
+          "nuclide": "Ce-139",
+          "value": 149500.0,
+          "unit": "Бк",
+          "uncertainty_pct": 2.0,
+          "reference_date": "2006-03-31",
+          "is_specific_activity": false,
+          "raw_match": "Ce-139 A=149500 Бк dA=2% 31-03-06"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T20:03:03",
+      "live_time_s": 28800.01,
+      "real_time_s": 28818.53,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_9.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-15_24sm_9.xml",
+      "is_background": false,
+      "sample_id": "Ce139_#SRC-15_24sm_9",
+      "passport_raw": "подложка для источника на расстоянии 24 cм от крышки детектора  Ce-139 A=149500 Бк dA=2% 31-03-06",
+      "passport": [
+        {
+          "nuclide": "Ce-139",
+          "value": 149500.0,
+          "unit": "Бк",
+          "uncertainty_pct": 2.0,
+          "reference_date": "2006-03-31",
+          "is_specific_activity": false,
+          "raw_match": "Ce-139 A=149500 Бк dA=2% 31-03-06"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T20:03:03",
+      "live_time_s": 32400.01,
+      "real_time_s": 32420.84,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-16_24sm.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Ce139_#SRC-16_24sm.xml",
+      "is_background": false,
+      "sample_id": "Ce139_#SRC-16_24sm",
+      "passport_raw": "подложка для источника на расстоянии 1 мм от крышки детектора #SRC-16 Ce-139 A=350600 Бк dA=5% 01-11-2003",
+      "passport": [
+        {
+          "nuclide": "Ce-139",
+          "value": 350600.0,
+          "unit": "Бк",
+          "uncertainty_pct": 5.0,
+          "reference_date": "2003-11-01",
+          "is_specific_activity": false,
+          "raw_match": "Ce-139 A=350600 Бк dA=5% 01-11-2003"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "УДС-ГЦА-В380",
+      "geometry": "Точечная",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T09:43:30",
+      "live_time_s": 2364.41,
+      "real_time_s": 2365.91,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Co57_#SRC-15_24sm.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Co57_#SRC-15_24sm.xml",
+      "is_background": false,
+      "sample_id": "Co57_#SRC-15_24sm",
+      "passport_raw": "A=230500 Bq dA=2% 31-03-2006",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-02T17:47:21",
+      "live_time_s": 1800.0,
+      "real_time_s": 1801.31,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Co60_#SRC-13_24sm.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Co60_#SRC-13_24sm.xml",
+      "is_background": false,
+      "sample_id": "Co60_#SRC-13_24sm",
+      "passport_raw": "A=105000 Bq dA=3% 13-04-2002",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T18:43:31",
+      "live_time_s": 1800.0,
+      "real_time_s": 1801.55,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Cs137_#SRC-13_24sm.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Cs137_#SRC-13_24sm.xml",
+      "is_background": false,
+      "sample_id": "Cs137_#SRC-13_24sm",
+      "passport_raw": "Cs-137 A=98950 Bq dA=3% 13-04-2002",
+      "passport": [
+        {
+          "nuclide": "Cs-137",
+          "value": 98950.0,
+          "unit": "Bq",
+          "uncertainty_pct": 3.0,
+          "reference_date": "2002-04-13",
+          "is_specific_activity": false,
+          "raw_match": "Cs-137 A=98950 Bq dA=3% 13-04-2002"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T12:14:00",
+      "live_time_s": 1800.0,
+      "real_time_s": 1801.54,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Eu152_#SRC-13_24sm.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Eu152_#SRC-13_24sm.xml",
+      "is_background": false,
+      "sample_id": "Eu152_#SRC-13_24sm",
+      "passport_raw": "A=84400 Bq dA=3% 13-04-2002",
+      "passport": null,
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "26.0",
+      "measured_at": "2008-07-04T13:01:27",
+      "live_time_s": 3600.0,
+      "real_time_s": 3603.58,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Mn54_#SRC-15_24sm.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Mn54_#SRC-15_24sm.xml",
+      "is_background": false,
+      "sample_id": "Mn54_#SRC-15_24sm",
+      "passport_raw": "Mn-54 A=210000 Bq dA=2% 31-03-2006",
+      "passport": [
+        {
+          "nuclide": "Mn-54",
+          "value": 210000.0,
+          "unit": "Bq",
+          "uncertainty_pct": 2.0,
+          "reference_date": "2006-03-31",
+          "is_specific_activity": false,
+          "raw_match": "Mn-54 A=210000 Bq dA=2% 31-03-2006"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-02T18:38:27",
+      "live_time_s": 1800.0,
+      "real_time_s": 1801.31,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Na22_#SRC-15_24sm.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Na22_#SRC-15_24sm.xml",
+      "is_background": false,
+      "sample_id": "Na22_#SRC-15_24sm",
+      "passport_raw": "Na-22 A=119700 Bq dA=2% 31-03-2006",
+      "passport": [
+        {
+          "nuclide": "Na-22",
+          "value": 119700.0,
+          "unit": "Bq",
+          "uncertainty_pct": 2.0,
+          "reference_date": "2006-03-31",
+          "is_specific_activity": false,
+          "raw_match": "Na-22 A=119700 Bq dA=2% 31-03-2006"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-02T19:37:18",
+      "live_time_s": 1800.0,
+      "real_time_s": 1802.18,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Na22_#SRC-13_24sm.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Na22_#SRC-13_24sm.xml",
+      "is_background": false,
+      "sample_id": "Na22_#SRC-13_24sm",
+      "passport_raw": "Na-22 A=42500 Bq dA=3% 13-04-2002",
+      "passport": [
+        {
+          "nuclide": "Na-22",
+          "value": 42500.0,
+          "unit": "Bq",
+          "uncertainty_pct": 3.0,
+          "reference_date": "2002-04-13",
+          "is_specific_activity": false,
+          "raw_match": "Na-22 A=42500 Bq dA=3% 13-04-2002"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-04T14:11:23",
+      "live_time_s": 3600.0,
+      "real_time_s": 3602.54,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Th228_#SRC-17_24sm.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Th228_#SRC-17_24sm.xml",
+      "is_background": false,
+      "sample_id": "Th228_#SRC-17_24sm",
+      "passport_raw": "Th-228 A=28900 Bq dA=3% 17-06-2005",
+      "passport": [
+        {
+          "nuclide": "Th-228",
+          "value": 28900.0,
+          "unit": "Bq",
+          "uncertainty_pct": 3.0,
+          "reference_date": "2005-06-17",
+          "is_specific_activity": false,
+          "raw_match": "Th-228 A=28900 Bq dA=3% 17-06-2005"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T10:26:35",
+      "live_time_s": 3600.0,
+      "real_time_s": 3602.81,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Ti44_#SRC-18_24sm.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Ti44_#SRC-18_24sm.xml",
+      "is_background": false,
+      "sample_id": "Ti44_#SRC-18_24sm",
+      "passport_raw": "Ti-44 A=10000 Bq dA=2% 02-04-2004",
+      "passport": [
+        {
+          "nuclide": "Ti-44",
+          "value": 10000.0,
+          "unit": "Bq",
+          "uncertainty_pct": 2.0,
+          "reference_date": "2004-04-02",
+          "is_specific_activity": false,
+          "raw_match": "Ti-44 A=10000 Bq dA=2% 02-04-2004"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T15:35:27",
+      "live_time_s": 3600.0,
+      "real_time_s": 3602.7,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    },
+    {
+      "spe": "Work/Handy/Handy(LaBr)/Spe/Zn65_#SRC-15_24sm.spe",
+      "xml": "Work/Handy/Handy(LaBr)/Spe/Zn65_#SRC-15_24sm.xml",
+      "is_background": false,
+      "sample_id": "Zn65_#SRC-15_24sm",
+      "passport_raw": "Zn-65 A=156300 Bq dA=2% 31-03-2006",
+      "passport": [
+        {
+          "nuclide": "Zn-65",
+          "value": 156300.0,
+          "unit": "Bq",
+          "uncertainty_pct": 2.0,
+          "reference_date": "2006-03-31",
+          "is_specific_activity": false,
+          "raw_match": "Zn-65 A=156300 Bq dA=2% 31-03-2006"
+        }
+      ],
+      "detector": "BrilLanCe380",
+      "daq_config": "Handy_LaBr",
+      "geometry": "Point24",
+      "distance_cm": "24.0",
+      "measured_at": "2008-07-03T17:58:29",
+      "live_time_s": 3600.0,
+      "real_time_s": 3602.36,
+      "channels": 1024,
+      "energy_cal": [
+        -2.869587,
+        2.798792,
+        7.63124e-05
+      ],
+      "background_spe": "Background_1.spe"
+    }
+  ],
+  "scrubbed": 41,
+  "failed": [],
+  "xml_skipped_bulk": 0,
+  "backgrounds": [
+    "Background_1.spe",
+    "Background_10.spe",
+    "Background_2.spe",
+    "Background_3.spe",
+    "Background_4.spe",
+    "Background_5.spe",
+    "Bckg_10.spe",
+    "MarBckg_14.spe",
+    "Фон без защиты_1.spe",
+    "Фон без защиты_2.spe",
+    "Фон без защиты_3.spe",
+    "Фон без защиты_4.spe",
+    "Фон без защиты_5.spe",
+    "Фон без защиты_6.spe",
+    "Фон без защиты_7.spe",
+    "Фон без защиты_8.spe",
+    "Фон без защиты_9.spe"
+  ]
+}

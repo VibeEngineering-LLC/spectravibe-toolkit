@@ -1,0 +1,47 @@
+{
+  "source": "LSRM Гамма-1С, окно «Параметры пиков»",
+  "spectrum_file": "detectors/Gamma-1C/reference_spectra/reference_kits/Marinelli_1L/Th-232/Th232_420-7-17_Маринелли_0cm.spe",
+  "session_label": "Th232_420-7-17_Маринелли_0cm",
+  "captured": "2026-06-20",
+  "captured_by": "operator screenshot",
+  "decimal_separator_in_source": "comma (RU locale); here normalized to dot",
+  "columns_glossary": {
+    "n": "№ пика",
+    "channel": "Канал (LSRM channel index, float)",
+    "energy_keV": "Энергия по калибровке E(ch), кэВ",
+    "library_energy_keV": "Библиотечная энергия из базы Th-232, кэВ",
+    "energy_uncertainty_keV": "Неопр. энергии, кэВ",
+    "fwhm_keV": "ПШПВ (FWHM) пика, кэВ",
+    "fwhm_pct": "ПШПВ % (= FWHM/E × 100)",
+    "area_counts": "Площадь пика, отсчёты (вычтенный фон)",
+    "area_uncertainty_counts": "Неопр. площади, отсчёты",
+    "count_rate_cps": "Скорость счёта, отсч./с",
+    "nuclide": "Назначенный нуклид (label)",
+    "compton_max": "Максимум комптона, по шкале E (кэВ)",
+    "library_intensity_pct": "Библиотечная интенсивность линии, % выхода",
+    "backscatter_keV": "Энергия обратного рассеяния, кэВ",
+    "step_per_keV": "«Ступенька на кэВ» — наклон ступенчатой компоненты подложки"
+  },
+  "peaks": [
+    {"n":  1, "channel":  76.049, "energy_keV":  208.129, "library_energy_keV":  209.253, "energy_uncertainty_keV": 2.215, "fwhm_keV":  21.644, "fwhm_pct": 10.399, "area_counts":  82096, "area_uncertainty_counts": 9143,  "count_rate_cps":  7.23, "nuclide": "Th-232", "compton_max":   93.432, "library_intensity_pct":  3.89, "backscatter_keV": 114.697, "step_per_keV":  0.000602},
+    {"n":  2, "channel":  86.162, "energy_keV":  237.508, "library_energy_keV":  238.632, "energy_uncertainty_keV": 2.006, "fwhm_keV":  24.029, "fwhm_pct": 10.117, "area_counts": 667390, "area_uncertainty_counts": 7872,  "count_rate_cps": 58.75, "nuclide": "Th-232", "compton_max":  114.420, "library_intensity_pct": 43.6,  "backscatter_keV": 123.088, "step_per_keV":  0.000602},
+    {"n":  3, "channel": 117.128, "energy_keV":  327.625, "library_energy_keV":  328.000, "energy_uncertainty_keV": 1.576, "fwhm_keV":  29.292, "fwhm_pct":  8.941, "area_counts":  32694, "area_uncertainty_counts": 6332,  "count_rate_cps":  2.88, "nuclide": "Th-232", "compton_max":  184.074, "library_intensity_pct":  2.95, "backscatter_keV": 143.551, "step_per_keV":  0.00127},
+    {"n":  4, "channel": 120.669, "energy_keV":  337.944, "library_energy_keV":  338.320, "energy_uncertainty_keV": 1.545, "fwhm_keV":  29.881, "fwhm_pct":  8.842, "area_counts": 126533, "area_uncertainty_counts": 5658,  "count_rate_cps": 11.14, "nuclide": "Th-232", "compton_max":  192.446, "library_intensity_pct": 11.3,  "backscatter_keV": 145.498, "step_per_keV":  0.00127},
+    {"n":  5, "channel": 162.463, "energy_keV":  459.984, "library_energy_keV":  463.004, "energy_uncertainty_keV": 2.147, "fwhm_keV":  34.666, "fwhm_pct":  7.536, "area_counts":  15705, "area_uncertainty_counts": 4430,  "count_rate_cps":  1.38, "nuclide": "Th-232", "compton_max":  295.723, "library_intensity_pct":  4.4,  "backscatter_keV": 164.261, "step_per_keV":  0.00076},
+    {"n":  6, "channel": 178.780, "energy_keV":  507.747, "library_energy_keV":  510.770, "energy_uncertainty_keV": 2.260, "fwhm_keV":  36.835, "fwhm_pct":  7.255, "area_counts":  38092, "area_uncertainty_counts": 4872,  "count_rate_cps":  3.35, "nuclide": "Th-232", "compton_max":  337.776, "library_intensity_pct":  8.12, "backscatter_keV": 169.970, "step_per_keV":  0.00076},
+    {"n":  7, "channel": 203.446, "energy_keV":  580.077, "library_energy_keV":  583.187, "energy_uncertainty_keV": 1.997, "fwhm_keV":  43.116, "fwhm_pct":  7.433, "area_counts": 221297, "area_uncertainty_counts": 2810,  "count_rate_cps": 19.48, "nuclide": "Th-232", "compton_max":  402.703, "library_intensity_pct": 30.5,  "backscatter_keV": 177.374, "step_per_keV": -0.00188},
+    {"n":  8, "channel": 312.016, "energy_keV":  900.228, "library_energy_keV":  911.204, "energy_uncertainty_keV": 3.499, "fwhm_keV":  55.823, "fwhm_pct":  6.201, "area_counts": 113910, "area_uncertainty_counts": 2469,  "count_rate_cps": 10.03, "nuclide": "Th-232", "compton_max":  701.212, "library_intensity_pct": 25.8,  "backscatter_keV": 199.016, "step_per_keV": -0.00184},
+    {"n":  9, "channel": 330.078, "energy_keV":  953.774, "library_energy_keV":  964.766, "energy_uncertainty_keV": 3.698, "fwhm_keV":  58.215, "fwhm_pct":  6.104, "area_counts":  59409, "area_uncertainty_counts": 15091, "count_rate_cps":  5.2,  "nuclide": "Th-232", "compton_max":  752.257, "library_intensity_pct":  4.99, "backscatter_keV": 201.517, "step_per_keV": -0.00184},
+    {"n": 10, "channel": 331.495, "energy_keV":  957.978, "library_energy_keV":  968.971, "energy_uncertainty_keV": 3.713, "fwhm_keV":  58.402, "fwhm_pct":  6.096, "area_counts":  33763, "area_uncertainty_counts": 14869, "count_rate_cps":  3.0,  "nuclide": "Th-232", "compton_max":  756.274, "library_intensity_pct": 15.8,  "backscatter_keV": 201.704, "step_per_keV": -0.00184},
+    {"n": 11, "channel": 539.733, "energy_keV": 1581.207, "library_energy_keV": 1588.200, "energy_uncertainty_keV": 4.697, "fwhm_keV":  90.683, "fwhm_pct":  5.735, "area_counts":  20903, "area_uncertainty_counts": 1508,  "count_rate_cps":  1.84, "nuclide": "Th-232", "compton_max": 1361.249, "library_intensity_pct":  3.22, "backscatter_keV": 219.958, "step_per_keV":  0.00564},
+    {"n": 12, "channel": 550.426, "energy_keV": 1613.500, "library_energy_keV": 1620.500, "energy_uncertainty_keV": 4.672, "fwhm_keV":  92.009, "fwhm_pct":  5.702, "area_counts":    551, "area_uncertainty_counts": 4739,  "count_rate_cps":  0.05, "nuclide": "Th-232", "compton_max": 1392.928, "library_intensity_pct":  1.47, "backscatter_keV": 220.572, "step_per_keV":  0.00564},
+    {"n": 13, "channel": 553.777, "energy_keV": 1623.624, "library_energy_keV": 1630.627, "energy_uncertainty_keV": 4.663, "fwhm_keV":  92.419, "fwhm_pct":  5.692, "area_counts":   5127, "area_uncertainty_counts": 3820,  "count_rate_cps":  0.45, "nuclide": "Th-232", "compton_max": 1402.864, "library_intensity_pct":  1.51, "backscatter_keV": 220.760, "step_per_keV":  0.00564},
+    {"n": 14, "channel": 876.829, "energy_keV": 2612.857, "library_energy_keV": 2614.511, "energy_uncertainty_keV": 2.215, "fwhm_keV": 112.796, "fwhm_pct":  4.317, "area_counts":  55491, "area_uncertainty_counts": 1091,  "count_rate_cps":  4.885, "nuclide": "Th-232", "compton_max": 2380.116, "library_intensity_pct": 35.9,  "backscatter_keV": 232.741, "step_per_keV":  0.000357}
+  ],
+  "notes": [
+    "Все 14 пиков LSRM приписал к нуклиду Th-232 (видимо родительский label серии).",
+    "Линия 1581.21 и Tl-208 2614.51 — наиболее значимые для нашей валидации (полная серия Th-232 распадается через Tl-208 и Ac-228).",
+    "Поле library_intensity_pct = выход линии в распаде серии (не интенсивность в спектре).",
+    "step_per_keV кодирует асимметрию erfc-ступеньки (см. peak_zones_lsrm.json для значений ступеньки на зону)."
+  ]
+}

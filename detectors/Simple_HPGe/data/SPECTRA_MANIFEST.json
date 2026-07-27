@@ -1,0 +1,84 @@
+{
+  "_meta": {
+    "created": "2026-06-05",
+    "detector_class": "Simple_HPGe",
+    "detector_folder": "detectors/Simple_HPGe/",
+    "note": "Populated by F-300/W3. Raw spectra are operator-side only (F-115/F-150). Records are projections of the corresponding audit/_rag/SPECTRA_INDEX.json entries matched on detector_folder.",
+    "record_count": 5,
+    "schema_version": "0.2",
+    "source_index": "audit/_rag/SPECTRA_INDEX.json",
+    "source_index_schema_version": "0.2"
+  },
+  "spectra": [
+    {
+      "detector_folder": "detectors/Simple_HPGe/",
+      "geometry": "point-10cm",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Simple\\HPGe(Demo)\\SPE\\10cm\\Eu152_10cm.spe",
+      "sample_id": "Eu152_10cm",
+      "spectrum_id": "RAG-SPEC-0122",
+      "tags": [
+        "tier-B",
+        "priority-P3",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Simple_HPGe/",
+      "geometry": "point-10cm",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Simple\\HPGe(Demo)\\SPE\\10cm\\Co60_10cm.spe",
+      "sample_id": "Co60_10cm",
+      "spectrum_id": "RAG-SPEC-0262",
+      "tags": [
+        "tier-B",
+        "priority-P3",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Simple_HPGe/",
+      "geometry": "point-10cm",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Simple\\HPGe(Demo)\\SPE\\10cm\\Na22_10cm.spe",
+      "sample_id": "Na22_10cm",
+      "spectrum_id": "RAG-SPEC-0354",
+      "tags": [
+        "tier-B",
+        "priority-P3",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Simple_HPGe/",
+      "geometry": "point-10cm",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Simple\\HPGe(Demo)\\SPE\\10cm\\Eu152_10cm-BadCalibration.spe",
+      "sample_id": "Eu152_10cm",
+      "spectrum_id": "RAG-SPEC-0438",
+      "tags": [
+        "tier-B",
+        "priority-P3",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Simple_HPGe/",
+      "geometry": "point-10cm",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Simple\\HPGe(Demo)\\SPE\\10cm\\Ba133_10cm.spe",
+      "sample_id": "Ba133_10cm",
+      "spectrum_id": "RAG-SPEC-0462",
+      "tags": [
+        "tier-B",
+        "priority-P3",
+        "marinelli=false",
+        "point-source"
+      ]
+    }
+  ]
+}

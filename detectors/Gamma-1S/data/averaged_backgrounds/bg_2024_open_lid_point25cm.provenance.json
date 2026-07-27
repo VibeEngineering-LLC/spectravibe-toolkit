@@ -1,0 +1,96 @@
+{
+  "module": "gamma.io.average_lsrm.average_lsrm_spectra",
+  "version_introduced": "v1.7.21 (F-43); cumulative detection F-44 (v1.7.22)",
+  "aggregation_mode": "cumulative_last",
+  "n_inputs": 16,
+  "source_files": [
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_01.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_02.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_03.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_04.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_05.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_06.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_07.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_08.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_09.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_10.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_11.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_12.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_13.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_14.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_15.spe",
+    "<REPO>\\references\\reference_spectra\\Gamma-1C_NaI_63x63_USB_SN-01\\Поверка-2024\\Фон откр кр\\Фон отк кр_16.spe"
+  ],
+  "input_live_times_s": [
+    3599.99,
+    7199.992,
+    10799.995,
+    14399.996,
+    17999.998,
+    21600.001,
+    25200.003,
+    28800.004,
+    32400.007,
+    36000.011,
+    39600.013,
+    43200.016,
+    46800.017,
+    50400.006,
+    54000.01,
+    57600.013
+  ],
+  "input_real_times_s": [
+    3601.635,
+    7203.273,
+    10804.912,
+    14406.548,
+    18008.186,
+    21609.825,
+    25211.463,
+    28813.101,
+    32414.74,
+    36016.377,
+    39618.017,
+    43219.654,
+    46821.291,
+    50422.927,
+    54024.562,
+    57626.198
+  ],
+  "total_live_time_s": 57600.013,
+  "total_real_time_s": 57626.198,
+  "sigma_reduction_factor": 1.0,
+  "cumulative_detection": {
+    "is_cumulative": true,
+    "same_start_datetime": true,
+    "live_time_progression_ok": true,
+    "t_unit_seconds": 3599.99,
+    "longest_idx": 15,
+    "max_relative_deviation": 3.1481568931644946e-06
+  },
+  "cumulative_policy_requested": "auto",
+  "calibration": {
+    "reference_cal": [
+      -12.3739106827348,
+      2.86892671100171,
+      0.00042818526222219,
+      -3.2506e-07
+    ],
+    "calibration_check_skipped": "cumulative_last uses one input file; calibration agreement of others not required",
+    "channel_length_check_skipped": "cumulative_last uses one input file; channel length of others not required"
+  },
+  "identity": {
+    "detector_id": "УДС-ГЦ-63х63-USB №SN-01",
+    "geometry": "Точечная-25см",
+    "n_inputs": 16
+  },
+  "rel_gain_tolerance_applied": 0.005,
+  "abs_offset_tolerance_applied_keV": 2.0,
+  "require_same_detector": true,
+  "require_same_geometry": true,
+  "comment": "Background archive entry, context=2024_open_lid, geometry=Точечная-25см, N=16 (2024 open lid bg (for Точечная-25см samples; newer epoch))",
+  "pair_with_geometries": [
+    "Точечная-25см"
+  ],
+  "context_description": "2024 open lid bg (for Точечная-25см samples; newer epoch)"
+}

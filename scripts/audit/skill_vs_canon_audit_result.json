@@ -1,0 +1,4071 @@
+{
+  "checks": [
+    {
+      "check_id": "WP1",
+      "step": "principles",
+      "requirement": "no smoothing on displayed data points",
+      "patterns": [
+        {
+          "pattern": "no[_-]smooth|raw.*counts|smoothing.*off|do not smooth",
+          "file_glob": "reporting/*.py",
+          "files": [
+            {
+              "file": "reporting/json_report.py",
+              "matches": [
+                {
+                  "line": 625,
+                  "text": "# ── Helper: rough amplitude from raw spectrum counts at given energy ───────"
+                },
+                {
+                  "line": 629,
+                  "text": "raw = getattr(spec, \"counts\", None)"
+                }
+              ]
+            },
+            {
+              "file": "reporting/plots.py",
+              "matches": [
+                {
+                  "line": 13,
+                  "text": "One PNG per resolved multiplet cluster. Raw counts in the ROI,"
+                },
+                {
+                  "line": 156,
+                  "text": "# cps would divide by zero; fall back to raw counts but warn in title"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "WP2",
+      "step": "principles",
+      "requirement": "polynomial degree <= 4 (energy/FWHM/efficiency)",
+      "patterns": [
+        {
+          "pattern": "deg(ree)?\\s*<=?\\s*4|max[_-]?deg(ree)?\\s*=\\s*4|polyfit.*,\\s*4\\b",
+          "file_glob": "calibration/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "WP3",
+      "step": "principles",
+      "requirement": "deconv only for already-identified nuclides",
+      "patterns": [
+        {
+          "pattern": "identified.*only|confirmed.*nuclide|expected[_-]?components",
+          "file_glob": "peaks/deconvolve.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "WP4",
+      "step": "principles",
+      "requirement": "library-directed peak search (candidate-list-only)",
+      "patterns": [
+        {
+          "pattern": "library[_-]directed|candidate[_-]?list|targeted.*search",
+          "file_glob": "identification/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S1a",
+      "step": "1",
+      "requirement": "live & real time both required for cps",
+      "patterns": [
+        {
+          "pattern": "live_time|t_live",
+          "file_glob": "io/*.py",
+          "files": [
+            {
+              "file": "io/atomspectra_xml.py",
+              "matches": [
+                {
+                  "line": 368,
+                  "text": "live_time = _float(block.find(\"LiveTime\")) or 0.0"
+                },
+                {
+                  "line": 374,
+                  "text": "#     placeholder; live_time is not recorded and must be approximated"
+                }
+              ]
+            },
+            {
+              "file": "io/average_lsrm.py",
+              "matches": [
+                {
+                  "line": 30,
+                  "text": "monotonically increasing `live_time` proportional to (1,2,...,N)·t"
+                },
+                {
+                  "line": 88,
+                  "text": "start_datetime but live_times don't match the simple k·t_unit"
+                }
+              ]
+            },
+            {
+              "file": "io/becqmoni_xml.py",
+              "matches": [
+                {
+                  "line": 38,
+                  "text": "<LiveTime>live_time_s</LiveTime>"
+                },
+                {
+                  "line": 214,
+                  "text": "ET.SubElement(block, \"LiveTime\").text = f\"{float(spec.live_time):.6f}\""
+                }
+              ]
+            },
+            {
+              "file": "io/bg_control.py",
+              "matches": [
+                {
+                  "line": 8,
+                  "text": "3.  t_live >= min_live_time_s                 (default 600 s)"
+                },
+                {
+                  "line": 37,
+                  "text": "live_time_s : float"
+                }
+              ]
+            },
+            {
+              "file": "io/convert.py",
+              "matches": [
+                {
+                  "line": 90,
+                  "text": "f\"live={spec.live_time:.2f}s, real={spec.real_time:.2f}s)\")"
+                }
+              ]
+            },
+            {
+              "file": "io/lsrm_spe.py",
+              "matches": [
+                {
+                  "line": 161,
+                  "text": "live_time=_get_float(fields, \"TLIVE\", default=0.0),"
+                },
+                {
+                  "line": 858,
+                  "text": "- TLIVE/TREAL ← live_time / real_time (4 decimal places, dot)"
+                }
+              ]
+            },
+            {
+              "file": "io/lsrm_spe_text.py",
+              "matches": [
+                {
+                  "line": 114,
+                  "text": "live_time, real_time = 0.0, 0.0"
+                },
+                {
+                  "line": 120,
+                  "text": "live_time = float(toks[0])"
+                }
+              ]
+            },
+            {
+              "file": "io/n42_2012.py",
+              "matches": [
+                {
+                  "line": 198,
+                  "text": "live_time = _parse_duration("
+                },
+                {
+                  "line": 201,
+                  "text": "if live_time <= 0 and real_time > 0:"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "pattern": "real_time|t_real",
+          "file_glob": "io/*.py",
+          "files": [
+            {
+              "file": "io/atomspectra_xml.py",
+              "matches": [
+                {
+                  "line": 367,
+                  "text": "real_time = _float(block.find(\"MeasurementTime\")) or 0.0"
+                },
+                {
+                  "line": 381,
+                  "text": "if live_time == 0.0 and real_time > 0.0:"
+                }
+              ]
+            },
+            {
+              "file": "io/average_lsrm.py",
+              "matches": [
+                {
+                  "line": 459,
+                  "text": "total_real = float(chosen.real_time)"
+                },
+                {
+                  "line": 470,
+                  "text": "total_real = float(sum(s.real_time for s in specs))"
+                }
+              ]
+            },
+            {
+              "file": "io/becqmoni_xml.py",
+              "matches": [
+                {
+                  "line": 37,
+                  "text": "<MeasurementTime>real_time_s</MeasurementTime>"
+                },
+                {
+                  "line": 213,
+                  "text": "ET.SubElement(block, \"MeasurementTime\").text = f\"{float(spec.real_time):.4f}\""
+                }
+              ]
+            },
+            {
+              "file": "io/convert.py",
+              "matches": [
+                {
+                  "line": 90,
+                  "text": "f\"live={spec.live_time:.2f}s, real={spec.real_time:.2f}s)\")"
+                }
+              ]
+            },
+            {
+              "file": "io/lsrm_spe.py",
+              "matches": [
+                {
+                  "line": 162,
+                  "text": "real_time=_get_float(fields, \"TREAL\", default=0.0),"
+                },
+                {
+                  "line": 858,
+                  "text": "- TLIVE/TREAL ← live_time / real_time (4 decimal places, dot)"
+                }
+              ]
+            },
+            {
+              "file": "io/lsrm_spe_text.py",
+              "matches": [
+                {
+                  "line": 114,
+                  "text": "live_time, real_time = 0.0, 0.0"
+                },
+                {
+                  "line": 121,
+                  "text": "real_time = float(toks[1])"
+                }
+              ]
+            },
+            {
+              "file": "io/n42_2012.py",
+              "matches": [
+                {
+                  "line": 191,
+                  "text": "real_time = _parse_duration(_text(_first_local(meas, \"RealTimeDuration\", ns)))"
+                },
+                {
+                  "line": 201,
+                  "text": "if live_time <= 0 and real_time > 0:"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S1b",
+      "step": "1",
+      "requirement": "multi-format parsers (.spe/.chn/.n42/.mca/.txt/.csv/.spm)",
+      "patterns": [
+        {
+          "pattern": "\\.spe|\\.chn|\\.n42|\\.mca|\\.spm",
+          "file_glob": "io/*.py",
+          "files": [
+            {
+              "file": "io/atomspectra_xml.py",
+              "matches": [
+                {
+                  "line": 102,
+                  "text": "from gamma.spectrum import ("
+                }
+              ]
+            },
+            {
+              "file": "io/average_lsrm.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "F-43 (v1.7.21) / F-44 (v1.7.22) — Averaged Lsrm `.spe` background spectra."
+                },
+                {
+                  "line": 12,
+                  "text": "single long-running acquisition, files `..._01.spe` (1 h), `..._02.spe`"
+                }
+              ]
+            },
+            {
+              "file": "io/background.py",
+              "matches": [
+                {
+                  "line": 21,
+                  "text": "from gamma.spectrum import Spectrum"
+                }
+              ]
+            },
+            {
+              "file": "io/background_search.py",
+              "matches": [
+                {
+                  "line": 10,
+                  "text": "1. Собрать все `.spe` файлы в той же папке, что и sample, +"
+                },
+                {
+                  "line": 183,
+                  "text": "\"\"\"Прочитать только header LSRM .spe (без полной декодировки бинарного"
+                }
+              ]
+            },
+            {
+              "file": "io/becqmoni_xml.py",
+              "matches": [
+                {
+                  "line": 76,
+                  "text": "from gamma.spectrum import Spectrum"
+                },
+                {
+                  "line": 134,
+                  "text": "# If the upstream datetime is naive (LSRM .spe MEASBEGIN provides no TZ),"
+                }
+              ]
+            },
+            {
+              "file": "io/convert.py",
+              "matches": [
+                {
+                  "line": 15,
+                  "text": "from gamma.spectrum import Spectrum"
+                },
+                {
+                  "line": 64,
+                  "text": "# When extension is ambiguous (.spe → lsrm vs iaea, .xml → becqmoni"
+                }
+              ]
+            },
+            {
+              "file": "io/filename_hints.py",
+              "matches": [
+                {
+                  "line": 170,
+                  "text": "Use case: filenames like ``Cs137_420-7-14_Маринелли_0cm.spe`` carry"
+                }
+              ]
+            },
+            {
+              "file": "io/format_registry.py",
+              "matches": [
+                {
+                  "line": 19,
+                  "text": "from gamma.spectrum import Spectrum"
+                },
+                {
+                  "line": 29,
+                  "text": "from gamma.io.n42_2012 import read_n42_2012, write_n42_2012"
+                }
+              ]
+            },
+            {
+              "file": "io/lsrm_passport.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "\"\"\"F-330 / v1.18.18.4 — LSRM .spe COMMENT passport parser."
+                },
+                {
+                  "line": 141,
+                  "text": "\"\"\"One nuclide entry extracted from LSRM .spe COMMENT field."
+                }
+              ]
+            },
+            {
+              "file": "io/lsrm_spe.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "Lsrm SpectraLine `.spe` file reader."
+                },
+                {
+                  "line": 11,
+                  "text": "- M_cs_легкий_2001-2005.spe  (Cs-137 control source, 1023 ch, NaI Гамма-1С)"
+                }
+              ]
+            },
+            {
+              "file": "io/lsrm_spe_text.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "LSRM SpectraLine ASCII `.spe` reader and writer."
+                },
+                {
+                  "line": 5,
+                  "text": "from the **binary** LSRM `.spe` (CP-1251 KEY=VALUE header + `SPECTR=`"
+                }
+              ]
+            },
+            {
+              "file": "io/n42_2012.py",
+              "matches": [
+                {
+                  "line": 67,
+                  "text": "# SEC-01 (P1) hardening: parse untrusted .n42 content via defusedxml to block"
+                },
+                {
+                  "line": 74,
+                  "text": "from gamma.spectrum import ("
+                }
+              ]
+            },
+            {
+              "file": "io/readers.py",
+              "matches": [
+                {
+                  "line": 8,
+                  "text": ".spe  → LSRM SpectraLine (binary header + uint32-LE counts)"
+                },
+                {
+                  "line": 9,
+                  "text": ".spe  → IAEA SPE (ASCII $-section format)  ← disambiguated by content"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S1c",
+      "step": "1",
+      "requirement": "filename token parsing",
+      "patterns": [
+        {
+          "pattern": "filename.*token|parse[_-]?filename|filename[_-]hint",
+          "file_glob": "io/*.py",
+          "files": [
+            {
+              "file": "io/atomspectra_xml.py",
+              "matches": [
+                {
+                  "line": 108,
+                  "text": "from gamma.io.filename_hints import parse_filename"
+                },
+                {
+                  "line": 523,
+                  "text": "spec.filename_tokens = parse_filename(path)"
+                }
+              ]
+            },
+            {
+              "file": "io/background_search.py",
+              "matches": [
+                {
+                  "line": 17,
+                  "text": "``background``) ИЛИ `TYPE=Фон` ИЛИ `filename_tokens.is_background_hint`;"
+                },
+                {
+                  "line": 199,
+                  "text": "\"filename_tokens\": getattr(spec, \"filename_tokens\", {}) or {},"
+                }
+              ]
+            },
+            {
+              "file": "io/filename_hints.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "Filename token parsing."
+                },
+                {
+                  "line": 28,
+                  "text": "# AmTiCsEu Marinelli fixture filenames carry \"Ti44\" or \"Sc44\" tokens;"
+                }
+              ]
+            },
+            {
+              "file": "io/lsrm_spe.py",
+              "matches": [
+                {
+                  "line": 79,
+                  "text": "`gamma.io.filename_hints.parse_filename`."
+                },
+                {
+                  "line": 97,
+                  "text": "from gamma.io.filename_hints import parse_filename"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S1d",
+      "step": "1",
+      "requirement": "BG-spectrum extraction from multi-block (.spm/.n42)",
+      "patterns": [
+        {
+          "pattern": "background.*section|measurementClass|spm.*section",
+          "file_glob": "io/*.py",
+          "files": [
+            {
+              "file": "io/n42_2012.py",
+              "matches": [
+                {
+                  "line": 28,
+                  "text": "<MeasurementClassCode>Foreground</MeasurementClassCode>"
+                },
+                {
+                  "line": 51,
+                  "text": "5. `MeasurementClassCode` is one of {Background, Foreground,"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S1e",
+      "step": "1",
+      "requirement": "BG calibration independent from sample",
+      "patterns": [
+        {
+          "pattern": "bg.*independent.*cal|background.*own.*cal|recal.*background",
+          "file_glob": "calibration/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S1f",
+      "step": "1",
+      "requirement": "display: cps log no-smooth title-meta BG-overlay",
+      "patterns": [
+        {
+          "pattern": "log[_-]?scale|yaxis.*log|background.*trace|overlay.*background",
+          "file_glob": "reporting/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S2a",
+      "step": "2",
+      "requirement": "Pb K-XRF 73-87 keV check",
+      "patterns": [
+        {
+          "pattern": "73\\.0|74\\.97|84\\.4|84\\.9|87\\.3|Pb.*K[-_]?X",
+          "file_glob": "identification/*.py",
+          "files": [
+            {
+              "file": "identification/ern_set.py",
+              "matches": [
+                {
+                  "line": 68,
+                  "text": "# Th-228 (84.4 keV, I=1.22%) — dominated by Pb-XRF triplet 72.8/75.0/84.4"
+                }
+              ]
+            },
+            {
+              "file": "identification/id_anomalies.py",
+              "matches": [
+                {
+                  "line": 107,
+                  "text": "# Pb K-α₁ = 74.97 keV, K-α₂ = 72.80 keV, K-β = 84.94/87.36 keV."
+                },
+                {
+                  "line": 108,
+                  "text": "PB_FLUORESCENCE_LINES_KEV = (72.80, 74.97, 84.94, 87.36)"
+                }
+              ]
+            },
+            {
+              "file": "identification/staged_pipeline.py",
+              "matches": [
+                {
+                  "line": 1738,
+                  "text": "# промахивается из-за наложения с Pb-XR 73-90 кэВ и Th-228 84.4."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S2b",
+      "step": "2",
+      "requirement": "natural BG nuclides K40/Tl208/Ac228/Bi214/Pb212",
+      "patterns": [
+        {
+          "pattern": "K[-_]?40.*1460|Tl[-_]?208.*2614|Ac[-_]?228|Bi[-_]?214|Pb[-_]?212",
+          "file_glob": "**/*.py",
+          "files": [
+            {
+              "file": "activity/bg_lines_builder.py",
+              "matches": [
+                {
+                  "line": 6,
+                  "text": "(Tl-208, Ac-228), U-238 chain (Bi-214, Pb-214), Bi-207, Co-60 etc."
+                },
+                {
+                  "line": 52,
+                  "text": "BgLine(\"K-40\", 1460.83, 0.1066, \"K-40\", is_anchor_candidate=True),"
+                }
+              ]
+            },
+            {
+              "file": "activity/compute.py",
+              "matches": [
+                {
+                  "line": 41,
+                  "text": "For nuclides emitting γ-rays in coincidence (Tl-208 583+2614,"
+                },
+                {
+                  "line": 173,
+                  "text": "#     Ac-228 1588.20 keV blob) deposit photons in S whether or not"
+                }
+              ]
+            },
+            {
+              "file": "activity/tcs_close_geometry.py",
+              "matches": [
+                {
+                  "line": 132,
+                  "text": "# F-148 (v1.18.5) — Bi-214 cascade pairs (Ra-226 chain, U-238 series)."
+                },
+                {
+                  "line": 133,
+                  "text": "# Bi-214 → Po-214 (β⁻, 19.9 min) — dominant cascades между основными"
+                }
+              ]
+            },
+            {
+              "file": "activity/template_method.py",
+              "matches": [
+                {
+                  "line": 334,
+                  "text": "(200.0, 350.0),      # Pb-212 238, low Th line cluster"
+                },
+                {
+                  "line": 337,
+                  "text": "(580.0, 650.0),      # Tl-208 583, Bi-214 609 boundary"
+                }
+              ]
+            },
+            {
+              "file": "calibration/bootstrap.py",
+              "matches": [
+                {
+                  "line": 60,
+                  "text": "Ra-226 (легкий):  Bi-214 multi-line — correct."
+                },
+                {
+                  "line": 190,
+                  "text": "# 8-line Bi-214 pattern (priority 2) gives a much stricter ratio"
+                }
+              ]
+            },
+            {
+              "file": "calibration/multiplet_self_calibration.py",
+              "matches": [
+                {
+                  "line": 48,
+                  "text": "# часто только 2 (Pb-214 + Bi-214 ИЛИ"
+                },
+                {
+                  "line": 59,
+                  "text": "# 57 кэВ) комбинируются с дальними (Bi-214 609, 1120, 1764, 2614 и"
+                }
+              ]
+            },
+            {
+              "file": "calibration/seven_line_check.py",
+              "matches": [
+                {
+                  "line": 9,
+                  "text": "| 240     | Pb-212 (238.63) + Pb-214 (241.98) superposition | always present |"
+                },
+                {
+                  "line": 12,
+                  "text": "| 1120.29 | Bi-214 (Ra-226 chain)                           | clean          |"
+                }
+              ]
+            },
+            {
+              "file": "calibration/source_set_validator.py",
+              "matches": [
+                {
+                  "line": 15,
+                  "text": "high-energy lines (Tl-208 2614, Eu-152 1408) don't accumulate"
+                },
+                {
+                  "line": 52,
+                  "text": "(\"K-40\",   1460.8, \"NaI\"):  3600,   # K-40 4 кБк ОИСН — 1 час"
+                }
+              ]
+            },
+            {
+              "file": "calibration/stored_check.py",
+              "matches": [
+                {
+                  "line": 27,
+                  "text": "became too tight for high-energy NaI peaks (Tl-208 2614 keV has"
+                }
+              ]
+            },
+            {
+              "file": "data/chain_decomposer.py",
+              "matches": [
+                {
+                  "line": 10,
+                  "text": "• Rn-222 (T½=3.82 d, gas) escapes from Ra-226 sources → Pb-214/Bi-214"
+                },
+                {
+                  "line": 59,
+                  "text": "(609.31,  \"Bi-214\",    45.49, 1.5),   # Bi-214 main line"
+                }
+              ]
+            },
+            {
+              "file": "data/nuclide_library.py",
+              "matches": [
+                {
+                  "line": 94,
+                  "text": "• Bundle natural-chain daughters (Pb-214, Bi-214) under the"
+                },
+                {
+                  "line": 108,
+                  "text": "entries for each daughter (Pb-214, Bi-214, Tl-208,"
+                }
+              ]
+            },
+            {
+              "file": "data/targeted_libraries.py",
+              "matches": [
+                {
+                  "line": 48,
+                  "text": "\"Ra-226\", \"Pb-214\", \"Bi-214\","
+                },
+                {
+                  "line": 49,
+                  "text": "\"Th-232\", \"Tl-208\", \"Ac-228\", \"Pb-212\", \"Bi-212\","
+                }
+              ]
+            },
+            {
+              "file": "diagnostics/audit_th232_marinelli.py",
+              "matches": [
+                {
+                  "line": 8,
+                  "text": "per nuclide of the Th-232 chain (Ac-228, Pb-212, Bi-212, Tl-208, Th-228)."
+                },
+                {
+                  "line": 45,
+                  "text": "\"Ac-228\",      # 911/969/338 keV — strongest direct β decay"
+                }
+              ]
+            },
+            {
+              "file": "experimental/peak_pipeline_v2.py",
+              "matches": [
+                {
+                  "line": 206,
+                  "text": "\"Ac-228\":  [(338.32, 11.3), (911.20, 25.8), (964.77, 4.99),"
+                },
+                {
+                  "line": 210,
+                  "text": "\"Pb-212\":  [(238.63, 43.6), (300.09, 3.30)],"
+                }
+              ]
+            },
+            {
+              "file": "experimental/v2_integration.py",
+              "matches": [
+                {
+                  "line": 28,
+                  "text": "prod (для Th-232 demo: Ac-228 1835 Bq/kg → 905 Bq/kg, −51%) при том,"
+                },
+                {
+                  "line": 44,
+                  "text": "Empirical на Th-232 demo (Marinelli 1L): Ac-228 / Tl-208 prod vs V2"
+                }
+              ]
+            },
+            {
+              "file": "identification/anchor_ranks.py",
+              "matches": [
+                {
+                  "line": 11,
+                  "text": "• Pb-212 238.6 (I=43.6%) sits in a crowded 240-keV merged region"
+                },
+                {
+                  "line": 13,
+                  "text": "• Bi-214 609.3 (I=45.5%) sits in dense Compton continuum and"
+                }
+              ]
+            },
+            {
+              "file": "identification/chain_equilibrium.py",
+              "matches": [
+                {
+                  "line": 8,
+                  "text": "• Ra-226 → Rn-222 (gaseous!) → Po-218 → Pb-214 → Bi-214 → Pb-210"
+                },
+                {
+                  "line": 10,
+                  "text": "When Rn escapes, the Pb-214 / Bi-214 / Po-214 daughters that"
+                }
+              ]
+            },
+            {
+              "file": "identification/ci_thresholds.py",
+              "matches": [
+                {
+                  "line": 62,
+                  "text": "\"Th-232\": 16.6,    # full chain (Tl-208, Ac-228, Pb-212, Bi-212 ...)"
+                },
+                {
+                  "line": 63,
+                  "text": "\"Ra-226\":  9.5,    # daughter chain (Pb-214, Bi-214 ...)"
+                }
+              ]
+            },
+            {
+              "file": "identification/confidence.py",
+              "matches": [
+                {
+                  "line": 34,
+                  "text": "K-40:   CI = 2.2   (one line at 1460 keV)"
+                }
+              ]
+            },
+            {
+              "file": "identification/disambiguate.py",
+              "matches": [
+                {
+                  "line": 15,
+                  "text": "Bi-214 (609.31 keV, Ra chain). On NaI these are 4.5 keV apart vs"
+                },
+                {
+                  "line": 18,
+                  "text": "• 1115.5 keV peak: matches both Zn-65 (1115.55 keV) and Bi-214"
+                }
+              ]
+            },
+            {
+              "file": "identification/ern_set.py",
+              "matches": [
+                {
+                  "line": 8,
+                  "text": "• Th-232 chain proxies: Ac-228, Pb-212, Tl-208, Bi-212"
+                },
+                {
+                  "line": 9,
+                  "text": "• Ra-226 chain proxies: Pb-214, Bi-214, Ra-226 (186)"
+                }
+              ]
+            },
+            {
+              "file": "identification/identify.py",
+              "matches": [
+                {
+                  "line": 190,
+                  "text": "# Используется для расширения окна 238 кэВ (Pb-212) до ±2.5·FWHM"
+                }
+              ]
+            },
+            {
+              "file": "identification/residual_classifier.py",
+              "matches": [
+                {
+                  "line": 241,
+                  "text": "# Ac-228 1588 ≈ 2171 keV in Th-232 chain. Relaxed only for the"
+                },
+                {
+                  "line": 340,
+                  "text": "# совпадения (Bi-214 609 / Cs-137 662 — particularly insidious"
+                }
+              ]
+            },
+            {
+              "file": "identification/staged_pipeline.py",
+              "matches": [
+                {
+                  "line": 155,
+                  "text": "\"Th-232\", \"Tl-208\", \"Pb-212\", \"Ac-228\", \"Bi-212\", \"Th-228\", \"Ra-224\","
+                },
+                {
+                  "line": 158,
+                  "text": "\"U-238\", \"Bi-214\", \"Pb-214\", \"Pb-210\", \"Ra-226\", \"Po-214\", \"Th-234\","
+                }
+              ]
+            },
+            {
+              "file": "identification/window.py",
+              "matches": [
+                {
+                  "line": 103,
+                  "text": "#   • На high-E (Tl-208 2614) — sqrt_E даёт ~30 кэВ; FWHM"
+                }
+              ]
+            },
+            {
+              "file": "io/filename_hints.py",
+              "matches": [
+                {
+                  "line": 26,
+                  "text": "\"Tl208\", \"Pb212\", \"Ac228\", \"Bi212\", \"Bi214\", \"Pb214\", \"Pb210\","
+                },
+                {
+                  "line": 60,
+                  "text": "\"Tl208\": \"Tl-208\", \"Pb212\": \"Pb-212\", \"Ac228\": \"Ac-228\","
+                }
+              ]
+            },
+            {
+              "file": "io/lsrm_library.py",
+              "matches": [
+                {
+                  "line": 213,
+                  "text": "secular equilibrium its lines overlap Pb-212/Ac-228/Tl-208"
+                },
+                {
+                  "line": 217,
+                  "text": "its daughters (Pb-212, Bi-212, Tl-208, Ac-228) as chain"
+                }
+              ]
+            },
+            {
+              "file": "peaks/coupled_multiplet.py",
+              "matches": [
+                {
+                  "line": 176,
+                  "text": "# K-40(1461) и Tl-208(2614). Параметры подобраны эмпирически по"
+                },
+                {
+                  "line": 383,
+                  "text": "# (Ac-228 463 кэВ I=4.4% — физически intense на NaI Th-232 chain,"
+                }
+              ]
+            },
+            {
+              "file": "peaks/deconvolve.py",
+              "matches": [
+                {
+                  "line": 562,
+                  "text": "# в `coupled_intensity_fit` kwarg). Real-data: Ac-228 463 (4.4%) в Th-232"
+                },
+                {
+                  "line": 636,
+                  "text": "Без этого strong lines (Ac-228 209/270 в Th-232 M3) поглощались"
+                }
+              ]
+            },
+            {
+              "file": "peaks/search.py",
+              "matches": [
+                {
+                  "line": 29,
+                  "text": "Tl-208 2614 keV it is ≈90 channels, a 22× span that a single global"
+                }
+              ]
+            },
+            {
+              "file": "physics/bg_lines_apriori.py",
+              "matches": [
+                {
+                  "line": 74,
+                  "text": "nuclide_hint: str = \"\"        # e.g. \"K-40\", \"Tl-208\", \"Bi-214\""
+                }
+              ]
+            },
+            {
+              "file": "physics/cascade_summing.py",
+              "matches": [
+                {
+                  "line": 231,
+                  "text": "# систематически занижена → нарушение chain equilibrium (ratio Pb-212"
+                }
+              ]
+            },
+            {
+              "file": "physics/marinelli_matrix_correction.py",
+              "matches": [
+                {
+                  "line": 20,
+                  "text": "• Th-232 → Pb-212 (238 keV)      =  −11.5 %"
+                },
+                {
+                  "line": 21,
+                  "text": "• K-40 direct (1460.83 keV)      =  −12.8 %"
+                }
+              ]
+            },
+            {
+              "file": "physics/pileup.py",
+              "matches": [
+                {
+                  "line": 50,
+                  "text": "• Th-232 chain Tl-208: 583.19 + 2614.51 → 3197.70 keV"
+                },
+                {
+                  "line": 95,
+                  "text": "# Th-232 chain (Tl-208 has β-cascade through 2614 + 583)"
+                }
+              ]
+            },
+            {
+              "file": "physics/secondary_peaks.py",
+              "matches": [
+                {
+                  "line": 15,
+                  "text": "edge, not a Bi-214 503 keV line. The identification module can"
+                },
+                {
+                  "line": 21,
+                  "text": "keV is more likely a Bi-214 609 keV misidentification (especially"
+                }
+              ]
+            },
+            {
+              "file": "physics/tcs_correction.py",
+              "matches": [
+                {
+                  "line": 50,
+                  "text": "extension (Bi-214, Bi-212, Tl-208) on the same ORTEC GMX40"
+                }
+              ]
+            },
+            {
+              "file": "reporting/build.py",
+              "matches": [
+                {
+                  "line": 559,
+                  "text": "#   • Th-232 → Pb-212 (1:1, прямая equilibrium); Ac-228 (1:1);"
+                },
+                {
+                  "line": 561,
+                  "text": "#   • U-238 / Ra-226 → Bi-214 (1:1); Pb-214 (1:1)"
+                }
+              ]
+            },
+            {
+              "file": "reporting/chat_summary.py",
+              "matches": [
+                {
+                  "line": 23,
+                  "text": "_MDA_HIGHLIGHT_NUCLIDES = [\"Cs-137\", \"Co-60\", \"K-40\", \"Bi-214\", \"Tl-208\", \"Ac-228\"]"
+                },
+                {
+                  "line": 120,
+                  "text": "\"\"\"F-88/F-89d — surface chain dominance + K-40/Ac-228 overlap warning +"
+                }
+              ]
+            },
+            {
+              "file": "reporting/environment.py",
+              "matches": [
+                {
+                  "line": 17,
+                  "text": "3. Strength of ЕРН lines (K-40 1460, Tl-208 2614, Bi-214 1764) — these"
+                },
+                {
+                  "line": 119,
+                  "text": "ern_nuclides = {\"K-40\", \"Tl-208\", \"Bi-214\", \"Ac-228\", \"Pb-212\", \"Pb-214\"}"
+                }
+              ]
+            },
+            {
+              "file": "reporting/html_report.py",
+              "matches": [
+                {
+                  "line": 373,
+                  "text": "k40_warn = bool(diag.get(\"k40_ac228_overlap_warning\"))"
+                },
+                {
+                  "line": 441,
+                  "text": "\"<strong>⚠ K-40 / Ac-228 overlap warning (F-88)</strong><br/>\""
+                }
+              ]
+            },
+            {
+              "file": "reporting/interactive_html.py",
+              "matches": [
+                {
+                  "line": 59,
+                  "text": "\"Tl-208\", \"Pb-212\", \"Ac-228\", \"Bi-212\", \"Th-228\", \"Th-232\","
+                },
+                {
+                  "line": 63,
+                  "text": "\"Pb-214\", \"Bi-214\", \"Pb-210\", \"Bi-210\", \"Po-214\", \"Po-218\","
+                }
+              ]
+            },
+            {
+              "file": "reporting/json_report.py",
+              "matches": [
+                {
+                  "line": 1128,
+                  "text": "\"k40_ac228_overlap_warning\": bool(result.k40_ac228_overlap_warning),"
+                },
+                {
+                  "line": 1488,
+                  "text": "Tl-208  2614  — самый интенсивный плечо на NaI; SE=2103, DE=1592"
+                }
+              ]
+            },
+            {
+              "file": "reporting/markdown_report.py",
+              "matches": [
+                {
+                  "line": 312,
+                  "text": "k40_warn = bool(diag.get(\"k40_ac228_overlap_warning\"))"
+                },
+                {
+                  "line": 375,
+                  "text": "out.append(\"> ПРЕДУПРЕЖДЕНИЕ: наложение K-40 / Ac-228 (F-88)\")"
+                }
+              ]
+            },
+            {
+              "file": "identification/tests/test_f116_dual_chain.py",
+              "matches": [
+                {
+                  "line": 10,
+                  "text": "background), only the Th set was used → U-cycle members (Bi-214, Pb-214,"
+                },
+                {
+                  "line": 16,
+                  "text": "1. Th-only DOMINANT  → Bi-214 (U-cycle, no strong confirm) SUPPRESSED."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S2c",
+      "step": "2",
+      "requirement": "continuum-level diagnostic",
+      "patterns": [
+        {
+          "pattern": "continuum.*level|bg.*cps.*total|baseline.*cps",
+          "file_glob": "calibration/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S2d",
+      "step": "2",
+      "requirement": "environment classification at top of report",
+      "patterns": [
+        {
+          "pattern": "low[_-]?background|shielded|natural[_-]?background|environment.*classif",
+          "file_glob": "**/*.py",
+          "files": [
+            {
+              "file": "calibration/bootstrap.py",
+              "matches": [
+                {
+                  "line": 206,
+                  "text": "\"(insufficient natural-background or calibration lines)\","
+                }
+              ]
+            },
+            {
+              "file": "calibration/calibration_gate.py",
+              "matches": [
+                {
+                  "line": 171,
+                  "text": "(1460.822, \"K-40\",   \"LNHB\"),     # natural-background γ; Gilmore Table 1.1"
+                }
+              ]
+            },
+            {
+              "file": "calibration/stored_check.py",
+              "matches": [
+                {
+                  "line": 30,
+                  "text": "Tl-208 now matches consistently on natural-background spectra."
+                }
+              ]
+            },
+            {
+              "file": "identification/chain_equilibrium.py",
+              "matches": [
+                {
+                  "line": 27,
+                  "text": "46.5 keV line seen in low-background spectra is usually from"
+                },
+                {
+                  "line": 185,
+                  "text": "\"its source in low-background spectra is typically \""
+                }
+              ]
+            },
+            {
+              "file": "identification/ern_set.py",
+              "matches": [
+                {
+                  "line": 159,
+                  "text": "# on a natural-background spectrum. Used by the staged orchestrator for"
+                }
+              ]
+            },
+            {
+              "file": "identification/id_anomalies.py",
+              "matches": [
+                {
+                  "line": 10,
+                  "text": "shielded geometry due to cosmic-ray pair production interacting"
+                },
+                {
+                  "line": 39,
+                  "text": "- Gilmore & Joss §11 (X-ray fluorescence in shielded chambers)"
+                }
+              ]
+            },
+            {
+              "file": "identification/staged_pipeline.py",
+              "matches": [
+                {
+                  "line": 164,
+                  "text": "\"K-40\",  # 1460.82 keV; primordial, present in all natural-background spectra"
+                },
+                {
+                  "line": 1990,
+                  "text": "# U-238 (типичный natural-background сценарий) выбиралась только"
+                }
+              ]
+            },
+            {
+              "file": "physics/secondary_peaks.py",
+              "matches": [
+                {
+                  "line": 190,
+                  "text": "\"natural-background K-40\"))"
+                }
+              ]
+            },
+            {
+              "file": "reporting/environment.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "Measurement-environment classifier (Step 2 of SKILL.md, surfaced by the"
+                },
+                {
+                  "line": 7,
+                  "text": "* **low_background** (shielded castle): Pb K-XRF at 73–87 keV present,"
+                }
+              ]
+            },
+            {
+              "file": "reporting/json_report.py",
+              "matches": [
+                {
+                  "line": 19,
+                  "text": "from gamma.reporting.environment import classify_environment"
+                },
+                {
+                  "line": 1104,
+                  "text": "\"measurement_environment\": classify_environment(result),"
+                }
+              ]
+            },
+            {
+              "file": "reporting/markdown_report.py",
+              "matches": [
+                {
+                  "line": 173,
+                  "text": "\"low_background\": \"низкий фон\","
+                }
+              ]
+            },
+            {
+              "file": "reporting/technical_pdf.py",
+              "matches": [
+                {
+                  "line": 299,
+                  "text": "\"low_background\": \"низкофоновый домик\","
+                }
+              ]
+            },
+            {
+              "file": "reporting/__init__.py",
+              "matches": [
+                {
+                  "line": 37,
+                  "text": "Environment classifier:"
+                },
+                {
+                  "line": 39,
+                  "text": "* `classify_environment(result)` — \"natural\" / \"low_background\" /"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S3a",
+      "step": "3",
+      "requirement": "Mariscotti 2nd-derivative search in CHANNEL space",
+      "patterns": [
+        {
+          "pattern": "mariscotti|second[_-]?derivative|2nd[_-]?deriv",
+          "file_glob": "peaks/*.py",
+          "files": [
+            {
+              "file": "peaks/convolution_search.py",
+              "matches": [
+                {
+                  "line": 13,
+                  "text": "§9.3) и работает несколько иначе, чем Mariscotti second-derivative:"
+                },
+                {
+                  "line": 15,
+                  "text": "• Mariscotti чувствителен к «горбу» — реагирует на ВТОРУЮ"
+                }
+              ]
+            },
+            {
+              "file": "peaks/search.py",
+              "matches": [
+                {
+                  "line": 4,
+                  "text": "Implements the Mariscotti (1967) second-derivative-of-Gaussian filter,"
+                },
+                {
+                  "line": 35,
+                  "text": "convolved with the Mariscotti filter at its band-local FWHM, then the"
+                }
+              ]
+            },
+            {
+              "file": "peaks/__init__.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "from gamma.peaks.search import FoundPeak, mariscotti_search, estimate_fwhm_at_peak"
+                },
+                {
+                  "line": 13,
+                  "text": "\"FoundPeak\", \"mariscotti_search\", \"estimate_fwhm_at_peak\","
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S3b",
+      "step": "3",
+      "requirement": "Currie L_C threshold with k_alpha 1.645",
+      "patterns": [
+        {
+          "pattern": "1\\.645|k[_-]?alpha|Currie|L[_-]?C\\b",
+          "file_glob": "peaks/*.py",
+          "files": [
+            {
+              "file": "peaks/convolution_search.py",
+              "matches": [
+                {
+                  "line": 116,
+                  "text": "5. Currie significance: significance = (R − B) / √(B·Σg²),"
+                }
+              ]
+            },
+            {
+              "file": "peaks/deconvolve.py",
+              "matches": [
+                {
+                  "line": 642,
+                  "text": "5.21 — Currie's L_C variant из net area + variance). Используется"
+                },
+                {
+                  "line": 644,
+                  "text": "2. ``significance_currie`` — Currie L_C-style значимость S/sqrt(B) из peak"
+                }
+              ]
+            },
+            {
+              "file": "peaks/search.py",
+              "matches": [
+                {
+                  "line": 5,
+                  "text": "extended with the Currie L_C significance test for selecting genuine"
+                },
+                {
+                  "line": 47,
+                  "text": "- Currie L.A., Anal. Chem. 40 (1968) 586"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S3c",
+      "step": "3",
+      "requirement": "rough FWHM 5-20 ch HPGe / 30-100 ch scint",
+      "patterns": [
+        {
+          "pattern": "fwhm.*ch.*\\d+|rough.*fwhm|expected.*fwhm.*ch",
+          "file_glob": "peaks/*.py",
+          "files": [
+            {
+              "file": "peaks/area.py",
+              "matches": [
+                {
+                  "line": 126,
+                  "text": ">>> r = cowell_area(counts, peak_channel=500, fwhm_channels=23.55)"
+                },
+                {
+                  "line": 135,
+                  "text": "if fwhm_channels <= 0:"
+                }
+              ]
+            },
+            {
+              "file": "peaks/centroid_gost.py",
+              "matches": [
+                {
+                  "line": 171,
+                  "text": "if fwhm_channels and fwhm_channels > 0:"
+                },
+                {
+                  "line": 331,
+                  "text": "if fwhm_channels <= 0:"
+                }
+              ]
+            },
+            {
+              "file": "peaks/convolution_search.py",
+              "matches": [
+                {
+                  "line": 74,
+                  "text": "n_channels: int, fwhm_channels: FwhmSpec, max_ratio: float = 1.3,"
+                },
+                {
+                  "line": 133,
+                  "text": "fwhm_per_ch = np.zeros(n, dtype=np.float64)"
+                }
+              ]
+            },
+            {
+              "file": "peaks/coupled_multiplet.py",
+              "matches": [
+                {
+                  "line": 585,
+                  "text": "#      с σ_step_i = FWHM(E_anchor_i)/2.355, lb=0 (Compton edges"
+                },
+                {
+                  "line": 613,
+                  "text": "sigma_a = float(fwhm_at(e_anchor)) / 2.355"
+                }
+              ]
+            },
+            {
+              "file": "peaks/deconvolve.py",
+              "matches": [
+                {
+                  "line": 100,
+                  "text": "return self.fwhm_channels / 2.355"
+                },
+                {
+                  "line": 407,
+                  "text": "weights = np.maximum([c.fwhm_channels for c in components], 1e-6)"
+                }
+              ]
+            },
+            {
+              "file": "peaks/search.py",
+              "matches": [
+                {
+                  "line": 91,
+                  "text": "return self.fwhm_channels / 2.355"
+                },
+                {
+                  "line": 95,
+                  "text": "return (f\"FoundPeak(ch={self.channel}, FWHM={self.fwhm_channels:.1f}ch, \""
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S4a",
+      "step": "4",
+      "requirement": "relative resolution check",
+      "patterns": [
+        {
+          "pattern": "relative.*resolution|R_pct|resolution.*662",
+          "file_glob": "calibration/detector_type.py",
+          "files": [
+            {
+              "file": "calibration/detector_type.py",
+              "matches": [
+                {
+                  "line": 4,
+                  "text": "Per SKILL.md §4, classify the detector by relative resolution R = FWHM/E,"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S4b",
+      "step": "4",
+      "requirement": "intrinsic-signature catalog",
+      "patterns": [
+        {
+          "pattern": "138La|La[-_]?138|227Ac|intrinsic",
+          "file_glob": "calibration/detector_type.py",
+          "files": [
+            {
+              "file": "calibration/detector_type.py",
+              "matches": [
+                {
+                  "line": 9,
+                  "text": "LaBr3(Ce):   R(662) ~ 2.5-3 %; symmetric, intrinsic peaks present"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S5a",
+      "step": "5",
+      "requirement": "skip stored E-cal if residuals < 0.3*FWHM",
+      "patterns": [
+        {
+          "pattern": "0\\.3.*fwhm|stored.*residual|residual.*0\\.3",
+          "file_glob": "calibration/stored_check.py",
+          "files": [
+            {
+              "file": "calibration/stored_check.py",
+              "matches": [
+                {
+                  "line": 5,
+                  "text": "calibration produces residuals < 0.3 · FWHM at every confirmed library"
+                },
+                {
+                  "line": 101,
+                  "text": "threshold_fwhm: skip-criterion threshold (default 0.3·FWHM)"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S5b",
+      "step": "5",
+      "requirement": "invariant anchor catalog (Co60 K40 Tl208 Cs137 ann)",
+      "patterns": [
+        {
+          "pattern": "1460\\.82|2614\\.51|661\\.66|1173|1332|annihilation|511",
+          "file_glob": "calibration/*.py",
+          "files": [
+            {
+              "file": "calibration/anchor_recalibration.py",
+              "matches": [
+                {
+                  "line": 110,
+                  "text": "# finite delta. Exclude 511 (no nuclide assigned) and U-235/Ra-226"
+                }
+              ]
+            },
+            {
+              "file": "calibration/bootstrap.py",
+              "matches": [
+                {
+                  "line": 506,
+                  "text": "(gain 3.36 keV/ch), or as Annihilation 511 keV (gain 2.59), or as"
+                },
+                {
+                  "line": 530,
+                  "text": "This naturally selects Cs-137 over Annihilation on a Cs-137"
+                }
+              ]
+            },
+            {
+              "file": "calibration/calibration_gate.py",
+              "matches": [
+                {
+                  "line": 169,
+                  "text": "(1173.228, \"Co-60\",  \"LNHB\"),     # γ1 at 1173.228 keV"
+                },
+                {
+                  "line": 170,
+                  "text": "(1332.492, \"Co-60\",  \"LNHB\"),     # γ2 at 1332.492 keV"
+                }
+              ]
+            },
+            {
+              "file": "calibration/efficiency.py",
+              "matches": [
+                {
+                  "line": 63,
+                  "text": "REFERENCE_ENERGY_KEV = 661.66"
+                }
+              ]
+            },
+            {
+              "file": "calibration/seven_line_check.py",
+              "matches": [
+                {
+                  "line": 11,
+                  "text": "| 511     | Tl-208 (510.77) + annihilation                  | superposition  |"
+                },
+                {
+                  "line": 13,
+                  "text": "| 1460.82 | K-40                                            | clean          |"
+                }
+              ]
+            },
+            {
+              "file": "calibration/source_set_validator.py",
+              "matches": [
+                {
+                  "line": 51,
+                  "text": "(\"Co-60\",  1332.5, \"NaI\"):  600,    # 1332.5 keV NaI: 10 мин при ~1 кБк"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S5c",
+      "step": "5",
+      "requirement": "filename-prior anchor priority",
+      "patterns": [
+        {
+          "pattern": "filename.*prior|filename.*hint.*anchor",
+          "file_glob": "calibration/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S5d",
+      "step": "5",
+      "requirement": "E-cal poly deg<=4, piecewise above",
+      "patterns": [
+        {
+          "pattern": "piecewise|max[_-]?deg.*4|degree.*<=?.*4",
+          "file_glob": "calibration/energy_fit.py",
+          "files": [
+            {
+              "file": "calibration/energy_fit.py",
+              "matches": [
+                {
+                  "line": 9,
+                  "text": "segment the energy range and refit piecewise — that segmentation"
+                },
+                {
+                  "line": 68,
+                  "text": "max_degree: ceiling on polynomial degree (default 4)"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S6a",
+      "step": "6",
+      "requirement": "skip stored FWHM if within 5%",
+      "patterns": [
+        {
+          "pattern": "5\\s*%|0\\.05.*fwhm|stored.*fwhm.*ok",
+          "file_glob": "calibration/fwhm_provider.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S6b",
+      "step": "6",
+      "requirement": "HPGe FWHM^2=a+bE+cE^2",
+      "patterns": [
+        {
+          "pattern": "fwhm\\*\\*2|fwhm_squared|a.*\\+.*b.*E.*\\+.*c.*E",
+          "file_glob": "calibration/fwhm_fit.py",
+          "files": [
+            {
+              "file": "calibration/fwhm_fit.py",
+              "matches": [
+                {
+                  "line": 7,
+                  "text": "FWHM²(E) = a + b·E + c·E²"
+                },
+                {
+                  "line": 71,
+                  "text": "val = a + b * E + c * E * E"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S6c",
+      "step": "6",
+      "requirement": "scint FWHM=k*sqrt(E+alpha*E^2) non-proportionality",
+      "patterns": [
+        {
+          "pattern": "non[_-]?proportional|sqrt.*alpha|k.*sqrt.*E",
+          "file_glob": "calibration/fwhm_fit.py",
+          "files": [
+            {
+              "file": "calibration/fwhm_fit.py",
+              "matches": [
+                {
+                  "line": 13,
+                  "text": "where α captures non-proportionality of light yield"
+                },
+                {
+                  "line": 76,
+                  "text": "return k * np.sqrt(np.maximum(val, _FWHM2_FLOOR_keV2))"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S6d",
+      "step": "6",
+      "requirement": "CdZnTe left-tail params",
+      "patterns": [
+        {
+          "pattern": "czt|CdZnTe|left[_-]?tail",
+          "file_glob": "calibration/*.py",
+          "files": [
+            {
+              "file": "calibration/bg_strategy.py",
+              "matches": [
+                {
+                  "line": 11,
+                  "text": "- **HPGe / CdZnTe**: per-peak bg subtract."
+                },
+                {
+                  "line": 31,
+                  "text": "\"CdZnTe\": \"per_peak\","
+                }
+              ]
+            },
+            {
+              "file": "calibration/bootstrap.py",
+              "matches": [
+                {
+                  "line": 679,
+                  "text": "realistic detector — NaI/HPGe/CdZnTe/LaBr3 — lies near the"
+                }
+              ]
+            },
+            {
+              "file": "calibration/calibration_gate.py",
+              "matches": [
+                {
+                  "line": 132,
+                  "text": "# 1.5% matches the CdZnTe upper edge used in"
+                }
+              ]
+            },
+            {
+              "file": "calibration/detector_type.py",
+              "matches": [
+                {
+                  "line": 8,
+                  "text": "CdZnTe:      R(662) ~ 1.5-2.5 %; left-tail asymmetric (Hypermet)"
+                },
+                {
+                  "line": 17,
+                  "text": "1 = Hypermet (NaI with right-tail asymmetry; CdZnTe)"
+                }
+              ]
+            },
+            {
+              "file": "calibration/fwhm_fit.py",
+              "matches": [
+                {
+                  "line": 11,
+                  "text": "Scintillator (NaI, LaBr₃, CeBr₃, CdZnTe):"
+                }
+              ]
+            },
+            {
+              "file": "calibration/source_set_validator.py",
+              "matches": [
+                {
+                  "line": 99,
+                  "text": "One of \"HPGe\", \"CdZnTe\", \"LaBr3\", \"CeBr3\", \"NaI\", \"CsI\"."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S7a",
+      "step": "7",
+      "requirement": "candidate list build",
+      "patterns": [
+        {
+          "pattern": "candidate[_-]?list|build[_-]?candidates",
+          "file_glob": "identification/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S7b",
+      "step": "7",
+      "requirement": "characteristic-line approach",
+      "patterns": [
+        {
+          "pattern": "characteristic[_-]?line|lowest[_-]?MDA",
+          "file_glob": "identification/*.py",
+          "files": [
+            {
+              "file": "identification/anchor_ranks.py",
+              "matches": [
+                {
+                  "line": 7,
+                  "text": "The standard `identify_nuclides` characteristic-line picker is"
+                }
+              ]
+            },
+            {
+              "file": "identification/disambiguate.py",
+              "matches": [
+                {
+                  "line": 221,
+                  "text": "characteristic_line_keV=em.characteristic_line_keV,"
+                },
+                {
+                  "line": 252,
+                  "text": "characteristic_line_keV=spur.characteristic_line_keV,"
+                }
+              ]
+            },
+            {
+              "file": "identification/identify.py",
+              "matches": [
+                {
+                  "line": 62,
+                  "text": "MdaResult, mda_for_peak, characteristic_line_of_nuclide,"
+                },
+                {
+                  "line": 80,
+                  "text": "is_characteristic: bool  # True if this is the lowest-MDA line"
+                }
+              ]
+            },
+            {
+              "file": "identification/mda.py",
+              "matches": [
+                {
+                  "line": 272,
+                  "text": "def characteristic_line_of_nuclide("
+                },
+                {
+                  "line": 304,
+                  "text": "\"MdaResult\", \"mda_for_peak\", \"characteristic_line_of_nuclide\","
+                }
+              ]
+            },
+            {
+              "file": "identification/__init__.py",
+              "matches": [
+                {
+                  "line": 32,
+                  "text": "MdaResult, mda_for_peak, characteristic_line_of_nuclide,"
+                },
+                {
+                  "line": 70,
+                  "text": "\"MdaResult\", \"mda_for_peak\", \"characteristic_line_of_nuclide\","
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S7c",
+      "step": "7",
+      "requirement": "+/- 2sigma_E energy match",
+      "patterns": [
+        {
+          "pattern": "2\\s*\\*?\\s*sigma[_-]?E|2sigma|tolerance.*sigma_E",
+          "file_glob": "identification/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S7d",
+      "step": "7",
+      "requirement": "FWHM match within 10%",
+      "patterns": [
+        {
+          "pattern": "10\\s*%|0\\.10.*fwhm|fwhm.*match.*0\\.1",
+          "file_glob": "identification/*.py",
+          "files": [
+            {
+              "file": "identification/ci_thresholds.py",
+              "matches": [
+                {
+                  "line": 49,
+                  "text": "# Минимальный CI для **confirmed**-promotion = 0.10 × reference (10% of full"
+                },
+                {
+                  "line": 86,
+                  "text": "# 0.10 (10%) — backward-compat default. Раньше пайплайн использовал"
+                }
+              ]
+            },
+            {
+              "file": "identification/completeness.py",
+              "matches": [
+                {
+                  "line": 18,
+                  "text": "• DC > 10 %          — significant unidentified contribution; the"
+                }
+              ]
+            },
+            {
+              "file": "identification/statistical_thresholds.py",
+              "matches": [
+                {
+                  "line": 21,
+                  "text": "может быть отчётна с относительной точностью ≤10% только если"
+                },
+                {
+                  "line": 116,
+                  "text": "K_QUANTIFICATION = 10.0   # default для ≤10% относительной точности"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S7e",
+      "step": "7",
+      "requirement": "peak-shape anomaly check",
+      "patterns": [
+        {
+          "pattern": "peak[_-]?shape|anomalous.*tail|asymmetry",
+          "file_glob": "peaks/*.py",
+          "files": [
+            {
+              "file": "peaks/peak_image_logspline.py",
+              "matches": [
+                {
+                  "line": 18,
+                  "text": "4. Linear interp для phase-параметров (asymmetry — не log)."
+                },
+                {
+                  "line": 46,
+                  "text": "class InterpolatedPeakShape:"
+                }
+              ]
+            },
+            {
+              "file": "peaks/peak_image_tabulated.py",
+              "matches": [
+                {
+                  "line": 7,
+                  "text": "из которых записаны параметры (FWHM, asymmetry, tail amplitude, step)."
+                },
+                {
+                  "line": 29,
+                  "text": "• asymmetry(E_i)           — параметр Voigt-asymmetry"
+                }
+              ]
+            },
+            {
+              "file": "peaks/pure_gaussian_policy.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "F-283 (v1.17.13, T-003) — NaI pure-Gaussian peak-shape policy guard."
+                },
+                {
+                  "line": 43,
+                  "text": "class PeakShapePolicy:"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S7f",
+      "step": "7",
+      "requirement": "reject if characteristic line absent",
+      "patterns": [
+        {
+          "pattern": "reject.*char|nuclide.*rejected|absent.*char",
+          "file_glob": "identification/*.py",
+          "files": [
+            {
+              "file": "identification/disambiguate.py",
+              "matches": [
+                {
+                  "line": 46,
+                  "text": "lines remaining, the nuclide is rejected entirely."
+                },
+                {
+                  "line": 858,
+                  "text": "rejected_nuclides=tuple(rejected),"
+                }
+              ]
+            },
+            {
+              "file": "identification/identify.py",
+              "matches": [
+                {
+                  "line": 464,
+                  "text": "rejected_nuclides=tuple(rejected_list),"
+                }
+              ]
+            },
+            {
+              "file": "identification/staged_pipeline.py",
+              "matches": [
+                {
+                  "line": 2589,
+                  "text": "rejected_nuclides=new_id.rejected_nuclides,"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S7g",
+      "step": "7",
+      "requirement": "additional isolated line + intensity-ratio test",
+      "patterns": [
+        {
+          "pattern": "intensity[_-]?ratio|S_i.*S_j|I_gamma_ratio",
+          "file_glob": "identification/*.py",
+          "files": [
+            {
+              "file": "identification/chain_equilibrium.py",
+              "matches": [
+                {
+                  "line": 140,
+                  "text": "2. Check intensity-ratio proportionality WITHIN each group."
+                }
+              ]
+            },
+            {
+              "file": "identification/ci_gating.py",
+              "matches": [
+                {
+                  "line": 10,
+                  "text": "lines and δI_i are relative intensity-ratio uncertainties. Higher CI"
+                }
+              ]
+            },
+            {
+              "file": "identification/confidence.py",
+              "matches": [
+                {
+                  "line": 28,
+                  "text": "- Adding intensity-ratio uncertainty further narrows the"
+                },
+                {
+                  "line": 166,
+                  "text": "# Intensity-ratio uncertainty product: Π δI_j for j≥2."
+                }
+              ]
+            },
+            {
+              "file": "identification/disambiguate.py",
+              "matches": [
+                {
+                  "line": 261,
+                  "text": "# --- Rule 4: Universal intensity-ratio proportionality check ---"
+                },
+                {
+                  "line": 288,
+                  "text": "reason=(f\"Rare-isotope identification failed intensity-ratio \""
+                }
+              ]
+            },
+            {
+              "file": "identification/identify.py",
+              "matches": [
+                {
+                  "line": 210,
+                  "text": "intensity-ratio proportionality checks"
+                }
+              ]
+            },
+            {
+              "file": "identification/proportionality.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "Multi-line intensity-ratio proportionality check and rare-isotope"
+                },
+                {
+                  "line": 78,
+                  "text": "# Multi-line intensity-ratio tolerance multiplicative factor."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S7h",
+      "step": "7",
+      "requirement": "chi2_intensity < 3 lenient / 1.5 strict",
+      "patterns": [
+        {
+          "pattern": "chi2.*<\\s*3|chi2.*<\\s*1\\.5|intensity.*chi2",
+          "file_glob": "identification/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S7i",
+      "step": "7",
+      "requirement": "library-directed search for I_gamma>=0.1%",
+      "patterns": [
+        {
+          "pattern": "0\\.1\\s*%|I_gamma.*0\\.001|library[_-]?directed",
+          "file_glob": "identification/*.py",
+          "files": [
+            {
+              "file": "identification/mda.py",
+              "matches": [
+                {
+                  "line": 69,
+                  "text": "K_ALPHA_999 = 3.090  # P(Z > k) = 0.1%"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S7j",
+      "step": "7",
+      "requirement": "DPR equilibrium chains",
+      "patterns": [
+        {
+          "pattern": "DPR|chain[_-]?equilibrium|secular|equilibrium",
+          "file_glob": "identification/*.py",
+          "files": [
+            {
+              "file": "identification/chain_equilibrium.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "Decay-chain equilibrium model for natural-decay chains."
+                },
+                {
+                  "line": 5,
+                  "text": "daughter nuclides reach secular equilibrium only if the chain is"
+                }
+              ]
+            },
+            {
+              "file": "identification/disambiguate.py",
+              "matches": [
+                {
+                  "line": 82,
+                  "text": "from gamma.identification.chain_equilibrium import ("
+                },
+                {
+                  "line": 83,
+                  "text": "check_ra226_chain_equilibrium,"
+                }
+              ]
+            },
+            {
+              "file": "identification/ern_set.py",
+              "matches": [
+                {
+                  "line": 73,
+                  "text": "#   are in equilibrium. On NaI, including both in the candidate set"
+                },
+                {
+                  "line": 110,
+                  "text": "# short-lived daughter Sc-44 (T½ = 3.97 h) is in secular equilibrium"
+                }
+              ]
+            },
+            {
+              "file": "identification/__init__.py",
+              "matches": [
+                {
+                  "line": 54,
+                  "text": "from gamma.identification.chain_equilibrium import ("
+                },
+                {
+                  "line": 56,
+                  "text": "ChainEquilibriumResult, check_ra226_chain_equilibrium,"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S7k",
+      "step": "7",
+      "requirement": "CI = log10(1/prod delta) per nuclide",
+      "patterns": [
+        {
+          "pattern": "confidence[_-]?index|\\bCI\\b|log10.*delta|log10.*prod",
+          "file_glob": "identification/confidence.py",
+          "files": [
+            {
+              "file": "identification/confidence.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "Confidence Index (CI) for nuclide identification per Lsrm"
+                },
+                {
+                  "line": 5,
+                  "text": "CI quantifies **how unambiguous** a successful identification is. The"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S7l",
+      "step": "7",
+      "requirement": "DC = D_unident/D_total*100%",
+      "patterns": [
+        {
+          "pattern": "\\bDC\\b|dose[_-]?contribution|D_unident|D_total",
+          "file_glob": "identification/completeness.py",
+          "files": [
+            {
+              "file": "identification/completeness.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "Dose Contribution (DC) completeness metric (F-61 / v1.11.1)."
+                },
+                {
+                  "line": 6,
+                  "text": "DC_unidentified = D_unidentified / D_total · 100 %"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S8a",
+      "step": "8",
+      "requirement": "deconv ONLY after step 7 confirms list",
+      "patterns": [
+        {
+          "pattern": "after[_-]?identification|confirmed.*nuclide.*first|step\\s*7",
+          "file_glob": "peaks/deconvolve.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S8b",
+      "step": "8",
+      "requirement": "components fixed a-priori from confirmed nuclides",
+      "patterns": [
+        {
+          "pattern": "a[_-]?priori|expected[_-]?components|known[_-]?components",
+          "file_glob": "peaks/deconvolve.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S8c",
+      "step": "8",
+      "requirement": "FWHM fixed from calibration",
+      "patterns": [
+        {
+          "pattern": "fwhm[_-]?fixed|fixed[_-]?fwhm|fwhm.*from.*cal",
+          "file_glob": "peaks/deconvolve.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S8d",
+      "step": "8",
+      "requirement": "intensity ratios constrained to library; activity free",
+      "patterns": [
+        {
+          "pattern": "intensity[_-]?ratio.*constrain|library[_-]?ratio.*fix|activity.*free",
+          "file_glob": "peaks/deconvolve.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S8e",
+      "step": "8",
+      "requirement": "HPGe Gauss+tail vs scint pure Gauss",
+      "patterns": [
+        {
+          "pattern": "gauss[_-]?plus[_-]?tail|low[_-]?energy[_-]?tail|hypermet|asymmetric.*gauss",
+          "file_glob": "peaks/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S8f",
+      "step": "8",
+      "requirement": "STEP-AND-LINEAR continuum (Gilmore 9.7) — KEY GAP",
+      "patterns": [
+        {
+          "pattern": "step[_-]?linear|erfc|smooth[_-]?step|gilmore.*9\\.7|step.*continuum",
+          "file_glob": "peaks/*.py",
+          "files": [
+            {
+              "file": "peaks/background_options.py",
+              "matches": [
+                {
+                  "line": 8,
+                  "text": "on broad NaI peaks sitting on Compton-step continuum (e.g. Cs-137"
+                },
+                {
+                  "line": 55,
+                  "text": "где S(E) = 0.5·erfc((E − E_peak)/(σ·√2)) — нормированная ступенька,"
+                }
+              ]
+            },
+            {
+              "file": "peaks/coupled_multiplet.py",
+              "matches": [
+                {
+                  "line": 16,
+                  "text": "Континуум: «step + linear» (Gilmore & Joss 3rd ed., §9.7, LSRM §9.7):"
+                },
+                {
+                  "line": 20,
+                  "text": "где S(x) = 0.5·erfc((x − x_step) / (σ_step·√2))."
+                }
+              ]
+            },
+            {
+              "file": "peaks/deconvolve.py",
+              "matches": [
+                {
+                  "line": 4,
+                  "text": "Lsrm Algorithmic Foundations §9 / Gilmore §9.7 prescribe a strict"
+                },
+                {
+                  "line": 24,
+                  "text": "where S(x) = 0.5·erfc((x − x_step) / (σ_step·√2)) is a smooth step"
+                }
+              ]
+            },
+            {
+              "file": "peaks/peak_image.py",
+              "matches": [
+                {
+                  "line": 17,
+                  "text": "step(x) = Compton-step (erfc-shaped) coupling left-side continuum"
+                },
+                {
+                  "line": 36,
+                  "text": "step(x) = (A_step / 2) · erfc((x − μ) / (σ·√2))"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S8g",
+      "step": "8",
+      "requirement": "chi2/nu in [0.8, 1.5] QC gate",
+      "patterns": [
+        {
+          "pattern": "0\\.8.*1\\.5|chi2.*per.*dof|reduced.*chi2",
+          "file_glob": "peaks/*.py",
+          "files": [
+            {
+              "file": "peaks/area.py",
+              "matches": [
+                {
+                  "line": 364,
+                  "text": "chi2_per_dof = chi2 / dof"
+                },
+                {
+                  "line": 367,
+                  "text": "cov = np.linalg.inv(Aw.T @ Aw) * chi2_per_dof"
+                }
+              ]
+            },
+            {
+              "file": "peaks/coupled_multiplet.py",
+              "matches": [
+                {
+                  "line": 34,
+                  "text": "• chi2_per_dof, closure_pct"
+                },
+                {
+                  "line": 106,
+                  "text": "chi2_per_dof: float"
+                }
+              ]
+            },
+            {
+              "file": "peaks/deconvolve.py",
+              "matches": [
+                {
+                  "line": 119,
+                  "text": "chi2_per_dof: float"
+                },
+                {
+                  "line": 145,
+                  "text": "phase_A_chi2_per_dof: Optional[float] = None       # χ²/ν Phase A (free)"
+                }
+              ]
+            },
+            {
+              "file": "peaks/peak_image.py",
+              "matches": [
+                {
+                  "line": 255,
+                  "text": "chi2_per_dof: Optional[float] = None"
+                },
+                {
+                  "line": 264,
+                  "text": "f\"χ²/dof={self.chi2_per_dof})\""
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S8h",
+      "step": "8",
+      "requirement": "area sigma from full covariance",
+      "patterns": [
+        {
+          "pattern": "covariance|pcov|full.*covariance|sigma.*cov",
+          "file_glob": "peaks/*.py",
+          "files": [
+            {
+              "file": "peaks/area.py",
+              "matches": [
+                {
+                  "line": 268,
+                  "text": "5. Uncertainty from covariance matrix or Poisson approximation"
+                },
+                {
+                  "line": 379,
+                  "text": "popt, pcov = curve_fit("
+                }
+              ]
+            },
+            {
+              "file": "peaks/deconvolve.py",
+              "matches": [
+                {
+                  "line": 110,
+                  "text": "the parameter covariance matrix; for correlated components callers"
+                },
+                {
+                  "line": 111,
+                  "text": "should consult `covariance` (the full (n+m)×(n+m) matrix where m is"
+                }
+              ]
+            },
+            {
+              "file": "peaks/peak_image.py",
+              "matches": [
+                {
+                  "line": 59,
+                  "text": "position, sigma, T, h_step plus their covariance."
+                },
+                {
+                  "line": 253,
+                  "text": "area_sigma: float                    # σ propagated from cov"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S8i",
+      "step": "8",
+      "requirement": "no free components beyond expected; chi2>1.5 -> step 7",
+      "patterns": [
+        {
+          "pattern": "return.*to.*step.*7|residual.*new.*candidate",
+          "file_glob": "peaks/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S9a",
+      "step": "9",
+      "requirement": "per-FEP: ch E FWHM S cps sigma_cov significance",
+      "patterns": [
+        {
+          "pattern": "area.*sigma|cps.*sigma|S.*over.*sigma|significance",
+          "file_glob": "peaks/area.py",
+          "files": [
+            {
+              "file": "peaks/area.py",
+              "matches": [
+                {
+                  "line": 419,
+                  "text": "area = H_fit * sigma_fit * sqrt_2pi"
+                },
+                {
+                  "line": 422,
+                  "text": "area_unc = sigma_fit * sqrt_2pi * H_unc"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S9b",
+      "step": "9",
+      "requirement": "dead-time Lsrm Sec.15: t_m = A*Sum y + B*Sum y*i",
+      "patterns": [
+        {
+          "pattern": "dead[_-]?time.*A.*B|t_m\\s*=|A\\s*\\*.*sum.*B\\s*\\*.*sum",
+          "file_glob": "calibration/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S9c",
+      "step": "9",
+      "requirement": "flag activities uncorrected if A/B unavailable",
+      "patterns": [
+        {
+          "pattern": "dead[_-]?time.*uncorrected|A[_-]?B.*missing|flag.*uncorrected",
+          "file_glob": "**/*.py",
+          "files": [
+            {
+              "file": "calibration/anchor_recalibration.py",
+              "matches": [
+                {
+                  "line": 109,
+                  "text": "# Filter usable anchors: nuclide non-empty, partner not missing,"
+                },
+                {
+                  "line": 127,
+                  "text": "diag[\"reason\"] = \"no usable anchors (all empty / partner-missing)\""
+                }
+              ]
+            },
+            {
+              "file": "reporting/build.py",
+              "matches": [
+                {
+                  "line": 1297,
+                  "text": "f\"technical_pdf skipped (reportlab missing): {e}\""
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S9d",
+      "step": "9",
+      "requirement": "MDA per ISO 11929 with L_C / L_D quadratic",
+      "patterns": [
+        {
+          "pattern": "ISO[_-]?11929|L_C|L_D|currie",
+          "file_glob": "identification/mda.py",
+          "files": [
+            {
+              "file": "identification/mda.py",
+              "matches": [
+                {
+                  "line": 14,
+                  "text": "1. **Decision threshold L_C** — the count rate above which we"
+                },
+                {
+                  "line": 18,
+                  "text": "L_C = k_α · σ_0"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S9e",
+      "step": "9",
+      "requirement": "decay-correction A0 = A*exp(ln2*dt/Thalf)",
+      "patterns": [
+        {
+          "pattern": "decay[_-]?correct|exp.*ln2|half[_-]?life.*correct|T_half",
+          "file_glob": "**/*.py",
+          "files": [
+            {
+              "file": "activity/compute.py",
+              "matches": [
+                {
+                  "line": 65,
+                  "text": "A_ref = A_meas · exp(ln2 · Δt / T_½)"
+                },
+                {
+                  "line": 361,
+                  "text": "decay_corrected: bool = False"
+                }
+              ]
+            },
+            {
+              "file": "data/nuclide_library.py",
+              "matches": [
+                {
+                  "line": 138,
+                  "text": "parent_T = external[parent_name].get(\"T_half_s\")"
+                },
+                {
+                  "line": 147,
+                  "text": "entry[\"T_half_s\"] = parent_T"
+                }
+              ]
+            },
+            {
+              "file": "identification/staged_pipeline.py",
+              "matches": [
+                {
+                  "line": 2664,
+                  "text": "decay_correction=(reference_datetime is not None"
+                }
+              ]
+            },
+            {
+              "file": "io/lsrm_library.py",
+              "matches": [
+                {
+                  "line": 203,
+                  "text": "\"T_half_s\": float,"
+                },
+                {
+                  "line": 221,
+                  "text": "dict {nuclide_name: {\"T_half_s\": ..., \"lines\": ...}}"
+                }
+              ]
+            },
+            {
+              "file": "io/lsrm_passport.py",
+              "matches": [
+                {
+                  "line": 369,
+                  "text": "def decay_correct("
+                },
+                {
+                  "line": 405,
+                  "text": "\"decay_correct\","
+                }
+              ]
+            },
+            {
+              "file": "reporting/build.py",
+              "matches": [
+                {
+                  "line": 635,
+                  "text": "passport_meta: dict с mass_kg / meas_date / decay_corrected"
+                },
+                {
+                  "line": 712,
+                  "text": "# decay-correction summary)."
+                }
+              ]
+            },
+            {
+              "file": "reporting/interactive_html.py",
+              "matches": [
+                {
+                  "line": 71,
+                  "text": "_T_HALF_RU = {"
+                },
+                {
+                  "line": 99,
+                  "text": "# (nuclide, E_keV, I_gamma_pct, t_half_ru)"
+                }
+              ]
+            },
+            {
+              "file": "reporting/json_report.py",
+              "matches": [
+                {
+                  "line": 434,
+                  "text": "\"decay_corrected\": bool(ar.decay_corrected) if ar is not None else False,"
+                }
+              ]
+            },
+            {
+              "file": "reporting/markdown_report.py",
+              "matches": [
+                {
+                  "line": 292,
+                  "text": "out.append(f\"- Поправка на распад: {'да' if r.get('decay_corrected') else 'нет'} \""
+                }
+              ]
+            },
+            {
+              "file": "reporting/wrapper.py",
+              "matches": [
+                {
+                  "line": 284,
+                  "text": "\"decay_corrected\": {nuc: True/False},"
+                },
+                {
+                  "line": 294,
+                  "text": "\"decay_corrected\": {},"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S10a",
+      "step": "10",
+      "requirement": "secondary-peak classifier",
+      "patterns": [
+        {
+          "pattern": "backscatter|single[_-]?escape|double[_-]?escape|compton[_-]?edge|pile[_-]?up|bremsstrahlung",
+          "file_glob": "**/*.py",
+          "files": [
+            {
+              "file": "activity/compton_continuum.py",
+              "matches": [
+                {
+                  "line": 6,
+                  "text": "- Plateau на [E_Compton_min .. E_Compton_edge] с константной amplitude"
+                },
+                {
+                  "line": 7,
+                  "text": "- Smoothed step-down за Compton-edge (gaussian smoothing с FWHM детектора)"
+                }
+              ]
+            },
+            {
+              "file": "activity/quasitemplate.py",
+              "matches": [
+                {
+                  "line": 24,
+                  "text": "* `ξ(E)` — optional fixed shape factor (e.g. an empirical pile-up"
+                }
+              ]
+            },
+            {
+              "file": "activity/tcs_close_geometry.py",
+              "matches": [
+                {
+                  "line": 47,
+                  "text": "3. Random coincidences (chance pile-up) обрабатываются отдельным модулем."
+                }
+              ]
+            },
+            {
+              "file": "activity/template_method.py",
+              "matches": [
+                {
+                  "line": 332,
+                  "text": "(50.0, 100.0),       # low-energy bremsstrahlung / Pb K-XRF"
+                }
+              ]
+            },
+            {
+              "file": "calibration/bootstrap.py",
+              "matches": [
+                {
+                  "line": 145,
+                  "text": "and X-ray pileup that should not influence the energy"
+                }
+              ]
+            },
+            {
+              "file": "identification/cross_check.py",
+              "matches": [
+                {
+                  "line": 8,
+                  "text": "- Backscatter peak at E_γ − E_Compton_edge"
+                },
+                {
+                  "line": 23,
+                  "text": "- Compton edges and backscatter peaks are broad (typically 2-3× FWHM"
+                }
+              ]
+            },
+            {
+              "file": "identification/disambiguate.py",
+              "matches": [
+                {
+                  "line": 54,
+                  "text": "position range (p10..p90) of a Compton edge, backscatter, escape peak,"
+                },
+                {
+                  "line": 67,
+                  "text": "Knoll §10 (Compton scattering), §11.A.5 (backscatter peaks)."
+                }
+              ]
+            },
+            {
+              "file": "identification/ern_set.py",
+              "matches": [
+                {
+                  "line": 22,
+                  "text": "• Sr-90 (β-emitter — only detectable via bremsstrahlung continuum,"
+                },
+                {
+                  "line": 87,
+                  "text": "# Y-90 same — only bremsstrahlung"
+                }
+              ]
+            },
+            {
+              "file": "identification/residual_classifier.py",
+              "matches": [
+                {
+                  "line": 11,
+                  "text": "• backscatter / Compton edges / single+double escapes of the"
+                },
+                {
+                  "line": 89,
+                  "text": "LBL_SINGLE_ESCAPE = \"single_escape\""
+                }
+              ]
+            },
+            {
+              "file": "identification/staged_pipeline.py",
+              "matches": [
+                {
+                  "line": 75,
+                  "text": "LBL_SINGLE_ESCAPE, LBL_DOUBLE_ESCAPE, LBL_SUM_PEAK,"
+                },
+                {
+                  "line": 984,
+                  "text": "backscatter at 235, etc.)."
+                }
+              ]
+            },
+            {
+              "file": "peaks/coupled_multiplet.py",
+              "matches": [
+                {
+                  "line": 572,
+                  "text": "# интенсивной линией (double-escape, Compton edge от выше-лежащих"
+                },
+                {
+                  "line": 575,
+                  "text": "# — после 583 кэВ continuum резко опускается из-за double-escape"
+                }
+              ]
+            },
+            {
+              "file": "physics/dead_time.py",
+              "matches": [
+                {
+                  "line": 11,
+                  "text": "pulse pile-up. LSRM §15 prescribes an additional **effective dead time**"
+                },
+                {
+                  "line": 27,
+                  "text": "response (shaping time, pile-up rejection mode). LSRM §15 specifies a"
+                }
+              ]
+            },
+            {
+              "file": "physics/pileup.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "Detection of pile-up (random summing) and cascade (true coincidence)"
+                },
+                {
+                  "line": 10,
+                  "text": "1. Random pile-up (pulse pile-up)"
+                }
+              ]
+            },
+            {
+              "file": "physics/secondary.py",
+              "matches": [
+                {
+                  "line": 18,
+                  "text": "• Backscatter peak: energy of the γ-ray that scattered at 180° in"
+                },
+                {
+                  "line": 20,
+                  "text": "returned to the detector. E_back + E_compton_edge = E_γ exactly,"
+                }
+              ]
+            },
+            {
+              "file": "physics/secondary_peaks.py",
+              "matches": [
+                {
+                  "line": 5,
+                  "text": "a photopeak of a real nuclide γ-emission: Compton-edge maxima,"
+                },
+                {
+                  "line": 6,
+                  "text": "backscatter peaks (single 180° scatter off shielding), single/double"
+                }
+              ]
+            },
+            {
+              "file": "physics/__init__.py",
+              "matches": [
+                {
+                  "line": 4,
+                  "text": "- secondary: Compton edge, backscatter, escape peaks, sum peaks"
+                },
+                {
+                  "line": 7,
+                  "text": "- pileup: random pile-up (rate ∝ cps²) and cascade-coincidence"
+                }
+              ]
+            },
+            {
+              "file": "reporting/build.py",
+              "matches": [
+                {
+                  "line": 243,
+                  "text": "(r\"\\bpile-?up\\b\", \"наложение импульсов (pile-up)\"),"
+                },
+                {
+                  "line": 245,
+                  "text": "(r\"\\bbackscatter\\b\", \"обратное рассеяние (backscatter)\"),"
+                }
+              ]
+            },
+            {
+              "file": "reporting/html_report.py",
+              "matches": [
+                {
+                  "line": 304,
+                  "text": "(\"Pile-up indicator\",            _yn(diag.get(\"pile_up_indicator\"))),"
+                }
+              ]
+            },
+            {
+              "file": "reporting/interactive_html.py",
+              "matches": [
+                {
+                  "line": 49,
+                  "text": "# Symptom: secondary processes (compton_edge, SE, DE, backscatter, 511, sum)"
+                },
+                {
+                  "line": 55,
+                  "text": "_COL_SECONDARY = \"#E8884F\"  # SE/DE/sum/511/backscatter/compton — все detector artefacts"
+                }
+              ]
+            },
+            {
+              "file": "reporting/json_report.py",
+              "matches": [
+                {
+                  "line": 1064,
+                  "text": "if rc.label in (\"single_escape\", \"double_escape\"))"
+                },
+                {
+                  "line": 1107,
+                  "text": "\"pile_up_indicator\": dead_pct > 5.0,"
+                }
+              ]
+            },
+            {
+              "file": "reporting/markdown_report.py",
+              "matches": [
+                {
+                  "line": 447,
+                  "text": "(\"Индикатор наложений\",            \"да\" if diag.get(\"pile_up_indicator\") else \"нет\"),"
+                }
+              ]
+            },
+            {
+              "file": "reporting/_kind_ru.py",
+              "matches": [
+                {
+                  "line": 31,
+                  "text": "\"single_escape\": \"пик одиночного вылета\","
+                },
+                {
+                  "line": 32,
+                  "text": "\"double_escape\": \"пик двойного вылета\","
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S10b",
+      "step": "10",
+      "requirement": "intrinsic catalogue per detector",
+      "patterns": [
+        {
+          "pattern": "intrinsic|138La|K[_-]?escape|Ge[_-]?escape",
+          "file_glob": "**/*.py",
+          "files": [
+            {
+              "file": "calibration/background_subtraction.py",
+              "matches": [
+                {
+                  "line": 4,
+                  "text": "Background spectrum represents the detector's intrinsic response in the"
+                },
+                {
+                  "line": 8,
+                  "text": "• Detector-intrinsic activity (e.g. K-40 in NaI from natural K"
+                }
+              ]
+            },
+            {
+              "file": "calibration/detector_type.py",
+              "matches": [
+                {
+                  "line": 9,
+                  "text": "LaBr3(Ce):   R(662) ~ 2.5-3 %; symmetric, intrinsic peaks present"
+                }
+              ]
+            },
+            {
+              "file": "calibration/subcalibration.py",
+              "matches": [
+                {
+                  "line": 6,
+                  "text": "energy calibration is dominated by intrinsic detector properties (PMT"
+                }
+              ]
+            },
+            {
+              "file": "data/chain_decomposer.py",
+              "matches": [
+                {
+                  "line": 48,
+                  "text": "(186.21,  \"Ra-226\",     3.59, 1.5),   # Intrinsic Ra-226"
+                }
+              ]
+            },
+            {
+              "file": "detectors/gamma1c.py",
+              "matches": [
+                {
+                  "line": 23,
+                  "text": "05_intrinsic_detector_activity.md"
+                },
+                {
+                  "line": 54,
+                  "text": "\"INTRINSIC_ACTIVITY_REF\","
+                }
+              ]
+            },
+            {
+              "file": "identification/chain_equilibrium.py",
+              "matches": [
+                {
+                  "line": 34,
+                  "text": "Ra-226 186.21 keV (intrinsic)"
+                },
+                {
+                  "line": 71,
+                  "text": "# Group A: Ra-226 intrinsic"
+                }
+              ]
+            },
+            {
+              "file": "identification/ci_gating.py",
+              "matches": [
+                {
+                  "line": 82,
+                  "text": "This handles the K-40 single-line case (intrinsic CI ≈ 1.5–1.6) —"
+                }
+              ]
+            },
+            {
+              "file": "identification/id_anomalies.py",
+              "matches": [
+                {
+                  "line": 24,
+                  "text": "3. **Iodine K-escape annotation** (T-025)"
+                },
+                {
+                  "line": 139,
+                  "text": "# T-025 — Iodine K-escape annotation (NaI only)"
+                }
+              ]
+            },
+            {
+              "file": "identification/nai_defaults.py",
+              "matches": [
+                {
+                  "line": 71,
+                  "text": "note=\"LaBr3 intrinsic activity 138La requires tail-aware fit\","
+                },
+                {
+                  "line": 79,
+                  "text": "note=\"CeBr3 cleaner intrinsic than LaBr3\","
+                }
+              ]
+            },
+            {
+              "file": "io/n42_2012.py",
+              "matches": [
+                {
+                  "line": 52,
+                  "text": "Calibration, IntrinsicActivity, NotSpecified}. We map our"
+                }
+              ]
+            },
+            {
+              "file": "physics/cascade_summing.py",
+              "matches": [
+                {
+                  "line": 298,
+                  "text": "K-21 (v1.9.0): `geometry_factor` scales the intrinsic point-5cm"
+                }
+              ]
+            },
+            {
+              "file": "reporting/html_report.py",
+              "matches": [
+                {
+                  "line": 320,
+                  "text": "intr = diag.get(\"intrinsic_activity_signature\") or {}"
+                },
+                {
+                  "line": 322,
+                  "text": "body.append(\"<h3>Intrinsic detector activity</h3>\")"
+                }
+              ]
+            },
+            {
+              "file": "reporting/interactive_html.py",
+              "matches": [
+                {
+                  "line": 708,
+                  "text": "\"annihil\", \"511\", \"tcs\", \"intrinsic\""
+                }
+              ]
+            },
+            {
+              "file": "reporting/json_report.py",
+              "matches": [
+                {
+                  "line": 1115,
+                  "text": "\"intrinsic_activity_signature\": _intrinsic_signature(result),"
+                },
+                {
+                  "line": 1197,
+                  "text": "def _intrinsic_signature(result) -> Dict[str, Any]:"
+                }
+              ]
+            },
+            {
+              "file": "reporting/markdown_report.py",
+              "matches": [
+                {
+                  "line": 468,
+                  "text": "intr = diag.get(\"intrinsic_activity_signature\") or {}"
+                },
+                {
+                  "line": 481,
+                  "text": "\"`intrinsic_activity_signature.expected_artefacts`).\")"
+                }
+              ]
+            },
+            {
+              "file": "reporting/_kind_ru.py",
+              "matches": [
+                {
+                  "line": 46,
+                  "text": "\"I_K_escape_Ka\": \"I K-вылет (Kα)\","
+                },
+                {
+                  "line": 47,
+                  "text": "\"I_K_escape_Kb\": \"I K-вылет (Kβ)\","
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S10c",
+      "step": "10",
+      "requirement": "BG carryover after independent BG calibration",
+      "patterns": [
+        {
+          "pattern": "background[_-]?carryover|bg[_-]?lines.*subtracted|recalibrated.*bg",
+          "file_glob": "**/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S10d",
+      "step": "10",
+      "requirement": "XRF Z-by-Z catalog (Z 13-95)",
+      "patterns": [
+        {
+          "pattern": "xrf[_-]?catalog|K_alpha|K_beta|L_alpha|Z\\s*=\\s*\\d",
+          "file_glob": "data/xrf*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S10e",
+      "step": "10",
+      "requirement": "critical overlap disambig (Am241/W, I125, U235/Th)",
+      "patterns": [
+        {
+          "pattern": "Am[-_]?241.*W|W.*K_alpha.*59|U[-_]?235.*Th|disambig",
+          "file_glob": "identification/disambiguate.py",
+          "files": [
+            {
+              "file": "identification/disambiguate.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "Identification disambiguation per Lsrm Algorithmic Foundations §14.4"
+                },
+                {
+                  "line": 30,
+                  "text": "Disambiguation rules implemented here:"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S11a",
+      "step": "11",
+      "requirement": "report header",
+      "patterns": [
+        {
+          "pattern": "sample[_-]?id|live[_-]?time|dead[_-]?time|geometry|environment",
+          "file_glob": "reporting/*.py",
+          "files": [
+            {
+              "file": "reporting/anonymize.py",
+              "matches": [
+                {
+                  "line": 10,
+                  "text": "* ``sample_id`` — if it matches a known certified-source S/N pattern"
+                },
+                {
+                  "line": 92,
+                  "text": "def _anonymize_sample_id(value: Any) -> Any:"
+                }
+              ]
+            },
+            {
+              "file": "reporting/build.py",
+              "matches": [
+                {
+                  "line": 1217,
+                  "text": ".get(\"measurement_environment\") == \"background_only\""
+                },
+                {
+                  "line": 1254,
+                  "text": ".get(\"measurement_environment\") == \"background_only\""
+                }
+              ]
+            },
+            {
+              "file": "reporting/chat_summary.py",
+              "matches": [
+                {
+                  "line": 6,
+                  "text": "Spectrum: <filename> (<live_time_s> s live, dead-time <dead_time_pct>%)"
+                },
+                {
+                  "line": 7,
+                  "text": "Detector: <detector_type>, environment: <environment>"
+                }
+              ]
+            },
+            {
+              "file": "reporting/cost_estimator.py",
+              "matches": [
+                {
+                  "line": 120,
+                  "text": "def _step2_environment(result) -> StageCostEstimate:"
+                },
+                {
+                  "line": 307,
+                  "text": "_step2_environment(result),"
+                }
+              ]
+            },
+            {
+              "file": "reporting/environment.py",
+              "matches": [
+                {
+                  "line": 2,
+                  "text": "Measurement-environment classifier (Step 2 of SKILL.md, surfaced by the"
+                },
+                {
+                  "line": 5,
+                  "text": "Two canonical environments per SKILL.md:"
+                }
+              ]
+            },
+            {
+              "file": "reporting/html_report.py",
+              "matches": [
+                {
+                  "line": 203,
+                  "text": "(\"Sample ID\",        h.get(\"sample_id\") or \"—\"),"
+                },
+                {
+                  "line": 206,
+                  "text": "(\"Live time, s\",     _fmt(h.get(\"live_time_s\"), \"{:.1f}\")),"
+                }
+              ]
+            },
+            {
+              "file": "reporting/interactive_html.py",
+              "matches": [
+                {
+                  "line": 279,
+                  "text": "_GEOMETRY_RU = {"
+                },
+                {
+                  "line": 738,
+                  "text": "def _geometry_ru(canonical: str, fallback: str = \"\") -> str:"
+                }
+              ]
+            },
+            {
+              "file": "reporting/json_report.py",
+              "matches": [
+                {
+                  "line": 19,
+                  "text": "from gamma.reporting.environment import classify_environment"
+                },
+                {
+                  "line": 57,
+                  "text": "live = float(getattr(spec, \"live_time\", 0.0) or 0.0)"
+                }
+              ]
+            },
+            {
+              "file": "reporting/markdown_report.py",
+              "matches": [
+                {
+                  "line": 97,
+                  "text": "(\"Идентификатор образца\",           h.get(\"sample_id\", \"—\") or \"—\"),"
+                },
+                {
+                  "line": 100,
+                  "text": "(\"t_живое, с\",                      _fmt_or_dash(h.get(\"live_time_s\"), \"{:.1f}\")),"
+                }
+              ]
+            },
+            {
+              "file": "reporting/plots.py",
+              "matches": [
+                {
+                  "line": 154,
+                  "text": "live = float(getattr(spec, \"live_time\", 0.0) or 0.0)"
+                },
+                {
+                  "line": 181,
+                  "text": "bg_live = float(getattr(bg, \"live_time\", 0.0) or 0.0)"
+                }
+              ]
+            },
+            {
+              "file": "reporting/spectrum_qc_aggregator.py",
+              "matches": [
+                {
+                  "line": 13,
+                  "text": "or legacy integer z when live-times equal"
+                },
+                {
+                  "line": 281,
+                  "text": "# P0-6 wiring: bg_z_test_rates applies when sample_live_time ≠ bg_live_time."
+                }
+              ]
+            },
+            {
+              "file": "reporting/technical_pdf.py",
+              "matches": [
+                {
+                  "line": 232,
+                  "text": "live = _g(header, \"live_time_s\")"
+                },
+                {
+                  "line": 234,
+                  "text": "dead = _g(header, \"dead_time_pct\")"
+                }
+              ]
+            },
+            {
+              "file": "reporting/wrapper.py",
+              "matches": [
+                {
+                  "line": 406,
+                  "text": "# Mapping LSRM geometry-names (как в .src `[<source>]Geometry=`) →"
+                },
+                {
+                  "line": 425,
+                  "text": "def _filename_geometry_hint(path_str: str) -> str:"
+                }
+              ]
+            },
+            {
+              "file": "reporting/__init__.py",
+              "matches": [
+                {
+                  "line": 37,
+                  "text": "Environment classifier:"
+                },
+                {
+                  "line": 39,
+                  "text": "* `classify_environment(result)` — \"natural\" / \"low_background\" /"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S11b",
+      "step": "11",
+      "requirement": "detector justification block",
+      "patterns": [
+        {
+          "pattern": "detector[_-]?type|detector.*justific|resolution[_-]?check",
+          "file_glob": "reporting/*.py",
+          "files": [
+            {
+              "file": "reporting/chat_summary.py",
+              "matches": [
+                {
+                  "line": 7,
+                  "text": "Detector: <detector_type>, environment: <environment>"
+                },
+                {
+                  "line": 191,
+                  "text": "detector = header.get(\"detector_canonical\") or header.get(\"detector_type\") or \"?\""
+                }
+              ]
+            },
+            {
+              "file": "reporting/html_report.py",
+              "matches": [
+                {
+                  "line": 209,
+                  "text": "(\"Detector\",         h.get(\"detector_canonical\") or h.get(\"detector_type\") or \"—\"),"
+                },
+                {
+                  "line": 234,
+                  "text": "f\"{_e(h.get('detector_canonical') or h.get('detector_type') or '—')}</strong>.</p>\""
+                }
+              ]
+            },
+            {
+              "file": "reporting/interactive_html.py",
+              "matches": [
+                {
+                  "line": 771,
+                  "text": "detector = header.get(\"detector_canonical\") or header.get(\"detector_type\") or \"детектор\""
+                },
+                {
+                  "line": 848,
+                  "text": "detector = header.get(\"detector_canonical\") or header.get(\"detector_type\") or \"\""
+                }
+              ]
+            },
+            {
+              "file": "reporting/json_report.py",
+              "matches": [
+                {
+                  "line": 114,
+                  "text": "\"detector_type\": result.detector_type,"
+                },
+                {
+                  "line": 1207,
+                  "text": "detector = (result.detector_canonical or result.detector_type or \"\").lower()"
+                }
+              ]
+            },
+            {
+              "file": "reporting/markdown_report.py",
+              "matches": [
+                {
+                  "line": 103,
+                  "text": "(\"Детектор\",                        h.get(\"detector_canonical\") or h.get(\"detector_type\") or \"—\"),"
+                },
+                {
+                  "line": 132,
+                  "text": "f\"Канонический детектор: **{h.get('detector_canonical') or h.get('detector_type') or '—'}**.\\n\""
+                }
+              ]
+            },
+            {
+              "file": "reporting/plots.py",
+              "matches": [
+                {
+                  "line": 280,
+                  "text": "or result.detector_type"
+                }
+              ]
+            },
+            {
+              "file": "reporting/technical_pdf.py",
+              "matches": [
+                {
+                  "line": 389,
+                  "text": "dtype = _g(header, \"detector_type\", \"?\")"
+                }
+              ]
+            },
+            {
+              "file": "reporting/wrapper.py",
+              "matches": [
+                {
+                  "line": 35,
+                  "text": "\"detector_type\","
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S11c",
+      "step": "11",
+      "requirement": "calibration block: coeffs+sigma, residual plot, stored-vs-rebuilt",
+      "patterns": [
+        {
+          "pattern": "residual[_-]?plot|stored.*reused|rebuilt|cal[_-]?coeff",
+          "file_glob": "reporting/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S11d",
+      "step": "11",
+      "requirement": "primary FEP table",
+      "patterns": [
+        {
+          "pattern": "primary[_-]?FEP|FEP[_-]?table|fep_table",
+          "file_glob": "reporting/*.py",
+          "files": [
+            {
+              "file": "reporting/html_report.py",
+              "matches": [
+                {
+                  "line": 545,
+                  "text": "json_dict.get(\"primary_feps\", []) or [],"
+                }
+              ]
+            },
+            {
+              "file": "reporting/interactive_html.py",
+              "matches": [
+                {
+                  "line": 546,
+                  "text": "for fp in (report.get(\"primary_feps\") or []):"
+                },
+                {
+                  "line": 587,
+                  "text": "# Edge case: если в окне нет primary_fep — secondary остаётся top (нет"
+                }
+              ]
+            },
+            {
+              "file": "reporting/json_report.py",
+              "matches": [
+                {
+                  "line": 185,
+                  "text": "def _build_primary_feps(result) -> List[Dict[str, Any]]:"
+                },
+                {
+                  "line": 189,
+                  "text": "library_anchor_phantom}) НЕ попадают в primary_feps. Они представляют"
+                }
+              ]
+            },
+            {
+              "file": "reporting/markdown_report.py",
+              "matches": [
+                {
+                  "line": 389,
+                  "text": "# только если хотя бы один primary_fep принадлежит одной из подавляемых"
+                },
+                {
+                  "line": 403,
+                  "text": "feps = json_dict.get(\"primary_feps\") or []"
+                }
+              ]
+            },
+            {
+              "file": "reporting/technical_pdf.py",
+              "matches": [
+                {
+                  "line": 239,
+                  "text": "# поля нет; используем primary_feps rate_cps sum как ориентир."
+                },
+                {
+                  "line": 240,
+                  "text": "feps = _g(json_dict, \"primary_feps\") or []"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S11e",
+      "step": "11",
+      "requirement": "secondary-peak table with type column",
+      "patterns": [
+        {
+          "pattern": "secondary[_-]?peak.*type|sec_peak.*table",
+          "file_glob": "reporting/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S11f",
+      "step": "11",
+      "requirement": "elemental XRF table",
+      "patterns": [
+        {
+          "pattern": "xrf[_-]?table|fluorescence_shield|IC_parent|fluorescence_matrix",
+          "file_glob": "reporting/*.py",
+          "files": [
+            {
+              "file": "reporting/json_report.py",
+              "matches": [
+                {
+                  "line": 286,
+                  "text": "# Pb → fluorescence_shield; Ba (with Cs-137 detected) → IC daughter"
+                },
+                {
+                  "line": 291,
+                  "text": "entry[\"mechanism\"] = \"fluorescence_shield\""
+                }
+              ]
+            },
+            {
+              "file": "reporting/_kind_ru.py",
+              "matches": [
+                {
+                  "line": 39,
+                  "text": "\"fluorescence_shield\": \"флуоресценция защиты\","
+                },
+                {
+                  "line": 40,
+                  "text": "\"fluorescence_matrix\": \"флуоресценция матрицы\","
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S11g",
+      "step": "11",
+      "requirement": "identified nuclides with CI, DPR, activity, decay-corrected",
+      "patterns": [
+        {
+          "pattern": "identified[_-]?nuclides.*CI|nuclide[_-]?table|activity_decay_corrected",
+          "file_glob": "reporting/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S11h",
+      "step": "11",
+      "requirement": "unidentified + DC metric block",
+      "patterns": [
+        {
+          "pattern": "unident.*table|DC[_-]?metric|dose[_-]?contribution.*report",
+          "file_glob": "reporting/*.py",
+          "files": []
+        }
+      ],
+      "status": "MISS"
+    },
+    {
+      "check_id": "S11i",
+      "step": "11",
+      "requirement": "spectrum plot cps/log/no-smooth/labels",
+      "patterns": [
+        {
+          "pattern": "plot.*log|cps.*log|log.*cps|spectrum_plot",
+          "file_glob": "reporting/*.py",
+          "files": [
+            {
+              "file": "reporting/plots.py",
+              "matches": [
+                {
+                  "line": 6,
+                  "text": "* build_spectrum_plot(result, output_path)"
+                },
+                {
+                  "line": 117,
+                  "text": "def build_spectrum_plot("
+                }
+              ]
+            },
+            {
+              "file": "reporting/__init__.py",
+              "matches": [
+                {
+                  "line": 20,
+                  "text": "* `build_spectrum_plot(result, output_path)` — cps-log spectrum"
+                },
+                {
+                  "line": 61,
+                  "text": "build_spectrum_plot,"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S11j",
+      "step": "11",
+      "requirement": "per-multiplet deconv plots",
+      "patterns": [
+        {
+          "pattern": "multiplet.*plot|deconv.*plot|fit[_-]?plot",
+          "file_glob": "reporting/*.py",
+          "files": [
+            {
+              "file": "reporting/build.py",
+              "matches": [
+                {
+                  "line": 1184,
+                  "text": "\"multiplets\": list(plots.get(\"multiplets\") or []),"
+                }
+              ]
+            },
+            {
+              "file": "reporting/html_report.py",
+              "matches": [
+                {
+                  "line": 645,
+                  "text": "mult_paths = (plots or {}).get(\"multiplets\") if plots else None"
+                }
+              ]
+            },
+            {
+              "file": "reporting/markdown_report.py",
+              "matches": [
+                {
+                  "line": 648,
+                  "text": "multiplet_paths = (plots or {}).get(\"multiplets\") if plots else None"
+                }
+              ]
+            },
+            {
+              "file": "reporting/plots.py",
+              "matches": [
+                {
+                  "line": 12,
+                  "text": "* build_multiplet_plots(result, output_dir) -> List[Path]"
+                },
+                {
+                  "line": 299,
+                  "text": "# Public: multiplet cluster plots"
+                }
+              ]
+            },
+            {
+              "file": "reporting/__init__.py",
+              "matches": [
+                {
+                  "line": 23,
+                  "text": "* `build_multiplet_plots(result, output_dir)` — one PNG per resolved"
+                },
+                {
+                  "line": 62,
+                  "text": "build_multiplet_plots,"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S11k",
+      "step": "11",
+      "requirement": "MDA table for standard suite",
+      "patterns": [
+        {
+          "pattern": "mda[_-]?table|MDA.*suite|standard[_-]?nuclide.*MDA",
+          "file_glob": "reporting/*.py",
+          "files": [
+            {
+              "file": "reporting/interactive_html.py",
+              "matches": [
+                {
+                  "line": 176,
+                  "text": "(\"Bq / MDA suite may be incomplete\","
+                }
+              ]
+            },
+            {
+              "file": "reporting/json_report.py",
+              "matches": [
+                {
+                  "line": 1260,
+                  "text": "\"Efficiency curve not loaded — Bq / MDA suite may be incomplete.\""
+                }
+              ]
+            },
+            {
+              "file": "reporting/markdown_report.py",
+              "matches": [
+                {
+                  "line": 854,
+                  "text": "\"Bq / MDA suite may be incomplete\":"
+                }
+              ]
+            },
+            {
+              "file": "reporting/wrapper.py",
+              "matches": [
+                {
+                  "line": 60,
+                  "text": "\"mda_suite_extra_lines_keV\","
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S11l",
+      "step": "11",
+      "requirement": "diagnostic block",
+      "patterns": [
+        {
+          "pattern": "diagnostic[_-]?block|diagnostics.*report|shielding.*diagnostic",
+          "file_glob": "reporting/*.py",
+          "files": [
+            {
+              "file": "reporting/spectrum_qc_aggregator.py",
+              "matches": [
+                {
+                  "line": 4,
+                  "text": "Assembles the top-level ``diagnostics.spectrum_qc`` block in report.json"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "S11m",
+      "step": "11",
+      "requirement": "version history at end of report",
+      "patterns": [
+        {
+          "pattern": "version[_-]?history|changelog|report.*version",
+          "file_glob": "reporting/*.py",
+          "files": [
+            {
+              "file": "reporting/html_report.py",
+              "matches": [
+                {
+                  "line": 344,
+                  "text": "_VERSION_HISTORY = ["
+                },
+                {
+                  "line": 474,
+                  "text": "def _section_version_history() -> str:"
+                }
+              ]
+            },
+            {
+              "file": "reporting/markdown_report.py",
+              "matches": [
+                {
+                  "line": 16,
+                  "text": "_VERSION_HISTORY = ["
+                },
+                {
+                  "line": 488,
+                  "text": "def _render_version_history() -> str:"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "status": "PASS"
+    }
+  ]
+}

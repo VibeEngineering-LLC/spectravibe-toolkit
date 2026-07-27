@@ -1,0 +1,142 @@
+{
+  "class": "Simple_TeCd",
+  "entries": [
+    {
+      "spe": "Work/Simple/TeCd(Demo)/Spe/2Na_10.spe",
+      "xml": "Work/Simple/TeCd(Demo)/Spe/2Na_10.xml",
+      "is_background": false,
+      "sample_id": "2Na_10",
+      "passport_raw": "A=74000бк (буф-4096,Ф=0.5mks, ус=50+8.5, ВН=+800, на рас=100мм)",
+      "passport": null,
+      "detector": "Simple_TeCd",
+      "daq_config": null,
+      "geometry": "POINT",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 3600.0,
+      "real_time_s": 3602.0,
+      "channels": 4095,
+      "energy_cal": [
+        -6.4778633118,
+        0.47419115901,
+        5.44952975e-06
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Simple/TeCd(Demo)/Spe/Am_10.spe",
+      "xml": "Work/Simple/TeCd(Demo)/Spe/Am_10.xml",
+      "is_background": false,
+      "sample_id": "Am_10",
+      "passport_raw": "A=103900бк (буф-4096,Ф=0.5mks, ус=50+8.5, ВН=+800, на рас=100мм)(Sum/T =    37.39 Sum*I/T =  5162.48)",
+      "passport": null,
+      "detector": "Simple_TeCd",
+      "daq_config": null,
+      "geometry": "OSGI_10",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 1800.0,
+      "real_time_s": 1800.0,
+      "channels": 4095,
+      "energy_cal": [
+        -6.4778633118,
+        0.47419115901,
+        5.44952975e-06
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Simple/TeCd(Demo)/Spe/AmCeCsCoY.spe",
+      "xml": "Work/Simple/TeCd(Demo)/Spe/AmCeCsCoY.xml",
+      "is_background": false,
+      "sample_id": "AmCeCsCoY",
+      "passport_raw": "смесь на поверхности (буф-4096,Ф=0.5mks, ус=50+8.5, ВН=+800, на рас=100мм)(Sum/T =  2307.17 Sum*I/T = 1087230.59)",
+      "passport": null,
+      "detector": "Te(Cd)",
+      "daq_config": "TeCd(Demo)",
+      "geometry": "OSGI_10",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 1800.0,
+      "real_time_s": 1861.0,
+      "channels": 4095,
+      "energy_cal": [
+        -7.187894,
+        0.478671,
+        2.693241e-06,
+        -3.986304e-10
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Simple/TeCd(Demo)/Spe/Ce_10.spe",
+      "xml": "Work/Simple/TeCd(Demo)/Spe/Ce_10.xml",
+      "is_background": false,
+      "sample_id": "Ce_10",
+      "passport_raw": "A=25700бк (буф-4096,Ф=0.5mks, ус=50+8.5, ВН=+800, на рас=100мм)",
+      "passport": null,
+      "detector": "Simple_TeCd",
+      "daq_config": null,
+      "geometry": "POINT",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 1800.0,
+      "real_time_s": 1800.0,
+      "channels": 4095,
+      "energy_cal": [
+        -6.4778633118,
+        0.47419115901,
+        5.44952975e-06
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Simple/TeCd(Demo)/Spe/Cs_10.spe",
+      "xml": "Work/Simple/TeCd(Demo)/Spe/Cs_10.xml",
+      "is_background": false,
+      "sample_id": "Cs_10",
+      "passport_raw": "A=103700бк (буф-4096,Ф=0.5mks, ус=50+8.5, ВН=+800, на рас=100мм)(Sum/T =    23.71 Sum*I/T = 11166.84)",
+      "passport": null,
+      "detector": "Simple_TeCd",
+      "daq_config": null,
+      "geometry": "OSGI_10",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 1800.0,
+      "real_time_s": 1800.0,
+      "channels": 4095,
+      "energy_cal": [
+        -6.4778633118,
+        0.47419115901,
+        5.44952975e-06
+      ],
+      "background_spe": null
+    },
+    {
+      "spe": "Work/Simple/TeCd(Demo)/Spe/Sn_10.spe",
+      "xml": "Work/Simple/TeCd(Demo)/Spe/Sn_10.xml",
+      "is_background": false,
+      "sample_id": "Sn_10",
+      "passport_raw": "A=18100бк (буф-4096,Ф=0.5mks, ус=50+8.5, ВН=+800, на рас=100мм)",
+      "passport": null,
+      "detector": "Simple_TeCd",
+      "daq_config": null,
+      "geometry": "POINT",
+      "distance_cm": null,
+      "measured_at": null,
+      "live_time_s": 1800.0,
+      "real_time_s": 1800.0,
+      "channels": 4095,
+      "energy_cal": [
+        -6.4778633118,
+        0.47419115901,
+        5.44952975e-06
+      ],
+      "background_spe": null
+    }
+  ],
+  "scrubbed": 1,
+  "failed": [],
+  "xml_skipped_bulk": 0,
+  "backgrounds": []
+}

@@ -1,0 +1,59 @@
+{
+  "_meta": {
+    "schema_version": "v1",
+    "created": "2026-06-04",
+    "renamed": "2026-06-21",
+    "rename_note": "F2-A canonical normalization: file was Gamma-1C.json; renamed to Gamma-1S.json after the homoglyph fix that established 'Gamma-1S' as the single ASCII canonical for the spectrometric complex internally labeled «Гамма-1С» (cyrillic 'С' U+0421 → ASCII 'S' transliteration; legacy ASCII 'Gamma-1C' kept as alias in data/aliases.json). The bogus stub Gamma-1S.json (validation_status=stub_pending_efficiency_cert, fallback_to=Gamma-1C) that previously co-existed in this directory was discarded — it described a fictitious second complex and its existence drove the Case-2 stub-fallback branch in profile.py.",
+    "author": "agent-a3",
+    "purpose": "Detector profile metadata for the Gamma-1S spectrometric complex (canonical ASCII name for «Гамма-1С»). Loaded by gamma.detectors.profile.load_detector_profile; metadata-only registry layer above the path resolver gamma.detectors.gamma1s.",
+    "rules": [
+      "Profile is metadata only — physical assets (efficiency .efr, secondary peaks, certificates) live under detectors/Gamma-1S/.",
+      "Every field carries a provenance pointer to the authoritative source.",
+      "When a spectrum's canonical detector resolves to a name without a matching profile JSON here, the loader emits a `detector_fallback` warning (BUG-39 'profile_not_on_disk' branch)."
+    ]
+  },
+  "canonical": "Gamma-1S",
+  "kind": "spectrometric_complex",
+  "detector_head": {
+    "model": "УДС-ГЦ-63×63-USB",
+    "crystal": "NaI(Tl) 63×63 mm",
+    "manufacturer": "Aspect",
+    "default_serial": "SN-01",
+    "_provenance": "scripts/gamma/detectors/gamma1s.py:5 (module docstring) + detectors/Gamma-1S/ subtree layout"
+  },
+  "daq_software": {
+    "canonical": "lsrm_spectraline",
+    "_provenance": "data/aliases.json software.lsrm_spectraline"
+  },
+  "fwhm_polynomial": {
+    "convention": "lsrm_sqrt_E",
+    "comment": "FWHM(E) = sqrt(c0 + c1*E + c2*E^2), keV; LSRM .spe FWHM=2 polynomial",
+    "coefficients": null,
+    "_provenance": "Per-spectrum value: read from `.spe` FWHM=2 block via gamma.io.lsrm_spe; no fleet-wide constant for Gamma-1S — each measurement carries its stored fit."
+  },
+  "efficiency_source": {
+    "kind": "directory",
+    "path": "detectors/Gamma-1S/efficiency",
+    "default_unit_subdir": "Gamma-1S_NaI_63x63_USB_SN-01",
+    "_provenance": "scripts/gamma/detectors/gamma1s.py:145 DEFAULT_EFFICIENCY_DIR"
+  },
+  "secondary_peaks_source": {
+    "v1": "detectors/Gamma-1S/data/secondary_peaks.json",
+    "v2": "detectors/Gamma-1S/data/secondary_peaks_v2.json",
+    "_provenance": "scripts/gamma/detectors/gamma1s.py:117-122"
+  },
+  "intrinsic_signature": {
+    "expected_artefacts": [
+      "I_K_escape_Ka_E_gamma-28.6keV",
+      "I_K_escape_Kb_E_gamma-32.3keV"
+    ],
+    "absent_signatures": [
+      "La-138",
+      "Ac-227 series",
+      "Ge K-escape"
+    ],
+    "_provenance": "detectors/Gamma-1S/references/05_intrinsic_detector_activity.md"
+  },
+  "validation_status": "primary",
+  "notes": "Primary calibrated unit (serial SN-01) anchors the Gamma-1S profile. Internal Russian label «Гамма-1С» (cyrillic 'С' U+0421); ASCII canonical 'Gamma-1S' = transliteration of cyrillic «С». The legacy ASCII 'Gamma-1C' form (historical homoglyph typo) is preserved as an alias in data/aliases.json for backward compatibility — it resolves to this same profile. Other physical units sharing the same УДС-ГЦ-63×63 head model are treated as separate canonicals only when CONFIGNAME genuinely differs (e.g. a future hypothetical serial-0221 complex would get its own profile JSON, not the stub fallback that was discarded 2026-06-21)."
+}
