@@ -66,6 +66,21 @@ BULK_DIRS = re.compile(r"(?i)Pu_LNHB|U_LNHB|_LNHB|INR|IPPPE|kpti|SIL_|InfiniteU|
 # BecqMoni SampleInfo units — see gamma/io/becqmoni_xml.py BUG-BQ2.
 BQ_MIN, BQ_MAX, BQ_DEFAULT = 0.001, 100.0, 1.0
 
+# BecqMoni validates the sample and the embedded background as two independent
+# calibrations (`DocumentManager.CheckDocument`, foreground at :132, background
+# at :204). `PolynomialEnergyCalibration.CheckCalibration` rejects any order
+# above 4, and the recovery branch only downgrades when the top coefficients
+# are zero — a genuine 5th-degree fit has none, so the calibration is replaced
+# by the default one. A background carrying such a fit therefore destroys the
+# energy axis of the whole document even when the sample itself is linear.
+# Rather than rewrite the stored calibration, we leave the background out and
+# keep only the `<BackgroundSpectrumFile>` reference.
+BQ_MAX_POLY_ORDER = 4
+
+
+def poly_degree(spec) -> int | None:
+    return (len(spec.energy_cal) - 1) if spec.energy_cal else None
+
 
 def to_becqmoni_unit(raw) -> str:
     try:
@@ -122,8 +137,14 @@ def publish_class(name: str, source_root: Path, xml_all: bool = False) -> dict:
     if not spes:
         return {"class": name, "error": "нет .spe"}
 
-    out_spe = REPO / "detectors" / name / "reference_spectra" / "lsrm"
-    out_xml = REPO / "detectors" / name / "reference_spectra" / "becqmoni"
+    ref = REPO / "detectors" / name / "reference_spectra"
+    out_spe = ref / "lsrm"
+    out_xml = ref / "becqmoni"
+    # Фоны каждого детектора собираются в свою папку, а не рассыпаны по дереву
+    # измерений: их переиспользуют разные геометрии, и искать их по вложенным
+    # `Spe/Background` неудобно.
+    out_bg_spe = ref / "background" / "lsrm"
+    out_bg_xml = ref / "background" / "becqmoni"
     backgrounds = find_backgrounds(spes)
 
     rows, scrubbed, failed, xml_skipped = [], 0, [], 0
@@ -133,16 +154,19 @@ def publish_class(name: str, source_root: Path, xml_all: bool = False) -> dict:
         parts = [p for p in rel.parts if p not in ("raw_lsrm", "reference_spectra")]
         rel = Path(*parts)
 
-        dst = out_spe / rel
+        is_bg = bool(BG_PATTERN.search(src.name))
+        dst = (out_bg_spe if is_bg else out_spe) / rel
         if scrub(src, dst):
             scrubbed += 1
+
+        # Пути в описи — от reference_spectra, чтобы было видно ветку background/.
+        spe_rel = (Path("background") / rel) if is_bg else rel
 
         make_xml = xml_all or not BULK_DIRS.search(str(rel))
         if not make_xml:
             xml_skipped += 1
-            rows.append({"spe": str(rel).replace("\\", "/"), "xml": None,
-                         "is_background": bool(BG_PATTERN.search(src.name)),
-                         "xml_skipped_bulk": True})
+            rows.append({"spe": str(spe_rel).replace("\\", "/"), "xml": None,
+                         "is_background": is_bg, "xml_skipped_bulk": True})
             continue
 
         try:
@@ -151,17 +175,26 @@ def publish_class(name: str, source_root: Path, xml_all: bool = False) -> dict:
             failed.append({"file": str(rel), "error": f"{type(exc).__name__}: {exc}"})
             continue
 
-        bg_path = None if BG_PATTERN.search(src.name) else pick_background(src, backgrounds)
+        bg_path = None if is_bg else pick_background(src, backgrounds)
+        bg_degree = None
+        bg_dropped = False
         if bg_path is not None:
             bg_rel = bg_path.relative_to(src_dir)
             bg_rel = Path(*[p for p in bg_rel.parts
                             if p not in ("raw_lsrm", "reference_spectra")])
-            bg_dst = out_spe / bg_rel
+            bg_dst = out_bg_spe / bg_rel
             if not bg_dst.exists():
                 scrub(bg_path, bg_dst)
             try:
-                spec.background_embedded = read_lsrm_spe(str(bg_dst))
+                bg_spec = read_lsrm_spe(str(bg_dst))
+                bg_degree = poly_degree(bg_spec)
                 spec.background_link = bg_path.name
+                if bg_degree is not None and bg_degree > BQ_MAX_POLY_ORDER:
+                    # See BQ_MAX_POLY_ORDER: embedding it would cost the whole
+                    # document its energy axis. Keep the link, drop the data.
+                    bg_dropped = True
+                else:
+                    spec.background_embedded = bg_spec
             except Exception:                          # noqa: BLE001
                 spec.background_embedded, bg_path = None, None
 
@@ -176,14 +209,14 @@ def publish_class(name: str, source_root: Path, xml_all: bool = False) -> dict:
         spec.extras["lsrm_samplevolume"] = to_becqmoni_unit(
             spec.extras.get("lsrm_samplevolume", ""))
 
-        xml_path = out_xml / rel.with_suffix(".xml")
+        xml_path = (out_bg_xml if is_bg else out_xml) / rel.with_suffix(".xml")
         xml_path.parent.mkdir(parents=True, exist_ok=True)
         write_becqmoni_xml(spec, str(xml_path))
 
         rows.append({
-            "spe": str(rel).replace("\\", "/"),
-            "xml": str(rel.with_suffix(".xml")).replace("\\", "/"),
-            "is_background": bool(BG_PATTERN.search(src.name)),
+            "spe": str(spe_rel).replace("\\", "/"),
+            "xml": str(spe_rel.with_suffix(".xml")).replace("\\", "/"),
+            "is_background": is_bg,
             "sample_id": spec.sample_id,
             "passport_raw": spec.comments,
             "passport": spec.extras.get("lsrm_passport"),
@@ -196,12 +229,15 @@ def publish_class(name: str, source_root: Path, xml_all: bool = False) -> dict:
             "real_time_s": round(spec.real_time, 3),
             "channels": int(spec.n_channels or len(spec.counts)),
             "energy_cal": list(spec.energy_cal) if spec.energy_cal else None,
-            "energy_cal_degree": (len(spec.energy_cal) - 1) if spec.energy_cal else None,
-            # BecqMoni evaluates degree 2..4 only; above that it silently
-            # falls back to a straight line (PolynomialEnergyCalibration.cs).
+            "energy_cal_degree": poly_degree(spec),
+            # BecqMoni rejects any order above 4 and falls back to its default
+            # calibration — see BQ_MAX_POLY_ORDER.
             "becqmoni_reads_as_linear": bool(
-                spec.energy_cal and len(spec.energy_cal) - 1 > 4),
+                spec.energy_cal and poly_degree(spec) > BQ_MAX_POLY_ORDER),
             "background_spe": (str(bg_path.name) if bg_path is not None else None),
+            "background_cal_degree": bg_degree,
+            "background_embedded": bg_path is not None and not bg_dropped,
+            "background_dropped_high_order": bg_dropped,
         })
 
     return {"class": name, "entries": rows, "scrubbed": scrubbed,

@@ -50,6 +50,10 @@ BQ_MIN = 0.001
 BQ_MAX = 100.0
 BQ_NEUTRAL = 1.0  # what BecqMoni itself writes when the field is unknown
 
+# `PolynomialEnergyCalibration.CheckCalibration` refuses anything above this,
+# and the recovery branch only downgrades when the top coefficients are zero.
+BQ_MAX_POLY_ORDER = 4
+
 
 def to_becqmoni_unit(raw) -> str:
     """LSRM grams/millilitres -> BecqMoni kilograms/litres, range-checked."""
@@ -93,8 +97,18 @@ def convert(kits_dir: Path, out_dir: Path, dry_run: bool = False) -> int:
             continue
 
         spec = read_lsrm_spe(str(sample))
-        spec.background_embedded = read_lsrm_spe(str(bg))
+        bg_spec = read_lsrm_spe(str(bg))
         spec.background_link = bg.name
+        # BecqMoni validates the embedded background as a calibration in its
+        # own right (`DocumentManager.CheckDocument:204`) and rejects any
+        # polynomial order above 4, replacing it with the default one — which
+        # costs the whole document its energy axis even when the sample is
+        # linear. Keep the reference, leave the data out.
+        bg_degree = (len(bg_spec.energy_cal) - 1) if bg_spec.energy_cal else None
+        if bg_degree is not None and bg_degree > BQ_MAX_POLY_ORDER:
+            problems.append(f"{rel}: фон {bg.name} со степенью {bg_degree} не вшит")
+        else:
+            spec.background_embedded = bg_spec
         if not spec.sample_id:
             spec.sample_id = sample.stem
         if not spec.detector_id:

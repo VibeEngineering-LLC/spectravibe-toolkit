@@ -45,7 +45,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 0.068,
       "becqmoni_volume_l": 0.12,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Denta_120mL",
@@ -91,7 +94,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 0.079,
       "becqmoni_volume_l": 0.12,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Denta_120mL",
@@ -136,7 +142,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 0.1,
       "becqmoni_volume_l": 0.1,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Denta_120mL",
@@ -182,7 +191,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 0.074,
       "becqmoni_volume_l": 0.12,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Denta_120mL",
@@ -228,7 +240,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 0.192,
       "becqmoni_volume_l": 0.12,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Marinelli_1L",
@@ -274,7 +289,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 0.57,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "8ec853b8-2cfc-5e8b-8c84-12f1387c5d1c"
+      "device_guid": "8ec853b8-2cfc-5e8b-8c84-12f1387c5d1c",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Marinelli_1L",
@@ -320,7 +338,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 0.665,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "8ec853b8-2cfc-5e8b-8c84-12f1387c5d1c"
+      "device_guid": "8ec853b8-2cfc-5e8b-8c84-12f1387c5d1c",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Marinelli_1L",
@@ -365,7 +386,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Marinelli_1L",
@@ -411,7 +435,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 0.622,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "8ec853b8-2cfc-5e8b-8c84-12f1387c5d1c"
+      "device_guid": "8ec853b8-2cfc-5e8b-8c84-12f1387c5d1c",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Marinelli_1L",
@@ -458,7 +485,10 @@
       "background_channels": 1024,
       "becqmoni_weight_kg": 1.6,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Petri_60mL",
@@ -504,7 +534,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 0.034,
       "becqmoni_volume_l": 0.06,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Petri_60mL",
@@ -550,7 +583,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 0.04,
       "becqmoni_volume_l": 0.06,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Petri_60mL",
@@ -595,7 +631,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 0.06,
       "becqmoni_volume_l": 0.06,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Petri_60mL",
@@ -641,7 +680,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 0.037,
       "becqmoni_volume_l": 0.06,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Petri_60mL",
@@ -687,7 +729,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 0.096,
       "becqmoni_volume_l": 0.06,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_25cm",
@@ -733,7 +778,10 @@
       "background_channels": 1004,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_25cm",
@@ -779,7 +827,10 @@
       "background_channels": 1004,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_25cm",
@@ -825,7 +876,10 @@
       "background_channels": 1004,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_25cm",
@@ -871,7 +925,10 @@
       "background_channels": 1004,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_25cm",
@@ -917,7 +974,10 @@
       "background_channels": 1004,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_25cm",
@@ -964,7 +1024,10 @@
       "background_channels": 1004,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_25cm",
@@ -1010,7 +1073,10 @@
       "background_channels": 1004,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_25cm",
@@ -1056,7 +1122,10 @@
       "background_channels": 1004,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_25cm",
@@ -1103,7 +1172,10 @@
       "background_channels": 1004,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_25cm",
@@ -1150,7 +1222,10 @@
       "background_channels": 1004,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_25cm",
@@ -1197,7 +1272,10 @@
       "background_channels": 1004,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_5cm",
@@ -1243,7 +1321,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_5cm",
@@ -1289,7 +1370,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_5cm",
@@ -1336,7 +1420,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_5cm",
@@ -1382,7 +1469,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_5cm",
@@ -1428,7 +1518,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_5cm",
@@ -1474,7 +1567,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_5cm",
@@ -1520,7 +1616,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_5cm",
@@ -1566,7 +1665,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_5cm",
@@ -1612,7 +1714,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_5cm",
@@ -1658,7 +1763,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_5cm",
@@ -1704,7 +1812,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_5cm",
@@ -1749,7 +1860,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_5cm",
@@ -1795,7 +1909,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "geometry": "Point_5cm",
@@ -1842,7 +1959,10 @@
       "background_channels": 1012,
       "becqmoni_weight_kg": 1.0,
       "becqmoni_volume_l": 1.0,
-      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf"
+      "device_guid": "0e21ebf0-be89-5256-82ee-3f84de38eddf",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     }
   ],
   "efficiency": [

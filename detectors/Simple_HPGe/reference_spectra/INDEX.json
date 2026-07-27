@@ -22,7 +22,10 @@
         4.11642e-08,
         -1.5e-12
       ],
-      "background_spe": "Фон_2MeV.spe"
+      "background_spe": "Фон_2MeV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Co60_10cm.spe",
@@ -45,7 +48,10 @@
         4.11642e-08,
         -1.5e-12
       ],
-      "background_spe": "Фон_2MeV.spe"
+      "background_spe": "Фон_2MeV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Eu152_10cm-BadCalibration.spe",
@@ -66,7 +72,10 @@
         23.67898,
         0.2343585
       ],
-      "background_spe": "Фон_2MeV.spe"
+      "background_spe": "Фон_2MeV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Eu152_10cm.spe",
@@ -89,7 +98,10 @@
         4.11642e-08,
         -1.5e-12
       ],
-      "background_spe": "Фон_2MeV.spe"
+      "background_spe": "Фон_2MeV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Na22_10cm.spe",
@@ -112,7 +124,10 @@
         4.11642e-08,
         -1.5e-12
       ],
-      "background_spe": "Фон_2MeV.spe"
+      "background_spe": "Фон_2MeV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Th228_10cm.spe",
@@ -134,7 +149,10 @@
         0.2410621,
         1.571797e-08
       ],
-      "background_spe": "Фон_2MeV.spe"
+      "background_spe": "Фон_2MeV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Ti44_10cm.spe",
@@ -157,7 +175,10 @@
         4.11642e-08,
         -1.5e-12
       ],
-      "background_spe": "Фон_2MeV.spe"
+      "background_spe": "Фон_2MeV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Simple/HPGe(Demo)/SPE/10cm/Y88_10cm.spe",
@@ -180,11 +201,14 @@
         4.11642e-08,
         -1.5e-12
       ],
-      "background_spe": "Фон_2MeV.spe"
+      "background_spe": "Фон_2MeV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
-      "spe": "Work/Simple/HPGe(Demo)/SPE/Фон_2MeV.spe",
-      "xml": "Work/Simple/HPGe(Demo)/SPE/Фон_2MeV.xml",
+      "spe": "background/Work/Simple/HPGe(Demo)/SPE/Фон_2MeV.spe",
+      "xml": "background/Work/Simple/HPGe(Demo)/SPE/Фон_2MeV.xml",
       "is_background": true,
       "sample_id": "Фон_2MeV",
       "passport_raw": "Фон,  диапазон 2МэВ",

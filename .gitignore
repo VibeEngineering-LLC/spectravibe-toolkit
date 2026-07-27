@@ -75,6 +75,7 @@ references/knowledge_index.json
 # активностями. Полное дерево пересобирается lsrm_tree_publish.py.
 detectors/Gamma-1S/reference_spectra/lsrm/
 detectors/Gamma-1S/reference_spectra/becqmoni/
+detectors/Gamma-1S/reference_spectra/background/
 detectors/Gamma-1S/reference_spectra/README.md
 detectors/Gamma-1S/reference_spectra/INDEX.json
 detectors/Gamma-1S/certificates/

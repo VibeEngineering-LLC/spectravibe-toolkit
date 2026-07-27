@@ -2,8 +2,8 @@
   "class": "Handy_HPGe",
   "entries": [
     {
-      "spe": "Work/Handy/Handy(HPGe)/Data/Bckg-1500 keV.spe",
-      "xml": "Work/Handy/Handy(HPGe)/Data/Bckg-1500 keV.xml",
+      "spe": "background/Work/Handy/Handy(HPGe)/Data/Bckg-1500 keV.spe",
+      "xml": "background/Work/Handy/Handy(HPGe)/Data/Bckg-1500 keV.xml",
       "is_background": true,
       "sample_id": "Bckg-1500 keV",
       "passport_raw": "",
@@ -54,7 +54,10 @@
         1.618949e-10,
         -1.230847e-14
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Ba-133  813 kBq.spe",
@@ -88,7 +91,10 @@
         5.3345e-11,
         -4.786e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Ba-133  813 kBq_KT1-10.spe",
@@ -122,7 +128,10 @@
         5.3345e-11,
         -4.786e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Ba-133  813 kBq_KT1-20.spe",
@@ -156,7 +165,10 @@
         5.3345e-11,
         -4.786e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Ba-133  813 kBq_KT1-5.spe",
@@ -190,11 +202,14 @@
         5.3345e-11,
         -4.786e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
-      "spe": "Work/Handy/Handy(HPGe)/Spe/Bckg-1500 keV.spe",
-      "xml": "Work/Handy/Handy(HPGe)/Spe/Bckg-1500 keV.xml",
+      "spe": "background/Work/Handy/Handy(HPGe)/Spe/Bckg-1500 keV.spe",
+      "xml": "background/Work/Handy/Handy(HPGe)/Spe/Bckg-1500 keV.xml",
       "is_background": true,
       "sample_id": "Bckg-1500 keV",
       "passport_raw": "",
@@ -245,7 +260,10 @@
         5.3345e-11,
         -4.786e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Co-60  198 kBq_KT1-10.spe",
@@ -279,7 +297,10 @@
         5.3345e-11,
         -4.786e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Co-60  198 kBq_KT1-20.spe",
@@ -313,7 +334,10 @@
         5.3345e-11,
         -4.786e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Co-60  198 kBq_KT1-5.spe",
@@ -347,7 +371,10 @@
         5.334492e-11,
         -4.785998e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Cs-134  95 kBq.spe",
@@ -371,7 +398,10 @@
         5.334492e-11,
         -4.785998e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Cs-134  95 kBq_KT1-10.spe",
@@ -395,7 +425,10 @@
         5.334492e-11,
         -4.785998e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Cs-134  95 kBq_KT1-20.spe",
@@ -419,7 +452,10 @@
         5.3345e-11,
         -4.786e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Cs-134  95 kBq_KT1-5.spe",
@@ -443,7 +479,10 @@
         5.334492e-11,
         -4.785998e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Cs-137  75 kBq.spe",
@@ -467,7 +506,10 @@
         5.334492e-11,
         -4.785998e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Cs-137  75 kBq_KT1-10.spe",
@@ -491,7 +533,10 @@
         5.334492e-11,
         -4.785998e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Cs-137  75 kBq_KT1-20.spe",
@@ -515,7 +560,10 @@
         5.334492e-11,
         -4.785998e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Cs-137  75 kBq_KT1-5.spe",
@@ -539,7 +587,10 @@
         5.334492e-11,
         -4.785998e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Eu-152  244 kBq.spe",
@@ -573,7 +624,10 @@
         -1.414581e-10,
         8.409639e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Eu-152  244 kBq_KT1-10.spe",
@@ -607,7 +661,10 @@
         5.334492e-11,
         -4.785998e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Eu-152  244 kBq_KT1-20.spe",
@@ -641,7 +698,10 @@
         5.334492e-11,
         -4.785998e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Eu-152  244 kBq_KT1-5.spe",
@@ -675,7 +735,10 @@
         5.3345e-11,
         -4.786e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Na-22  92 kBq KT1-10.spe",
@@ -699,7 +762,10 @@
         -1.414581e-10,
         8.409639e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Na-22  92 kBq KT1-20.spe",
@@ -723,7 +789,10 @@
         -1.414581e-10,
         8.409639e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Na-22  92 kBq KT1-5.spe",
@@ -747,7 +816,10 @@
         -1.414581e-10,
         8.409639e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Na-22  92 kBq.spe",
@@ -771,7 +843,10 @@
         -1.414581e-10,
         8.409639e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Th-228  68 kBq KT1-10.spe",
@@ -805,7 +880,10 @@
         -1.4276e-10,
         8.5729e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Th-228  68 kBq KT1-20.spe",
@@ -839,7 +917,10 @@
         -1.4276e-10,
         8.5729e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Th-228  68 kBq KT1-5.spe",
@@ -870,7 +951,10 @@
         -0.2156181,
         0.3286038
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Th-228  68 kBq.spe",
@@ -904,7 +988,10 @@
         -1.414581e-10,
         8.409639e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Th-232  17 kBq KT1-10.spe",
@@ -928,7 +1015,10 @@
         -1.4146e-10,
         8.4096e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Th-232  17 kBq KT1-20.spe",
@@ -952,7 +1042,10 @@
         -1.4146e-10,
         8.4096e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Th-232  17 kBq KT1-5.spe",
@@ -976,7 +1069,10 @@
         -1.4146e-10,
         8.4096e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Th-232  17 kBq.spe",
@@ -1000,7 +1096,10 @@
         -1.414581e-10,
         8.409639e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Ti-44  72 kBq KT1-10.spe",
@@ -1034,7 +1133,10 @@
         -1.4146e-10,
         8.4096e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Ti-44  72 kBq KT1-20.spe",
@@ -1068,7 +1170,10 @@
         -1.4146e-10,
         8.4096e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Ti-44  72 kBq KT1-5.spe",
@@ -1102,7 +1207,10 @@
         -1.4146e-10,
         8.4096e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/Handy/Handy(HPGe)/Spe/Ti-44  72 kBq.spe",
@@ -1136,7 +1244,10 @@
         -1.414581e-10,
         8.409639e-15
       ],
-      "background_spe": "Bckg-1500 keV.spe"
+      "background_spe": "Bckg-1500 keV.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     }
   ],
   "scrubbed": 37,

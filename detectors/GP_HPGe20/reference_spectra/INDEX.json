@@ -2,8 +2,8 @@
   "class": "GP_HPGe20",
   "entries": [
     {
-      "spe": "Work/GP/HPGe(20_)/Spe/Background/Bckg_1.spe",
-      "xml": "Work/GP/HPGe(20_)/Spe/Background/Bckg_1.xml",
+      "spe": "background/Work/GP/HPGe(20_)/Spe/Background/Bckg_1.spe",
+      "xml": "background/Work/GP/HPGe(20_)/Spe/Background/Bckg_1.xml",
       "is_background": true,
       "sample_id": "Bckg_1",
       "passport_raw": "Distilled water",
@@ -29,8 +29,8 @@
       "background_spe": null
     },
     {
-      "spe": "Work/GP/HPGe(20_)/Spe/Background/Bckg_15.spe",
-      "xml": "Work/GP/HPGe(20_)/Spe/Background/Bckg_15.xml",
+      "spe": "background/Work/GP/HPGe(20_)/Spe/Background/Bckg_15.spe",
+      "xml": "background/Work/GP/HPGe(20_)/Spe/Background/Bckg_15.xml",
       "is_background": true,
       "sample_id": "Bckg_15",
       "passport_raw": "Distilled Water",
@@ -56,8 +56,8 @@
       "background_spe": null
     },
     {
-      "spe": "Work/GP/HPGe(20_)/Spe/Background/Bckg_5.spe",
-      "xml": "Work/GP/HPGe(20_)/Spe/Background/Bckg_5.xml",
+      "spe": "background/Work/GP/HPGe(20_)/Spe/Background/Bckg_5.spe",
+      "xml": "background/Work/GP/HPGe(20_)/Spe/Background/Bckg_5.xml",
       "is_background": true,
       "sample_id": "Bckg_5",
       "passport_raw": "Distilled Water",
@@ -100,7 +100,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/joint processing/Barrel_10cm_D2.spe",
@@ -123,7 +126,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/joint processing/Barrel_10cm_D3.spe",
@@ -146,7 +152,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/joint processing/NZK_50cm_D1.spe",
@@ -169,7 +178,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/joint processing/NZK_50cm_D2.spe",
@@ -192,7 +204,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/joint processing/NZK_50cm_D3.spe",
@@ -215,7 +230,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/joint processing/NZK_50cm_D4.spe",
@@ -238,7 +256,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m08085_mix09.spe",
@@ -265,7 +286,10 @@
       ],
       "energy_cal_degree": 5,
       "becqmoni_reads_as_linear": true,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_cs06.spe",
@@ -289,7 +313,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_cs16.spe",
@@ -313,7 +340,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_k06.spe",
@@ -337,7 +367,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_k16.spe",
@@ -361,7 +394,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_ra06.spe",
@@ -395,7 +431,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_ra16.spe",
@@ -419,7 +458,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_th06.spe",
@@ -443,7 +485,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Marinelli/m_th16.spe",
@@ -467,7 +512,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Am241-SRC-01-25cm.spe",
@@ -490,7 +538,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Ba133-SRC-01-25cm.spe",
@@ -513,7 +564,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Cd109-SRC-01-25cm.spe",
@@ -536,7 +590,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Ce139-SRC-01-25cm.spe",
@@ -559,7 +616,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Co57-SRC-01-25cm.spe",
@@ -582,7 +642,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Co60-SRC-01-25cm.spe",
@@ -605,7 +668,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Cs137-SRC-01-25cm.spe",
@@ -629,7 +695,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Eu152-SRC-01-25cm.spe",
@@ -663,7 +732,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Mn54-SRC-01-25cm.spe",
@@ -686,7 +758,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Sn113-SRC-01-25cm.spe",
@@ -709,7 +784,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Th228-SRC-01-25cm.spe",
@@ -732,7 +810,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Point25/Y88-SRC-01-25cm.spe",
@@ -769,7 +850,10 @@
       ],
       "energy_cal_degree": 5,
       "becqmoni_reads_as_linear": true,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/GP/HPGe(20_)/Spe/Th228--BadCalibre.spe",
@@ -792,7 +876,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     }
   ],
   "scrubbed": 25,

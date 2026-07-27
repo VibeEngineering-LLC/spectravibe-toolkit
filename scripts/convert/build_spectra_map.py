@@ -10,7 +10,7 @@ Usage:
 """
 from __future__ import annotations
 
-import json
+import re
 import subprocess
 import sys
 from collections import defaultdict
@@ -63,65 +63,46 @@ def collect():
     return per
 
 
-def degree5():
-    """Файлы с полиномом 5-й степени — по флагу из INDEX.json классов."""
-    rows = []
-    tracked_set = set(tracked())
-    for rel in sorted(tracked_set):
-        if not rel.endswith("INDEX.json") or not rel.startswith("detectors/"):
-            continue
-        cls = rel.split("/")[1]
-        try:
-            data = json.loads((REPO / rel).read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            continue
-        base = rel.rsplit("/", 1)[0]
-        for e in data.get("entries", []):
-            if not e.get("becqmoni_reads_as_linear"):
-                continue
-            name = e.get("xml") or e.get("spe")
-            if not name:
-                continue
-            full = f"{base}/becqmoni/{name}"
-            rows.append((cls, *resolve(full, tracked_set),
-                         e.get("energy_cal_degree")))
-    return rows
+BLOCK = re.compile(r"<(EnergySpectrum|BackgroundEnergySpectrum)>(.*?)</\1>",
+                   re.DOTALL)
+ORDER = re.compile(r"<PolynomialOrder>(\d+)</PolynomialOrder>")
+MAX_ORDER = 4
 
 
-def resolve(full: str, tracked_set: set) -> tuple[str, str]:
-    """Найти файл по записи индекса и сказать, опубликован он или локален.
+def high_order():
+    """Файлы, где BecqMoni отвергнет калибровку — по самим XML.
 
-    Индексы классов могут отставать от текущих имён, поэтому прямой путь не
-    всегда существует. Ищем по имени с подстановкой на месте метки прибора или
-    источника, а файл, лежащий на диске но не в индексе git, помечаем как
-    локальный, а не как потерянный.
+    Читаем оба блока, а не флаг из INDEX.json: BecqMoni проверяет спектр и
+    вшитый фон как две независимые калибровки, и опись, построенная только по
+    спектру, вторую половину пропускала.
     """
-    import re as _re
-    if full in tracked_set:
-        return full, "в git"
-    directory, _, name = full.rpartition("/")
-    pattern = _re.escape(name).replace(r"SRC\-01", r"SRC\-\d+") \
-                              .replace(r"SN\-01", r"SN\-\d+")
-    pattern = _re.sub(r"(?:SRC|SN)\\-\d+", r"(?:SRC|SN)\\-\\d+", _re.escape(name))
-    rx = _re.compile("^" + pattern + "$")
-    for cand in tracked_set:
-        if cand.startswith(directory + "/") and rx.match(cand.rpartition("/")[2]):
-            return cand, "в git"
-    disk = REPO / full
-    if disk.exists():
-        return full, "локально"
-    parent = REPO / directory
-    if parent.is_dir():
-        for cand in parent.iterdir():
-            if rx.match(cand.name):
-                return f"{directory}/{cand.name}", "локально"
-    return full, "не найден"
+    tracked_set = set(tracked())
+    rows = []
+    for p in sorted(REPO.joinpath("detectors").rglob("*.xml")):
+        rel = p.relative_to(REPO).as_posix()
+        try:
+            text = p.read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError):
+            continue
+        worst = {}
+        for m in BLOCK.finditer(text):
+            o = ORDER.search(m.group(2))
+            if o:
+                worst[m.group(1)] = int(o.group(1))
+        sample = worst.get("EnergySpectrum")
+        bg = worst.get("BackgroundEnergySpectrum")
+        if (sample or 0) <= MAX_ORDER and (bg or 0) <= MAX_ORDER:
+            continue
+        rows.append((rel.split("/")[1], rel,
+                     "в git" if rel in tracked_set else "локально",
+                     sample, bg))
+    return rows
 
 
 def local_only() -> dict:
     """Что лежит на диске, но исключено .gitignore."""
     counts = {}
-    for sub in ("lsrm", "becqmoni"):
+    for sub in ("lsrm", "becqmoni", "background"):
         d = REPO / "detectors" / "Gamma-1S" / "reference_spectra" / sub
         counts[sub] = sum(1 for p in d.rglob("*") if p.is_file()) if d.is_dir() else 0
     return counts
@@ -129,7 +110,7 @@ def local_only() -> dict:
 
 def main() -> int:
     per = collect()
-    d5 = degree5()
+    d5 = high_order()
     loc = local_only()
     tot_spe = sum(v["spe"] for v in per.values())
     tot_xml = sum(v["xml"] for v in per.values())
@@ -189,24 +170,24 @@ def main() -> int:
 
     A("---\n")
     A(f"## ⚠️ ВАЖНО: {len(d5)} спектров BecqMoni прочитает с неверной шкалой\n")
-    A("`BecquerelMonitor/PolynomialEnergyCalibration.cs` в методе `ChannelToEnergy()`")
-    A("разбирает только степени полинома **4, 3 и 2**. Всё, что выше, молча уходит")
-    A("в линейную ветку:\n")
+    A("`PolynomialEnergyCalibration.CheckCalibration()` отвергает любой порядок выше")
+    A("четвёртого:\n")
     A("```csharp")
-    A("if (this.polynomialOrder == 4) { ... }")
-    A("if (this.polynomialOrder == 3) { ... }")
-    A("if (this.polynomialOrder == 2) { ... }")
-    A("return this.coefficients[1] * n + this.coefficients[0];   // сюда попадает 5-я степень")
+    A("if (this.polynomialOrder > 4 || this.polynomialOrder < 1) { return false; }")
     A("```\n")
-    A("У этих спектров ЛСРМ записал калибровку **5-й степени**. Коэффициенты сохранены")
-    A("как в источнике — но при открытии в BecqMoni энергетическая шкала будет неверной,")
-    A("причём без единого сообщения об ошибке.\n")
-    A("| Класс | Файл | Где | Степень |")
-    A("|---|---|---|---:|")
-    for cls, full, status, deg in d5:
-        A(f"| `{cls}` | `{full.split('/')[-1]}` | {status} | {deg} |")
+    A("Дальше `DocumentManager.CheckDocument()` пытается спасти положение, но понижает")
+    A("степень только за счёт нулевых старших коэффициентов. У настоящего полинома 5-й")
+    A("степени их нет, поэтому калибровка заменяется на **дефолтную** — файл открывается,")
+    A("шкала теряется, сообщения об ошибке нет.\n")
+    A("У этих спектров ЛСРМ записал калибровку 5-й степени. Коэффициенты сохранены как")
+    A("в источнике.\n")
+    A("| Класс | Файл | Где | Спектр | Фон |")
+    A("|---|---|---|---:|---:|")
+    for cls, full, status, sdeg, bdeg in d5:
+        A(f"| `{cls}` | `{full.split('/')[-1]}` | {status} | {sdeg or '—'} "
+          f"| {bdeg or '—'} |")
     A("")
-    if any(s == "локально" for _, _, s, _ in d5):
+    if any(s == "локально" for _, _, s, _, _ in d5):
         A("«локально» — файл лежит на машине оператора, в репозиторий не публикуется.\n")
     A("**Что делать.** Берите калибровку из `INDEX.json` соответствующего класса —")
     A("поле `energy_cal`, коэффициенты от младшей степени к старшей:\n")
@@ -214,6 +195,12 @@ def main() -> int:
     A("E(n) = a₀ + a₁·n + a₂·n² + a₃·n³ + a₄·n⁴ + a₅·n⁵")
     A("```\n")
     A("Найти такие файлы можно по флагу `becqmoni_reads_as_linear` в том же индексе.\n")
+    A("**Фон проверяется отдельно.** BecqMoni валидирует `<EnergySpectrum>` и")
+    A("`<BackgroundEnergySpectrum>` как две независимые калибровки, поэтому подшитый фон")
+    A("со степенью 5 губил шкалу даже у спектра с линейной калибровкой. Такой фон больше")
+    A("не вшивается — остаётся только ссылка `<BackgroundSpectrumFile>`, а признак стоит")
+    A("в описи полем `background_dropped_high_order`. Подробности — в")
+    A("[`detectors/CHANGELOG.md`](detectors/CHANGELOG.md).\n")
     A("**Почему не исправлено пересчётом.** Приведение к 4-й степени было реализовано")
     A("и отклонено: на HPGe-кривых оно ложится в пределах 0,21 кэВ, но на сильно")
     A("изогнутой NaI-калибровке лучшее приближение 4-й степени промахивается на 57 кэВ.")
@@ -231,6 +218,11 @@ def main() -> int:
     A("- **GUID прибора** выводится из имени детектора через `uuid5`, иначе каждая")
     A("  перегенерация создавала бы в BecqMoni новый прибор.\n")
 
+    A("## Где лежит фон\n")
+    A("Фоновые измерения каждого детектора собраны в отдельную ветку")
+    A("`reference_spectra/background/` — `lsrm/` для исходников и `becqmoni/` для XML,")
+    A("с сохранением исходной иерархии. Измерения на них ссылаются по имени файла.\n")
+
     A("## Обозначения\n")
     A("Приборы и источники обозначены внутренними метками вида `SN-nn` и `SRC-nn` —")
     A("одна метка на один прибор или источник, устойчиво между сборками.\n")
@@ -238,10 +230,10 @@ def main() -> int:
     OUT.write_text("\n".join(L), encoding="utf-8")
     print(f"{OUT.name}: {tot_xml} XML, {tot_spe} .spe, {len(per)} классов, "
           f"{len(d5)} спектров со степенью 5")
-    missing = [f for _, f, ok, _ in d5 if not ok]
-    if missing:
-        print(f"  ВНИМАНИЕ: {len(missing)} ссылок ведут в несуществующие файлы")
-        for f in missing:
+    bad_bg = [f for _, f, _, _, bdeg in d5 if bdeg and bdeg > MAX_ORDER]
+    if bad_bg:
+        print(f"  ВНИМАНИЕ: {len(bad_bg)} файлов всё ещё несут вшитый фон степени >4")
+        for f in bad_bg[:10]:
             print(f"    {f}")
     return 0
 

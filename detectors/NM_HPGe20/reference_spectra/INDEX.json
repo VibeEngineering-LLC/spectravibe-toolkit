@@ -2,8 +2,8 @@
   "class": "NM_HPGe20",
   "entries": [
     {
-      "spe": "Work/NM/HPGe(20_)/Spe/Background/Bckg_1.spe",
-      "xml": "Work/NM/HPGe(20_)/Spe/Background/Bckg_1.xml",
+      "spe": "background/Work/NM/HPGe(20_)/Spe/Background/Bckg_1.spe",
+      "xml": "background/Work/NM/HPGe(20_)/Spe/Background/Bckg_1.xml",
       "is_background": true,
       "sample_id": "Bckg_1",
       "passport_raw": "Distilled water",
@@ -29,8 +29,8 @@
       "background_spe": null
     },
     {
-      "spe": "Work/NM/HPGe(20_)/Spe/Background/Bckg_15.spe",
-      "xml": "Work/NM/HPGe(20_)/Spe/Background/Bckg_15.xml",
+      "spe": "background/Work/NM/HPGe(20_)/Spe/Background/Bckg_15.spe",
+      "xml": "background/Work/NM/HPGe(20_)/Spe/Background/Bckg_15.xml",
       "is_background": true,
       "sample_id": "Bckg_15",
       "passport_raw": "Distilled Water",
@@ -56,8 +56,8 @@
       "background_spe": null
     },
     {
-      "spe": "Work/NM/HPGe(20_)/Spe/Background/Bckg_5.spe",
-      "xml": "Work/NM/HPGe(20_)/Spe/Background/Bckg_5.xml",
+      "spe": "background/Work/NM/HPGe(20_)/Spe/Background/Bckg_5.spe",
+      "xml": "background/Work/NM/HPGe(20_)/Spe/Background/Bckg_5.xml",
       "is_background": true,
       "sample_id": "Bckg_5",
       "passport_raw": "Distilled Water",
@@ -104,7 +104,10 @@
       ],
       "energy_cal_degree": 5,
       "becqmoni_reads_as_linear": true,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Marinelli/m_cs06.spe",
@@ -128,7 +131,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Marinelli/m_cs16.spe",
@@ -152,7 +158,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Marinelli/m_k06.spe",
@@ -176,7 +185,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Marinelli/m_k16.spe",
@@ -200,7 +212,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Marinelli/m_ra06.spe",
@@ -234,7 +249,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Marinelli/m_ra16.spe",
@@ -258,7 +276,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Marinelli/m_th06.spe",
@@ -282,7 +303,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Marinelli/m_th16.spe",
@@ -306,7 +330,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Point25/Am241-SRC-01-25cm.spe",
@@ -329,7 +356,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Point25/Ba133-SRC-01-25cm.spe",
@@ -352,7 +382,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Point25/Cd109-SRC-01-25cm.spe",
@@ -375,7 +408,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Point25/Ce139-SRC-01-25cm.spe",
@@ -398,7 +434,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Point25/Co57-SRC-01-25cm.spe",
@@ -421,7 +460,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Point25/Co60-SRC-01-25cm.spe",
@@ -444,7 +486,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Point25/Cs137-SRC-01-25cm.spe",
@@ -468,7 +513,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Point25/Eu152-SRC-01-25cm.spe",
@@ -502,7 +550,10 @@
       ],
       "energy_cal_degree": 2,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Point25/Mn54-SRC-01-25cm.spe",
@@ -525,7 +576,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Point25/Sn113-SRC-01-25cm.spe",
@@ -548,7 +602,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Point25/Th228-SRC-01-25cm.spe",
@@ -571,7 +628,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Point25/Y88-SRC-01-25cm.spe",
@@ -608,7 +668,10 @@
       ],
       "energy_cal_degree": 5,
       "becqmoni_reads_as_linear": true,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/HPGe(20_)/Spe/Th228--BadCalibre.spe",
@@ -631,1805 +694,2705 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Bckg_1.spe"
+      "background_spe": "Bckg_1.spe",
+      "background_cal_degree": 5,
+      "background_embedded": false,
+      "background_dropped_high_order": true
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-A-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-A-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-A-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-B-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-B-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-B-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-C-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-C-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-C-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-D-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-D-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-D-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-E-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-E-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-E-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-F-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-F-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-F-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-G-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-G-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-G-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-H-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-H-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-H-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-I-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-I-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-I-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-J-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-J-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-J-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-K-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-K-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-K-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-L-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-L-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-L-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-M-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-M-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-M-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-N-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-N-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-N-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-O-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-O-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-O-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-P-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-P-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-P-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-Q-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-Q-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-Q-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R61-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R61-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R61-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R70-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R70-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R70-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R84-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R84-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R84-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R93-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R93-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-R93-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-S-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-S-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_coax_chn_spectra/C-S-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-A-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-A-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-A-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-B-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-B-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-B-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-C-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-C-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-C-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-D-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-D-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-D-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-E-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-E-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-E-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-F-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-F-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-F-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-G-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-G-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-G-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-H-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-H-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-H-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-I-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-I-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-I-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-J-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-J-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-J-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-K-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-K-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-K-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-L-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-L-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-L-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-M-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-M-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-M-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-N-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-N-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-N-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-O-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-O-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-O-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-P-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-P-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-P-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-Q-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-Q-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-Q-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R61-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R61-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R61-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R70-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R70-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R70-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R84-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R84-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R84-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R93-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R93-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-R93-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-S-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-S-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/Pu_LNHB_safeg_chn_spectra/S-S-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/SIL_19_03_09_isocs_Pu/Pu 61_ 1000s_Cd_bottom_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/SIL_19_03_09_isocs_Pu/Pu 61_ 1000s_Cd_side_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/SIL_19_03_09_isocs_Pu/Pu 70_ 1000s_Cd_bottom_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/SIL_19_03_09_isocs_Pu/Pu 70_ 1000s_Cd_side_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/SIL_19_03_09_isocs_Pu/Pu 84_ 1000s_Cd_bottom_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/SIL_19_03_09_isocs_Pu/Pu 84_ 1000s_Cd_side_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/SIL_19_03_09_isocs_Pu/Pu 93_ 1000s_Cd_bottom_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Coaxial(Demo)/Spe/SIL_19_03_09_isocs_Pu/Pu 93_ 1000s_Cd_side_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/Pu_LNHB_coax_chn_spectra/Spe/C-A-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/Pu_LNHB_coax_chn_spectra/Spe/C-B-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/Pu_LNHB_coax_chn_spectra/Spe/C-C-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/Pu_LNHB_coax_chn_spectra/Spe/C-F-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/Pu_LNHB_coax_chn_spectra/Spe/C-G-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/Pu_LNHB_coax_chn_spectra/Spe/C-J-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/Pu_LNHB_coax_chn_spectra/Spe/C-K-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/Pu_LNHB_coax_chn_spectra/Spe/S-E-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/SIL_19_03_09_isocs_Pu/Pu 61_ 1000s_Cd_bottom_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/SIL_19_03_09_isocs_Pu/Pu 61_ 1000s_Cd_side_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/SIL_19_03_09_isocs_Pu/Pu 70_ 1000s_Cd_bottom_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/SIL_19_03_09_isocs_Pu/Pu 70_ 1000s_Cd_side_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/SIL_19_03_09_isocs_Pu/Pu 84_ 1000s_Cd_bottom_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/SIL_19_03_09_isocs_Pu/Pu 84_ 1000s_Cd_side_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/SIL_19_03_09_isocs_Pu/Pu 93_ 1000s_Cd_bottom_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-HPGe(Coaxial)/Spe/SIL_19_03_09_isocs_Pu/Pu 93_ 1000s_Cd_side_30sm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-A-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-A-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-A-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-B-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-B-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-B-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-C-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-C-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-C-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-D-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-D-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-D-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-E-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-E-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-E-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-F-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-F-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-F-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-G-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-G-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-G-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-H-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-H-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-H-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-I-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-I-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-I-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-J-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-J-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-J-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-K-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-K-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-K-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-L-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-L-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-L-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-M-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-M-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-M-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-N-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-N-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-N-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-O-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-O-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-O-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-P-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-P-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-P-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-Q-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-Q-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-Q-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R61-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R61-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R61-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R70-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R70-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R70-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R84-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R84-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R84-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R93-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R93-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-R93-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-S-1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-S-2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/Pu/Pu-Planar(Demo)/Spe/Pu_LNHB_plan_chn_spectra/P-S-3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/_LNHB/Spe/G-1542c.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Calibr/Ba_133_USA.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Calibr/Co-60_USA.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Calibr/Cs-137-USA.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Calibr/E152_0002.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/fon24okt2008.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/fon24okt2008_D.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_031-1000s.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_0_31_-20min_3_1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_0_31_-20min_3_2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_0_31_-20min_3_3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_0_71_-20min_3_1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_0_71_-20min_3_2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_0_71_-20min_3_3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_1_94_-20min_3_1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_1_94_-20min_3_2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_1_94_-20min_3_3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_20_-20min_1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_20_-20min_2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_20_-20min_3_1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_20_-20min_3_2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_20_-20min_3_3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_2_95_-20min_3_1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_2_95_-20min_3_2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_2_95_-20min_3_3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_4.46-300s_U-Cont_9cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_4.46.spe-120s.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_4_46_-20min_1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_4_46_-20min_2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_4_46_-20min_3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_52_-20min_1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_52_-20min_2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_52_-20min_3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_93_-20min_1.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_93_-20min_2.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/Model_93_-20min_3.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Model/NBS_446-Model1000s.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/ModelMass/SRM969(4.46)(2.5x2.5x9.6)_(  0.0,100.0,  0.0)4.46_.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/ModelMass/SRM969(4.46)(5x5x2.4)_(  0.0,100.0,  0.0)4.46_.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/ModelMass/SRM969(4.46)(5x5x2.4)_W_(  0.0,  0.0,100.0)4.46_.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/ModelMass/SRM969(4.46)(Cube)_(  0.0, 50.0,  0.0)4,46_.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/ModelMass/SRM969(4.46)(Cube)_(  0.0,100.0,  0.0)0.31_(100000s).spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/ModelMass/SRM969(4.46)(Cube)_(  0.0,100.0,  0.0)0.31_.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/ModelMass/SRM969(4.46)(Cube)_(  0.0,100.0,  0.0)4.46_.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/ModelMass/SRM969(446_)_(  0.0, 25.0,  0.0)4.46_.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/ModelMass/SRM969(446_)_W_(  0.0,  0.0, 25.0)4.46_.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/NBS_031.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/NBS_071_CorrTLive.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/NBS_194_CorrTLive.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/NBS_295_CorrTLive.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/NBS_446_CorrTLive.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Original/Model_4.46-120s.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Original/Model_4.46-60s.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Original/NBS_031-116.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Original/NBS_071-116.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Original/NBS_194-116.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Original/NBS_295-116.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Original/NBS_446-116.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/U_NBL_0041_20_CorrTLive.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/U_NBL_0042_53_CorrTlive.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/U_NBL_0043_93_CorrTlive.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Work/NBS_071.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Work/NBS_194.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Work/NBS_295.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Work/NBS_446.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Work/U_NBL_0041_20.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Work/U_NBL_0042_53.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Coaxial/Spe/INR/Work/U_NBL_0043_93.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
-      "spe": "Work/NM/U/Planar/Data/Background_LEGe_1_day_room_104_D.spe",
-      "xml": "Work/NM/U/Planar/Data/Background_LEGe_1_day_room_104_D.xml",
+      "spe": "background/Work/NM/U/Planar/Data/Background_LEGe_1_day_room_104_D.spe",
+      "xml": "background/Work/NM/U/Planar/Data/Background_LEGe_1_day_room_104_D.xml",
       "is_background": true,
       "sample_id": "Background_LEGe_1_day_room_104",
       "passport_raw": "",
@@ -2457,268 +3420,397 @@
       "spe": "Work/NM/U/Planar/Spe/INR/SRM969(031_)_5cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/INR/SRM969(071_)_5cm_Tcorr.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/INR/U50_20cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/INR/UCRM146((20_)_5cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/INR/UCRM146((53_)_20cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/INR/UCRM146((93_)_20cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/INR/UCRM146((93_)_20cmcorrt.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/INR/USRM969(0446_)_5cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/INR/USRM969(194_)_5cm_Tcorr.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/INR/USRM969(295_)_5cm_Tcorr.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/MGU00220-u6.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/MGU00273+MGU00274+MGU00275+MGU00276.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/MGU00273+MGU00274.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/MGU00273.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/MGU00274.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/MGU00275.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/MGU00276.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/MGU01014-u90.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/125v001.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/125v003.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/MGU00220-u6.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/MGU00273+MGU00274+MGU00275+MGU00276.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/MGU00273+MGU00274.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/MGU00273.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/MGU00274.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/MGU00275.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/MGU00276.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/MGU01014-u90.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/U10_075.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/U49_38-DDD.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/U49_38.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/U75_13.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/U93_076.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/u93_17.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/u99_1lp.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/X-125vc.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/X-125vd+X-125vc+X-125ve.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/X-125vd+X-125vc.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/X-125vd.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/Work/X-125ve.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/ФРАМ спектры/2кг27_1000+.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/ФРАМ спектры/2кг90__1000(BadForm).spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/IPPPE/ФРАМ спектры/2кг90__300.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
-      "spe": "Work/NM/U/Planar/Spe/kpti/Background_LEGe_1_day_room_104.spe",
+      "spe": "background/Work/NM/U/Planar/Spe/kpti/Background_LEGe_1_day_room_104.spe",
       "xml": null,
       "is_background": true,
       "xml_skipped_bulk": true
     },
     {
-      "spe": "Work/NM/U/Planar/Spe/kpti/Background_LEGe_1_day_room_104_D.spe",
+      "spe": "background/Work/NM/U/Planar/Spe/kpti/Background_LEGe_1_day_room_104_D.spe",
       "xml": null,
       "is_background": true,
       "xml_skipped_bulk": true
@@ -2727,253 +3819,379 @@
       "spe": "Work/NM/U/Planar/Spe/kpti/CRM146(53_)-86400-l 10cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/kpti/CRM146(53_)-86400_20cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/kpti/CRM146(90_)-86400-l 10cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/kpti/CRM146(90_)-8640020cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/kpti/CRM146(90_)-8640020cmcorrt.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/kpti/CRM14620_)-86400_20cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/kpti/CRM14620_)-86400_20cmcorrt.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/kpti/emulate/SRM969(0.71_) 86400_10cm_1000.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/kpti/emulate/SRM969(0.71_) 86400_10cm_1000Bad.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/kpti/emulate/SRM969(0.71_) 86400_10cm_2000.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/kpti/emulate/SRM969(0.71_) 86400_10cm_3600.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/kpti/SRM969(0.71_) 7200_10cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/kpti/SRM969(0.71_) 86400_10cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/U_LNHB_plan_chn_spectra/SPE/X-125vc.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/U_LNHB_plan_chn_spectra/SPE/X-125vd+X-125vc+X-125ve.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/U_LNHB_plan_chn_spectra/SPE/X-125vd+X-125vc.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/U_LNHB_plan_chn_spectra/SPE/X-125vd.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/U_LNHB_plan_chn_spectra/SPE/X-125ve.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/U_LNHB_plan_chn_spectra/SPE/X-1541c.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/Planar/Spe/U_LNHB_plan_chn_spectra/SPE/X-1541d.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/InfiniteU/U235 0.712.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/InfiniteU/U235 19.72.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/InfiniteU/U235 3.105.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/Calibr/Ba_133_USA.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/Calibr/Co-60_USA.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/Calibr/Cs-137-USA.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/Calibr/E152_0002.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/fon24okt2008.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/fon24okt2008_D.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/NBS_031.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/NBS_071.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/NBS_071_CorrTLive.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/NBS_194.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/NBS_194_CorrTLive.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/NBS_295.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/NBS_295_CorrTLive.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/NBS_446.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/NBS_446_CorrTLive.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/U_NBL_0041_20.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/U_NBL_0041_20_CorrTLive.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/U_NBL_0042_53_CorrTlive.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/INR/U_NBL_0043_93_CorrTlive.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/U_NBL_0043_93_CorrTlive.spe",
@@ -2999,7 +4217,10 @@
       ],
       "energy_cal_degree": 4,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Background_LEGe_1_day_room_104.spe"
+      "background_spe": "Background_LEGe_1_day_room_104.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/ГСО-87-16000_Point_25cm.spe",
@@ -3022,7 +4243,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Background_LEGe_1_day_room_104.spe"
+      "background_spe": "Background_LEGe_1_day_room_104.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/ГСО-87_25cm U-coaxial.spe",
@@ -3045,7 +4269,10 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Background_LEGe_1_day_room_104.spe"
+      "background_spe": "Background_LEGe_1_day_room_104.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Coaxial(Demo)/Spe/ГСО-87_50-2614keV_25cm.spe",
@@ -3068,73 +4295,109 @@
       ],
       "energy_cal_degree": 1,
       "becqmoni_reads_as_linear": false,
-      "background_spe": "Background_LEGe_1_day_room_104.spe"
+      "background_spe": "Background_LEGe_1_day_room_104.spe",
+      "background_cal_degree": null,
+      "background_embedded": true,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Planar(Demo)/Spe/InfiniteU/U235 0.712.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Planar(Demo)/Spe/InfiniteU/U235 19.72.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Planar(Demo)/Spe/InfiniteU/U235 3.105.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Planar(Demo)/Spe/INR/SRM969(031_)_5cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Planar(Demo)/Spe/INR/SRM969(071_)_5cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Planar(Demo)/Spe/INR/UCRM146((20_)_5cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Planar(Demo)/Spe/INR/UCRM146((53_)_20cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Planar(Demo)/Spe/INR/UCRM146((93_)_20cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Planar(Demo)/Spe/INR/USRM969(0446_)_5cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Planar(Demo)/Spe/INR/USRM969(194_)_5cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     },
     {
       "spe": "Work/NM/U/U-Planar(Demo)/Spe/INR/USRM969(295_)_5cm.spe",
       "xml": null,
       "is_background": false,
-      "xml_skipped_bulk": true
+      "xml_skipped_bulk": true,
+      "background_cal_degree": null,
+      "background_embedded": false,
+      "background_dropped_high_order": false
     }
   ],
   "scrubbed": 38,
