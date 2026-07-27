@@ -52,7 +52,8 @@ def collect():
     per = defaultdict(lambda: {"spe": 0, "xml": 0, "bytes": 0})
     for rel in tracked():
         parts = rel.split("/")
-        if len(parts) < 2 or parts[0] != "detectors":
+        # >= 3 частей: файлы прямо в detectors/ (CHANGELOG.md) — не класс.
+        if len(parts) < 3 or parts[0] != "detectors":
             continue
         cls = parts[1]
         per[cls]["bytes"] += size_of(rel)

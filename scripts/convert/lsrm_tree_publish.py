@@ -51,6 +51,10 @@ CLASSES = [
 ]
 
 BG_PATTERN = re.compile(r"(?i)bckg|background|фон")
+
+# Классы с замороженной раскладкой: фон остаётся там, где лежит в дереве
+# измерений, и в отдельную папку не выносится. Решение оператора.
+FROZEN_LAYOUT = {"Gamma-1S"}
 OPERATOR_LINE = re.compile(rb"^OPERATOR=.*$", re.MULTILINE)
 
 # Already published as a curated kit — skip so the tree is not duplicated.
@@ -143,8 +147,9 @@ def publish_class(name: str, source_root: Path, xml_all: bool = False) -> dict:
     # Фоны каждого детектора собираются в свою папку, а не рассыпаны по дереву
     # измерений: их переиспользуют разные геометрии, и искать их по вложенным
     # `Spe/Background` неудобно.
-    out_bg_spe = ref / "background" / "lsrm"
-    out_bg_xml = ref / "background" / "becqmoni"
+    split_bg = name not in FROZEN_LAYOUT
+    out_bg_spe = (ref / "background" / "lsrm") if split_bg else out_spe
+    out_bg_xml = (ref / "background" / "becqmoni") if split_bg else out_xml
     backgrounds = find_backgrounds(spes)
 
     rows, scrubbed, failed, xml_skipped = [], 0, [], 0
@@ -160,7 +165,7 @@ def publish_class(name: str, source_root: Path, xml_all: bool = False) -> dict:
             scrubbed += 1
 
         # Пути в описи — от reference_spectra, чтобы было видно ветку background/.
-        spe_rel = (Path("background") / rel) if is_bg else rel
+        spe_rel = (Path("background") / rel) if (is_bg and split_bg) else rel
 
         make_xml = xml_all or not BULK_DIRS.search(str(rel))
         if not make_xml:

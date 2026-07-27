@@ -43,9 +43,9 @@ spectravibe-toolkit/
 геометриям, с описью, паспортными активностями и кривыми эффективности.
 Массовая выгрузка рабочего дерева ЛСРМ остаётся на машине оператора.
 
-- `detectors/Gamma-1S/reference_spectra/lsrm/` — 407 файлов
-- `detectors/Gamma-1S/reference_spectra/becqmoni/` — 407 файлов
-- `detectors/Gamma-1S/reference_spectra/background/` — 357 файлов
+- `detectors/Gamma-1S/reference_spectra/lsrm/` — 587 файлов
+- `detectors/Gamma-1S/reference_spectra/becqmoni/` — 584 файлов
+- `detectors/Gamma-1S/reference_spectra/background/` — 0 файлов
 
 Пересобирается из исходного дерева одной командой:
 
