@@ -1,0 +1,409 @@
+{
+  "version": "v1.18.18.5",
+  "detector": "Gamma-1S_NaI_63x63_USB_SN-01",
+  "kits": [
+    {
+      "geometry": "Denta_120mL",
+      "nuclide": "Cs-137",
+      "source_path": "Дента-120мл/Cs137_420-7-14_Дента-120мл_0cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Denta_120mL\\Cs-137\\sample_Cs137_420-7-14_Дента-120мл_0cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Denta_120mL\\Cs-137\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "3b95078775",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Denta_120mL",
+      "nuclide": "K-40",
+      "source_path": "Дента-120мл/K40_420-7-20_Дента-120мл_0cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Denta_120mL\\K-40\\sample_K40_420-7-20_Дента-120мл_0cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Denta_120mL\\K-40\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "f832d0dbae",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Denta_120mL",
+      "nuclide": "Mix_AmTiCsEu",
+      "source_path": "№SRC-04_Am-Ti-Eu-Cs_Дента-100.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Denta_120mL\\Mix_AmTiCsEu\\sample_№SRC-04_Am-Ti-Eu-Cs_Дента-100.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Denta_120mL\\Mix_AmTiCsEu\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "78e1de5278",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Denta_120mL",
+      "nuclide": "Ra-226",
+      "source_path": "Дента-120мл/Ra226_420-7-18_Дента-120мл_0cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Denta_120mL\\Ra-226\\sample_Ra226_420-7-18_Дента-120мл_0cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Denta_120mL\\Ra-226\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "271d501ba8",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Denta_120mL",
+      "nuclide": "Th-232",
+      "source_path": "Дента-120мл/Th232_420-7-17_Дента-120мл_0cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Denta_120mL\\Th-232\\sample_Th232_420-7-17_Дента-120мл_0cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Denta_120mL\\Th-232\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "fd06b486f1",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Marinelli_1L",
+      "nuclide": "Cs-137",
+      "source_path": "M_cs_легкий_2001-2005.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Marinelli_1L\\Cs-137\\sample_M_cs_легкий_2001-2005.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Marinelli_1L\\Cs-137\\background_bg_2016_marinelli_water_marinelli.spe",
+      "source_md5_short": "3a5accc6e7",
+      "bg_md5_short": "f792057a8a",
+      "action": "create"
+    },
+    {
+      "geometry": "Marinelli_1L",
+      "nuclide": "K-40",
+      "source_path": "M_k_легкий_2001-2005.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Marinelli_1L\\K-40\\sample_M_k_легкий_2001-2005.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Marinelli_1L\\K-40\\background_bg_2016_marinelli_water_marinelli.spe",
+      "source_md5_short": "efa302f064",
+      "bg_md5_short": "f792057a8a",
+      "action": "create"
+    },
+    {
+      "geometry": "Marinelli_1L",
+      "nuclide": "Mix_AmTiCsEu",
+      "source_path": "Смесь_AmTiCsEu_Маринелли.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Marinelli_1L\\Mix_AmTiCsEu\\sample_Смесь_AmTiCsEu_Маринелли.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Marinelli_1L\\Mix_AmTiCsEu\\background_bg_2016_marinelli_water_marinelli.spe",
+      "source_md5_short": "eb15bb78d6",
+      "bg_md5_short": "f792057a8a",
+      "action": "create"
+    },
+    {
+      "geometry": "Marinelli_1L",
+      "nuclide": "Ra-226",
+      "source_path": "M_ra_легкий_2001-2007.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Marinelli_1L\\Ra-226\\sample_M_ra_легкий_2001-2007.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Marinelli_1L\\Ra-226\\background_bg_2016_marinelli_water_marinelli.spe",
+      "source_md5_short": "c8c15cee5d",
+      "bg_md5_short": "f792057a8a",
+      "action": "create"
+    },
+    {
+      "geometry": "Marinelli_1L",
+      "nuclide": "Th-232",
+      "source_path": "Th232_420-7-17_Маринелли_0cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Marinelli_1L\\Th-232\\Th232_420-7-17_Маринелли_0cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Marinelli_1L\\Th-232\\Фон закр кр вода_13.spe",
+      "source_md5_short": "f308944038",
+      "bg_md5_short": "54d3afc96c",
+      "action": "replaced_2024-10-24",
+      "note": "Files replaced via user upload — старые имена sample_M_th_*/background_bg_2016_* удалены; MD5 пересчитан."
+    },
+    {
+      "geometry": "Petri_60mL",
+      "nuclide": "Cs-137",
+      "source_path": "Петри-60мл/Cs137_420-7-14_Петри-60мл_0cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Petri_60mL\\Cs-137\\sample_Cs137_420-7-14_Петри-60мл_0cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Petri_60mL\\Cs-137\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "93a2fcac71",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Petri_60mL",
+      "nuclide": "K-40",
+      "source_path": "Петри-60мл/K40_420-7-20_Петри-60мл_0cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Petri_60mL\\K-40\\sample_K40_420-7-20_Петри-60мл_0cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Petri_60mL\\K-40\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "18fb2a7cf1",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Petri_60mL",
+      "nuclide": "Mix_AmTiCsEu",
+      "source_path": "№SRC-04_Am-Ti-Eu-Cs_Петри-60.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Petri_60mL\\Mix_AmTiCsEu\\sample_№SRC-04_Am-Ti-Eu-Cs_Петри-60.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Petri_60mL\\Mix_AmTiCsEu\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "47ea1f3a81",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Petri_60mL",
+      "nuclide": "Ra-226",
+      "source_path": "Петри-60мл/Ra226_420-7-18_Петри-60мл_0cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Petri_60mL\\Ra-226\\sample_Ra226_420-7-18_Петри-60мл_0cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Petri_60mL\\Ra-226\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "bbc841a573",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Petri_60mL",
+      "nuclide": "Th-232",
+      "source_path": "Петри-60мл/Th232_420-7-17_Петри-60мл_0cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Petri_60mL\\Th-232\\sample_Th232_420-7-17_Петри-60мл_0cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Petri_60mL\\Th-232\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "13063ba24d",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_25cm",
+      "nuclide": "Am-241",
+      "source_path": "Поверка-2016/Точка 25см/Am-241 42.13_Точечная-25см_25cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Am-241\\sample_Am-241 42.13_Точечная-25см_25cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Am-241\\background_bg_2016_open_lid_point25cm.spe",
+      "source_md5_short": "6f033ecdbc",
+      "bg_md5_short": "5d6a9751da",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_25cm",
+      "nuclide": "Ba-133",
+      "source_path": "Поверка-2016/Точка 25см/Ba-133 #SRC-07_Точечная-25см_25cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Ba-133\\sample_Ba-133 #SRC-07_Точечная-25см_25cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Ba-133\\background_bg_2016_open_lid_point25cm.spe",
+      "source_md5_short": "e1218aa5f9",
+      "bg_md5_short": "5d6a9751da",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_25cm",
+      "nuclide": "Cd-109",
+      "source_path": "Поверка-2016/Точка 25см/Cd-109 #SRC-07_Точечная-25см_25cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Cd-109\\sample_Cd-109 #SRC-07_Точечная-25см_25cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Cd-109\\background_bg_2016_open_lid_point25cm.spe",
+      "source_md5_short": "bbc7ece1e7",
+      "bg_md5_short": "5d6a9751da",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_25cm",
+      "nuclide": "Ce-139",
+      "source_path": "Поверка-2016/Точка 25см/Ce-139_591_Точечная-25см_25cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Ce-139\\sample_Ce-139_591_Точечная-25см_25cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Ce-139\\background_bg_2016_open_lid_point25cm.spe",
+      "source_md5_short": "b6dc5d9dae",
+      "bg_md5_short": "5d6a9751da",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_25cm",
+      "nuclide": "Co-60",
+      "source_path": "Поверка-2016/Точка 25см/Co-60 #SRC-07_Точечная-25см_25cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Co-60\\sample_Co-60 #SRC-07_Точечная-25см_25cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Co-60\\background_bg_2016_open_lid_point25cm.spe",
+      "source_md5_short": "a4818d5bf4",
+      "bg_md5_short": "5d6a9751da",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_25cm",
+      "nuclide": "Cs-137",
+      "source_path": "Точечная-25см/Cs-137 №SRC-01_Точечная-25см_25cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Cs-137\\sample_Cs-137 №SRC-01_Точечная-25см_25cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Cs-137\\background_bg_2016_open_lid_point25cm.spe",
+      "source_md5_short": "5fb8d60b4e",
+      "bg_md5_short": "5d6a9751da",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_25cm",
+      "nuclide": "Eu-152",
+      "source_path": "Поверка-2016/Точка 25см/Eu-152 #SRC-07_Точечная-25см_25cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Eu-152\\sample_Eu-152 #SRC-07_Точечная-25см_25cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Eu-152\\background_bg_2016_open_lid_point25cm.spe",
+      "source_md5_short": "0e46173dd8",
+      "bg_md5_short": "5d6a9751da",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_25cm",
+      "nuclide": "Mn-54",
+      "source_path": "Поверка-2016/Точка 25см/Mn-54_587_Точечная-25см_25cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Mn-54\\sample_Mn-54_587_Точечная-25см_25cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Mn-54\\background_bg_2016_open_lid_point25cm.spe",
+      "source_md5_short": "678e321c70",
+      "bg_md5_short": "5d6a9751da",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_25cm",
+      "nuclide": "Na-22",
+      "source_path": "Точечная-25см/Na-22 #01.22_Точечная-25см_25cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Na-22\\sample_Na-22 #01.22_Точечная-25см_25cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Na-22\\background_bg_2016_open_lid_point25cm.spe",
+      "source_md5_short": "0fa53e2ecb",
+      "bg_md5_short": "5d6a9751da",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_25cm",
+      "nuclide": "Th-228",
+      "source_path": "Точечная-25см/Th-228 №309_Точечная-25см_25cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Th-228\\sample_Th-228 №309_Точечная-25см_25cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Th-228\\background_bg_2016_open_lid_point25cm.spe",
+      "source_md5_short": "7a00a12d61",
+      "bg_md5_short": "5d6a9751da",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_25cm",
+      "nuclide": "Y-88",
+      "source_path": "Точечная-25см/Y-88 №SRC-02_Точечная-25см_25cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Y-88\\sample_Y-88 №SRC-02_Точечная-25см_25cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_25cm\\Y-88\\background_bg_2016_open_lid_point25cm.spe",
+      "source_md5_short": "7701a3f5ad",
+      "bg_md5_short": "5d6a9751da",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_5cm",
+      "nuclide": "Am-241",
+      "source_path": "Поверка-2016/Точка 5см/Am-241 42.13_Точечная-5см_5cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Am-241\\sample_Am-241 42.13_Точечная-5см_5cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Am-241\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "156ba48f09",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_5cm",
+      "nuclide": "Ba-133",
+      "source_path": "Поверка-2016/Точка 5см/Ba-133 #SRC-07_Точечная-5см_5cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Ba-133\\sample_Ba-133 #SRC-07_Точечная-5см_5cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Ba-133\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "ad5bad5caf",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_5cm",
+      "nuclide": "Bi-207",
+      "source_path": "Bi-207__176_04_2017_Точечная-5см_5cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Bi-207\\sample_Bi-207__176_04_2017_Точечная-5см_5cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Bi-207\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "04763ab36a",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_5cm",
+      "nuclide": "Cd-109",
+      "source_path": "Поверка-2016/Точка 5см/Cd-109 #SRC-07_Точечная-5см_5cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Cd-109\\sample_Cd-109 #SRC-07_Точечная-5см_5cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Cd-109\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "4f4107782b",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_5cm",
+      "nuclide": "Ce-139",
+      "source_path": "Поверка-2016/Точка 5см/Ce-139_591_Точечная-5см_5cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Ce-139\\sample_Ce-139_591_Точечная-5см_5cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Ce-139\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "20ae97dde7",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_5cm",
+      "nuclide": "Co-57",
+      "source_path": "Поверка-2016/Точка 5см/Co-57 #SRC-07_Точечная-5см_5cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Co-57\\sample_Co-57 #SRC-07_Точечная-5см_5cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Co-57\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "b5ed893095",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_5cm",
+      "nuclide": "Co-60",
+      "source_path": "Поверка-2016/Точка 5см/Co-60 #SRC-07_Точечная-5см_5cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Co-60\\sample_Co-60 #SRC-07_Точечная-5см_5cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Co-60\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "0b1cc83e5b",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_5cm",
+      "nuclide": "Cs-137",
+      "source_path": "Поверка-2016/Точка 5см/Cs-137 #SRC-07_Точечная-5см_5cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Cs-137\\sample_Cs-137 #SRC-07_Точечная-5см_5cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Cs-137\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "9feedbe1af",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_5cm",
+      "nuclide": "Eu-152",
+      "source_path": "Поверка-2016/Точка 5см/Eu-152 #SRC-07_Точечная-5см_5cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Eu-152\\sample_Eu-152 #SRC-07_Точечная-5см_5cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Eu-152\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "dbe63ba336",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_5cm",
+      "nuclide": "Mn-54",
+      "source_path": "Поверка-2016/Точка 5см/Mn-54_587_Точечная-5см_5cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Mn-54\\sample_Mn-54_587_Точечная-5см_5cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Mn-54\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "59d411fc13",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_5cm",
+      "nuclide": "Na-22",
+      "source_path": "Поверка-2016/Точка 5см/Na-22_585_Точечная-5см_5cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Na-22\\sample_Na-22_585_Точечная-5см_5cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Na-22\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "7e443018a4",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_5cm",
+      "nuclide": "Th-228",
+      "source_path": "Поверка-2016/Точка 5см/Th-228 #SRC-07_Точечная-5см_5cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Th-228\\sample_Th-228 #SRC-07_Точечная-5см_5cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Th-228\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "50c79cc070",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_5cm",
+      "nuclide": "Y-88",
+      "source_path": "Поверка-2016/Точка 5см/Y-88_589_Точечная-5см_5cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Y-88\\sample_Y-88_589_Точечная-5см_5cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Y-88\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "047b75cfb8",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    },
+    {
+      "geometry": "Point_5cm",
+      "nuclide": "Zn-65",
+      "source_path": "Zn-65__342_2019_Точечная-5см_5cm.spe",
+      "sample_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Zn-65\\sample_Zn-65__342_2019_Точечная-5см_5cm.spe",
+      "background_kit_path": "detectors\\Gamma-1S\\reference_spectra\\reference_kits\\Point_5cm\\Zn-65\\background_bg_2016_empty_shield_point5cm.spe",
+      "source_md5_short": "6b98afa2ae",
+      "bg_md5_short": "fd7bde8eb0",
+      "action": "create"
+    }
+  ],
+  "archived_files": 187,
+  "removed_kit_sources": 37
+}

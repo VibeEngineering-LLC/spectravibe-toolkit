@@ -1,0 +1,449 @@
+{
+  "_meta": {
+    "created": "2026-06-05",
+    "detector_class": "GP_HPGe20",
+    "detector_folder": "detectors/GP_HPGe20/",
+    "note": "Populated by F-300/W3. Raw spectra are operator-side only (F-115/F-150). Records are projections of the corresponding audit/_rag/SPECTRA_INDEX.json entries matched on detector_folder.",
+    "record_count": 32,
+    "schema_version": "0.2",
+    "source_index": "audit/_rag/SPECTRA_INDEX.json",
+    "source_index_schema_version": "0.2"
+  },
+  "spectra": [
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Маринелли",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Background\\Bckg_1.spe",
+      "sample_id": "Bckg_1",
+      "spectrum_id": "RAG-SPEC-0019",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=true"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Маринелли",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Background\\Bckg_15.spe",
+      "sample_id": "Bckg_15",
+      "spectrum_id": "RAG-SPEC-0056",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=true"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Маринелли",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Marinelli\\m_k16.spe",
+      "sample_id": "m_k16",
+      "spectrum_id": "RAG-SPEC-0069",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=true"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Point25",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Point25\\Cd109-SRC-05-25cm.spe",
+      "sample_id": "Cd109-SRC-05-25cm",
+      "spectrum_id": "RAG-SPEC-0098",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Маринелли",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Marinelli\\m08085_mix09.spe",
+      "sample_id": "m08085_mix09",
+      "spectrum_id": "RAG-SPEC-0116",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=true"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Маринелли",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Marinelli\\m_ra16.spe",
+      "sample_id": "m_ra16",
+      "spectrum_id": "RAG-SPEC-0124",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=true"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Маринелли",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Marinelli\\m_ra06.spe",
+      "sample_id": "m_ra06",
+      "spectrum_id": "RAG-SPEC-0145",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=true",
+        "drift-cohort:GP_HPGe20/Ra-226"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Маринелли",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Background\\Bckg_5.spe",
+      "sample_id": "Bckg_5",
+      "spectrum_id": "RAG-SPEC-0175",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=true"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Point25",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Point25\\Co57-SRC-05-25cm.spe",
+      "sample_id": "Co57-SRC-05-25cm",
+      "spectrum_id": "RAG-SPEC-0199",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Point25",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Point25\\Co60-SRC-05-25cm.spe",
+      "sample_id": "Co60-SRC-05-25cm",
+      "spectrum_id": "RAG-SPEC-0207",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "NZK-150",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\joint processing\\NZK_50cm_D4.spe",
+      "sample_id": "GEM-30_D1_Front50_50",
+      "spectrum_id": "RAG-SPEC-0217",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Маринелли",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Marinelli\\m_cs06.spe",
+      "sample_id": "m_cs06",
+      "spectrum_id": "RAG-SPEC-0223",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=true"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Point25",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Point25\\Eu152-SRC-05-25cm.spe",
+      "sample_id": "Eu152-SRC-05-25cm",
+      "spectrum_id": "RAG-SPEC-0229",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:GP_HPGe20/Eu-152"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Barrel-SKG(Water)",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\joint processing\\Barrel_10cm_D3.spe",
+      "sample_id": "Barrel-SKG(Water) Co60 e07 D2 10cm",
+      "spectrum_id": "RAG-SPEC-0237",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "NZK-150",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\joint processing\\NZK_50cm_D1.spe",
+      "sample_id": "GEM-30_D1_Front50_50",
+      "spectrum_id": "RAG-SPEC-0243",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Point25",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Th228--BadCalibre.spe",
+      "sample_id": "Th228-SRC-05-25cm",
+      "spectrum_id": "RAG-SPEC-0264",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Barrel-SKG(Water)",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\joint processing\\Barrel_10cm_D1.spe",
+      "sample_id": "Barrel-SKG(Water) Co60 e07 D2 10cm",
+      "spectrum_id": "RAG-SPEC-0283",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Point25",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Point25\\Am241-SRC-05-25cm.spe",
+      "sample_id": "Am241-SRC-05-25cm",
+      "spectrum_id": "RAG-SPEC-0289",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Point25",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Point25\\Ba133-SRC-05-25cm.spe",
+      "sample_id": "Ba133-SRC-05-25cm",
+      "spectrum_id": "RAG-SPEC-0291",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Point25",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Point25\\Mn54-SRC-05-25cm.spe",
+      "sample_id": "Mn54-SRC-05-25cm",
+      "spectrum_id": "RAG-SPEC-0302",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Point25",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Point25\\Ce139-SRC-05-25cm.spe",
+      "sample_id": "Ce139-SRC-05-25cm",
+      "spectrum_id": "RAG-SPEC-0306",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Point25",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Point25\\Sn113-SRC-05-25cm.spe",
+      "sample_id": "Sn113-SRC-05-25cm",
+      "spectrum_id": "RAG-SPEC-0317",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Маринелли",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Marinelli\\m_th06.spe",
+      "sample_id": "m_th06",
+      "spectrum_id": "RAG-SPEC-0319",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=true"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Point25",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Point25\\Y88-SRC-05-25cm.spe",
+      "sample_id": "Y88-SRC-05-25cm",
+      "spectrum_id": "RAG-SPEC-0334",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:GP_HPGe20/Y-88"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Barrel-SKG(Water)",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\joint processing\\Barrel_10cm_D2.spe",
+      "sample_id": "Barrel-SKG(Water) Co60 e07 D2 10cm",
+      "spectrum_id": "RAG-SPEC-0372",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Маринелли",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Marinelli\\m_k06.spe",
+      "sample_id": "m_k06",
+      "spectrum_id": "RAG-SPEC-0391",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=true"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Маринелли",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Marinelli\\m_th16.spe",
+      "sample_id": "m_th16",
+      "spectrum_id": "RAG-SPEC-0395",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=true"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Маринелли",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Marinelli\\m_cs16.spe",
+      "sample_id": "m_cs16",
+      "spectrum_id": "RAG-SPEC-0474",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=true"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Point25",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Point25\\Th228-SRC-05-25cm.spe",
+      "sample_id": "Th228-SRC-05-25cm",
+      "spectrum_id": "RAG-SPEC-0482",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "NZK-150",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\joint processing\\NZK_50cm_D3.spe",
+      "sample_id": "GEM-30_D1_Front50_50",
+      "spectrum_id": "RAG-SPEC-0492",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "NZK-150",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\joint processing\\NZK_50cm_D2.spe",
+      "sample_id": "GEM-30_D1_Front50_50",
+      "spectrum_id": "RAG-SPEC-0542",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false"
+      ]
+    },
+    {
+      "detector_folder": "detectors/GP_HPGe20/",
+      "geometry": "Point25",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\GP\\HPGe(20%)\\Spe\\Point25\\Cs137-SRC-05-25cm.spe",
+      "sample_id": "Cs137-SRC-05-25cm",
+      "spectrum_id": "RAG-SPEC-0556",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    }
+  ]
+}

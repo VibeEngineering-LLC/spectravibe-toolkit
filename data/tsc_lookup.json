@@ -1,0 +1,808 @@
+{
+  "$schema": "tsc_lookup_v1",
+  "_meta": {
+    "version": "v1.19.0",
+    "created": "2026-06-03",
+    "purpose": "True Coincidence Summing correction factors (TSCF) lookup table for HPGe-coaxial detectors. Populated in v1.19.0 Phase 4 (data-only, NOT yet wired to activity-computation pipeline). Pipeline wiring deferred to v1.19.1+.",
+    "primary_index": "(nuclide, energy_keV, geometry, detector_class)",
+    "tscf_definition": "TSCF = peak_area(monoenergetic_simulation) / peak_area(full_decay_with_CS). TSCF >= 1.0 for cascade emitters (summing-out reduces FEP).",
+    "uncertainty_definition": "1-sigma absolute statistical uncertainty (MC counting statistics + decay-scheme propagation).",
+    "sources": {
+      "giubrone-2016": "Giubrone G., Ortiz J., Gallardo S., Martorell S., Bas M.C. (2016). Calculation of Coincidence Summing Correction Factors for an HPGe detector using GEANT4. J. Environ. Radioact. 158-159, 114-118. doi:10.1016/j.jenvrad.2016.04.008",
+      "ordonez-2019-rpc": "Ordonez-Rodenas J., Gallardo Bermell S., Ortiz Moragon J., Martorell Alsina S.S. (2019). Coincidence summing correction factors for 238U and 232Th decay series using the Monte Carlo method. Radiation Physics and Chemistry 155, 244-247. doi:10.1016/j.radphyschem.2018.09.013"
+    },
+    "detector_baseline": "ORTEC GMX series 40% relative efficiency at 1.33 MeV, type-N HPGe coaxial, crystal volume 201 cm^3 (Giubrone 2016 Table 1). Same physical detector used by both Giubrone 2016 and Ordonez 2019 (UPV Valencia / LRA).",
+    "extrapolation_warning": "All entries are detector-class HPGe-coaxial, ORTEC GMX40-specific. Other detector classes (NaI-Tl, LaBr3-Ce, CeBr3, CdZnTe, HPGe-BEGE) MUST NOT consume these values without dedicated calibration -- TSCF is nonlinear in eps_pp(E) and eps_T(E) which differ by 2-3x between HPGe coaxial and scintillators. See PLAN_v1_18_32_to_v1_19_0_TCS_INTEGRATION.md R5.4."
+  },
+  "detector_class_supported": [
+    "HPGe-coaxial"
+  ],
+  "entries_count": 47,
+  "entries": [
+    {
+      "nuclide": "Y-88",
+      "energy_keV": 898.0,
+      "geometry": "petri_100ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.099,
+      "tscf_uncertainty": 0.011,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 4 (PGAQ)"
+    },
+    {
+      "nuclide": "Y-88",
+      "energy_keV": 1836.0,
+      "geometry": "petri_100ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.13,
+      "tscf_uncertainty": 0.015,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 4 (PGAQ)"
+    },
+    {
+      "nuclide": "Co-60",
+      "energy_keV": 1173.0,
+      "geometry": "petri_100ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.078,
+      "tscf_uncertainty": 0.012,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 4 (PGAQ)"
+    },
+    {
+      "nuclide": "Co-60",
+      "energy_keV": 1332.5,
+      "geometry": "petri_100ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.1,
+      "tscf_uncertainty": 0.013,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 4 (PGAQ)"
+    },
+    {
+      "nuclide": "Y-88",
+      "energy_keV": 898.0,
+      "geometry": "petri_100ml_sea_sand",
+      "matrix_density_g_cm3": 1.65,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.106,
+      "tscf_uncertainty": 0.011,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 4 (PGSI)"
+    },
+    {
+      "nuclide": "Y-88",
+      "energy_keV": 1836.0,
+      "geometry": "petri_100ml_sea_sand",
+      "matrix_density_g_cm3": 1.65,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.11,
+      "tscf_uncertainty": 0.015,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 4 (PGSI)"
+    },
+    {
+      "nuclide": "Co-60",
+      "energy_keV": 1173.0,
+      "geometry": "petri_100ml_sea_sand",
+      "matrix_density_g_cm3": 1.65,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.094,
+      "tscf_uncertainty": 0.012,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 4 (PGSI)"
+    },
+    {
+      "nuclide": "Co-60",
+      "energy_keV": 1332.5,
+      "geometry": "petri_100ml_sea_sand",
+      "matrix_density_g_cm3": 1.65,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.11,
+      "tscf_uncertainty": 0.013,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 4 (PGSI)"
+    },
+    {
+      "nuclide": "Y-88",
+      "energy_keV": 898.0,
+      "geometry": "petri_15ml_aqueous",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.14,
+      "tscf_uncertainty": 0.095,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 4 (PPAQ)"
+    },
+    {
+      "nuclide": "Y-88",
+      "energy_keV": 1836.0,
+      "geometry": "petri_15ml_aqueous",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.16,
+      "tscf_uncertainty": 0.013,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 4 (PPAQ)"
+    },
+    {
+      "nuclide": "Co-60",
+      "energy_keV": 1173.0,
+      "geometry": "petri_15ml_aqueous",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.15,
+      "tscf_uncertainty": 0.011,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 4 (PPAQ)"
+    },
+    {
+      "nuclide": "Co-60",
+      "energy_keV": 1332.5,
+      "geometry": "petri_15ml_aqueous",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.135,
+      "tscf_uncertainty": 0.011,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 4 (PPAQ)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 563.2,
+      "geometry": "petri_100ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.093,
+      "tscf_uncertainty": 0.011,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PGAQ)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 569.3,
+      "geometry": "petri_100ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.148,
+      "tscf_uncertainty": 0.009,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PGAQ)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 604.7,
+      "geometry": "petri_100ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.127,
+      "tscf_uncertainty": 0.006,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PGAQ)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 795.8,
+      "geometry": "petri_100ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.14,
+      "tscf_uncertainty": 0.007,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PGAQ)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 801.9,
+      "geometry": "petri_100ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.2,
+      "tscf_uncertainty": 0.014,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PGAQ)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 563.2,
+      "geometry": "petri_100ml_sea_sand",
+      "matrix_density_g_cm3": 1.65,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.098,
+      "tscf_uncertainty": 0.012,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PGSI)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 569.3,
+      "geometry": "petri_100ml_sea_sand",
+      "matrix_density_g_cm3": 1.65,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.18,
+      "tscf_uncertainty": 0.01,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PGSI)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 604.7,
+      "geometry": "petri_100ml_sea_sand",
+      "matrix_density_g_cm3": 1.65,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.145,
+      "tscf_uncertainty": 0.006,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PGSI)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 795.8,
+      "geometry": "petri_100ml_sea_sand",
+      "matrix_density_g_cm3": 1.65,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.16,
+      "tscf_uncertainty": 0.007,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PGSI)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 801.9,
+      "geometry": "petri_100ml_sea_sand",
+      "matrix_density_g_cm3": 1.65,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.205,
+      "tscf_uncertainty": 0.015,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PGSI)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 563.2,
+      "geometry": "petri_15ml_aqueous",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.106,
+      "tscf_uncertainty": 0.009,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PPAQ)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 569.3,
+      "geometry": "petri_15ml_aqueous",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.215,
+      "tscf_uncertainty": 0.008,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PPAQ)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 604.7,
+      "geometry": "petri_15ml_aqueous",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.178,
+      "tscf_uncertainty": 0.005,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PPAQ)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 795.8,
+      "geometry": "petri_15ml_aqueous",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.244,
+      "tscf_uncertainty": 0.006,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PPAQ)"
+    },
+    {
+      "nuclide": "Cs-134",
+      "energy_keV": 801.9,
+      "geometry": "petri_15ml_aqueous",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.265,
+      "tscf_uncertainty": 0.013,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "giubrone-2016",
+      "source_table_ref": "Table 7 (PPAQ)"
+    },
+    {
+      "nuclide": "Bi-214",
+      "energy_keV": 609.3,
+      "geometry": "petri_25ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.187,
+      "tscf_uncertainty": 0.003,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 1 (PS25W)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.166
+      }
+    },
+    {
+      "nuclide": "Bi-214",
+      "energy_keV": 1120.3,
+      "geometry": "petri_25ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.211,
+      "tscf_uncertainty": 0.005,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 1 (PS25W)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.19
+      }
+    },
+    {
+      "nuclide": "Bi-214",
+      "energy_keV": 609.3,
+      "geometry": "petri_100ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.126,
+      "tscf_uncertainty": 0.003,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 1 (PS100W)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.106
+      }
+    },
+    {
+      "nuclide": "Bi-214",
+      "energy_keV": 1120.3,
+      "geometry": "petri_100ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.158,
+      "tscf_uncertainty": 0.006,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 1 (PS100W)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.119
+      }
+    },
+    {
+      "nuclide": "Bi-214",
+      "energy_keV": 609.3,
+      "geometry": "petri_100ml_sea_sand",
+      "matrix_density_g_cm3": 1.65,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.134,
+      "tscf_uncertainty": 0.008,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 1 (PS100SS)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.114
+      }
+    },
+    {
+      "nuclide": "Bi-214",
+      "energy_keV": 1120.3,
+      "geometry": "petri_100ml_sea_sand",
+      "matrix_density_g_cm3": 1.65,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.138,
+      "tscf_uncertainty": 0.02,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 1 (PS100SS)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.125
+      }
+    },
+    {
+      "nuclide": "Bi-214",
+      "energy_keV": 609.3,
+      "geometry": "petri_100ml_zr_sand",
+      "matrix_density_g_cm3": 3.5,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.13,
+      "tscf_uncertainty": 0.003,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 1 (PS100ZrS)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.112
+      }
+    },
+    {
+      "nuclide": "Bi-214",
+      "energy_keV": 1120.3,
+      "geometry": "petri_100ml_zr_sand",
+      "matrix_density_g_cm3": 3.5,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.14,
+      "tscf_uncertainty": 0.006,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 1 (PS100ZrS)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.121
+      }
+    },
+    {
+      "nuclide": "Bi-214",
+      "energy_keV": 609.3,
+      "geometry": "marinelli_500ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.119,
+      "tscf_uncertainty": 0.003,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 1 (MS500W)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.105
+      }
+    },
+    {
+      "nuclide": "Bi-214",
+      "energy_keV": 1120.3,
+      "geometry": "marinelli_500ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.144,
+      "tscf_uncertainty": 0.006,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 1 (MS500W)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.117
+      }
+    },
+    {
+      "nuclide": "Bi-212",
+      "energy_keV": 727.3,
+      "geometry": "petri_25ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.053,
+      "tscf_uncertainty": 0.005,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 2 (PS25W)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.053
+      }
+    },
+    {
+      "nuclide": "Bi-212",
+      "energy_keV": 727.3,
+      "geometry": "petri_100ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.037,
+      "tscf_uncertainty": 0.006,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 2 (PS100W)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.034
+      }
+    },
+    {
+      "nuclide": "Bi-212",
+      "energy_keV": 727.3,
+      "geometry": "petri_100ml_sea_sand",
+      "matrix_density_g_cm3": 1.65,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.039,
+      "tscf_uncertainty": 0.006,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 2 (PS100SS)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.036
+      }
+    },
+    {
+      "nuclide": "Bi-212",
+      "energy_keV": 727.3,
+      "geometry": "petri_100ml_zr_sand",
+      "matrix_density_g_cm3": 3.5,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.03,
+      "tscf_uncertainty": 0.007,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 2 (PS100ZrS)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.035
+      }
+    },
+    {
+      "nuclide": "Bi-212",
+      "energy_keV": 727.3,
+      "geometry": "marinelli_500ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.04,
+      "tscf_uncertainty": 0.006,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 2 (MS500W)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.034
+      }
+    },
+    {
+      "nuclide": "Tl-208",
+      "energy_keV": 583.2,
+      "geometry": "petri_25ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.226,
+      "tscf_uncertainty": 0.004,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 3 (PS25W)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.222
+      }
+    },
+    {
+      "nuclide": "Tl-208",
+      "energy_keV": 583.2,
+      "geometry": "petri_100ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.16,
+      "tscf_uncertainty": 0.004,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 3 (PS100W)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.131
+      }
+    },
+    {
+      "nuclide": "Tl-208",
+      "energy_keV": 583.2,
+      "geometry": "petri_100ml_sea_sand",
+      "matrix_density_g_cm3": 1.65,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.165,
+      "tscf_uncertainty": 0.004,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 3 (PS100SS)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.14
+      }
+    },
+    {
+      "nuclide": "Tl-208",
+      "energy_keV": 583.2,
+      "geometry": "petri_100ml_zr_sand",
+      "matrix_density_g_cm3": 3.5,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.17,
+      "tscf_uncertainty": 0.004,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 3 (PS100ZrS)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.133
+      }
+    },
+    {
+      "nuclide": "Tl-208",
+      "energy_keV": 583.2,
+      "geometry": "marinelli_500ml_water",
+      "matrix_density_g_cm3": 1.0,
+      "detector_class": "HPGe-coaxial",
+      "detector_model_ref": "ORTEC-GMX40-HPGe-coaxial",
+      "tscf": 1.156,
+      "tscf_uncertainty": 0.004,
+      "coincidence_modes": [
+        "gamma-gamma"
+      ],
+      "source_doc_id": "ordonez-2019-rpc",
+      "source_table_ref": "Table 3 (MS500W)",
+      "cross_validation": {
+        "method": "TRUECOINC",
+        "tscf": 1.129
+      }
+    }
+  ]
+}

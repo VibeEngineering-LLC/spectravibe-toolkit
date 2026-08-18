@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gamma-spectrum-analysis"
+version = "1.27.9"
+description = "SpectraVibe — gamma-ray spectrum analysis toolkit (NaI/HPGe)"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=1.24,<2.4",
+    "scipy>=1.10,<1.18",
+    "matplotlib>=3.7",
+    "reportlab>=4.0",
+    "defusedxml>=0.7.1",
+]
+
+[tool.setuptools.packages.find]
+where = ["scripts"]
+include = ["gamma*"]
+
+[tool.pytest.ini_options]
+# Task #27 — pytest collection cleanup (2026-06-04)
+# Exclude helper scripts that use argparse at module level (not real tests)
+# and archived test duplicates that collide with tests/snapshot/ basenames.
+norecursedirs = [
+    "_archive",
+    "audit/_drafts/_ollama_helpers",
+    "audit",
+    "books_library",
+    "references",
+    "docs",
+    "demo_reports",
+    "evals",
+    "_tmp",
+    "_state",
+    "1_Version",
+    "__pycache__",
+    ".git",
+]
+testpaths = ["tests"]

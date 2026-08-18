@@ -1,0 +1,45 @@
+{
+  "source": "LSRM Гамма-1С, окно «Калибровка по ПШПВ»",
+  "spectrum_file": "detectors/Gamma-1C/reference_spectra/reference_kits/Marinelli_1L/Th-232/Th232_420-7-17_Маринелли_0cm.spe",
+  "session_label": "Th232_420-7-17_Маринелли_0cm",
+  "captured": "2026-06-20",
+  "fit_meta": {
+    "polynomial_degree": 4,
+    "energy_range_keV": [37.00, 3069.00],
+    "default_uncertainty_eV": 2000,
+    "overall_chi2": 2.0332,
+    "right_panel": "Расчётная калибровка (жёлтая) vs Калибровка из спектра (зелёная); красным — границы ±неопр.",
+    "left_panel_columns_glossary": {
+      "fwhm_keV_measured": "ПШПВ (спектр) — измеренная по точкам, кэВ",
+      "fwhm_uncertainty_meas_eV": "Неопр. ПШПВ (спектр), эВ",
+      "fwhm_keV_calibration": "ПШПВ (калибр) — значение калибровочного полинома в этой точке, кэВ",
+      "fwhm_uncertainty_calib_eV": "Неопр. ПШПВ (калибр), эВ",
+      "chi2_point": "Хи-квадрат для точки"
+    }
+  },
+  "anchors": [
+    {"channel":  76.049, "energy_keV":  208.129, "energy_uncertainty_eV":  104, "nuclide": "Th-232", "fwhm_keV_measured": 21.644, "fwhm_uncertainty_meas_eV":  450, "fwhm_keV_calibration":  21.522, "fwhm_uncertainty_calib_eV": 1156, "chi2_point": 0.295},
+    {"channel":  86.162, "energy_keV":  237.508, "energy_uncertainty_eV":  104, "nuclide": "Th-232", "fwhm_keV_measured": 24.029, "fwhm_uncertainty_meas_eV":  177, "fwhm_keV_calibration":  24.028, "fwhm_uncertainty_calib_eV":  577, "chi2_point": 0.000},
+    {"channel": 117.128, "energy_keV":  327.625, "energy_uncertainty_eV":  344, "nuclide": "Th-232", "fwhm_keV_measured": 29.292, "fwhm_uncertainty_meas_eV": 1475, "fwhm_keV_calibration":  30.133, "fwhm_uncertainty_calib_eV": 1521, "chi2_point": 1.299},
+    {"channel": 120.669, "energy_keV":  337.944, "energy_uncertainty_eV":  344, "nuclide": "Th-232", "fwhm_keV_measured": 29.881, "fwhm_uncertainty_meas_eV":  777, "fwhm_keV_calibration":  30.733, "fwhm_uncertainty_calib_eV": 1564, "chi2_point": 4.820},
+    {"channel": 162.463, "energy_keV":  459.984, "energy_uncertainty_eV": 1523, "nuclide": "Th-232", "fwhm_keV_measured": 34.666, "fwhm_uncertainty_meas_eV": 4508, "fwhm_keV_calibration":  37.063, "fwhm_uncertainty_calib_eV": 1451, "chi2_point": 1.130},
+    {"channel": 178.780, "energy_keV":  507.747, "energy_uncertainty_eV": 1523, "nuclide": "Th-232", "fwhm_keV_measured": 36.835, "fwhm_uncertainty_meas_eV": 3118, "fwhm_keV_calibration":  39.321, "fwhm_uncertainty_calib_eV": 1338, "chi2_point": 2.543},
+    {"channel": 203.446, "energy_keV":  580.077, "energy_uncertainty_eV":  205, "nuclide": "Th-232", "fwhm_keV_measured": 43.116, "fwhm_uncertainty_meas_eV":  413, "fwhm_keV_calibration":  42.649, "fwhm_uncertainty_calib_eV": 1326, "chi2_point": 5.118},
+    {"channel": 312.016, "energy_keV":  900.228, "energy_uncertainty_eV":  479, "nuclide": "Th-232", "fwhm_keV_measured": 55.823, "fwhm_uncertainty_meas_eV": 1344, "fwhm_keV_calibration":  57.334, "fwhm_uncertainty_calib_eV": 2572, "chi2_point": 5.061},
+    {"channel": 330.078, "energy_keV":  953.774, "energy_uncertainty_eV":  479, "nuclide": "Th-232", "fwhm_keV_measured": 58.215, "fwhm_uncertainty_meas_eV": 1887, "fwhm_keV_calibration":  59.843, "fwhm_uncertainty_calib_eV": 2804, "chi2_point": 2.981},
+    {"channel": 331.495, "energy_keV":  957.978, "energy_uncertainty_eV":  479, "nuclide": "Th-232", "fwhm_keV_measured": 58.402, "fwhm_uncertainty_meas_eV": 2457, "fwhm_keV_calibration":  60.041, "fwhm_uncertainty_calib_eV": 2823, "chi2_point": 1.779},
+    {"channel": 539.733, "energy_keV": 1581.207, "energy_uncertainty_eV": 1017, "nuclide": "Th-232", "fwhm_keV_measured": 90.683, "fwhm_uncertainty_meas_eV": 2747, "fwhm_keV_calibration":  88.564, "fwhm_uncertainty_calib_eV": 7330, "chi2_point": 2.382},
+    {"channel": 550.426, "energy_keV": 1613.500, "energy_uncertainty_eV": 1017, "nuclide": "Th-232", "fwhm_keV_measured": 92.009, "fwhm_uncertainty_meas_eV": 7729, "fwhm_keV_calibration":  89.901, "fwhm_uncertainty_calib_eV": 7580, "chi2_point": 0.298},
+    {"channel": 553.777, "energy_keV": 1623.624, "energy_uncertainty_eV": 1017, "nuclide": "Th-232", "fwhm_keV_measured": 92.419, "fwhm_uncertainty_meas_eV": 4938, "fwhm_keV_calibration":  90.316, "fwhm_uncertainty_calib_eV": 7656, "chi2_point": 0.726},
+    {"channel": 876.829, "energy_keV": 2612.857, "energy_uncertainty_eV":  955, "nuclide": "Th-232", "fwhm_keV_measured":112.796, "fwhm_uncertainty_meas_eV": 1849, "fwhm_keV_calibration": 112.964, "fwhm_uncertainty_calib_eV": 6570, "chi2_point": 0.033}
+  ],
+  "use_in_our_pipeline": {
+    "purpose": "ground-truth кривая FWHM(E) данного детектора+геометрии — сверять с нашим bootstrap из staged_pipeline.py",
+    "criterion_per_anchor": "|FWHM_наш − FWHM_LSRM_measured| ≤ max(fwhm_uncertainty_meas_eV, 2 keV) при PASS",
+    "critical_anchors_for_th232": [
+      "Tl-208 2614.51 кэВ → 112.80 keV (наш HEAD: 107.85, Δ=-4.95)",
+      "Ac-228 911.20 кэВ → 55.82 keV",
+      "Pb-212 238.63 кэВ → 24.03 keV"
+    ]
+  }
+}

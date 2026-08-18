@@ -1,0 +1,144 @@
+{
+  "_schema": {
+    "version": "0.2",
+    "scope": "Frequently-used elements only (variant b per user choice). For other Z, refer to references/08b_xrf_lines_catalog.md and load on demand.",
+    "full_database": "data/xray_lines_lsrm.sqlite — all 1766 lines, Z=5..104, 24 line types (Ka/Kb/La/Lb/Lg/Ll/Ln). Source: C:\\LSRM\\NuclideMaster\\XRay_Viewer\\X-ray.mdb (imported 2026-07-04). Query: SELECT element,Z,line,energy_keV,intensity FROM xray_lines WHERE energy_keV BETWEEN ? AND ?",
+    "fields": {
+      "Z": "atomic number",
+      "K": "[Ka1, Ka2, Kb1, Kb2_or_null] in keV",
+      "L": "optional, only for Z > 60: [La1, Lb1, Lb2, Lg1] in keV",
+      "K_alpha_ratio": "Ka1/Ka2 intensity ratio (~1.5-1.9)",
+      "K_beta_ratio": "Kb_total / Ka_total intensity ratio (~0.20-0.25)",
+      "context": "where this element is typically seen in our pipeline"
+    },
+    "sources": "NIST X-Ray Transition Energies Database (Deslattes 2003) + Bearden 1967 via reference 08b_xrf_lines_catalog.md. Full DB: LSRM NuclideMaster (2026-07-04)."
+  },
+
+  "Fe": {
+    "Z": 26,
+    "K": [6.40, 6.39, 7.06, null],
+    "K_alpha_ratio": 1.95,
+    "K_beta_ratio": 0.13,
+    "context": "steel container, electronics, soil matrix"
+  },
+
+  "Cu": {
+    "Z": 29,
+    "K": [8.05, 8.03, 8.91, null],
+    "K_alpha_ratio": 1.92,
+    "K_beta_ratio": 0.14,
+    "context": "Cu liner in graded shield, cryostat, electronics"
+  },
+
+  "Cd": {
+    "Z": 48,
+    "K": [23.17, 22.98, 26.10, 26.64],
+    "K_alpha_ratio": 1.85,
+    "K_beta_ratio": 0.22,
+    "context": "Cd liner in graded shield (mid layer)"
+  },
+
+  "Sn": {
+    "Z": 50,
+    "K": [25.27, 25.04, 28.49, 29.11],
+    "K_alpha_ratio": 1.84,
+    "K_beta_ratio": 0.22,
+    "context": "Sn liner in graded shield (most common mid layer)"
+  },
+
+  "I": {
+    "Z": 53,
+    "K": [28.61, 28.32, 32.29, 33.04],
+    "K_alpha_ratio": 1.83,
+    "K_beta_ratio": 0.23,
+    "context": "NaI(Tl) crystal — gives escape peaks AND fluorescence"
+  },
+
+  "Ba": {
+    "Z": 56,
+    "K": [32.19, 31.82, 36.38, 37.26],
+    "K_alpha_ratio": 1.82,
+    "K_beta_ratio": 0.23,
+    "context": "IC product of Cs-137 -> Cs-137m -> Ba-137; ALSO LaBr3 intrinsic"
+  },
+
+  "Te": {
+    "Z": 52,
+    "K": [27.47, 27.20, 30.99, 31.71],
+    "K_alpha_ratio": 1.83,
+    "K_beta_ratio": 0.23,
+    "context": "IC product of I-125, Sb-125; CdZnTe crystal escape"
+  },
+
+  "W": {
+    "Z": 74,
+    "K": [59.32, 57.98, 67.24, 69.07],
+    "L": [8.40, 9.67, 9.96, 11.29],
+    "K_alpha_ratio": 1.71,
+    "K_beta_ratio": 0.24,
+    "context": "W collimator/insert. CRITICAL: Ka1 overlaps Am-241 59.54 keV — disambiguate via Kb pair"
+  },
+
+  "Pb": {
+    "Z": 82,
+    "K": [74.97, 72.80, 84.94, 87.30],
+    "L": [10.55, 12.61, 12.62, 14.76],
+    "K_alpha_ratio": 1.67,
+    "K_beta_ratio": 0.24,
+    "context": "Pb shielding — most common XRF signature in gamma spectroscopy"
+  },
+
+  "Bi": {
+    "Z": 83,
+    "K": [77.11, 74.81, 87.35, 89.83],
+    "L": [10.84, 13.02, 13.02, 15.25],
+    "K_alpha_ratio": 1.66,
+    "K_beta_ratio": 0.24,
+    "context": "IC product of Bi-214 (Ra-226 chain); also Bi alloys"
+  },
+
+  "Th": {
+    "Z": 90,
+    "K": [93.35, 89.96, 105.61, 108.64],
+    "L": [12.97, 15.62, 16.20, 18.98],
+    "K_alpha_ratio": 1.65,
+    "K_beta_ratio": 0.24,
+    "context": "Th-containing samples. CRITICAL: Ka2 89.96 overlaps U-235 89.96 gamma line"
+  },
+
+  "U": {
+    "Z": 92,
+    "K": [98.44, 94.65, 111.30, 114.55],
+    "L": [13.61, 16.43, 17.22, 20.16],
+    "K_alpha_ratio": 1.64,
+    "K_beta_ratio": 0.24,
+    "context": "U-containing samples"
+  },
+
+  "Np": {
+    "Z": 93,
+    "K": [101.06, 97.07, 114.23, null],
+    "L": [13.95, 16.84, 17.75, 20.78],
+    "K_alpha_ratio": 1.64,
+    "K_beta_ratio": 0.24,
+    "context": "IC product of Am-241 -> Np-237. L X-rays at 13.95, 17.75 are major"
+  },
+
+  "Pu": {
+    "Z": 94,
+    "K": [103.74, 99.52, 117.23, null],
+    "L": [14.28, 17.26, 18.29, 21.42],
+    "K_alpha_ratio": 1.63,
+    "K_beta_ratio": 0.24,
+    "context": "Pu samples (rare in typical lab measurements)"
+  },
+
+  "Am": {
+    "Z": 95,
+    "K": [106.5, 102.0, 120.3, null],
+    "L": [14.62, 17.68, 18.85, 22.07],
+    "K_alpha_ratio": 1.63,
+    "K_beta_ratio": 0.24,
+    "context": "Am-241 self-emission L X-rays"
+  }
+}
