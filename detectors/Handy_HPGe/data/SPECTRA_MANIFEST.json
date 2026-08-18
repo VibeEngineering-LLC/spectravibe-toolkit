@@ -1,0 +1,602 @@
+{
+  "_meta": {
+    "created": "2026-06-05",
+    "detector_class": "Handy_HPGe",
+    "detector_folder": "detectors/Handy_HPGe/",
+    "note": "Populated by F-300/W3. Raw spectra are operator-side only (F-115/F-150). Records are projections of the corresponding audit/_rag/SPECTRA_INDEX.json entries matched on detector_folder.",
+    "record_count": 39,
+    "schema_version": "0.2",
+    "source_index": "audit/_rag/SPECTRA_INDEX.json",
+    "source_index_schema_version": "0.2"
+  },
+  "spectra": [
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Ba-133  813 kBq_KT1-20.spe",
+      "sample_id": "Ba-133  813 kBq_KT1-20",
+      "spectrum_id": "RAG-SPEC-0005",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Ba-133"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Cs-137  75 kBq_KT1-10.spe",
+      "sample_id": "Cs-137 75 kBq_KT1-10",
+      "spectrum_id": "RAG-SPEC-0014",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Co-60  198 kBq_KT1-5.spe",
+      "sample_id": "Co-60  198 kBq_KT1-5",
+      "spectrum_id": "RAG-SPEC-0041",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Co-60"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Eu-152  244 kBq.spe",
+      "sample_id": "Eu-152  244 kBq",
+      "spectrum_id": "RAG-SPEC-0044",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Eu-152"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Na-22  92 kBq.spe",
+      "sample_id": "Na-22  92 kBq",
+      "spectrum_id": "RAG-SPEC-0052",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Th-232  17 kBq KT1-5.spe",
+      "sample_id": "Th-232  17 kBq KT1-5",
+      "spectrum_id": "RAG-SPEC-0054",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Cs-134  95 kBq_KT1-5.spe",
+      "sample_id": "Cs-134  95 kBq_KT1-5",
+      "spectrum_id": "RAG-SPEC-0057",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Co-60  198 kBq.spe",
+      "sample_id": "Co-60  198 kBq",
+      "spectrum_id": "RAG-SPEC-0062",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Co-60"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Cs-134  95 kBq_KT1-10.spe",
+      "sample_id": "Cs-134  95 kBq_KT1-10",
+      "spectrum_id": "RAG-SPEC-0076",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Th-232  17 kBq KT1-10.spe",
+      "sample_id": "Th-232  17 kBq KT1-10",
+      "spectrum_id": "RAG-SPEC-0101",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Na-22  92 kBq KT1-20.spe",
+      "sample_id": "Na-22  92 kBq KT1-20",
+      "spectrum_id": "RAG-SPEC-0156",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Cs-137  75 kBq_KT1-5.spe",
+      "sample_id": "Cs-137  75 kBq_KT1-5",
+      "spectrum_id": "RAG-SPEC-0157",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Th-228  68 kBq KT1-20.spe",
+      "sample_id": "Th-228  68 kBq KT1-20",
+      "spectrum_id": "RAG-SPEC-0167",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Th-228"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Co-60  198 kBq_KT1-20.spe",
+      "sample_id": "Co-60  198 kBq_KT1-20",
+      "spectrum_id": "RAG-SPEC-0184",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Co-60"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Ti-44  72 kBq KT1-10.spe",
+      "sample_id": "Ti-44  72 kBq KT1-10",
+      "spectrum_id": "RAG-SPEC-0201",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Ti-44"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Bckg-1500 keV.spe",
+      "sample_id": "Bckg-1500 keV",
+      "spectrum_id": "RAG-SPEC-0212",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Ti-44  72 kBq KT1-20.spe",
+      "sample_id": "Ti-44  72 kBq KT1-20",
+      "spectrum_id": "RAG-SPEC-0263",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Ti-44"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Th-228  68 kBq.spe",
+      "sample_id": "Th-228  68 kBq",
+      "spectrum_id": "RAG-SPEC-0273",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Th-228"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Cs-134  95 kBq.spe",
+      "sample_id": "Cs-134  95 kBq",
+      "spectrum_id": "RAG-SPEC-0284",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Th-228  68 kBq KT1-10.spe",
+      "sample_id": "Th-228  68 kBq KT1-10",
+      "spectrum_id": "RAG-SPEC-0295",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Th-228"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Cs-134  95 kBq_KT1-20.spe",
+      "sample_id": "Cs-134  95 kBq_KT1-20",
+      "spectrum_id": "RAG-SPEC-0307",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Ti-44  72 kBq KT1-5.spe",
+      "sample_id": "Ti-44  72 kBq KT1-5",
+      "spectrum_id": "RAG-SPEC-0318",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Ti-44"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Co-60  198 kBq_KT1-10.spe",
+      "sample_id": "Co-60  198 kBq_KT1-10",
+      "spectrum_id": "RAG-SPEC-0323",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Co-60"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Ti-44  72 kBq.spe",
+      "sample_id": "Ti-44  72 kBq",
+      "spectrum_id": "RAG-SPEC-0370",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Ti-44"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Ba-133  813 kBq_KT1-5.spe",
+      "sample_id": "Ba-133  813 kBq_KT1-5",
+      "spectrum_id": "RAG-SPEC-0385",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Ba-133"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Th-232  17 kBq KT1-20.spe",
+      "sample_id": "Th-232  17 kBq KT1-20",
+      "spectrum_id": "RAG-SPEC-0386",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Ba-133  813 kBq_KT1-10.spe",
+      "sample_id": "Ba-133  813 kBq_KT1-10",
+      "spectrum_id": "RAG-SPEC-0389",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Ba-133"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Cs-137  75 kBq.spe",
+      "sample_id": "Cs-137  75 kBq",
+      "spectrum_id": "RAG-SPEC-0397",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Th-228  68 kBq KT1-5.spe",
+      "sample_id": "Th-228  68 kBq KT1-5",
+      "spectrum_id": "RAG-SPEC-0401",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Th-228"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Eu-152  244 kBq_KT1-10.spe",
+      "sample_id": "Eu-152  244 kBq_KT1-10",
+      "spectrum_id": "RAG-SPEC-0408",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Eu-152"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Eu-152  244 kBq_KT1-5.spe",
+      "sample_id": "Eu-152  244 kBq_KT1-5",
+      "spectrum_id": "RAG-SPEC-0430",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Eu-152"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Data\\Bckg-1500 keV.spe",
+      "sample_id": "Bckg-1500 keV",
+      "spectrum_id": "RAG-SPEC-0485",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Cs-137  75 kBq_KT1-20.spe",
+      "sample_id": "Cs-137  75 kBq_KT1-20",
+      "spectrum_id": "RAG-SPEC-0487",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Ba-133  813 kBq.spe",
+      "sample_id": "Ba-133  813 kBq",
+      "spectrum_id": "RAG-SPEC-0490",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Ba-133"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Na-22  92 kBq KT1-10.spe",
+      "sample_id": "Na-22  92 kBq KT1-10",
+      "spectrum_id": "RAG-SPEC-0510",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Am-241 321200 Bq.spe",
+      "sample_id": "Am-241 321200 Bq",
+      "spectrum_id": "RAG-SPEC-0525",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Am-241"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Th-232  17 kBq.spe",
+      "sample_id": "Th-232  17 kBq",
+      "spectrum_id": "RAG-SPEC-0526",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "A",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Eu-152  244 kBq_KT1-20.spe",
+      "sample_id": "Eu-152  244 kBq_KT1-20",
+      "spectrum_id": "RAG-SPEC-0541",
+      "tags": [
+        "tier-A",
+        "priority-P1",
+        "production",
+        "marinelli=false",
+        "point-source",
+        "drift-cohort:Handy_HPGe/Eu-152"
+      ]
+    },
+    {
+      "detector_folder": "detectors/Handy_HPGe/",
+      "geometry": "Точечный",
+      "quality_tier": "B",
+      "rel_path": "<LSRM>\\Work\\Handy\\Handy(HPGe)\\Spe\\Na-22  92 kBq KT1-5.spe",
+      "sample_id": "Na-22  92 kBq KT1-5",
+      "spectrum_id": "RAG-SPEC-0555",
+      "tags": [
+        "tier-B",
+        "priority-P1",
+        "marinelli=false",
+        "point-source"
+      ]
+    }
+  ]
+}

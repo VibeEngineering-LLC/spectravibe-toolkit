@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>{{TITLE}}</title>
+<style>
+:root{
+  --bg-primary:#ffffff;
+  --bg-secondary:#f5f4ee;
+  --bg-info:#e6f1fb;
+  --text-primary:#1f1e1d;
+  --text-secondary:#5f5e5a;
+  --text-tertiary:#888780;
+  --border-tertiary:rgba(0,0,0,0.10);
+  --border-secondary:rgba(0,0,0,0.20);
+  --radius-md:8px;
+  --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PT Sans","Noto Sans",sans-serif;
+  --font-mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg-primary:#1a1a1a;
+    --bg-secondary:#262625;
+    --bg-info:#0c447c;
+    --text-primary:#f0eee6;
+    --text-secondary:#b4b2a9;
+    --text-tertiary:#888780;
+    --border-tertiary:rgba(255,255,255,0.12);
+    --border-secondary:rgba(255,255,255,0.22);
+  }
+}
+*{box-sizing:border-box;-webkit-text-size-adjust:100%;}
+html,body{margin:0;padding:0;background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+.page{max-width:900px;margin:0 auto;padding:32px 24px 48px;}
+.page h1{font-size:22px;font-weight:500;margin:0 0 4px;}
+.page .sub{font-size:13px;color:var(--text-secondary);margin:0 0 24px;}
+.fp-legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin-bottom:12px;font-size:12px;color:var(--text-secondary);}
+.fp-legend span{display:flex;align-items:center;gap:4px;}
+.fp-sw{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.fp-controls{display:flex;gap:6px;align-items:center;margin-bottom:8px;font-size:12px;color:var(--text-secondary);flex-wrap:wrap;}
+.fp-controls button{font-size:11px;padding:4px 10px;background:transparent;border:0.5px solid var(--border-secondary);border-radius:var(--radius-md);cursor:pointer;color:inherit;font-family:inherit;}
+.fp-controls button:hover{background:var(--bg-secondary);}
+.fp-controls button.active{background:var(--bg-secondary);font-weight:500;}
+.fp-info{font-size:12px;color:var(--text-tertiary);margin-left:auto;}
+/* F-332 / v1.18.18.5 — 4-way spectrum view toggle */
+.fp-view-toggle{display:flex;gap:6px;align-items:center;margin-bottom:8px;font-size:12px;color:var(--text-secondary);flex-wrap:wrap;}
+/* F-334.2 / v1.18.18.7 — cps/counts Y-units toggle (отдельная группа рядом с Лог/Линейная) */
+.fp-units-toggle{display:flex;gap:6px;align-items:center;margin-bottom:8px;font-size:12px;color:var(--text-secondary);flex-wrap:wrap;}
+.fp-units-btn{font-size:11px;padding:4px 10px;background:transparent;border:0.5px solid var(--border-secondary);border-radius:var(--radius-md);cursor:pointer;color:inherit;font-family:inherit;}
+.fp-units-btn:hover{background:var(--bg-secondary);}
+.fp-units-btn.active{background:var(--bg-secondary);font-weight:500;border-color:var(--text-secondary);}
+.fp-units-btn:disabled{opacity:0.4;cursor:not-allowed;}
+/* F-334.3 / v1.18.18.7 — fullscreen modal popup для chart с zoom/pan/reset + collapsible details */
+/* BUG-18 / v1.18.30+ (Agent B): «Развернуть» button был слишком блёклый —
+ * outline-only (#border-secondary ≈ light grey) на фоне header'а делал
+ * primary CTA "ⓘ Развернуть" незаметным. Теперь — accent (#6566D7) с
+ * лёгкой 10% заливкой; hover/focus заполняются цветом полностью.
+ * Dark-mode: используем светлый _COL_TH (#7F77DD → #9D97E5/#CECBF6)
+ * для контраста против тёмного фона. WCAG AA verified (≥4.5:1). */
+.fp-expand-btn{font-size:11.5px;font-weight:500;padding:5px 12px;background:rgba(101,102,215,0.10);border:1.5px solid #6566D7;border-radius:var(--radius-md);cursor:pointer;color:#6566D7;font-family:inherit;margin-left:auto;}
+.fp-expand-btn:hover{background:#6566D7;color:#ffffff;}
+.fp-expand-btn:focus-visible{outline:2px solid #6566D7;outline-offset:2px;}
+@media (prefers-color-scheme: dark){
+  .fp-expand-btn{background:rgba(127,119,221,0.18);border-color:#9D97E5;color:#CECBF6;}
+  .fp-expand-btn:hover{background:#7F77DD;color:#ffffff;}
+}
+.fp-modal{position:fixed;inset:0;z-index:9999;background:var(--bg-primary, #fff);display:none;flex-direction:column;padding:14px 18px;box-sizing:border-box;}
+.fp-modal.open{display:flex;}
+.fp-modal-header{display:flex;gap:10px;align-items:center;margin-bottom:8px;flex-wrap:wrap;}
+.fp-modal-header button{font-size:12px;padding:5px 12px;background:transparent;border:0.5px solid var(--border-secondary);border-radius:var(--radius-md);cursor:pointer;color:inherit;font-family:inherit;}
+.fp-modal-header button:hover{background:var(--bg-secondary);}
+.fp-modal-title{font-size:13px;font-weight:500;color:var(--text-secondary);}
+.fp-modal-hint{font-size:11px;color:var(--text-tertiary);font-style:italic;margin-left:10px;}
+.fp-modal-chart{flex:1;position:relative;width:100%;min-height:0;background:var(--bg-primary);}
+.fp-modal-chart canvas{display:block !important;width:100% !important;height:100% !important;}
+.fp-modal-details{max-height:30vh;overflow:auto;border-top:0.5px solid var(--border-secondary);padding-top:10px;margin-top:8px;font-size:13px;line-height:1.55;transition:max-height 0.2s ease;}
+.fp-modal-details.collapsed{max-height:0;padding-top:0;margin-top:0;overflow:hidden;}
+/* F-FIT-VIEW / v1.22.1 — fit overlay toggle button */
+.fp-fit-toggle{display:flex;gap:6px;align-items:center;margin-bottom:8px;font-size:12px;color:var(--text-secondary);flex-wrap:wrap;}
+.fp-fit-btn{font-size:11px;padding:4px 10px;background:transparent;border:0.5px solid var(--border-secondary);border-radius:var(--radius-md);cursor:pointer;color:inherit;font-family:inherit;}
+.fp-fit-btn:hover{background:var(--bg-secondary);}
+.fp-fit-btn.active{background:var(--bg-secondary);font-weight:500;border-color:var(--text-secondary);}
+/* F-334.4 — floating tooltip для non-labelled peak markers (показывается при hover на dot) */
+.fp-peak-tooltip{position:fixed;z-index:10001;pointer-events:none;background:rgba(0,0,0,0.85);color:#fff;font-size:11px;padding:4px 8px;border-radius:4px;font-family:inherit;white-space:nowrap;display:none;}
+.fp-view-label{font-weight:500;color:var(--text-secondary);}
+.fp-view-btn{font-size:11px;padding:4px 10px;background:transparent;border:0.5px solid var(--border-secondary);border-radius:var(--radius-md);cursor:pointer;color:inherit;font-family:inherit;}
+.fp-view-btn:hover{background:var(--bg-secondary);}
+.fp-view-btn.active{background:var(--bg-secondary);font-weight:500;border-color:var(--text-secondary);}
+.fp-view-info{font-size:11px;color:var(--text-tertiary);margin-left:auto;}
+/* Container with explicit dimensions — critical for iOS Safari */
+.fp-chart{position:relative;width:100%;height:380px;margin-bottom:6px;}
+.fp-chart canvas{display:block !important;width:100% !important;height:100% !important;max-width:100%;}
+.fp-chart-mp{position:relative;width:100%;height:340px;margin:8px 0;}
+.fp-chart-mp canvas{display:block !important;width:100% !important;height:100% !important;max-width:100%;}
+.fp-hint{font-size:11.5px;color:var(--text-tertiary);margin:0 0 8px;font-style:italic;}
+.fp-detail{background:var(--bg-secondary);border-radius:var(--radius-md);padding:10px 14px;margin:6px 0 14px;font-size:12.5px;min-height:64px;line-height:1.55;}
+.fp-detail .ttl{font-weight:500;font-size:13px;margin-bottom:4px;color:var(--text-primary);}
+.fp-detail .empty{color:var(--text-tertiary);font-style:italic;}
+.fp-detail .iso{display:inline-block;margin-right:10px;}
+.fp-tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.fp-tbl{width:100%;font-size:12.5px;border-collapse:collapse;margin-top:0.5rem;}
+.fp-tbl th{text-align:left;font-weight:500;color:var(--text-secondary);padding:6px 8px;border-bottom:0.5px solid var(--border-secondary);font-size:11.5px;cursor:pointer;user-select:none;white-space:nowrap;}
+.fp-tbl th:hover{color:var(--text-primary);}
+.fp-tbl th.sorted::after{content:" ▾";color:var(--text-tertiary);}
+.fp-tbl th.sorted.asc::after{content:" ▴";}
+.fp-tbl td{padding:6px 8px;border-bottom:0.5px solid var(--border-tertiary);vertical-align:top;}
+.fp-tbl tr.row{cursor:pointer;transition:background 0.15s;}
+.fp-tbl tr.row:hover{background:var(--bg-secondary);}
+.fp-tbl tr.active{background:var(--bg-info);}
+.fp-pill{display:inline-block;font-size:11px;padding:1px 8px;border-radius:10px;font-weight:500;white-space:nowrap;}
+.fp-long{background:#EEEDFE;color:#3C3489;}
+.fp-nat{background:#E1F5EE;color:#0F6E56;}
+.fp-phys{background:#F1EFE8;color:#444441;}
+.fp-bg{background:#E5E5E2;color:#555;margin-left:6px;font-size:10.5px;}
+@media (prefers-color-scheme: dark){
+  .fp-long{background:#26215C;color:#CECBF6;}
+  .fp-nat{background:#04342C;color:#9FE1CB;}
+  .fp-phys{background:#2C2C2A;color:#D3D1C7;}
+  .fp-bg{background:#3A3A38;color:#BEBEBA;}
+}
+.fp-num{font-variant-numeric:tabular-nums;}
+.fp-summary{background:var(--bg-secondary);border-radius:var(--radius-md);padding:12px 16px;margin:18px 0;font-size:13px;}
+.fp-summary .label{color:var(--text-secondary);font-size:11.5px;text-transform:uppercase;letter-spacing:0.04em;}
+.fp-summary .val{font-size:18px;font-weight:500;margin:2px 0 4px;}
+.fp-summary .note{color:var(--text-tertiary);font-size:11.5px;}
+.fp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0;}
+.fp-grid > div{background:var(--bg-secondary);border-radius:var(--radius-md);padding:10px 12px;font-size:12px;}
+.fp-grid .k{color:var(--text-secondary);font-size:11px;margin-bottom:3px;}
+.fp-grid .v{font-size:13.5px;font-weight:500;}
+.fp-mp-block{margin:20px 0;padding:14px 16px;background:var(--bg-secondary);border-radius:var(--radius-md);}
+.fp-mp-block h3{font-size:14px;font-weight:500;margin:0 0 6px;color:var(--text-primary);text-align:left;padding-left:0;vertical-align:middle;}
+.fp-mp-meta{font-size:11.5px;color:var(--text-tertiary);margin-bottom:8px;}
+.fp-mp-note{font-size:12.5px;line-height:1.6;color:var(--text-secondary);margin:8px 0 0;}
+.fp-mp-note b{font-weight:500;color:var(--text-primary);}
+.fp-notes{margin-top:1.5rem;}
+.fp-notes h3{font-size:14px;font-weight:500;margin:1rem 0 0.4rem;color:var(--text-primary);text-align:left;padding-left:0;vertical-align:middle;}
+.fp-notes h3:first-child{margin-top:0;}
+.fp-notes p{font-size:13px;line-height:1.6;margin:0 0 0.5rem;color:var(--text-secondary);}
+.fp-notes ul{font-size:13px;line-height:1.6;margin:0.3rem 0 0.5rem;padding-left:1.2rem;color:var(--text-secondary);}
+.fp-notes li{margin-bottom:0.25rem;}
+.fp-notes code{font-family:var(--font-mono);font-size:12px;background:var(--bg-secondary);padding:1px 5px;border-radius:3px;}
+.fp-notes b{font-weight:500;color:var(--text-primary);}
+/* F-327 / v1.18.18.1 — refs section должна match typography .fp-notes */
+.gost-references{margin-top:1.5rem;padding-top:0;border-top:0.5px solid var(--border-tertiary);}
+.gost-references h2{font-size:14px;font-weight:500;margin:1rem 0 0.4rem;color:var(--text-primary);border-bottom:none;padding-bottom:0;text-align:left;padding-left:0;vertical-align:middle;}
+.gost-references p{font-size:13px;line-height:1.6;margin:0 0 0.5rem;color:var(--text-secondary);}
+.gost-references ol{font-size:13px;line-height:1.6;margin:0.3rem 0 0.5rem;padding-left:1.6rem;color:var(--text-secondary);}
+.gost-references li{margin-bottom:0.25rem;}
+.gost-references em{color:var(--text-tertiary);font-style:italic;font-size:12px;}
+/* F-326 / v1.18.18.1 — passport comparison section matches .fp-notes/.gost-references typography */
+.passport-comparison{margin-top:1.5rem;padding-top:0;border-top:0.5px solid var(--border-tertiary);}
+.passport-comparison h2{font-size:14px;font-weight:500;margin:1rem 0 0.4rem;color:var(--text-primary);border-bottom:none;padding-bottom:0;text-align:left;padding-left:0;vertical-align:middle;}
+.passport-comparison p{font-size:13px;line-height:1.6;margin:0 0 0.5rem;color:var(--text-secondary);}
+.passport-comparison code{font-family:var(--font-mono);font-size:12px;background:var(--bg-secondary);padding:1px 5px;border-radius:3px;}
+.passport-comparison pre{background:var(--bg-secondary);padding:10px 14px;border-radius:var(--radius-md);overflow-x:auto;font-size:12px;line-height:1.5;margin:0.5rem 0;}
+.passport-comparison pre code{background:transparent;padding:0;}
+.passport-comparison em{color:var(--text-tertiary);font-style:italic;font-size:12px;}
+.passport-tbl{width:100%;font-size:12.5px;border-collapse:collapse;margin:0.5rem 0;}
+.passport-tbl th{text-align:left;font-weight:500;color:var(--text-secondary);padding:6px 8px;border-bottom:0.5px solid var(--border-secondary);font-size:11.5px;}
+.passport-tbl td{padding:6px 8px;border-bottom:0.5px solid var(--border-tertiary);}
+
+/* Mobile responsiveness */
+@media (max-width:680px){
+  html,body{font-size:15px;}
+  .page{padding:18px 14px 32px;}
+  .page h1{font-size:19px;}
+  .page .sub{font-size:12px;margin-bottom:18px;}
+  .fp-grid{grid-template-columns:1fr;gap:8px;}
+  .fp-grid > div{padding:8px 10px;}
+  .fp-chart{height:280px;}
+  .fp-chart-mp{height:260px;}
+  .fp-controls{gap:4px;}
+  .fp-controls button{font-size:10px;padding:3px 8px;}
+  .fp-info{margin-left:0;width:100%;font-size:11px;margin-top:2px;}
+  .fp-tbl{font-size:11.5px;}
+  .fp-tbl th, .fp-tbl td{padding:5px 6px;}
+  .fp-summary{padding:10px 12px;}
+  .fp-summary .val{font-size:16px;}
+  .fp-mp-block{padding:10px 12px;}
+  .fp-notes p, .fp-notes ul{font-size:12.5px;}
+}
+@media (max-width:420px){
+  .fp-chart{height:240px;}
+  .fp-chart-mp{height:220px;}
+  .page h1{font-size:17px;}
+}
+
+/* Print (PDF) — preserve dimensions */
+@media print{
+  body{background:white;color:black;}
+  .page{max-width:none;padding:0;}
+  .fp-chart{height:380px;page-break-inside:avoid;}
+  .fp-chart-mp{height:300px;page-break-inside:avoid;}
+  .fp-mp-block{page-break-inside:avoid;}
+  .fp-summary{page-break-inside:avoid;}
+  .fp-notes h3{page-break-after:avoid;}
+}
+
+/* iOS Telegram WebView fix: canvas dimensions guaranteed even before Chart.js init */
+.fp-chart, .fp-chart-mp { min-height: 240px; background: var(--bg-primary); }
+/* F-397 / v1.18.27 — bg-view filter для peak block.
+   По умолчанию виден .view-sample (образец); при body.mode-bg инвертируем.
+   Применяется к peak table title, multiplet blocks (sample/bg). */
+.view-bg { display: none; }
+body.mode-bg .view-sample { display: none; }
+body.mode-bg .view-bg { display: block; }
+/* BUG-30 / v1.22.5 — скрываем блоки, актуальные только для образца,
+   когда оператор переключился в режим «Фон» (body.mode-bg).
+   Скрываются: activity card (.fp-summary), notes (.fp-notes),
+   passport comparison (.passport-comparison). */
+body.mode-bg .fp-summary,
+body.mode-bg .fp-notes,
+body.mode-bg .passport-comparison { display: none; }
+.fp-chart canvas, .fp-chart-mp canvas { width:100%!important; height:100%!important; min-height:inherit; display:block!important; }
+@media (max-width:680px){ .fp-chart{min-height:240px;} .fp-chart-mp{min-height:220px;} }
+@media (max-width:420px){ .fp-chart{min-height:200px;} .fp-chart-mp{min-height:200px;} }
+/* F-RPT-02 / v1.18.29 — back-to-bundle nav link на каждом подотчёте.
+   Скрыт, если файл открыт изолированно (нет ../index.html). */
+.fp-back-nav{display:block;margin:0 0 12px;font-size:12.5px;}
+.fp-back-nav a{display:inline-flex;align-items:center;gap:6px;
+  padding:5px 10px;border:0.5px solid var(--border-secondary);
+  border-radius:var(--radius-md);text-decoration:none;color:var(--text-secondary);
+  background:transparent;transition:background .12s ease,color .12s ease;}
+.fp-back-nav a:hover{background:var(--bg-secondary);color:var(--text-primary);}
+/* F-070 W3 / v1.24.0 — F-VISUAL-SIMILARITY card */
+.fp-vs-card{margin:20px 0;padding:14px 16px;background:var(--bg-secondary);border-radius:var(--radius-md);font-size:12.5px;}
+.fp-vs-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:2px;}
+.fp-vs-title{font-size:14px;font-weight:500;color:var(--text-primary);flex:1;}
+.fp-vs-subtitle{font-size:11.5px;color:var(--text-tertiary);margin-bottom:8px;}
+.fp-vs-tbl{width:100%;border-collapse:collapse;font-size:12px;}
+.fp-vs-tbl th{text-align:left;font-weight:500;color:var(--text-secondary);padding:5px 7px;border-bottom:0.5px solid var(--border-secondary);font-size:11px;white-space:nowrap;}
+.fp-vs-tbl td{padding:5px 7px;border-bottom:0.5px solid var(--border-tertiary);vertical-align:middle;}
+.fp-vs-tbl tr:last-child td{border-bottom:none;}
+.fp-vs-badge{display:inline-block;font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:9px;white-space:nowrap;}
+/* Verdict badges */
+.verdict-match{background:#d1fae5;color:#065f46;}
+.verdict-ambiguous{background:#fef3c7;color:#92400e;}
+.verdict-mismatch{background:#fee2e2;color:#991b1b;}
+@media (prefers-color-scheme: dark){
+  .verdict-match{background:#064e3b;color:#6ee7b7;}
+  .verdict-ambiguous{background:#78350f;color:#fcd34d;}
+  .verdict-mismatch{background:#7f1d1d;color:#fca5a5;}
+}
+/* Tier badges */
+.tier-a-badge{background:#dbeafe;color:#1e40af;}
+.tier-b-badge{background:#ede9fe;color:#5b21b6;}
+.tier-c-badge{background:#f3f4f6;color:#374151;}
+@media (prefers-color-scheme: dark){
+  .tier-a-badge{background:#1e3a5f;color:#93c5fd;}
+  .tier-b-badge{background:#3b1f6e;color:#c4b5fd;}
+  .tier-c-badge{background:#374151;color:#d1d5db;}
+}
+.stale-badge{background:#fef9c3;color:#713f12;margin-left:3px;}
+@media (prefers-color-scheme: dark){ .stale-badge{background:#422006;color:#fde68a;} }
+.fp-vs-verdict-banner{margin-top:10px;padding:6px 10px;border-radius:5px;font-size:12.5px;font-weight:500;}
+.fp-vs-verdict-banner.match-banner{background:#d1fae5;color:#065f46;}
+.fp-vs-verdict-banner.ambiguous-banner{background:#fef3c7;color:#92400e;}
+.fp-vs-verdict-banner.mismatch-banner{background:#fee2e2;color:#991b1b;}
+@media (prefers-color-scheme: dark){
+  .fp-vs-verdict-banner.match-banner{background:#064e3b;color:#6ee7b7;}
+  .fp-vs-verdict-banner.ambiguous-banner{background:#78350f;color:#fcd34d;}
+  .fp-vs-verdict-banner.mismatch-banner{background:#7f1d1d;color:#fca5a5;}
+}
+.fp-vs-disclaimer{font-size:11px;color:var(--text-tertiary);margin-top:8px;font-style:italic;line-height:1.45;}
+.fp-vs-disabled{color:var(--text-tertiary);font-style:italic;font-size:12.5px;}
+body.mode-bg .fp-vs-card { display: none; }
+</style>
+</head>
+<body>
+<div class="page">
+  <!-- F-RPT-02 / v1.18.29 — back-link на bundle index. Подставляется
+       во время рендеринга на основе cfg.reports.bundle_index (gate из
+       #118). Когда bundle-landing генерируется — emit nav; когда
+       bundle_index=False (default post-#118) — пустая строка, чтобы
+       подотчёт открывался изолированно без битой ссылки на ../index.html. -->
+  {{BACK_NAV}}
+  <h1>{{TITLE}}</h1>
+  <p class="sub">{{SUBTITLE}}</p>
+
+  <div class="fp-grid">
+{{GRID_CARDS}}
+  </div>
+
+  <div class="fp-legend">
+{{LEGEND_ITEMS}}
+  </div>
+
+  <div class="fp-controls">
+    <button id="fp-blog" class="active">Лог Y</button>
+    <button id="fp-blin">Линейная Y</button>
+    <button id="fp-bclear">Сбросить выбор</button>
+    <span class="fp-info">{{CONTROLS_INFO}}</span>
+    <!-- F-334.3 / v1.18.18.7 — открыть chart в fullscreen modal -->
+    <button id="fp-expand" class="fp-expand-btn" title="Открыть в полноэкранном окне (масштаб и сдвиг)">⛶ Развернуть</button>
+  </div>
+  <!-- F-334.2 / v1.18.18.7 — cps/counts Y-units toggle. Default: cps (per user).
+       F-335.3 / v1.18.18.8 — добавлена кнопка сглаживания Savitzky-Golay. -->
+  <div class="fp-units-toggle" id="fp-units-toggle">
+    <span>Единицы Y:</span>
+    <button data-units="cps"    class="fp-units-btn active">cps (имп/с)</button>
+    <button data-units="counts" class="fp-units-btn">отсч.</button>
+    <span style="margin-left:14px;">Сглаживание:</span>
+    <button data-smooth="off" class="fp-units-btn active" id="fp-bsmooth-off" title="Сырые данные">○ выкл</button>
+    <button data-smooth="on"  class="fp-units-btn" id="fp-bsmooth-on" title="Savitzky-Golay window=5 polyorder=2">● вкл</button>
+    <span class="fp-view-info" id="fp-units-info"></span>
+  </div>
+
+  <!-- F-332 / v1.18.18.5 — 4-way spectrum view toggle. Скрыт когда фон
+       не вычитался (`has_background=false`); тогда график показывает
+       только спектр образца. Оба спектра предварительно откалиброваны
+       к единой энергетической оси образца (фон рe-биннирован +
+       масштабирован по live-time в subtract_background). -->
+  <div class="fp-view-toggle" id="fp-view-toggle" style="display:none;">
+    <span class="fp-view-label">Показать:</span>
+    <button data-view="sample" class="fp-view-btn active">Образец</button>
+    <button data-view="bg"      class="fp-view-btn">Фон</button>
+    <button data-view="overlay" class="fp-view-btn">Образец + Фон</button>
+    <button data-view="net"     class="fp-view-btn">Вычет</button>
+    <span class="fp-view-info" id="fp-view-info"></span>
+  </div>
+
+  <!-- F-147 / v1.18.22.0 — UI toggle для secondary annotations
+       (Compton edge / SE / DE / backscatter / annihilation / sum peak).
+       Они уже идут punktirno-dashed (см. buildAnnots); тут — массовый
+       hide/show. Скрыт, если в payload нет ни одного secondary пика.
+       Класс `fp-sec-btn` отличается от `fp-view-btn`, чтобы не попасть в
+       handler setView() через общий селектор. -->
+  <div class="fp-view-toggle" id="fp-secondary-toggle" style="display:none;">
+    <span class="fp-view-label">Вторичные процессы:</span>
+    <button data-secondary="on"  class="fp-sec-btn fp-view-btn active">показать</button>
+    <button data-secondary="off" class="fp-sec-btn fp-view-btn">скрыть</button>
+    <span class="fp-view-info">комптоновский край · пик одиночного / двойного вылета · обратное рассеяние · 511 · суммарный пик</span>
+  </div>
+
+  <!-- F-FIT-VIEW v2 / v1.22.5 — per-peak Gaussian + continuum + total fit overlay.
+       Covers: primary (голубой), secondary (оранжевый), background (серый), unidentified (жёлтый).
+       Скрыт, если fit_overlay.peaks пустой (нет данных подгонки). -->
+  <div class="fp-fit-toggle" id="fp-fit-toggle" style="display:none;">
+    <span class="fp-view-label">Подгонка пиков:</span>
+    <button id="toggle-fit-overlay" class="fp-fit-btn">показать</button>
+    <span class="fp-view-info" id="fp-fit-info">первичные (голубой) · вторичные (оранж) · фон (серый) · неизв. (жёлт)</span>
+  </div>
+
+  <div class="fp-chart"><canvas id="fp-sp" width="860" height="380"></canvas></div>
+  <!-- F-334.4 — floating tooltip для non-labelled peak markers -->
+  <div id="fp-peak-tooltip" class="fp-peak-tooltip"></div>
+  <!-- F-334.3 — fullscreen modal с zoom/pan, reset, и collapsible details.
+       F-335.2/.3 — Y-units (cps/отсч.) + сглаживание в modal header.
+       F-335.6 — все остальные controls (Лог/Линейная Y, 4-way view, Сбросить выбор). -->
+  <div class="fp-modal" id="fp-modal" tabindex="0">
+    <div class="fp-modal-header">
+      <span class="fp-modal-title" id="fp-modal-title">Спектр</span>
+      <span style="font-size:11px;margin-left:6px;">Шкала Y:</span>
+      <button data-modal-yscale="log"    class="fp-units-btn active">Лог</button>
+      <button data-modal-yscale="linear" class="fp-units-btn">Лин</button>
+      <span style="font-size:11px;margin-left:6px;">Y:</span>
+      <button data-modal-units="cps"    class="fp-units-btn active">cps</button>
+      <button data-modal-units="counts" class="fp-units-btn">отсч.</button>
+      <span style="font-size:11px;margin-left:6px;">Сглаж.:</span>
+      <button data-modal-smooth="off" class="fp-units-btn active">○ выкл</button>
+      <button data-modal-smooth="on"  class="fp-units-btn">● вкл</button>
+      <span style="font-size:11px;margin-left:6px;" class="fp-modal-view-grp" id="fp-modal-view-grp" hidden>Показать:</span>
+      <button data-modal-view="sample"  class="fp-units-btn active fp-modal-view-btn" hidden>Образец</button>
+      <button data-modal-view="bg"      class="fp-units-btn fp-modal-view-btn" hidden>Фон</button>
+      <button data-modal-view="overlay" class="fp-units-btn fp-modal-view-btn" hidden>Образец + Фон</button>
+      <button data-modal-view="net"     class="fp-units-btn fp-modal-view-btn" hidden>Вычет</button>
+      <!-- BUG-20 / v1.18.30+ (Agent B): «Вторичные процессы» toggle для
+           expand/fullscreen режима. Изначально доступен только в normal
+           view; при открытии modal (z-index:9999, fixed inset:0)
+           основной toggle скрывался за overlay. Дублируется в modal
+           header — JS sync двусторонний (см. setSecondaryVisibility). -->
+      <span style="font-size:11px;margin-left:6px;" class="fp-modal-sec-grp" id="fp-modal-sec-grp" hidden>Вторичные:</span>
+      <button data-modal-secondary="on"  class="fp-units-btn active fp-modal-sec-btn" hidden>показать</button>
+      <button data-modal-secondary="off" class="fp-units-btn fp-modal-sec-btn" hidden>скрыть</button>
+      <!-- v1.2.10 — fit overlay toggle в развёрнутой форме: подстилающая (континуум),
+           гауссианы подгонки и сумма пиков. Автовключение при openModal(), если в
+           FIT_OVERLAY есть данные. -->
+      <span style="font-size:11px;margin-left:6px;" class="fp-modal-fit-grp" id="fp-modal-fit-grp" hidden>Подгонка:</span>
+      <button data-modal-fit="on"  class="fp-units-btn active fp-modal-fit-btn" hidden>показать</button>
+      <button data-modal-fit="off" class="fp-units-btn fp-modal-fit-btn" hidden>скрыть</button>
+      <button data-action="clear-selection" title="Сбросить выбранный пик">⊘ Сброс пика</button>
+      <button data-action="reset-zoom" title="Восстановить исходный масштаб">⤧ Сброс масшт.</button>
+      <button data-action="toggle-details" title="Свернуть/развернуть детали">≡ Детали</button>
+      <button data-action="close" title="Закрыть (ESC)">✕ Закрыть</button>
+      <span class="fp-modal-hint">Колесо мыши — масштаб · правая кнопка мыши — сдвиг по X · ESC — закрыть</span>
+    </div>
+    <div class="fp-modal-chart"><canvas id="fp-sp-modal"></canvas></div>
+    <div class="fp-modal-details" id="fp-modal-details">
+      <div class="empty">Выберите пик на графике или строку в таблице, чтобы увидеть детали.</div>
+    </div>
+  </div>
+  <p class="fp-hint">Кликните по пику или строке таблицы — связанные элементы подсветятся. Заголовки колонок таблицы сортируют.</p>
+
+  <div class="fp-detail" id="fp-detail">
+    <div class="empty">Выберите пик на графике или строку в таблице, чтобы увидеть детали.</div>
+  </div>
+
+  <!-- F-397 / v1.18.27 — section title переключается между sample/bg.
+       JS-handler в setView() обновляет textContent при выборе view. -->
+  <h2 id="fp-peaks-section-title"
+      style="font-size:17px;font-weight:500;margin:24px 0 8px;">
+    Найденные пики (образец)
+  </h2>
+
+  <div class="fp-tbl-wrap">
+  <table class="fp-tbl">
+    <thead>
+      {{TABLE_HEADERS}}
+    </thead>
+    <tbody id="fp-tbody"></tbody>
+  </table>
+  </div>
+
+  <!-- F-397 / v1.18.27 — sample multiplet blocks (default visible) -->
+  <div class="view-sample" id="fp-multiplets-sample">
+{{MULTIPLET_BLOCKS}}
+  </div>
+  <!-- F-397 / v1.18.27 — bg multiplet blocks (visible only когда body.mode-bg) -->
+  <div class="view-bg" id="fp-multiplets-bg">
+{{MULTIPLET_BLOCKS_BG}}
+  </div>
+
+  <!-- F-070 W3 / v1.24.0 — F-VISUAL-SIMILARITY card (after F-FIT-VIEW, before Decision summary).
+       Absent for background-only spectra (body.mode-bg hides via CSS). -->
+{{VISUAL_SIMILARITY_CARD}}
+
+  <div class="fp-summary">
+{{SUMMARY_CARD}}
+  </div>
+
+  <div class="fp-notes">
+{{NOTES_BLOCKS}}
+  </div>
+
+{{COST_FOOTER}}
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
+<!-- F-334.3 / v1.18.18.7 — Chart.js zoom plugin (wheel zoom + pan).
+     Загрузка не блокирует основной отчёт: если CDN не отвечает, modal
+     по-прежнему открывается, но без интерактивного zoom (F-113 fallback). -->
+<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+<script>
+function __initReport(){
+  if (typeof Chart === 'undefined') {
+    // Chart.js не загрузился — показываем fallback-сообщение
+    var msg = 'Chart.js не загрузился. Откройте отчёт во внешнем браузере (Safari / Chrome).';
+    document.querySelectorAll('.fp-chart, .fp-chart-mp').forEach(function(el){
+      el.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;padding:20px;text-align:center;color:#a44;font-size:13px;background:#fafafa;border:1px dashed #ccc;border-radius:6px;">'+msg+'</div>';
+    });
+    return;
+  }
+(function(){
+
+const isDark=matchMedia('(prefers-color-scheme: dark)').matches;
+const gridC=isDark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.06)';
+const lineC=isDark?'#D3D1C7':'#444441';
+const tickC=isDark?'rgba(255,255,255,0.55)':'rgba(0,0,0,0.55)';
+function attachIOSFix(chart, container){
+  let ro;
+  if(window.ResizeObserver){ ro=new ResizeObserver(()=>{try{chart.resize();}catch(e){}}); ro.observe(container); }
+  window.addEventListener('orientationchange', ()=>setTimeout(()=>chart.resize(), 250));
+  window.addEventListener('pageshow', ()=>setTimeout(()=>chart.resize(), 50));
+  document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) setTimeout(()=>chart.resize(), 50); });
+}
+
+  const E={{DATA_E}};
+  const C={{DATA_C}};
+  const peaks={{DATA_PEAKS}};
+  const detail={{DATA_DETAIL}};
+  const rows={{DATA_ROWS}};
+  const multiplets={{DATA_MULTIPLETS}};
+  // F-397 / v1.18.27 — bg peak block data. rowsBg — табличные строки,
+  // найденные именно в фоновом спектре; при mode-bg JS подменяет ими rows.
+  // Пустой массив когда фон не анализировался / нет background_staged_result.
+  const rowsBg={{DATA_ROWS_BG}};
+  // F-332 / v1.18.18.5 — payload для 4-way toggle (sample/bg/overlay/net).
+  // `has_background` решает виден ли переключатель.
+  const CHART={{DATA_CHART}};
+  // F-FIT-VIEW / v1.22.1 — fit overlay payload (per-peak Gaussians + multiplet continua).
+  const FIT_OVERLAY={{DATA_FIT_OVERLAY}};
+
+  const tbody=document.getElementById('fp-tbody');
+  // BUG-19 / v1.18.30+ (Agent B): группировка по `section`-полю.
+  // Каждая подсекция получает заголовок-строку (colspan=5, .fp-section-head).
+  // BUG-23 / v1.18.31+ (Agent B): подсекция 'chain_expected' удалена —
+  // перечислять «не найденные линии по равновесию цепочки» в таблице больше
+  // не нужно (пользовательская обратная связь). Порядок: primary_detected →
+  // weak_candidate → secondary. Внутри подсекции — сортировка по энергии
+  // (rows уже presorted Python-side, D-03).
+  const SECTION_ORDER = ['primary_detected', 'weak_candidate', 'secondary'];
+  const SECTION_LABELS = {
+    primary_detected: 'Детектированные первичные FEP (с подгонкой)',
+    weak_candidate:   'Слабые библиотечные кандидаты',
+    secondary:        'Вторичные процессы (Comp/SE/DE/511/sum/backscatter)',
+  };
+  function renderRows(arr){
+    tbody.innerHTML='';
+    // BUG-19: split rows by section. Backward-compat: rows без section идут
+    // в "primary_detected" (для legacy reports / тестов).
+    const bySection = {};
+    SECTION_ORDER.forEach(k => { bySection[k] = []; });
+    arr.forEach(r => {
+      const k = (r && r.section) ? r.section : 'primary_detected';
+      if (!bySection[k]) bySection[k] = [];
+      bySection[k].push(r);
+    });
+    SECTION_ORDER.forEach(sec => {
+      const list = bySection[sec] || [];
+      if (!list.length) return;
+      // Subsection heading row
+      const trH = document.createElement('tr');
+      trH.className = 'fp-section-head';
+      // F-TBL-01 / v1.19.1 (Agent A, correction #5 2026-06-03):
+      // table grew from 5 cols to 6 cols (T½ → FWHM + Z). Subsection header
+      // colspan must mirror.
+      trH.innerHTML = '<td colspan="6" style="background:var(--bg-secondary,#f0f0f0);'
+                    + 'font-weight:600;font-size:11.5px;padding:6px 10px;'
+                    + 'border-top:1.5px solid var(--border-secondary,#ccc);'
+                    + 'color:var(--text-secondary,#555);">'
+                    + SECTION_LABELS[sec] + ' <span style="opacity:0.7;font-weight:400;">('
+                    + list.length + ')</span></td>';
+      tbody.appendChild(trH);
+      list.forEach((r)=>{
+        const tr=document.createElement('tr'); tr.className='row'; tr.dataset.peak=r.peak;
+        // F-TBL-01: cols = [iso, line(изм/спр), FWHM, Z, A, cmt]. T½ removed.
+        // Fallback safe: r.fwhm/r.z могут отсутствовать в legacy rows,
+        // тогда подставляем "—".
+        const fwhmCell = (r.fwhm !== undefined && r.fwhm !== null) ? r.fwhm : '—';
+        const zCell    = (r.z    !== undefined && r.z    !== null) ? r.z    : '—';
+        tr.innerHTML='<td><span class="fp-pill '+r.kls+'">'+r.iso+'</span></td>'+
+                     '<td class="fp-num">'+r.line+'</td>'+
+                     '<td class="fp-num">'+fwhmCell+'</td>'+
+                     '<td class="fp-num">'+zCell+'</td>'+
+                     '<td class="fp-num">'+r.a+'</td>'+
+                     '<td>'+r.cmt+'</td>';
+        tr.addEventListener('click',()=>selectPeak(r.peak));
+        tbody.appendChild(tr);
+      });
+    });
+  }
+  renderRows(rows);
+
+  // ── F-393 / v1.18.27 — sortable peak table ─────────────────────
+  // Default: rows already pre-sorted by ascending energy (Python side, D-03).
+  // Click on header toggles asc/desc; subsequent clicks on same column flip.
+  // Type hints via data-sort="num"|"str" на <th>:
+  //   • num — парсим число из значения (для E, A, T½)
+  //   • str — localeCompare с ru collation (для Изотоп, Комментарий)
+  // Visual: th получает class .sorted (стрелка ▾) + .asc (стрелка ▴).
+  // Initial state: колонка `line` (E, кэВ) помечена как sorted-asc.
+  let sortState={col:'line', asc:true};
+  function applySort(col, asc){
+    const ths=document.querySelectorAll('.fp-tbl thead th');
+    let typ='str';
+    ths.forEach(x=>{
+      if(x.dataset.col===col){ typ=(x.dataset.sort||'str'); }
+    });
+    // BUG-19 / v1.18.30+ (Agent B): sort preserves section grouping —
+    // секции остаются разделены, сортировка применяется ВНУТРИ каждой
+    // подсекции. Иначе кликом по колонке оператор сломал бы группировку
+    // (например, primary_detected/secondary вперемешку по энергии).
+    const cmpFn = (a,b) => {
+      const va=(a[col]==null?'':a[col]).toString();
+      const vb=(b[col]==null?'':b[col]).toString();
+      let cmp=0;
+      if(typ==='num'){
+        const na=parseFloat(va.replace(/[^0-9.\-]/g,''));
+        const nb=parseFloat(vb.replace(/[^0-9.\-]/g,''));
+        const aok=!isNaN(na), bok=!isNaN(nb);
+        if(aok&&bok){ cmp=na-nb; }
+        else if(aok){ cmp=-1; }
+        else if(bok){ cmp=1; }
+        else { cmp=va.localeCompare(vb,'ru'); }
+      } else {
+        cmp=va.localeCompare(vb,'ru');
+      }
+      return asc?cmp:-cmp;
+    };
+    // Group, sort within group, flatten preserving SECTION_ORDER.
+    const grouped = {};
+    SECTION_ORDER.forEach(k => { grouped[k] = []; });
+    rows.forEach(r => {
+      const k = (r && r.section) ? r.section : 'primary_detected';
+      if (!grouped[k]) grouped[k] = [];
+      grouped[k].push(r);
+    });
+    const sorted = [];
+    SECTION_ORDER.forEach(k => {
+      grouped[k].slice().sort(cmpFn).forEach(r => sorted.push(r));
+    });
+    ths.forEach(x=>x.classList.remove('sorted','asc'));
+    ths.forEach(x=>{
+      if(x.dataset.col===col){ x.classList.add('sorted'); if(asc) x.classList.add('asc'); }
+    });
+    renderRows(sorted);
+  }
+  document.querySelectorAll('.fp-tbl thead th').forEach(th=>{
+    if(!th.dataset.col) return;
+    th.addEventListener('click',()=>{
+      const col=th.dataset.col;
+      const asc=(sortState.col===col)?!sortState.asc:true;
+      sortState={col,asc};
+      applySort(col, asc);
+    });
+  });
+  // F-393 — set initial visual marker (E asc) without re-render (rows already sorted).
+  (function(){
+    document.querySelectorAll('.fp-tbl thead th').forEach(x=>{
+      if(x.dataset.col==='line'){ x.classList.add('sorted','asc'); }
+    });
+  })();
+
+  // ── F-335.7 / v1.18.18.13 — subtle area fill under spectrum line ──
+  // Возвращает rgba-цвет с очень малой alpha (~7%) — заливка под линией
+  // зрительно отделяет «тело» спектра от фона, но не давит на глаза.
+  function lineFill(hex){
+    if (!hex || typeof hex !== 'string') return 'rgba(128,128,128,0.07)';
+    const h = hex.replace('#','').trim();
+    if (h.length < 6) return 'rgba(128,128,128,0.07)';
+    const r = parseInt(h.substring(0,2), 16);
+    const g = parseInt(h.substring(2,4), 16);
+    const b = parseInt(h.substring(4,6), 16);
+    return 'rgba('+r+','+g+','+b+',0.07)';
+  }
+
+  // ── F-334.2 / v1.18.18.7 — Y-units toggle: cps (default) ↔ counts ──
+  // Default 'cps' (per user feedback). t_sample живёт в CHART.t_sample
+  // (всегда заполнено build_chart_payload). При t≤0 fallback на counts.
+  let yMode = (CHART && CHART.default_y_units === 'counts') ? 'counts' : 'cps';
+  // ── F-335.3 / v1.18.18.8 — smoothing toggle (Savitzky-Golay) ──
+  // smoothOn=true → use CHART.C_*_smooth массивы. Default OFF.
+  let smoothOn = false;
+  function pickArr(rawArr, smoothArr){
+    return (smoothOn && smoothArr && smoothArr.length) ? smoothArr : rawArr;
+  }
+  const T_SAMPLE = (CHART && CHART.t_sample > 0) ? CHART.t_sample : 0;
+  const T_BG     = (CHART && CHART.t_bg > 0) ? CHART.t_bg : 0;
+  function effectiveT(viewName){
+    if (viewName === 'bg') return T_BG;
+    return T_SAMPLE;   // sample / clean / overlay (overlay disables cps anyway)
+  }
+  function applyUnits(rawVal, t){
+    if (yMode === 'cps' && t > 0) return rawVal / t;
+    return rawVal;
+  }
+  function buildDataPoints(arr, t){
+    // arr — counts array; t — live time for cps conversion; null/zero → counts
+    if (!arr || !arr.length) return [];
+    return E.map((e,i) => ({x:e, y: Math.max(applyUnits(arr[i]||0, t), yMode==='cps' ? 1e-4 : 0.5)}));
+  }
+  // ── F-334.4 / v1.18.18.7 — top-5 → full label; rest → tooltip-only ──
+  // peakList: [{id,e,label,color,is_top}]. is_top=true → line + dot + label;
+  // is_top=false → только тонкий маркер с tooltip on hover (F-334.4-tooltip).
+  function buildAnnots(peakList, cArr, t){
+    const ann = {};
+    if (!peakList || !peakList.length) return ann;
+    peakList.forEach((p) => {
+      const idx = E.findIndex(v => v >= p.e - 3);
+      const rawC = (idx >= 0 ? Math.max(cArr ? (cArr[idx]||0) : 10, 5) : 10);
+      const cval = applyUnits(rawC, t || T_SAMPLE);
+      const isTop = !!p.is_top;
+      // F-147 / v1.18.22.0 — вторичные процессы (комптоновский край,
+      // пик одиночного/двойного вылета, обратное рассеяние, аннигиляция,
+      // суммарный пик) рисуем отдельным dotted-dash паттерном —
+      // визуально отличить артефакты детектора от настоящих γ-линий.
+      // display=secondaryVisible — массовый toggle через UI button.
+      const isSec = !!p.is_secondary;
+      const lineDash = isSec ? [1,4] : (isTop ? [3,3] : [2,5]);
+      const lineW = isSec ? 0.6 : (isTop ? 1.0 : 0.7);
+      ann['ln_'+p.id] = {
+        type:'line', xMin:p.e, xMax:p.e,
+        borderColor: p.color,
+        borderWidth: lineW,
+        borderDash: lineDash,
+        display: isSec ? secondaryVisible : true,
+      };
+      ann['dot_'+p.id] = {
+        type:'point', xValue:p.e, yValue:cval,
+        radius: isTop ? 5 : 3,
+        backgroundColor: p.color,
+        borderColor: isDark?'#222':'#fff',
+        borderWidth: isTop ? 1.5 : 0.8,
+        display: isSec ? secondaryVisible : true,
+      };
+      if (isTop){
+        // F-334.4 — yValue фиксированно 1.4·data; chart-context может ещё не
+        // существовать при первом buildAnnots (вызывается ДО new Chart, TDZ).
+        ann['lb_'+p.id] = {
+          type:'label', xValue:p.e, yValue: cval * 1.4,
+          backgroundColor:'transparent', color:p.color,
+          content:p.label, font:{size:10,weight:'500'},
+          padding:2, yAdjust:-14, display: isSec ? secondaryVisible : true,
+        };
+      }
+    });
+    return ann;
+  }
+  // F-147 / v1.18.22.0 — global flag для toggle «Вторичные процессы».
+  // Меняется через setSecondaryVisibility(); buildAnnots() читает при
+  // каждой пересборке (setView, smoothing toggle, и т.п.).
+  let secondaryVisible = true;
+  // Initial data + annots — sample-view, default y-units (cps if t_sample>0).
+  let currentView = 'sample';
+  let currentPeakList = peaks;
+  let currentDataArr = C;
+  const data = buildDataPoints(C, T_SAMPLE);
+  const annots = buildAnnots(peaks, C, T_SAMPLE);
+
+  // F-334.2 — Y-axis range/label depends on yMode (cps default).
+  function yAxisDefaults(){
+    if (yMode === 'cps'){
+      return {
+        title: 'Скорость счёта, имп/с',
+        logMin: 1e-4, logMax: 5e2,
+        labelFmt: (v) => v.toExponential(2) + ' имп/с',
+      };
+    }
+    return {
+      title: 'Счёт, отсч.',
+      logMin: 1,  logMax: 200000,
+      labelFmt: (v) => v.toFixed(0) + ' отсч.',
+    };
+  }
+  const yDef0 = yAxisDefaults();
+  const canvas=document.getElementById('fp-sp');
+  const chart=new Chart(canvas.getContext('2d'),{
+    type:'line',
+    data:{datasets:[{label:'счёт',data:data,borderColor:lineC,backgroundColor:lineFill(lineC),borderWidth:1,pointRadius:0,fill:'start',tension:0}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:false,
+      parsing:false,normalized:true,resizeDelay:120,
+      devicePixelRatio:window.devicePixelRatio||1,
+      interaction:{mode:'nearest',intersect:false},
+      scales:{
+        x:{type:'linear',min:20,max:3000,title:{display:true,text:'Энергия, кэВ',color:tickC,font:{size:11}},grid:{color:gridC},ticks:{color:tickC,font:{size:10}}},
+        y:{type:'logarithmic',min:yDef0.logMin,max:yDef0.logMax,title:{display:true,text:yDef0.title,color:tickC,font:{size:11}},grid:{color:gridC},ticks:{color:tickC,font:{size:10}}}
+      },
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{
+          title:(items)=>items[0].parsed.x.toFixed(1)+' кэВ',
+          label:(item)=>{
+            const v = item.parsed.y;
+            return yMode==='cps' ? v.toExponential(2)+' имп/с' : v.toFixed(0)+' отсч.';
+          },
+        }},
+        annotation:{annotations:annots}
+      }
+    }
+  });
+  canvas.__chartInited = true;
+  // Двойной resize: один сразу, второй через requestAnimationFrame
+  try { chart.resize(); requestAnimationFrame(function(){ chart.resize(); }); } catch(e) {}
+  attachIOSFix(chart, canvas.parentElement);
+
+  let activePeak=null;
+  function selectPeak(id){
+    activePeak=(activePeak===id)?null:id;
+    document.querySelectorAll('.fp-tbl tr.row').forEach(tr=>{ tr.classList.toggle('active', tr.dataset.peak===activePeak); });
+    // F-334.4 — non-top peaks have no 'lb_' annotation; null-check всех keys.
+    // Также используем currentPeakList (а не peaks) — в bg-view это CHART.bg_peaks.
+    const _activeList = currentPeakList || peaks;
+    const _ann = chart.options.plugins.annotation.annotations;
+    _activeList.forEach(p=>{
+      const a=p.id===activePeak;
+      if (_ann['ln_'+p.id]) {
+        _ann['ln_'+p.id].borderWidth = a ? 2.5 : (p.is_top ? 1.0 : 0.7);
+        _ann['ln_'+p.id].borderDash  = a ? []  : (p.is_top ? [3,3] : [2,5]);
+      }
+      if (_ann['dot_'+p.id]) {
+        _ann['dot_'+p.id].radius = a ? 8 : (p.is_top ? 5 : 3);
+      }
+      if (_ann['lb_'+p.id] && _ann['lb_'+p.id].font) {
+        _ann['lb_'+p.id].font.weight = a ? '700' : '500';
+      }
+    });
+    chart.update('none');
+    const det=document.getElementById('fp-detail');
+    if(activePeak){
+      const d=detail[activePeak];
+      const rel=rows.filter(r=>r.peak===activePeak);
+      const isoList=rel.map(r=>'<span class="iso"><span class="fp-pill '+r.kls+'">'+r.iso+'</span></span>').join('');
+      det.innerHTML='<div class="ttl" style="color:'+d.color+'">'+d.title+'</div>'+
+                    (isoList?'<div style="margin-bottom:6px">'+isoList+'</div>':'')+
+                    '<div>'+d.desc+'</div>';
+    } else {
+      det.innerHTML='<div class="empty">Выберите пик на графике или строку в таблице, чтобы увидеть детали.</div>';
+    }
+  }
+  canvas.addEventListener('click',(ev)=>{
+    const rect=canvas.getBoundingClientRect();
+    const px=ev.clientX-rect.left;
+    const xVal=chart.scales.x.getValueForPixel(px);
+    if(xVal===undefined) return;
+    let best=null, bestDist=Infinity;
+    peaks.forEach(p=>{const d=Math.abs(p.e-xVal); if(d<bestDist){bestDist=d;best=p;}});
+    if(!best) return;
+    const px1=chart.scales.x.getPixelForValue(best.e);
+    if(Math.abs(px-px1)<25) selectPeak(best.id);
+  });
+  function maxDataPoint(){
+    const ds = chart.data.datasets;
+    let mx = 0;
+    ds.forEach(d => d.data.forEach(p => { if (p && p.y > mx) mx = p.y; }));
+    return mx;
+  }
+  // F-335.6 / v1.18.18.10 — Y-scale handler shared with modal buttons.
+  function setYScale(mode){
+    const yd = yAxisDefaults();
+    if (mode === 'log'){
+      chart.options.scales.y.type='logarithmic';
+      chart.options.scales.y.min = yd.logMin;
+      chart.options.scales.y.max = yd.logMax;
+    } else {
+      chart.options.scales.y.type='linear';
+      chart.options.scales.y.min = 0;
+      chart.options.scales.y.max = Math.max(maxDataPoint(), yMode==='cps' ? 0.01 : 10) * 1.1;
+    }
+    chart.options.scales.y.title.text = yd.title;
+    // Sync main button highlights
+    document.getElementById('fp-blog').classList.toggle('active', mode==='log');
+    document.getElementById('fp-blin').classList.toggle('active', mode==='linear');
+    // Sync modal button highlights
+    document.querySelectorAll('[data-modal-yscale]').forEach(b =>
+      b.classList.toggle('active', b.dataset.modalYscale === mode));
+    chart.update();
+    // Sync modal chart if open
+    if (typeof modalChart !== 'undefined' && modalChart
+        && modalEl && modalEl.classList.contains('open')) {
+      syncModalFromMain();
+    }
+  }
+  document.getElementById('fp-blog').onclick = () => setYScale('log');
+  document.getElementById('fp-blin').onclick = () => setYScale('linear');
+  document.getElementById('fp-bclear').onclick = () => clearSelection();
+  // F-335.6 — clear-selection shared handler (used by main and modal buttons)
+  function clearSelection(){
+    if (activePeak) selectPeak(activePeak);
+  }
+
+  // ── F-334.2 / v1.18.18.7 — cps/counts Y-units toggle ──────────────
+  // Логика: переключение re-render текущего view с новыми scaling.
+  // В overlay режиме cps disabled — нельзя смешивать sample+bg с разным live_time.
+  function setYUnits(mode){
+    if (mode !== 'cps' && mode !== 'counts') return;
+    if (mode === 'cps' && currentView === 'overlay') return;  // блок
+    if (mode === 'cps' && T_SAMPLE <= 0) return;              // нет t — fallback
+    yMode = mode;
+    document.querySelectorAll('.fp-units-btn').forEach(b =>
+      b.classList.toggle('active', b.dataset.units === mode));
+    // Re-apply current Y scale type (preserves log/lin choice)
+    const isLog = chart.options.scales.y.type === 'logarithmic';
+    if (isLog) document.getElementById('fp-blog').click();
+    else       document.getElementById('fp-blin').click();
+    // Re-render current view to apply unit conversion + label positioning
+    if (CHART && CHART.has_background) {
+      setView(currentView);
+    } else {
+      // No bg → simple sample render (F-335.3 — respect smoothOn flag)
+      const arr = pickArr(C, CHART.C_net_smooth);
+      chart.data.datasets[0].data = buildDataPoints(arr, T_SAMPLE);
+      chart.options.plugins.annotation.annotations = buildAnnots(peaks, arr, T_SAMPLE);
+      chart.update('none');
+      // F-FIT-VIEW / v1.22.1 — re-apply fit overlay after units change (no-bg path)
+      try {
+        if (window._fp_isFitOn && window._fp_isFitOn() && window._fp_setFitOverlay) {
+          window._fp_setFitOverlay(true);
+        }
+      } catch (_e) {}
+    }
+    // F-335.2 — sync modal cps/counts buttons too
+    document.querySelectorAll('[data-modal-units]').forEach(b =>
+      b.classList.toggle('active', b.dataset.modalUnits === mode));
+    // Re-render modal chart if open
+    if (typeof modalChart !== 'undefined' && modalChart
+        && modalEl && modalEl.classList.contains('open')) {
+      syncModalFromMain();
+    }
+    const ui = document.getElementById('fp-units-info');
+    if (ui) ui.textContent = (mode === 'cps')
+      ? '(делено на t_sample='+T_SAMPLE.toFixed(0)+' с)'
+      : '(абсолютные отсчёты)';
+  }
+  document.querySelectorAll('.fp-units-btn[data-units]').forEach(btn => {
+    btn.addEventListener('click', () => setYUnits(btn.dataset.units));
+  });
+
+  // ── F-335.3 / v1.18.18.8 — smoothing toggle handler ──────────────
+  function setSmoothing(on){
+    smoothOn = (on === 'on' || on === true);
+    // Highlight buttons (main + modal)
+    document.querySelectorAll('[data-smooth]').forEach(b =>
+      b.classList.toggle('active', (b.dataset.smooth === 'on') === smoothOn));
+    document.querySelectorAll('[data-modal-smooth]').forEach(b =>
+      b.classList.toggle('active', (b.dataset.modalSmooth === 'on') === smoothOn));
+    // Re-render current view (uses pickArr internally)
+    if (CHART && CHART.has_background) {
+      setView(currentView);
+    } else {
+      const arr = pickArr(C, CHART.C_net_smooth);
+      chart.data.datasets[0].data = buildDataPoints(arr, T_SAMPLE);
+      chart.options.plugins.annotation.annotations = buildAnnots(peaks, arr, T_SAMPLE);
+      chart.update('none');
+      // F-FIT-VIEW / v1.22.1 — re-apply fit overlay after smoothing change (no-bg path)
+      try {
+        if (window._fp_isFitOn && window._fp_isFitOn() && window._fp_setFitOverlay) {
+          window._fp_setFitOverlay(true);
+        }
+      } catch (_e) {}
+    }
+    if (typeof modalChart !== 'undefined' && modalChart
+        && modalEl && modalEl.classList.contains('open')) {
+      syncModalFromMain();
+    }
+  }
+  document.querySelectorAll('[data-smooth]').forEach(btn => {
+    btn.addEventListener('click', () => setSmoothing(btn.dataset.smooth));
+  });
+
+  // Initial info text
+  const _ui = document.getElementById('fp-units-info');
+  if (_ui) _ui.textContent = (yMode==='cps')
+    ? '(делено на t_sample='+T_SAMPLE.toFixed(0)+' с)'
+    : '(абсолютные отсчёты)';
+
+  // ── F-332 / v1.18.18.5 — 4-way spectrum view toggle ──────────────
+  // Видимость: только когда фон вычитался (CHART.has_background).
+  // Иначе график статичный — net (= gross т.к. вычитания не было).
+  // Все спектры пред-калиброваны на единую энергетическую ось образца:
+  //   * sample.counts → E через sample.channel_to_energy
+  //   * bg counts re-биннированы на ту же E-сетку + scaled по live-time
+  //     (см. subtract_background; F-58/F-131/F-135).
+  // ── F-332 / v1.18.18.5 — 4-way view; F-334.1 — bg-peaks annotations ──
+  // Define setView at outer scope so setYUnits can call it regardless of bg presence.
+  let setView = function(v){ /* no-op fallback */ };
+  if (CHART && CHART.has_background) {
+    const tog = document.getElementById('fp-view-toggle');
+    if (tog) { tog.style.display = 'flex'; }
+    const COL_SAMPLE = isDark ? '#D3D1C7' : '#444441';
+    const COL_BG     = isDark ? '#7F77DD' : '#3C3489';
+    const COL_NET    = isDark ? '#7AB372' : '#2E7D32';
+    setView = function(view){
+      currentView = view;
+      // Update active button (main + F-335.6 modal view buttons)
+      document.querySelectorAll('.fp-view-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.view === view));
+      document.querySelectorAll('[data-modal-view]').forEach(b =>
+        b.classList.toggle('active', b.dataset.modalView === view));
+      // F-334.2 — disable cps button in overlay (нельзя смешивать с разным live_time)
+      const cpsBtn = document.querySelector('.fp-units-btn[data-units="cps"]');
+      if (cpsBtn) {
+        cpsBtn.disabled = (view === 'overlay');
+        cpsBtn.title = (view === 'overlay')
+          ? 'cps недоступен в режиме overlay — образец и фон имеют разный live_time'
+          : '';
+        if (view === 'overlay' && yMode === 'cps') {
+          // Принудительный fallback на counts
+          yMode = 'counts';
+          document.querySelectorAll('.fp-units-btn').forEach(b =>
+            b.classList.toggle('active', b.dataset.units === 'counts'));
+          const yd = yAxisDefaults();
+          chart.options.scales.y.title.text = yd.title;
+          if (chart.options.scales.y.type === 'logarithmic') {
+            chart.options.scales.y.min = yd.logMin;
+            chart.options.scales.y.max = yd.logMax;
+          }
+        }
+      }
+      // Info text
+      const info = document.getElementById('fp-view-info');
+      if (info) {
+        const ts = CHART.t_sample || 0, tb = CHART.t_bg || 0;
+        const ks = (CHART.bg_scale != null) ? CHART.bg_scale.toFixed(3) : '—';
+        const tooltip = (view === 'net') ? '' :
+          ' (t_sample='+ts.toFixed(0)+' с, t_bg='+tb.toFixed(0)+' с, '+
+          'k=t_s/t_b='+ks+')';
+        const labelText = {
+          sample:  'спектр образца (gross, до вычитания фона)',
+          bg:      'спектр фона, масштабирован к live-time образца',
+          overlay: 'образец и фон наложены — оба на сетке образца',
+          net:     'спектр после вычитания фона (gross − фон, отсечён ниже 0)',
+        }[view] || view;
+        info.textContent = labelText + tooltip;
+      }
+      // Decide data array + live-time per view.
+      // F-335.3 — pickArr выбирает raw vs smoothed на основе global smoothOn flag.
+      let cArr, tForUnits;
+      const sets = [];
+      if (view === 'sample') {
+        cArr = pickArr(CHART.C_gross, CHART.C_gross_smooth); tForUnits = T_SAMPLE;
+        sets.push({label:'Образец', data:buildDataPoints(cArr, tForUnits),
+                   borderColor:COL_SAMPLE, backgroundColor:lineFill(COL_SAMPLE),
+                   borderWidth:1, pointRadius:0, fill:'start', tension:0});
+      } else if (view === 'bg') {
+        cArr = pickArr(CHART.C_bg, CHART.C_bg_smooth); tForUnits = T_SAMPLE;
+        sets.push({label:'Фон', data:buildDataPoints(cArr, tForUnits),
+                   borderColor:COL_BG, backgroundColor:lineFill(COL_BG),
+                   borderWidth:1, pointRadius:0, fill:'start', tension:0});
+      } else if (view === 'overlay') {
+        // F-337.1 / v1.18.19.1 — overlay две заливки: sample (grey) и bg (purple),
+        // обе одинаково субтильные (alpha 0.07) — visual contrast по цвету, не по плотности.
+        cArr = pickArr(CHART.C_gross, CHART.C_gross_smooth); tForUnits = T_SAMPLE;
+        sets.push({label:'Образец', data:buildDataPoints(pickArr(CHART.C_gross, CHART.C_gross_smooth), T_SAMPLE),
+                   borderColor:COL_SAMPLE, backgroundColor:lineFill(COL_SAMPLE),
+                   borderWidth:1, pointRadius:0, fill:'start', tension:0});
+        sets.push({label:'Фон (scaled)', data:buildDataPoints(pickArr(CHART.C_bg, CHART.C_bg_smooth), T_SAMPLE),
+                   borderColor:COL_BG, backgroundColor:lineFill(COL_BG),
+                   borderWidth:1, borderDash:[4,3],
+                   pointRadius:0, fill:'start', tension:0});
+      } else { // net
+        cArr = pickArr(CHART.C_net, CHART.C_net_smooth); tForUnits = T_SAMPLE;
+        sets.push({label:'Вычет (gross−bg)', data:buildDataPoints(cArr, tForUnits),
+                   borderColor:COL_NET, backgroundColor:lineFill(COL_NET),
+                   borderWidth:1, pointRadius:0, fill:'start', tension:0});
+      }
+      chart.data.datasets = sets;
+      chart.options.plugins.legend.display = (view === 'overlay');
+      // F-397 / v1.18.27 — peak block toggle для view=bg:
+      //   • body.mode-bg → CSS прячет .view-sample, показывает .view-bg
+      //     (multiplet blocks).
+      //   • Заголовок секции пиков обновляется.
+      //   • renderRows() пересоздаётся с bg-данными (или пустым массивом
+      //     если фон не анализировался).
+      try {
+        const ttl = document.getElementById('fp-peaks-section-title');
+        if (view === 'bg') {
+          document.body.classList.add('mode-bg');
+          if (ttl) ttl.textContent = 'Найденные пики (фон)';
+          renderRows(Array.isArray(rowsBg) ? rowsBg : []);
+        } else {
+          document.body.classList.remove('mode-bg');
+          if (ttl) ttl.textContent = 'Найденные пики (образец)';
+          renderRows(rows);
+        }
+      } catch (_e) { /* defensive */ }
+      // F-334.1 — annotations: для bg-view используем CHART.bg_peaks; иначе sample peaks
+      const peakList = (view === 'bg' && Array.isArray(CHART.bg_peaks) && CHART.bg_peaks.length)
+        ? CHART.bg_peaks : peaks;
+      currentPeakList = peakList;
+      currentDataArr = cArr;
+      chart.options.plugins.annotation.annotations = buildAnnots(peakList, cArr, tForUnits);
+      // F-371 / v1.18.24.6 — пересчитать Y-axis range под новые datasets.
+      // Без этого первое переключение на «Фон» наследует sample-Y-bounds:
+      // sample cps maxes ~10² counts/s, фон scaled k≈0.24 → ~30 counts/s,
+      // но max остаётся sample → почти все bg-данные «прижаты» к низу
+      // (либо вообще не видны если linear). После любого второго клика
+      // (units/scale toggle) пересчёт срабатывает и масштаб исправляется
+      // — поэтому пользователь видел регрессию только на ПЕРВОМ клике bg.
+      // Решение: явно вызвать тот же canonical setYScale-recompute что
+      // уже работает по Y-scale toggle.
+      const _yType = chart.options.scales.y.type === 'logarithmic' ? 'log' : 'linear';
+      const _yd = yAxisDefaults();
+      chart.options.scales.y.title.text = _yd.title;
+      if (_yType === 'log') {
+        chart.options.scales.y.min = _yd.logMin;
+        chart.options.scales.y.max = _yd.logMax;
+      } else {
+        chart.options.scales.y.min = 0;
+        chart.options.scales.y.max = Math.max(
+          maxDataPoint(), yMode === 'cps' ? 0.01 : 10
+        ) * 1.1;
+      }
+      chart.update('none');
+      // F-FIT-VIEW / v1.22.1 — re-apply fit overlay after view change.
+      // v1.2.13 — overlay ИМЕЕТ СМЫСЛ только в sample-view. В bg/overlay
+      // спектр другой (фон или сумма), а FIT_OVERLAY-payload — sample net.
+      // Operator-feedback 2026-06-11 turn 4: «Если нажать Фон, остаются
+      // пики подгонки от образца». Поэтому: bg/overlay → принудительно
+      // снимаем overlay (датасеты + кнопку); sample → re-apply если был включён.
+      try {
+        if (view === 'sample') {
+          if (window._fp_isFitOn && window._fp_isFitOn() && window._fp_setFitOverlay) {
+            window._fp_setFitOverlay(true);
+          }
+        } else {
+          if (window._fp_isFitOn && window._fp_isFitOn() && window._fp_setFitOverlay) {
+            window._fp_setFitOverlay(false);
+          }
+        }
+      } catch (_e) {}
+      // F-335.6 hotfix2 — sync modal chart с новым view (если открыт).
+      // setView вызывается ДО объявления `let modalChart`, поэтому
+      // прямой доступ → TDZ ReferenceError (даже через typeof). Try/catch
+      // глотает ошибку до того как modal-блок инициализирован; после —
+      // syncModalFromMain работает нормально.
+      try {
+        if (modalChart && modalEl && modalEl.classList.contains('open')) {
+          syncModalFromMain();
+        }
+      } catch (_e) { /* TDZ at initial setView('sample') — ignore */ }
+    };
+    document.querySelectorAll('.fp-view-btn').forEach(btn => {
+      // F-147 — secondary-кнопки шарят CSS-class fp-view-btn для визуальной
+      // консистентности, но НЕ должны попадать в setView(). Фильтруем по
+      // наличию data-view.
+      if (!btn.dataset.view) return;
+      btn.addEventListener('click', () => setView(btn.dataset.view));
+    });
+    setView('sample');
+  }
+
+  // ── F-147 / v1.18.22.0 — UI toggle «Вторичные процессы» ──
+  // Если в payload есть хотя бы один is_secondary пик — показываем toggle.
+  // Кнопки скрывают/показывают visualization (line+dot+label) для всех
+  // secondary feature_kinds: compton_edge, SE, DE, backscatter, 511, sum_peak.
+  //
+  // BUG-20 / v1.18.30+ (Agent B): выделен в named function setSecondaryVisibility
+  // чтобы modal-handler мог вызывать его при клике на дублирующие кнопки
+  // в fullscreen режиме. Sync двусторонний — нажатие в normal view
+  // обновляет modal buttons, и наоборот.
+  let setSecondaryVisibility = function(on){ /* no-op until init */ };
+  (function initSecondaryToggle(){
+    const hasSec = (peaks || []).some(p => p && p.is_secondary);
+    const tog = document.getElementById('fp-secondary-toggle');
+    if (!tog || !hasSec) return;
+    tog.style.display = '';
+    // BUG-20 fix #2: показываем modal duplicate controls когда есть secondary
+    const modalSecGrp = document.getElementById('fp-modal-sec-grp');
+    if (modalSecGrp) modalSecGrp.hidden = false;
+    document.querySelectorAll('.fp-modal-sec-btn').forEach(b => b.hidden = false);
+    function applyVisibility(){
+      const ann = chart && chart.options && chart.options.plugins
+        && chart.options.plugins.annotation
+        && chart.options.plugins.annotation.annotations;
+      if (!ann) return;
+      const list = currentPeakList || peaks;
+      list.forEach(p => {
+        if (!p || !p.is_secondary) return;
+        ['ln_', 'dot_', 'lb_'].forEach(prefix => {
+          const a = ann[prefix + p.id];
+          if (a) a.display = secondaryVisible;
+        });
+      });
+      try { chart.update('none'); } catch(e) {}
+      // F-335.2/.3 — sync modal chart (если открыт)
+      try {
+        if (modalChart && modalEl && modalEl.classList.contains('open')) {
+          syncModalFromMain();
+        }
+      } catch(_e){}
+    }
+    // BUG-20 / v1.18.30+ (Agent B): shared handler for both normal and modal toggle.
+    setSecondaryVisibility = function(on){
+      secondaryVisible = !!on;
+      // Sync normal-view buttons
+      tog.querySelectorAll('.fp-sec-btn').forEach(b =>
+        b.classList.toggle('active', (b.dataset.secondary === 'on') === secondaryVisible)
+      );
+      // Sync modal-view buttons (BUG-20 fix #2)
+      document.querySelectorAll('.fp-modal-sec-btn').forEach(b =>
+        b.classList.toggle('active', (b.dataset.modalSecondary === 'on') === secondaryVisible)
+      );
+      applyVisibility();
+    };
+    tog.querySelectorAll('.fp-sec-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const on = btn.dataset.secondary === 'on';
+        setSecondaryVisibility(on);
+      });
+    });
+  })();
+
+  // ── F-FIT-VIEW v3 / v1.22.6 — fit overlay toggle (Gaussians lifted on continuum) ──
+  // Adds/removes layers to chart.data.datasets:
+  //   continua: magenta dashed (continuum), red (total fit)
+  //   source="singlet" / "multiplet_component": cyan Gaussians (primary identified)
+  //   source="secondary": orange Gaussians (XRF, escape, sum, backscatter)
+  //   source="background": gray dashed Gaussians (background primary FEPs)
+  //   source="unidentified": yellow dashed Gaussians (true_unmatched residuals)
+  // Annotations: energy labels above each fitted peak (color-coded by source).
+  // NOTE: runs AFTER chart is initialized.
+  (function(){
+    const fitToggle = document.getElementById('fp-fit-toggle');
+    const fitBtn    = document.getElementById('toggle-fit-overlay');
+    const fitInfo   = document.getElementById('fp-fit-info');
+    if (!fitToggle || !fitBtn) return;
+    if (!FIT_OVERLAY || (!FIT_OVERLAY.peaks.length && !FIT_OVERLAY.multiplet_continua.length)) return;
+    fitToggle.style.display = '';  // show the toggle row
+
+    // Update info text to reflect all categories
+    if (fitInfo) fitInfo.textContent = 'первичные (голубой) · вторичные (оранж) · фон (серый) · неизв. (жёлт)';
+
+    let fitOn = false;
+    // IDs for datasets injected by fit overlay (for cleanup)
+    const FIT_DS_TAG = 'fit_overlay';
+
+    // Color map per source category
+    const SOURCE_COLORS = {
+      singlet:             'rgba(0,188,212,0.85)',  // cyan
+      multiplet_component: 'rgba(0,188,212,0.85)',  // cyan
+      secondary:           'rgba(253,126,20,0.85)', // orange
+      background:          'rgba(168,168,168,0.80)',// gray
+      unidentified:        'rgba(255,193,7,0.85)',  // yellow
+      library_coverage:    'rgba(80,200,80,0.85)',  // green
+    };
+    const SOURCE_DASH = {
+      singlet:             [],
+      multiplet_component: [],
+      secondary:           [],
+      background:          [4, 3],
+      unidentified:        [3, 4],
+      library_coverage:    [3, 2],
+    };
+    const SOURCE_LABEL_COLORS = {
+      singlet:             'rgba(0,188,212,0.9)',
+      multiplet_component: 'rgba(0,188,212,0.9)',
+      secondary:           'rgba(253,126,20,0.95)',
+      background:          'rgba(130,130,130,0.9)',
+      unidentified:        'rgba(255,193,7,0.95)',
+      library_coverage:    'rgba(60,180,60,0.95)',
+    };
+
+    // F-FIT-VIEW v3 — linear interpolation within continuum_grid {energies, values}.
+    // Returns continuum count value at energy x (clamped to grid endpoints outside range).
+    // Falls back to 0 when grid is absent (backward compat with v2 payload).
+    function continuumAt(grid, x){
+      if (!grid || !grid.energies || !grid.energies.length) return 0;
+      const es = grid.energies;
+      const vs = grid.values;
+      if (x <= es[0]) return vs[0] || 0;
+      if (x >= es[es.length - 1]) return vs[vs.length - 1] || 0;
+      for (let i = 0; i < es.length - 1; i++){
+        if (x >= es[i] && x <= es[i + 1]){
+          const t = (x - es[i]) / (es[i + 1] - es[i]);
+          return (vs[i] || 0) + t * ((vs[i + 1] || 0) - (vs[i] || 0));
+        }
+      }
+      return 0;
+    }
+
+    // Build Gaussian curve points lifted onto local continuum baseline.
+    // continuum_grid (optional): {energies, values} from fit_overlay payload v3.
+    // When absent (v2 payload) → cont_y=0 → identical to previous behaviour.
+    function gaussianPoints(energy_keV, amp_counts, sigma_keV, t, continuum_grid){
+      if (!amp_counts || amp_counts <= 0) return [];
+      const pts = [];
+      const E_chart = E;  // global E array from DATA_E
+      for (let i = 0; i < E_chart.length; i++){
+        const x = E_chart[i];
+        const dx = x - energy_keV;
+        if (Math.abs(dx) > 4 * sigma_keV) continue;  // skip far-away points for speed
+        const cont_y = continuumAt(continuum_grid, x);
+        const y_raw = cont_y + amp_counts * Math.exp(-(dx*dx)/(2*sigma_keV*sigma_keV));
+        // Apply same unit conversion as main spectrum
+        const y = (yMode === 'cps' && t > 0) ? y_raw / t : y_raw;
+        if (y > 0) pts.push({x: x, y: y});
+      }
+      return pts;
+    }
+
+    // Remove all fit overlay datasets (by _fitTag)
+    function removeFitDatasets(){
+      chart.data.datasets = chart.data.datasets.filter(ds => ds._fitTag !== FIT_DS_TAG);
+    }
+    // Remove fit overlay annotations (keys starting with 'fit_')
+    function removeFitAnnotations(){
+      const ann = chart.options.plugins.annotation.annotations;
+      Object.keys(ann).forEach(k => { if (k.startsWith('fit_')) delete ann[k]; });
+    }
+
+    // v1.2.21 — render secondary (escape/sum peaks) + library_coverage (green dashed,
+    // confirmed nuclide lines absent from fitted clusters: Ac-228 129/727/794 etc.).
+    // Operator-feedback 2026-06-11: «Вторичные пики тоже добавь».
+    // v1.2.23: library_coverage composite trace removed (double-counting fix); shown via annotations only.
+    const FIT_RENDER_SOURCES = new Set(['singlet', 'multiplet_component', 'secondary']);
+
+    function addFitOverlay(){
+      const t = T_SAMPLE;
+      const newDatasets = [];
+
+      // ── 1. Multiplet continua and totals ────────────────────────────────
+      // v1.2.15 — глобальный net-threshold: считаем max(net) ПО ВСЕМ кластерам,
+      // затем 5% от этого global_max — абсолютный порог, не локальный.
+      // Иначе слабый кластер (Ac-228 674/727 в 541-863 keV — нет видимых пиков
+      // в данных) проходит локальный 5% threshold (его собственный max(net)
+      // мал, 5% от него ещё меньше). Operator turn-6 (2026-06-11):
+      // «красная наклонная в центре осталась, пики подгонки пропали».
+      let _gMax = 0;
+      (FIT_OVERLAY.multiplet_continua || []).forEach(_cl => {
+        const _e = _cl.E_keV || [], _t = _cl.total || [], _c = _cl.continuum || [];
+        for (let _i = 0; _i < _e.length; _i++){
+          const _n = Math.max(0, (_t[_i]||0) - (_c[_i]||0));
+          if (_n > _gMax) _gMax = _n;
+        }
+      });
+      // v1.2.16 — двухуровневая фильтрация:
+      //   (1) GATE: cluster skip целиком если max(net) < 0.1% × global_max(net).
+      //       Достаточно низко чтобы пропустить Ac-228 1588 (M2 max=854,
+      //       global max=72к, M2 = 1.2% × global), но отсекает degenerate
+      //       cluster Ac-228 674/727 (max(net)=0).
+      //   (2) TRIM per-point: net[i] >= 1% × CLUSTER's own max(net).
+      //       Локальный 1% оставляет естественные wings вокруг каждого
+      //       пика (operator turn-7: «более широкую зону»). Не глобальный
+      //       1% — иначе слабый кластер M2 (max=854) был бы стёрт.
+      const GLOBAL_DRAW_THR = _gMax * 0.001;
+      (FIT_OVERLAY.multiplet_continua || []).forEach(cluster => {
+        const E_cl = cluster.E_keV || [];
+        const cont = cluster.continuum || [];
+        const tot  = cluster.total || [];
+        if (!E_cl.length) return;
+        let E_lo = E_cl[0], E_hi = E_cl[E_cl.length - 1];
+        const comps = cluster.components || [];
+        if (comps.length){
+          E_lo = Math.min(...comps.map(c => (c.energy_keV || 0) - 3 * (c.sigma_keV || 0)));
+          E_hi = Math.max(...comps.map(c => (c.energy_keV || 0) + 3 * (c.sigma_keV || 0)));
+        }
+        const net = E_cl.map((_,i) => Math.max(0, (tot[i]||0) - (cont[i]||0)));
+        const clMaxNet = net.length ? Math.max.apply(null, net) : 0;
+        // (1) Gate: degenerate кластер skip
+        if (clMaxNet < GLOBAL_DRAW_THR) return;
+        // (2) Per-point trim: локальный 0.1% от собственного max(net)
+        // (operator turn-8 2026-06-11: «красную линию суммы нужно сделать
+        // еще шире, она должна почти касаться подстилающей»). 0.1% =
+        // ~±3.5σ Gaussian → wings почти на уровне continuum.
+        const TRIM_LOCAL = clMaxNet * 0.001;
+        const inRange = (x, i) => x >= E_lo && x <= E_hi && net[i] >= TRIM_LOCAL;
+        // Сегментация: разбиваем cluster на непрерывные сегменты, в каждом
+        // рисуем отдельный dataset — иначе Chart.js соединяет линией через
+        // dead-zone gap.
+        const segs = [];
+        let curC = [], curT = [];
+        E_cl.forEach((x,i) => {
+          if (inRange(x, i)){
+            curC.push({x, y: (yMode==='cps'&&t>0) ? cont[i]/t : cont[i]});
+            curT.push({x, y: (yMode==='cps'&&t>0) ? tot[i]/t  : tot[i]});
+          } else if (curC.length){
+            segs.push({c: curC, tt: curT});
+            curC = []; curT = [];
+          }
+        });
+        if (curC.length) segs.push({c: curC, tt: curT});
+        segs.forEach((seg, si) => {
+          newDatasets.push({
+            _fitTag: FIT_DS_TAG,
+            label: 'Континуум ' + cluster.cluster_id + (segs.length > 1 ? '_'+(si+1) : ''),
+            data: seg.c,
+            borderColor: '#D63384',  // magenta
+            borderWidth: 1.5,
+            borderDash: [4,3],
+            pointRadius: 0,
+            fill: false,
+            tension: 0,
+          });
+          newDatasets.push({
+            _fitTag: FIT_DS_TAG,
+            label: 'Подгонка ' + cluster.cluster_id + (segs.length > 1 ? '_'+(si+1) : ''),
+            data: seg.tt,
+            borderColor: '#dc3545',  // red
+            borderWidth: 2,
+            pointRadius: 0,
+            fill: false,
+            tension: 0,
+          });
+        });
+        // ── Per-component Gaussians from g_curve (subtracted continuum) ──
+        // v1.2.15 — фильтр (а) g_curve этого компонента >= 5% от собственного
+        // пика компонента (НЕ от inRange — собственный компонент имеет смысл
+        // показать даже в «слабом» кластере, если у него есть пик);
+        // (б) в энергетическом диапазоне [E_lo..E_hi] кластера.
+        // Раньше: inRange(p.x) без индекса → net[undefined] = undefined →
+        // всегда false → cyan Gaussians не рисовались (operator-feedback
+        // turn 6 2026-06-11 «пики подгонки пропали»).
+        comps.forEach(comp => {
+          if (!comp.g_curve || !comp.g_curve.length) return;
+          const gMax = Math.max.apply(null, comp.g_curve.map(v => Math.max(0, v||0)));
+          const gThr = gMax * 0.05;
+          const gPts = E_cl.map((x,i) => {
+            const gi = comp.g_curve[i] || 0;
+            const y_raw = gi + (cont[i] || 0);
+            return {x, y: (yMode==='cps'&&t>0) ? y_raw/t : y_raw, _gi: gi};
+          }).filter(p => p.y > 0 && p._gi >= gThr && p.x >= E_lo && p.x <= E_hi)
+            .map(p => ({x:p.x, y:p.y}));
+          if (!gPts.length) return;
+          newDatasets.push({
+            _fitTag: FIT_DS_TAG,
+            label: comp.nuclide + ' ' + Math.round(comp.energy_keV),
+            data: gPts,
+            borderColor: 'rgba(0,188,212,0.85)',  // cyan
+            borderWidth: 1.2,
+            pointRadius: 0,
+            fill: false,
+            tension: 0,
+          });
+
+          // v1.2.19 — LSRM-style fit-centroid marker: тонкая cyan вертикальная
+          // линия от continuum (низ) до component-top (cont + g_max), с
+          // подписью "<nuclide> <E_fit.toFixed(2)>" на верхушке. Operator-
+          // locked 2026-06-11: пример LSRM-отчёта (Th-232 909.77 / 963.34).
+          const E_fit_c = (comp.fit_centroid_keV !== undefined && comp.fit_centroid_keV !== null)
+                          ? +comp.fit_centroid_keV : +comp.energy_keV;
+          if (Number.isFinite(E_fit_c)){
+            let i_nr = 0, dmin = Infinity;
+            for (let i = 0; i < E_cl.length; i++){
+              const d = Math.abs(E_cl[i] - E_fit_c);
+              if (d < dmin){ dmin = d; i_nr = i; }
+            }
+            const cont_at = cont[i_nr] || 0;
+            const g_at    = comp.g_curve[i_nr] || 0;
+            const y_base_raw = cont_at;
+            const y_top_raw  = cont_at + g_at;
+            const y_base = (yMode==='cps'&&t>0) ? y_base_raw/t : y_base_raw;
+            const y_top  = (yMode==='cps'&&t>0) ? y_top_raw/t  : y_top_raw;
+            if (Number.isFinite(y_top) && y_top > y_base && g_at > 0){
+              const shift_kev = +(comp.centroid_shift_keV || 0);
+              const lbl = comp.nuclide + ' ' + E_fit_c.toFixed(2)
+                       + (Math.abs(shift_kev) >= 0.05 ? ` (Δ=${shift_kev>=0?'+':''}${shift_kev.toFixed(2)})` : '');
+              // Вертикальная линия: 2 точки (E_fit, base) → (E_fit, top)
+              newDatasets.push({
+                _fitTag: FIT_DS_TAG,
+                label: lbl,
+                data: [{x: E_fit_c, y: y_base}, {x: E_fit_c, y: y_top}],
+                borderColor: 'rgba(0,210,230,0.95)',
+                backgroundColor: 'rgba(0,210,230,0.95)',
+                borderWidth: 1.1,
+                pointRadius: 0,
+                pointHoverRadius: 3,
+                showLine: true,
+                fill: false,
+                tension: 0,
+              });
+              // Top marker: треугольник вниз на вершине компоненты
+              newDatasets.push({
+                _fitTag: FIT_DS_TAG,
+                label: lbl + ' ▼',
+                data: [{x: E_fit_c, y: y_top}],
+                borderColor: 'rgba(0,150,180,1.0)',
+                backgroundColor: 'rgba(0,150,180,1.0)',
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointStyle: 'triangle',
+                rotation: 180,
+                showLine: false,
+                fill: false,
+              });
+            }
+          }
+        });
+      });
+
+      // ── 2. Per-peak Gaussian curves — ТОЛЬКО первичные (singlet) ──
+      // v1.2.12 — secondary/background/unidentified Gaussians не рисуем
+      // (operator-feedback 2026-06-11). multiplet_component уже отрисован
+      // выше через g_curve.
+      (FIT_OVERLAY.peaks || []).forEach(pk => {
+        if (!FIT_RENDER_SOURCES.has(pk.source)) return;
+        if (pk.source === 'multiplet_component') return;  // already drawn above
+        if (!pk.amp_counts || pk.amp_counts <= 0) return;
+        const gPts = gaussianPoints(pk.energy_keV, pk.amp_counts, pk.sigma_keV, t, pk.continuum_grid || null);
+        if (!gPts.length) return;
+        const color = SOURCE_COLORS[pk.source] || 'rgba(150,150,150,0.7)';
+        const dash  = SOURCE_DASH[pk.source]   || [];
+        newDatasets.push({
+          _fitTag: FIT_DS_TAG,
+          label: pk.label,
+          data: gPts,
+          borderColor: color,
+          borderWidth: 1.2,
+          borderDash: dash,
+          pointRadius: 0,
+          fill: false,
+          tension: 0,
+        });
+        // v1.2.13 — explicit continuum dashed line для singlet'ов на ПОЛНОМ
+        // диапазоне continuum_grid (operator-feedback 2026-06-11 turn 4:
+        // «Tl-208 2614 — нет подстилающей»). Раньше trim ±3σ делал
+        // подстилающую почти невидимой под крыльями данных.
+        const grid = pk.continuum_grid;
+        if (pk.source === 'singlet' && grid && grid.energies && grid.energies.length){
+          const cPts = grid.energies.map((x,i) => {
+            const yr = grid.values[i] || 0;
+            return {x, y: (yMode==='cps'&&t>0) ? yr/t : yr};
+          });
+          if (cPts.length){
+            newDatasets.push({
+              _fitTag: FIT_DS_TAG,
+              label: 'Континуум ' + (pk.label || pk.peak_id),
+              data: cPts,
+              borderColor: '#D63384',  // magenta
+              borderWidth: 1.5,
+              borderDash: [4,3],
+              pointRadius: 0,
+              fill: false,
+              tension: 0,
+            });
+          }
+        }
+      });
+
+      // ── 3. Library coverage — component + continuum + composite (v1.2.25) ────
+      // Each library_coverage peak renders three layers (matching LSRM style):
+      //   • thin green  = individual Gaussian component only (g, no continuum)
+      //   • dashed red  = local continuum below the peak
+      //   • solid red   = composite fit = g + continuum (follows spectrum)
+      const _lcPeaks = (FIT_OVERLAY.peaks || []).filter(pk =>
+        pk.source === 'library_coverage' && pk.amp_counts > 0 && pk.sigma_keV > 0);
+      _lcPeaks.forEach(pk => {
+        const _hw = 4 * pk.sigma_keV;
+        const _nPts = 80;
+        const _gPts = [], _cPts = [], _tPts = [];
+        for (let _i = 0; _i <= _nPts; _i++) {
+          const _e = (pk.energy_keV - _hw) + 2 * _hw * _i / _nPts;
+          const _dx = _e - pk.energy_keV;
+          const _g = pk.amp_counts * Math.exp(-(_dx * _dx) / (2 * pk.sigma_keV * pk.sigma_keV));
+          const _c = continuumAt(pk.continuum_grid || null, _e);
+          const _yc = v => (yMode === 'cps' && t > 0) ? v / t : v;
+          _gPts.push({x: _e, y: _yc(_g + _c)});  // component rests on continuum
+          _cPts.push({x: _e, y: _yc(_c)});
+          _tPts.push({x: _e, y: _yc(_g + _c)});
+        }
+        if (!_tPts.length) return;
+        const _lbl = pk.label || (pk.energy_keV != null ? pk.energy_keV.toFixed(1) : '');
+        // thin green — individual component (g only, no continuum)
+        newDatasets.push({
+          _fitTag: FIT_DS_TAG,
+          label: 'lib ' + _lbl,
+          data: _gPts,
+          borderColor: 'rgba(80,200,80,0.85)',
+          borderWidth: 1.2,
+          borderDash: [],
+          pointRadius: 0, fill: false, tension: 0,
+        });
+        // dashed red — local continuum
+        newDatasets.push({
+          _fitTag: FIT_DS_TAG,
+          label: 'Конт ' + _lbl,
+          data: _cPts,
+          borderColor: '#D63384',
+          borderWidth: 1.5,
+          borderDash: [4, 3],
+          pointRadius: 0, fill: false, tension: 0,
+        });
+        // v1.2.27: centroid marker for lib_coverage — green vertical line + inverted triangle dot
+        const _cContAt = continuumAt(pk.continuum_grid || null, pk.energy_keV);
+        const _cGTop   = pk.amp_counts;
+        const _yBase   = (yMode === 'cps' && t > 0) ? _cContAt / t : _cContAt;
+        const _yTop    = (yMode === 'cps' && t > 0) ? (_cContAt + _cGTop) / t : (_cContAt + _cGTop);
+        if (Number.isFinite(_yTop) && _yTop > _yBase && _cGTop > 0) {
+          newDatasets.push({
+            _fitTag: FIT_DS_TAG,
+            label: _lbl + ' (lib)',
+            data: [{x: pk.energy_keV, y: _yBase}, {x: pk.energy_keV, y: _yTop}],
+            borderColor: 'rgba(0,180,80,0.95)',
+            backgroundColor: 'rgba(0,180,80,0.95)',
+            borderWidth: 1.1, pointRadius: 0, showLine: true, fill: false, tension: 0,
+          });
+          newDatasets.push({
+            _fitTag: FIT_DS_TAG,
+            label: _lbl + ' ▽',
+            data: [{x: pk.energy_keV, y: _yTop}],
+            borderColor: 'rgba(0,140,50,1.0)',
+            backgroundColor: 'rgba(0,140,50,1.0)',
+            pointRadius: 4, pointHoverRadius: 6,
+            pointStyle: 'triangle', rotation: 180,
+            showLine: false, fill: false,
+          });
+        }
+      });
+
+      // v1.2.26: Global composite — single red line (activity-scaled Gaussians + continuum)
+      if (FIT_OVERLAY.global_composite && FIT_OVERLAY.global_composite.energies) {
+        const gc = FIT_OVERLAY.global_composite;
+        const gcPts = gc.energies.map((x, i) => ({
+          x,
+          y: (yMode === 'cps' && t > 0) ? gc.values[i] / t : gc.values[i]
+        }));
+        newDatasets.push({
+          _fitTag: FIT_DS_TAG,
+          label: 'Суммарная подгонка',
+          data: gcPts,
+          borderColor: '#dc3545',
+          borderWidth: 2.5,
+          pointRadius: 0,
+          fill: false,
+          tension: 0.3,
+        });
+      }
+
+      // Push all new datasets
+      newDatasets.forEach(ds => chart.data.datasets.push(ds));
+
+      // v1.2.13 — НЕ добавляем fit_lbl_ rotated -45° labels (operator-feedback
+      // turn 4: «Надпись над пиками оставить как раньше. Пример — K-40»).
+      // Родные ln_/dot_/lb_ (top-5 K-40-style) остаются видимыми из
+      // buildAnnots(), этого достаточно.
+    }
+
+    // v1.2.13 — откатили скрытие родных ln_/dot_/lb_ (operator-feedback
+    // 2026-06-11 turn 4: «Надпись над пиками оставить как раньше. Пример —
+    // K-40»). Родные подписи (top-5 K-40-style: вертикальный пунктир + дот +
+    // горизонтальная подпись) остаются видимыми всегда — fit-overlay только
+    // добавляет datasets (continuum/total/Gaussian), без своих rotated label'ов.
+
+    function setFitOverlay(on){
+      fitOn = on;
+      fitBtn.classList.toggle('active', on);
+      fitBtn.textContent = on ? 'скрыть' : 'показать';
+      removeFitDatasets();
+      removeFitAnnotations();
+      if (on) addFitOverlay();
+      chart.update('none');
+    }
+
+    fitBtn.addEventListener('click', () => setFitOverlay(!fitOn));
+
+    // Re-apply overlay when Y-units or view changes (so units conversion stays correct)
+    const _origSetYUnits = window._fp_setYUnits_orig;
+    // Hook into chart updates: if overlay was on and chart is rebuilt, re-add.
+    // We use a MutationObserver-free approach: override setYUnits/setView via wrapper.
+    // Simple approach: re-apply after any setView/setYUnits call by patching end of
+    // those functions. Since they are defined in this same script, we use a flag.
+    // The setView and setYUnits functions call chart.update() at the end.
+    // We patch via event listener on the chart's afterUpdate hook.
+    if (chart.options.plugins) {
+      if (!chart.options.plugins.afterUpdate) {
+        chart.options.plugins._fitViewAfterUpdate = {
+          id: '_fitViewAfterUpdate',
+          afterUpdate: function(ch){
+            // No-op: re-application is explicit via setFitOverlay
+          }
+        };
+      }
+    }
+    // Expose setFitOverlay globally so setView/setYUnits can call it
+    window._fp_setFitOverlay = setFitOverlay;
+    window._fp_isFitOn = function(){ return fitOn; };
+
+    // v1.2.10 — modal-header twin кнопки «Подгонка показать/скрыть».
+    // Show modal fit group if FIT_OVERLAY имеет данные (то же условие что и main).
+    document.querySelectorAll('.fp-modal-fit-grp, .fp-modal-fit-btn').forEach(el => {
+      el.hidden = false;
+    });
+    document.querySelectorAll('.fp-modal-fit-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const on = btn.dataset.modalFit === 'on';
+        setFitOverlay(on);
+        document.querySelectorAll('.fp-modal-fit-btn').forEach(b =>
+          b.classList.toggle('active', b.dataset.modalFit === (on ? 'on' : 'off')));
+        // Re-sync modal с обновлёнными datasets/annotations с main chart.
+        if (typeof syncModalFromMain === 'function') syncModalFromMain();
+      });
+    });
+    // v1.2.20 — auto-enable fit overlay on load (no manual click needed)
+    setFitOverlay(true);
+  })();
+
+  // Patch setView to preserve fit overlay after view changes
+  const _origSetView = typeof setView !== 'undefined' ? setView : null;
+  // Note: setView is defined later in the script below; we add a post-hook via the
+  // chart afterUpdate plugin mechanism instead.
+  // Actually the cleanest approach is to call setFitOverlay(true) at the end of
+  // setView when fitOn. We do this by wrapping the setView end.
+  // Since setView is defined in the same block, we add a global hook instead:
+  // Every time the user clicks a view/units button, if fitOn we re-apply.
+  // We do this in the individual handlers below using window._fp_isFitOn().
+
+  // ── F-334.4 / v1.18.18.7 — floating tooltip for non-labelled markers ──
+  // При hover над dot non-top пика показываем small popup «isotope E кэВ».
+  // Top-5 уже имеют постоянные labels — для них tooltip не нужен (избегаем дублирования).
+  const peakTip = document.getElementById('fp-peak-tooltip');
+  function showPeakTip(peak, clientX, clientY){
+    if (!peakTip || !peak || peak.is_top) return;
+    peakTip.textContent = peak.label;
+    peakTip.style.left = (clientX + 12) + 'px';
+    peakTip.style.top  = (clientY - 8)  + 'px';
+    peakTip.style.display = 'block';
+  }
+  function hidePeakTip(){ if (peakTip) peakTip.style.display = 'none'; }
+  canvas.addEventListener('mousemove', (ev)=>{
+    const rect = canvas.getBoundingClientRect();
+    const px = ev.clientX - rect.left;
+    const xVal = chart.scales.x.getValueForPixel(px);
+    if (xVal === undefined) { hidePeakTip(); return; }
+    const pkList = currentPeakList || peaks;
+    let best=null, bestDist=Infinity;
+    pkList.forEach(p => { const d=Math.abs(p.e - xVal); if (d<bestDist){bestDist=d; best=p;} });
+    if (!best || best.is_top) { hidePeakTip(); return; }
+    const px1 = chart.scales.x.getPixelForValue(best.e);
+    if (Math.abs(px - px1) < 12) showPeakTip(best, ev.clientX, ev.clientY);
+    else hidePeakTip();
+  });
+  canvas.addEventListener('mouseleave', hidePeakTip);
+
+  // ── F-334.3 / F-335.1 / v1.18.18.8 — Modal popup ─────────────────
+  // Контракт masштаба (per user feedback):
+  //   * X zoom: колесо мыши, mode='x' (Y не зумится колесом).
+  //   * X pan: правая кнопка мыши + drag (RMB) — только X scale.
+  //   * Y axis: ВСЕГДА фиксирован у 0 (linear) или logMin (log). НЕТ pan по Y.
+  //   * Y top: auto-fit на max данных в видимом X-окне (после каждого zoom/pan).
+  //   * Reset: возврат к исходному X диапазону + autofit Y.
+  //   * Limits: zoom-out clamp на original X-range (не вылетаем в негативные кэВ).
+  //   * ESC → закрыть; click outside игнорируется.
+  // F-113 fallback: если chartjs-plugin-zoom не загрузился — modal открывается без zoom.
+  const ZOOM_AVAILABLE = (typeof Chart !== 'undefined')
+      && Chart.registry && Chart.registry.plugins
+      && Chart.registry.plugins.get('zoom');
+  let modalChart = null;
+  const modalEl = document.getElementById('fp-modal');
+  const expandBtn = document.getElementById('fp-expand');
+  // X-axis original bounds — берутся из CHART.E (общая ось всех views)
+  const X_ORIG_MIN = (E.length > 0) ? E[0] : 20;
+  const X_ORIG_MAX = (E.length > 0) ? E[E.length-1] : 3000;
+
+  // F-335.1 — auto-fit Y to data inside [xLo..xHi]. Y baseline (min)
+  // фиксирован per scale type; Y max = visible_data_max * 1.1.
+  function fitYToVisibleX(ch, xLo, xHi){
+    if (!ch || !ch.data || !ch.data.datasets) return;
+    let mx = 0;
+    ch.data.datasets.forEach(ds => {
+      if (!ds.data) return;
+      ds.data.forEach(p => {
+        if (!p) return;
+        if (p.x >= xLo && p.x <= xHi && p.y > mx) mx = p.y;
+      });
+    });
+    if (mx <= 0) return;
+    const yd = yAxisDefaults();
+    if (ch.options.scales.y.type === 'logarithmic') {
+      ch.options.scales.y.min = yd.logMin;
+      ch.options.scales.y.max = Math.max(mx * 2, yd.logMin * 100);
+    } else {
+      ch.options.scales.y.min = 0;
+      ch.options.scales.y.max = mx * 1.1;
+    }
+  }
+
+  function openModal(){
+    if (!modalEl) return;
+    modalEl.classList.add('open');
+    syncModalDetails();
+    // v1.2.10 — авто-включение fit overlay в развёрнутой форме (подстилающая +
+    // гауссианы подгонки + сумма пиков). Делаем ДО syncModalFromMain/createModalChart,
+    // чтобы datasets уже содержали overlay layers при копировании в modal chart.
+    if (typeof window._fp_setFitOverlay === 'function'
+        && typeof window._fp_isFitOn === 'function'
+        && !window._fp_isFitOn()) {
+      window._fp_setFitOverlay(true);
+      document.querySelectorAll('.fp-modal-fit-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.modalFit === 'on'));
+    }
+    setTimeout(() => {
+      if (!modalChart) createModalChart();
+      else { syncModalFromMain(); try { modalChart.resize(); } catch(e){} }
+    }, 50);
+    if (modalEl.focus) modalEl.focus();
+  }
+  function closeModal(){
+    if (!modalEl) return;
+    modalEl.classList.remove('open');
+    hidePeakTip();
+  }
+  function createModalChart(){
+    const mcv = document.getElementById('fp-sp-modal');
+    if (!mcv) return;
+    // Clone datasets from main chart (current view / units / smoothing)
+    const dataClone = chart.data.datasets.map(ds => ({
+      ...ds, data: ds.data.slice(),
+    }));
+    const annClone = JSON.parse(JSON.stringify(
+        chart.options.plugins.annotation.annotations || {}));
+    const yLogType = chart.options.scales.y.type;
+    const yd = yAxisDefaults();
+    const opts = {
+      responsive:true, maintainAspectRatio:false, animation:false,
+      parsing:false, normalized:true, resizeDelay:120,
+      devicePixelRatio:window.devicePixelRatio||1,
+      interaction:{mode:'nearest', intersect:false},
+      scales:{
+        x:{type:'linear', min:X_ORIG_MIN, max:X_ORIG_MAX,
+           title:{display:true,text:'Энергия, кэВ',color:tickC,font:{size:11}},
+           grid:{color:gridC},ticks:{color:tickC,font:{size:10}}},
+        y:{type:yLogType, min:yd.logMin, max:yd.logMax,
+           title:{display:true,text:yd.title,color:tickC,font:{size:11}},
+           grid:{color:gridC},ticks:{color:tickC,font:{size:10}}},
+      },
+      plugins:{
+        // v1.2.10 — в развёрнутой форме включаем легенду, если активен fit overlay,
+        // чтобы оператор видел подписи: Континуум / Подгонка / per-component гауссианы.
+        legend:{display: (chart.options.plugins.legend.display === true)
+                         || (typeof window._fp_isFitOn === 'function' && window._fp_isFitOn())},
+        tooltip:{callbacks:{
+          title:(items)=>items[0].parsed.x.toFixed(1)+' кэВ',
+          label:(item)=>{
+            const v = item.parsed.y;
+            return yMode==='cps' ? v.toExponential(2)+' имп/с' : v.toFixed(0)+' отсч.';
+          },
+        }},
+        annotation:{annotations: annClone},
+      },
+    };
+    // F-335.1 — zoom plugin: mode='x', limits original (clamp zoom-out)
+    if (ZOOM_AVAILABLE){
+      opts.plugins.zoom = {
+        pan:  { enabled: false },              // RMB handled manually below
+        zoom: { wheel: { enabled: true, speed: 0.1 }, drag: { enabled: false }, mode: 'x',
+                onZoomComplete: ({chart: c}) => fitYToVisibleX(c, c.scales.x.min, c.scales.x.max) },
+        limits: {
+          x: { min: 'original', max: 'original' },
+          y: { min: 'original', max: 'original' },
+        },
+      };
+    }
+    modalChart = new Chart(mcv.getContext('2d'), {
+      type:'line', data:{datasets: dataClone}, options: opts,
+    });
+    // Initial fit Y to full X range
+    fitYToVisibleX(modalChart, X_ORIG_MIN, X_ORIG_MAX);
+    modalChart.update();
+    try { modalChart.resize(); requestAnimationFrame(()=>modalChart.resize()); } catch(e){}
+    attachIOSFix(modalChart, mcv.parentElement);
+
+    // F-335.5 / v1.18.18.9 — click handler в modal: тот же контракт что и
+    // на main chart (find nearest peak by X-pixel proximity → selectPeak).
+    // Реализован через mousedown + mouseup tracking чтобы не путаться с pan.
+    let leftMouseDownX = null;
+    mcv.addEventListener('mousedown', (ev) => {
+      if (ev.button === 0) leftMouseDownX = ev.clientX;
+    });
+    mcv.addEventListener('mouseup', (ev) => {
+      if (ev.button !== 0 || leftMouseDownX === null) { leftMouseDownX = null; return; }
+      const dragDist = Math.abs(ev.clientX - leftMouseDownX);
+      leftMouseDownX = null;
+      // Не считаем click если был drag (>5 px)
+      if (dragDist > 5) return;
+      const rect = mcv.getBoundingClientRect();
+      const px = ev.clientX - rect.left;
+      const xVal = modalChart.scales.x.getValueForPixel(px);
+      if (xVal === undefined || xVal === null) return;
+      const pkList = currentPeakList || peaks;
+      let best = null, bestDist = Infinity;
+      pkList.forEach(p => { const d = Math.abs(p.e - xVal); if (d < bestDist) { bestDist = d; best = p; } });
+      if (!best) return;
+      const px1 = modalChart.scales.x.getPixelForValue(best.e);
+      if (Math.abs(px - px1) < 25) selectPeak(best.id);
+    });
+
+    // F-335.1 — RMB pan: ТОЛЬКО X-axis (Y baseline фиксирован).
+    // После каждого pan: clamp X в [X_ORIG_MIN, X_ORIG_MAX], auto-fit Y.
+    let panDragging = false, panStartX = 0, scaleXMinStart=0, scaleXMaxStart=0;
+    mcv.addEventListener('contextmenu', (e)=>e.preventDefault());
+    mcv.addEventListener('mousedown', (e)=>{
+      if (e.button !== 2) return;
+      e.preventDefault();
+      panDragging = true;
+      panStartX = e.clientX;
+      scaleXMinStart = modalChart.scales.x.min;
+      scaleXMaxStart = modalChart.scales.x.max;
+    });
+    window.addEventListener('mousemove', (e)=>{
+      if (!panDragging) return;
+      const rect = mcv.getBoundingClientRect();
+      const dx = (e.clientX - panStartX) / rect.width;
+      const xRange = scaleXMaxStart - scaleXMinStart;
+      let newMin = scaleXMinStart - dx * xRange;
+      let newMax = scaleXMaxStart - dx * xRange;
+      // Clamp to original X range — нельзя пан за пределы
+      if (newMin < X_ORIG_MIN) { const shift = X_ORIG_MIN - newMin; newMin += shift; newMax += shift; }
+      if (newMax > X_ORIG_MAX) { const shift = newMax - X_ORIG_MAX; newMin -= shift; newMax -= shift; }
+      newMin = Math.max(newMin, X_ORIG_MIN);
+      newMax = Math.min(newMax, X_ORIG_MAX);
+      modalChart.options.scales.x.min = newMin;
+      modalChart.options.scales.x.max = newMax;
+      fitYToVisibleX(modalChart, newMin, newMax);
+      modalChart.update('none');
+    });
+    window.addEventListener('mouseup', (e)=>{
+      if (e.button === 2 && panDragging){
+        panDragging = false;
+        e.preventDefault();
+      }
+    });
+  }
+  // F-335.2/.3 — re-sync modal chart's datasets/annotations from main
+  // (called whenever main view, units, or smoothing changes).
+  function syncModalFromMain(){
+    if (!modalChart) return;
+    modalChart.data.datasets = chart.data.datasets.map(ds => ({
+      ...ds, data: ds.data.slice(),
+    }));
+    modalChart.options.plugins.annotation.annotations = JSON.parse(JSON.stringify(
+        chart.options.plugins.annotation.annotations || {}));
+    // v1.2.10 — keep legend on в modal когда fit overlay включён.
+    modalChart.options.plugins.legend.display = (chart.options.plugins.legend.display === true)
+        || (typeof window._fp_isFitOn === 'function' && window._fp_isFitOn());
+    // Sync Y axis (log/linear + title)
+    const yd = yAxisDefaults();
+    modalChart.options.scales.y.type = chart.options.scales.y.type;
+    modalChart.options.scales.y.title.text = yd.title;
+    // Re-fit Y to current visible X
+    fitYToVisibleX(modalChart, modalChart.scales.x.min, modalChart.scales.x.max);
+    modalChart.update('none');
+  }
+  function resetModalZoom(){
+    if (!modalChart) return;
+    if (ZOOM_AVAILABLE && typeof modalChart.resetZoom === 'function') {
+      try { modalChart.resetZoom(); } catch(e){}
+    }
+    modalChart.options.scales.x.min = X_ORIG_MIN;
+    modalChart.options.scales.x.max = X_ORIG_MAX;
+    fitYToVisibleX(modalChart, X_ORIG_MIN, X_ORIG_MAX);
+    modalChart.update();
+  }
+  function syncModalDetails(){
+    const md = document.getElementById('fp-modal-details');
+    const src = document.getElementById('fp-detail');
+    if (md && src) md.innerHTML = src.innerHTML;
+  }
+  // Hook into selectPeak so modal details + annotations stay in sync
+  const _origSelectPeak = selectPeak;
+  selectPeak = function(id){
+    _origSelectPeak(id);
+    syncModalDetails();
+    if (modalChart && modalEl && modalEl.classList.contains('open')){
+      modalChart.options.plugins.annotation.annotations = JSON.parse(JSON.stringify(
+          chart.options.plugins.annotation.annotations || {}));
+      modalChart.update('none');
+    }
+  };
+  if (expandBtn) expandBtn.addEventListener('click', openModal);
+  if (modalEl){
+    modalEl.addEventListener('click', (e)=>{
+      const act = e.target && e.target.dataset && e.target.dataset.action;
+      if (act === 'close') closeModal();
+      else if (act === 'reset-zoom') resetModalZoom();
+      else if (act === 'clear-selection') clearSelection();
+      else if (act === 'toggle-details'){
+        const md = document.getElementById('fp-modal-details');
+        if (md) md.classList.toggle('collapsed');
+      }
+      // F-335.2 — modal cps/counts buttons
+      const u = e.target && e.target.dataset && e.target.dataset.modalUnits;
+      if (u) setYUnits(u);
+      // F-335.3 — modal smoothing buttons
+      const s = e.target && e.target.dataset && e.target.dataset.modalSmooth;
+      if (s) setSmoothing(s);
+      // F-335.6 — modal Лог/Линейная Y buttons
+      const ys = e.target && e.target.dataset && e.target.dataset.modalYscale;
+      if (ys) setYScale(ys);
+      // F-335.6 — modal 4-way view toggle buttons
+      const vw = e.target && e.target.dataset && e.target.dataset.modalView;
+      if (vw) setView(vw);
+      // BUG-20 fix #2 / v1.18.30+ (Agent B) — modal duplicate of «Вторичные» toggle
+      const sec = e.target && e.target.dataset && e.target.dataset.modalSecondary;
+      if (sec) setSecondaryVisibility(sec === 'on');
+    });
+  }
+  // F-335.6 — show modal view-toggle group only when has_background
+  if (CHART && CHART.has_background) {
+    const grp = document.getElementById('fp-modal-view-grp');
+    if (grp) grp.hidden = false;
+    document.querySelectorAll('.fp-modal-view-btn').forEach(b => b.hidden = false);
+  }
+  document.addEventListener('keydown', (e)=>{
+    if (e.key === 'Escape' && modalEl && modalEl.classList.contains('open')) closeModal();
+  });
+
+  // Multiplet charts (с накоплением площадей)
+  const compColors=['rgba(60,52,137,0.45)','rgba(90,77,172,0.45)','rgba(127,119,221,0.45)','rgba(153,60,29,0.45)'];
+  const compBorders=['#3C3489','#5A4DAC','#7F77DD','#993C1D'];
+  // F-397.2 / v1.18.28 (Agent B) — параллельная серия canvases для bg-блока.
+  // Те же multiplet-данные, что и для sample-блока, но с другим id-namespace
+  // (`mp-<X>-bg`). Без этой переменной bg-multiplet канвасы создаются HTML-
+  // builder-ом, но никогда не получают Chart.js instance.
+  const multiplets_bg = {{DATA_MULTIPLETS_BG}};
+  function _renderMultipletList(list, idSuffix){
+  list.forEach(m=>{
+    const cv=document.getElementById('mp-'+m.id+idSuffix);
+    if(!cv) return;
+    const datasets=[];
+    // (0) Континуум — общая база для всех компонентов; должен идти ПЕРВЫМ чтобы все компоненты могли ссылаться на его индекс при fill
+    const contDatasetIdx = 0;
+    datasets.push({
+      label:'Континуум (ступенч.-лин.)',
+      data: m.E_keV.map((e,i)=>({x:e, y:m.continuum[i]})),
+      borderColor:'#888', borderWidth:1, borderDash:[3,3], pointRadius:0, fill:false, tension:0.2, order:5
+    });
+    // (1..K) Компоненты — НЕ-СТОПКОВАЯ заливка: каждый Гаусс рисуется независимо от континуума до (континуум + ТОЛЬКО эта компонента).
+    // F-378 / v1.18.25.1 — все компоненты с area≠0 идут в datasets для
+    // hover-tooltip; top-K (по area) получают полную borderWidth и
+    // непрозрачную заливку, остальные — тоньше борд + полупрозрачная
+    // заливка (видны если Гауссиан разрешён, не шумят если сливаются).
+    m.components.forEach((c,k)=>{
+      if(c.area === 0) return;   // пропускаем нулевые компоненты
+      const isTop = (c.is_top === true);
+      // g_only = g_plus_cont - g_base  (площадь только этой Гауссовой компоненты на каждом канале)
+      const peakY = m.E_keV.map((e,i)=>({x:e, y: m.continuum[i] + (c.g_plus_cont[i] - c.g_base[i])}));
+      const bg = compColors[k % compColors.length];
+      // dim background: parse rgba(r,g,b,a) and reduce alpha to ~0.18
+      let bgDim = bg;
+      try {
+        const m_rgba = bg.match(/rgba\(([^)]+)\)/);
+        if (m_rgba) {
+          const parts = m_rgba[1].split(',').map(s=>s.trim());
+          parts[3] = '0.18';
+          bgDim = 'rgba('+parts.join(',')+')';
+        }
+      } catch(e) {}
+      datasets.push({
+        label: c.nuclide+' '+c.E_keV.toFixed(2)+' кэВ (I='+c.I_pct+'%): S='+c.area.toFixed(0),
+        data: peakY,
+        borderColor: compBorders[k % compBorders.length],
+        backgroundColor: isTop ? bg : bgDim,
+        borderWidth: isTop ? 1.2 : 0.7,
+        pointRadius:0,
+        fill: contDatasetIdx,    // заливка от ЭТОЙ кривой до континуума (НЕ стопковая)
+        tension:0.2, order: 3+k
+      });
+    });
+    // Сумма + континуум — общая модель сверху
+    datasets.push({
+      label:'Сумма + континуум',
+      data: m.E_keV.map((e,i)=>({x:e, y:m.total[i]})),
+      borderColor:'#D85A30', borderWidth:1.6, borderDash:[6,3], pointRadius:0, fill:false, tension:0.2, order:2
+    });
+    // Данные — самым верхним слоем
+    datasets.push({
+      label:'Данные',
+      data: m.E_keV.map((e,i)=>({x:e, y:m.data[i]})),
+      borderColor: lineC, backgroundColor:'transparent',
+      borderWidth:1.3, pointRadius:0, stepped:'middle', tension:0, fill:false, order:1
+    });
+
+    // Вертикальные маркеры на ТОЧНЫХ библиотечных энергиях каждого компонента.
+    // F-378 / v1.18.25.1 — рисуем маркёры ТОЛЬКО для top-K компонент
+    // (is_top=true, K=3 по deconvolved_area). Остальные компоненты
+    // присутствуют в datasets и доступны через hover-tooltip — это
+    // снижает визуальный шум на плотных мультиплетах (M3 V2 c 7
+    // компонентами, 5 из которых degenerate).
+    const lineAnnots={};
+    m.components.forEach((c,k)=>{
+      if (c.area === 0) return;
+      if (c.is_top !== true) return;
+      const col = compBorders[k % compBorders.length];
+      lineAnnots['ml_'+m.id+'_'+k] = {
+        type:'line', xMin:c.E_keV, xMax:c.E_keV,
+        borderColor: col, borderWidth: 1.1, borderDash:[]
+      };
+      lineAnnots['mb_'+m.id+'_'+k] = {
+        type:'label', xValue: c.E_keV, yValue: 0,
+        yAdjust: -18,
+        position:{x:'center', y:'end'},
+        content: c.E_keV.toFixed(2),
+        font:{size:9, weight:'500'},
+        color: col,
+        backgroundColor: isDark ? 'rgba(40,40,40,0.92)' : 'rgba(255,255,255,0.92)',
+        borderColor: col, borderWidth: 0.6, borderRadius: 3, padding: 2
+      };
+    });
+
+    const ch=new Chart(cv.getContext('2d'),{
+      type:'line', data:{datasets:datasets},
+      options:{
+        responsive:true, maintainAspectRatio:false, animation:false,
+        parsing:false, normalized:true, resizeDelay:120,
+        devicePixelRatio:window.devicePixelRatio||1,
+        // F-379 / v1.18.25.2 — mode='nearest', intersect=true:
+        // тултип показывает ТОЛЬКО datasets чьи кривые курсор пересекает,
+        // а не все datasets в этой колонке X. Без этого на M3 с 7 компонент
+        // тултип выдаёт «портянку» из всех 7 + Данные + Сумма + Континуум.
+        interaction:{mode:'nearest', intersect:true, axis:'xy'},
+        scales:{
+          x:{type:'linear', title:{display:true, text:'Энергия, кэВ', color:tickC, font:{size:11}}, grid:{color:gridC}, ticks:{color:tickC, font:{size:10}}},
+          y:{type:'linear', title:{display:true, text:'Счёт', color:tickC, font:{size:11}}, grid:{color:gridC}, ticks:{color:tickC, font:{size:10}}}
+        },
+        plugins:{
+          legend:{position:'top', labels:{font:{size:10}, color:tickC, boxWidth:14, boxHeight:8, padding:6}},
+          tooltip:{
+            mode:'nearest', intersect:true,
+            callbacks:{title:(items)=>items[0].parsed.x.toFixed(1)+' кэВ'}
+          },
+          annotation:{annotations: lineAnnots}
+        }
+      }
+    });
+    cv.__chartInited = true;
+    try { ch.resize(); requestAnimationFrame(function(){ ch.resize(); }); } catch(e) {}
+    attachIOSFix(ch, cv.parentElement);
+  });
+  }
+  // F-397.2 — sample (default id-namespace) и bg (id-namespace "-bg")
+  _renderMultipletList(multiplets, '');
+  _renderMultipletList(multiplets_bg, '-bg');
+})();
+}
+// Telegram iOS WebView: ждём полной загрузки + небольшая задержка для пересчёта размеров контейнеров,
+// затем многократно пробуем resize через ResizeObserver/IntersectionObserver
+if (document.readyState === 'complete') {
+  setTimeout(__initReport, 200);
+} else {
+  window.addEventListener('load', function(){ setTimeout(__initReport, 200); });
+}
+// Дополнительный fallback на случай очень медленного CDN
+setTimeout(function(){
+  // Если контейнеры до сих пор пусты — пробуем перезапустить
+  var firstCanvas = document.getElementById('fp-sp');
+  if (firstCanvas && !firstCanvas.__chartInited && typeof Chart !== 'undefined') {
+    try { __initReport(); } catch(e) {}
+  }
+}, 1500);
+</script>
+</body>
+</html>

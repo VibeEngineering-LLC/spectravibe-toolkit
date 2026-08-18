@@ -1,0 +1,210 @@
+{
+    "_meta": {
+        "version": "v1.12.0",
+        "description": "Canonical-name + synonym registry (F-78). Keys are stable machine-friendly canonical names (snake_case or PascalCase, ASCII or LSRM-conventional spelling). Values are lists of all human-readable synonyms (English + Russian, formal + informal, with and without diacritics). Documentation and algorithms must use canonical names; raw header tokens get canonicalized via gamma.data.aliases.canonicalize(category, raw). User-approved 2026-05-29; canonical 'Gamma-1C' renamed to 'Gamma-1S' 2026-06-21 (F2-A homoglyph normalization: cyrillic 'Гамма-1С' transliterates to ASCII 'Gamma-1S', NOT 'Gamma-1C' — legacy 'Gamma-1C' kept as alias for backward compatibility).",
+        "scope_lock": "Current LSRM .spe pipeline is locked to spectrometric complex 'Gamma-1S' (УДС-ГЦ-63×63 NaI(Tl) detector by Aspect + Lsrm SpectraLine software, internally labeled «Гамма-1С»). Other complexes (AtomSpectra/AtomNano/RadiaCode + their software) are recognized at the alias level but not yet wired into the analysis pipeline — see F-78a.",
+        "rules": [
+            "Canonical names are immutable — adding new synonyms is safe, renaming a canonical breaks downstream.",
+            "Synonyms are matched case-INsensitively and with whitespace+punctuation normalisation.",
+            "When multiple canonicals match a raw token, the FIRST in this file wins — order matters. More-specific canonicals (e.g. 'Gamma-1S') come BEFORE generic ones (e.g. 'NaI') so that brand-specific files resolve to the complex name.",
+            "Homoglyph rule: cyrillic 'С' (U+0421) and latin 'C' (U+0043) are visually identical. Canonical for «Гамма-1С» is 'Gamma-1S' (ASCII S — transliteration of cyrillic С). Legacy 'Gamma-1C' (ASCII C, historical typo) resolves to the same canonical — see gamma.data.aliases.cyrillic_to_latin_collision()."
+        ]
+    },
+    "geometry": {
+        "marinelli_1L": [
+            "marinelli_1L", "marinelli_1l", "marinelli 1l",
+            "Marinelli", "Marinelli 1L", "Marinelli 1 L",
+            "Маринелли", "Маринелли 1л", "Маринелли 1 л",
+            "маринелли", "маринелли 1л"
+        ],
+        "marinelli_05L": [
+            "marinelli_0.5L", "marinelli_05L", "marinelli_500ml",
+            "Marinelli 0.5L", "Marinelli 500mL", "Marinelli 500 mL",
+            "Маринелли 0.5л", "Маринелли 500мл"
+        ],
+        "denta_120mL": [
+            "denta_120mL", "denta_120ml", "denta-120ml",
+            "Denta", "Denta 120mL", "Denta-120mL",
+            "Дента", "Дента-120мл", "Дента 120мл",
+            "дента", "дента-120мл"
+        ],
+        "petri_60mL": [
+            "petri_60mL", "petri_60ml", "petri-60ml",
+            "Petri", "Petri 60mL", "Petri-60mL",
+            "Петри", "Петри-60мл", "Петри 60мл",
+            "петри", "петри-60мл"
+        ],
+        "point_25cm": [
+            "point_25cm", "point-25cm", "point 25cm",
+            "Точ-25см", "Точечный 25см", "Точечный 25 см",
+            "точ-25см", "25cm point"
+        ],
+        "point_10cm": [
+            "point_10cm", "point-10cm",
+            "Точ-10см", "Точечный 10см",
+            "точ-10см", "10cm point"
+        ],
+        "point_5cm": [
+            "point_5cm", "point-5cm",
+            "Точ-5см", "Точечный 5см",
+            "точ-5см", "5cm point"
+        ],
+        "point_0cm": [
+            "point_0cm"
+        ],
+        "point_20cm": [
+            "point_20cm", "20cm", "Точ-20см", "20cm point"
+        ],
+        "well_detector": [
+            "well_detector", "well-detector", "well",
+            "Колодец", "колодец", "Well",
+            "Скважинная"
+        ]
+    },
+    "detector": {
+        "Gamma-1S": [
+            "Gamma-1S", "Gamma 1S", "gamma-1s",
+            "Гамма-1С", "Гамма 1С", "гамма-1с",
+            "Гамма-1S", "Гамма 1S",
+            "Gamma-1C", "Gamma 1C", "gamma-1c",
+            "БДЭГ-63×63", "БДЭГ-63х63", "БДЭГ-63x63",
+            "БДЭГ-63×63-USB", "БДЭГ-63х63-USB",
+            "УДС-ГЦ-63×63", "УДС-ГЦ-63х63", "УДС-ГЦ-63x63",
+            "УДС-ГЦ-63×63-USB", "УДС-ГЦ-63х63-USB",
+            "УДС-ГЦ", "УДС-Г-Ц",
+            "Колибри-1М", "Колибри 1М", "колибри-1м"
+        ],
+        "NaI": [
+            "NaI", "NaI(Tl)",
+            "NaI 63x63", "NaI 63×63", "NaI(Tl) 63x63", "NaI_63x63"
+        ],
+        "NaI_50x50": [
+            "NaI_50x50", "NaI 50x50", "NaI 50×50",
+            "БДЭГ-50×50", "БДЭГ-50х50"
+        ],
+        "NaI_75x75": [
+            "NaI_75x75", "NaI 75x75", "NaI 75×75",
+            "БДЭГ-75×75"
+        ],
+        "LaBr3_38x38": [
+            "LaBr3_38x38", "LaBr3 38x38",
+            "LaBr3", "LaBr3(Ce)", "LaBr₃", "LaBr₃(Ce)"
+        ],
+        "CeBr3": [
+            "CeBr3", "CeBr3(Ce)", "CeBr₃"
+        ],
+        "HPGe": [
+            "HPGe", "HPGe coaxial",
+            "Ge(Li)", "ОЧГ", "очг", "germanium",
+            "GEM", "GEM-25", "GEM-30", "BEGe", "SAGe"
+        ],
+        "CZT": [
+            "CZT", "CdZnTe", "CdTe"
+        ],
+        "plastic": [
+            "plastic", "пластик", "Plastic"
+        ],
+        "AtomSpectra": [
+            "AtomSpectra", "atomspectra",
+            "Атом Спектра", "АтомСпектра",
+            "GS5050"
+        ],
+        "AtomNano": [
+            "AtomNano", "atomnano",
+            "АтомНано", "Атом Нано"
+        ],
+        "RadiaCode": [
+            "RadiaCode", "radiacode",
+            "Кот", "Радиакот", "РадиаКод"
+        ]
+    },
+    "software": {
+        "lsrm_spectraline": [
+            "lsrm_spectraline", "Lsrm SpectraLine", "ЛСРМ SpectraLine",
+            "SpectraLine", "SL",
+            "lsrm-spectraline", "lsrm.spectraline"
+        ],
+        "becqmoni": [
+            "becqmoni", "BecqMoni",
+            "БекМони", "Беккерель Монитор"
+        ],
+        "genie_2000": [
+            "genie_2000", "Genie 2000", "Genie2000",
+            "Canberra Genie", "Canberra Genie 2000"
+        ],
+        "maestro": [
+            "maestro", "MAESTRO", "Ortec MAESTRO", "Ortec Maestro"
+        ],
+        "gamma_vision": [
+            "gamma_vision", "GammaVision", "Ortec GammaVision"
+        ]
+    },
+    "sample_type": {
+        "soil": [
+            "soil", "Soil", "SOIL",
+            "Грунт", "грунт", "ГРУНТ",
+            "Почва", "почва",
+            "grunt", "pochva"
+        ],
+        "water": [
+            "water", "Water",
+            "Вода", "вода", "ВОДА",
+            "H2O", "H₂O"
+        ],
+        "air": [
+            "air", "Air",
+            "Воздух", "воздух"
+        ],
+        "milk": [
+            "milk", "Milk",
+            "Молоко", "молоко"
+        ],
+        "concrete": [
+            "concrete", "Concrete",
+            "Бетон", "бетон"
+        ],
+        "ash": [
+            "ash", "Ash",
+            "Зола", "зола"
+        ],
+        "filter": [
+            "filter", "Filter",
+            "Фильтр", "фильтр"
+        ],
+        "food": [
+            "food", "Food",
+            "Пища", "пища"
+        ],
+        "fish": [
+            "fish", "Fish",
+            "Рыба", "рыба"
+        ],
+        "bread": [
+            "bread", "Bread",
+            "Хлеб", "хлеб"
+        ],
+        "vegetation": [
+            "vegetation", "leaves", "litter",
+            "Лес", "лес", "Лесная подстилка", "лесная подстилка"
+        ],
+        "sand": [
+            "sand", "Sand",
+            "Песок", "песок"
+        ],
+        "clay": [
+            "clay", "Clay",
+            "Глина", "глина"
+        ],
+        "peat": [
+            "peat", "Peat",
+            "Торф", "торф"
+        ],
+        "background": [
+            "background", "bkg", "Фон", "фон", "ФОН"
+        ],
+        "calibration": [
+            "calibration", "calib", "check_source",
+            "Калиб", "калиб"
+        ]
+    }
+}

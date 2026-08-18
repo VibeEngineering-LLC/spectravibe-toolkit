@@ -1,0 +1,504 @@
+{
+  "_schema": {
+    "version": "0.1",
+    "primary_E_keV": "energy of the primary photopeak gamma",
+    "features": "list of secondary features; each has expected_E_keV, mean/std/min/max intensity ratio S_sec / S_photopeak across measured geometries, mean position residual (E_meas - E_theory)",
+    "observations": "per-fixture entries that fed the statistics"
+  },
+  "_sources": {
+    "physics": "Knoll 'Radiation Detection and Measurement' 4th Ed., chap. 10 (Compton); chap. 11.A.5 (backscatter); chap. 12.B.2 (escape peaks). Gilmore & Joss 3rd Ed., chap. 2 + chap. 6 (NaI artefacts).",
+    "fixtures": "Gamma-1C NaI 63x63 USB #SN-01 reference measurements (2024 поверка)"
+  },
+  "nuclides": {
+    "Cs-137": {
+      "primary_E_keV": 661.66,
+      "features": [
+        {
+          "name": "backscatter",
+          "expected_E_keV": 184.32320147494528,
+          "n_observations": 10,
+          "mean_intensity_ratio": 0.07257649444609918,
+          "std_intensity_ratio": 0.029682197572559025,
+          "min_intensity_ratio": 0.031881400878236446,
+          "max_intensity_ratio": 0.14566136843218824,
+          "mean_position_residual_keV": 8.116311021185902,
+          "observations": [
+            {
+              "geometry": "5cm",
+              "label": "5cm/SRC-02",
+              "measured_E_keV": 198.3849900918112,
+              "expected_E_keV": 184.32320147494528,
+              "residual_keV": 14.061788616865925,
+              "ratio_to_photopeak": 0.14566136843218824,
+              "fwhm_keV": 20.16019941779412
+            },
+            {
+              "geometry": "25cm",
+              "label": "25cm/SRC-02",
+              "measured_E_keV": 188.31756662410686,
+              "expected_E_keV": 184.32320147494528,
+              "residual_keV": 3.994365149161581,
+              "ratio_to_photopeak": 0.031881400878236446,
+              "fwhm_keV": 18.50432319769385
+            },
+            {
+              "geometry": "Денnта-120мл",
+              "label": "Дента/7-14",
+              "measured_E_keV": 185.20591660633247,
+              "expected_E_keV": 184.32320147494528,
+              "residual_keV": 0.8827151313871866,
+              "ratio_to_photopeak": 0.04851087838888153,
+              "fwhm_keV": 18.69118829685017
+            },
+            {
+              "geometry": "Денnта-120мл",
+              "label": "Дента/7-15",
+              "measured_E_keV": 193.90319600429004,
+              "expected_E_keV": 184.32320147494528,
+              "residual_keV": 9.57999452934476,
+              "ratio_to_photopeak": 0.06559695140619756,
+              "fwhm_keV": 19.324897279788576
+            },
+            {
+              "geometry": "Петри-60мл",
+              "label": "Петри/7-14",
+              "measured_E_keV": 189.4892210987511,
+              "expected_E_keV": 184.32320147494528,
+              "residual_keV": 5.166019623805823,
+              "ratio_to_photopeak": 0.06664620234425345,
+              "fwhm_keV": 19.010617627220487
+            },
+            {
+              "geometry": "Петри-60мл",
+              "label": "Петри/7-15",
+              "measured_E_keV": 189.4892210987511,
+              "expected_E_keV": 184.32320147494528,
+              "residual_keV": 5.166019623805823,
+              "ratio_to_photopeak": 0.060429259266022654,
+              "fwhm_keV": 19.010617627220487
+            },
+            {
+              "geometry": "Маринелли",
+              "label": "Мар/7-14",
+              "measured_E_keV": 194.06255656564173,
+              "expected_E_keV": 184.32320147494528,
+              "residual_keV": 9.73935509069645,
+              "ratio_to_photopeak": 0.07542138014964447,
+              "fwhm_keV": 19.100343285765955
+            },
+            {
+              "geometry": "Маринелли",
+              "label": "Мар/7-15",
+              "measured_E_keV": 194.06255656564173,
+              "expected_E_keV": 184.32320147494528,
+              "residual_keV": 9.73935509069645,
+              "ratio_to_photopeak": 0.07304011996542582,
+              "fwhm_keV": 19.100343285765955
+            },
+            {
+              "geometry": "M-source",
+              "label": "M_cs/легкий",
+              "measured_E_keV": 196.0249656529928,
+              "expected_E_keV": 184.32320147494528,
+              "residual_keV": 11.701764178047512,
+              "ratio_to_photopeak": 0.07591236733072251,
+              "fwhm_keV": 18.957150477792595
+            },
+            {
+              "geometry": "M-source",
+              "label": "M_cs/тяж",
+              "measured_E_keV": 195.4549346529928,
+              "expected_E_keV": 184.32320147494528,
+              "residual_keV": 11.131733178047512,
+              "ratio_to_photopeak": 0.08266501629941911,
+              "fwhm_keV": 18.90287040319758
+            }
+          ]
+        },
+        {
+          "name": "compton_edge",
+          "expected_E_keV": 477.3367985250547,
+          "n_observations": 9,
+          "mean_intensity_ratio": 0.030176422509709817,
+          "std_intensity_ratio": 0.009861562084753984,
+          "min_intensity_ratio": 0.007339942874061689,
+          "max_intensity_ratio": 0.04170490486357215,
+          "mean_position_residual_keV": -37.01375640481163,
+          "observations": [
+            {
+              "geometry": "5cm",
+              "label": "5cm/SRC-02",
+              "measured_E_keV": 445.40229773613675,
+              "expected_E_keV": 477.3367985250547,
+              "residual_keV": -31.934500788917944,
+              "ratio_to_photopeak": 0.04170490486357215,
+              "fwhm_keV": 33.1425418487195
+            },
+            {
+              "geometry": "25cm",
+              "label": "25cm/SRC-02",
+              "measured_E_keV": 441.9449323776677,
+              "expected_E_keV": 477.3367985250547,
+              "residual_keV": -35.39186614738696,
+              "ratio_to_photopeak": 0.028457078397732555,
+              "fwhm_keV": 35.08393439221887
+            },
+            {
+              "geometry": "Денnта-120мл",
+              "label": "Дента/7-15",
+              "measured_E_keV": 436.7696216124308,
+              "expected_E_keV": 477.3367985250547,
+              "residual_keV": -40.56717691262389,
+              "ratio_to_photopeak": 0.033245490919765044,
+              "fwhm_keV": 36.04070682315971
+            },
+            {
+              "geometry": "Петри-60мл",
+              "label": "Петри/7-14",
+              "measured_E_keV": 435.7801884845875,
+              "expected_E_keV": 477.3367985250547,
+              "residual_keV": -41.556610040467206,
+              "ratio_to_photopeak": 0.007339942874061689,
+              "fwhm_keV": 36.017757670263926
+            },
+            {
+              "geometry": "Петри-60мл",
+              "label": "Петри/7-15",
+              "measured_E_keV": 441.69222126372586,
+              "expected_E_keV": 477.3367985250547,
+              "residual_keV": -35.644577261328834,
+              "ratio_to_photopeak": 0.02781922049146899,
+              "fwhm_keV": 36.39752735093264
+            },
+            {
+              "geometry": "Маринелли",
+              "label": "Мар/7-14",
+              "measured_E_keV": 443.0991599487319,
+              "expected_E_keV": 477.3367985250547,
+              "residual_keV": -34.23763857632281,
+              "ratio_to_photopeak": 0.02802653512155996,
+              "fwhm_keV": 35.75119900396705
+            },
+            {
+              "geometry": "Маринелли",
+              "label": "Мар/7-15",
+              "measured_E_keV": 440.1365513434551,
+              "expected_E_keV": 477.3367985250547,
+              "residual_keV": -37.20024718159959,
+              "ratio_to_photopeak": 0.03195674747509905,
+              "fwhm_keV": 35.56684651435618
+            },
+            {
+              "geometry": "M-source",
+              "label": "M_cs/легкий",
+              "measured_E_keV": 440.5155612172544,
+              "expected_E_keV": 477.3367985250547,
+              "residual_keV": -36.82123730780029,
+              "ratio_to_photopeak": 0.033568165049094725,
+              "fwhm_keV": 36.59115765688288
+            },
+            {
+              "geometry": "M-source",
+              "label": "M_cs/тяж",
+              "measured_E_keV": 437.5668450981976,
+              "expected_E_keV": 477.3367985250547,
+              "residual_keV": -39.769953426857114,
+              "ratio_to_photopeak": 0.039469717395034194,
+              "fwhm_keV": 36.42825742986822
+            }
+          ]
+        },
+        {
+          "name": "ic_xray_Ba_Ka",
+          "expected_E_keV": 32.0,
+          "n_observations": 4,
+          "mean_intensity_ratio": 0.08381180543965772,
+          "std_intensity_ratio": 0.0406437312104947,
+          "min_intensity_ratio": 0.02359506157799783,
+          "max_intensity_ratio": 0.10853852904138007,
+          "mean_position_residual_keV": -5.905449749500987,
+          "observations": [
+            {
+              "geometry": "5cm",
+              "label": "5cm/SRC-02",
+              "measured_E_keV": 28.80424899227209,
+              "expected_E_keV": 32.0,
+              "residual_keV": -3.1957510077279103,
+              "ratio_to_photopeak": 0.10853852904138007,
+              "fwhm_keV": 6.20776674700734
+            },
+            {
+              "geometry": "25cm",
+              "label": "25cm/SRC-02",
+              "measured_E_keV": 24.64812409754982,
+              "expected_E_keV": 32.0,
+              "residual_keV": -7.351875902450178,
+              "ratio_to_photopeak": 0.1082089125972828,
+              "fwhm_keV": 7.773827061988842
+            },
+            {
+              "geometry": "Маринелли",
+              "label": "Мар/7-14",
+              "measured_E_keV": 25.46291395608707,
+              "expected_E_keV": 32.0,
+              "residual_keV": -6.537086043912929,
+              "ratio_to_photopeak": 0.09490471854197013,
+              "fwhm_keV": 7.822523486520904
+            },
+            {
+              "geometry": "Маринелли",
+              "label": "Мар/7-15",
+              "measured_E_keV": 25.46291395608707,
+              "expected_E_keV": 32.0,
+              "residual_keV": -6.537086043912929,
+              "ratio_to_photopeak": 0.02359506157799783,
+              "fwhm_keV": 7.822523486520904
+            }
+          ]
+        },
+        {
+          "name": "k40_natural",
+          "expected_E_keV": 1460.82,
+          "n_observations": 9,
+          "mean_intensity_ratio": 0.030034424829246967,
+          "std_intensity_ratio": 0.03538494061978198,
+          "min_intensity_ratio": 0.0,
+          "max_intensity_ratio": 0.10290666710666106,
+          "mean_position_residual_keV": -11.112302149080582,
+          "observations": [
+            {
+              "geometry": "5cm",
+              "label": "5cm/SRC-02",
+              "measured_E_keV": 1471.6495785753868,
+              "expected_E_keV": 1460.82,
+              "residual_keV": 10.829578575386904,
+              "ratio_to_photopeak": 0.0,
+              "fwhm_keV": 70.13747963736016
+            },
+            {
+              "geometry": "25cm",
+              "label": "25cm/SRC-02",
+              "measured_E_keV": 1457.5884889208342,
+              "expected_E_keV": 1460.82,
+              "residual_keV": -3.2315110791657844,
+              "ratio_to_photopeak": 0.005512307448032727,
+              "fwhm_keV": 81.54957585669833
+            },
+            {
+              "geometry": "Денnта-120мл",
+              "label": "Дента/7-14",
+              "measured_E_keV": 1445.116596329165,
+              "expected_E_keV": 1460.82,
+              "residual_keV": -15.70340367083486,
+              "ratio_to_photopeak": 0.07138972058080698,
+              "fwhm_keV": 83.29189998695476
+            },
+            {
+              "geometry": "Денnта-120мл",
+              "label": "Дента/7-15",
+              "measured_E_keV": 1445.116596329165,
+              "expected_E_keV": 1460.82,
+              "residual_keV": -15.70340367083486,
+              "ratio_to_photopeak": 0.027181814401269974,
+              "fwhm_keV": 83.29189998695476
+            },
+            {
+              "geometry": "Петри-60мл",
+              "label": "Петри/7-14",
+              "measured_E_keV": 1444.120265878717,
+              "expected_E_keV": 1460.82,
+              "residual_keV": -16.699734121282972,
+              "ratio_to_photopeak": 0.10290666710666106,
+              "fwhm_keV": 83.68224026772265
+            },
+            {
+              "geometry": "Петри-60мл",
+              "label": "Петри/7-15",
+              "measured_E_keV": 1444.120265878717,
+              "expected_E_keV": 1460.82,
+              "residual_keV": -16.699734121282972,
+              "ratio_to_photopeak": 0.03765978925326866,
+              "fwhm_keV": 83.68224026772265
+            },
+            {
+              "geometry": "Маринелли",
+              "label": "Мар/7-14",
+              "measured_E_keV": 1446.4857824491628,
+              "expected_E_keV": 1460.82,
+              "residual_keV": -14.334217550837138,
+              "ratio_to_photopeak": 0.009014764433471842,
+              "fwhm_keV": 82.58780359968368
+            },
+            {
+              "geometry": "Маринелли",
+              "label": "Мар/7-15",
+              "measured_E_keV": 1449.5061166750695,
+              "expected_E_keV": 1460.82,
+              "residual_keV": -11.31388332493043,
+              "ratio_to_photopeak": 0.0037511865408635663,
+              "fwhm_keV": 82.68876762700475
+            },
+            {
+              "geometry": "M-source",
+              "label": "M_cs/легкий",
+              "measured_E_keV": 1443.6655896220568,
+              "expected_E_keV": 1460.82,
+              "residual_keV": -17.154410377943123,
+              "ratio_to_photopeak": 0.012893573698847834,
+              "fwhm_keV": 73.61574529129297
+            }
+          ]
+        }
+      ]
+    },
+    "K-40": {
+      "primary_E_keV": 1460.82,
+      "features": [
+        {
+          "name": "backscatter",
+          "expected_E_keV": 217.4645906092831,
+          "n_observations": 7,
+          "mean_intensity_ratio": 0.12238071151040505,
+          "std_intensity_ratio": 0.03913835711132119,
+          "min_intensity_ratio": 0.054630700427313106,
+          "max_intensity_ratio": 0.17629443104568993,
+          "mean_position_residual_keV": 14.845643443147063,
+          "observations": [
+            {
+              "geometry": "Дента-120мл",
+              "label": "Дента/7-20",
+              "measured_E_keV": 231.66064974955074,
+              "expected_E_keV": 217.4645906092831,
+              "residual_keV": 14.196059140267636,
+              "ratio_to_photopeak": 0.14956955705069622,
+              "fwhm_keV": 22.0573565660448
+            },
+            {
+              "geometry": "Дента-120мл",
+              "label": "Дента/7-21",
+              "measured_E_keV": 231.66064974955074,
+              "expected_E_keV": 217.4645906092831,
+              "residual_keV": 14.196059140267636,
+              "ratio_to_photopeak": 0.12587243969030099,
+              "fwhm_keV": 22.0573565660448
+            },
+            {
+              "geometry": "Петри-60мл",
+              "label": "Петри/7-20",
+              "measured_E_keV": 227.32951556548588,
+              "expected_E_keV": 217.4645906092831,
+              "residual_keV": 9.86492495620277,
+              "ratio_to_photopeak": 0.17629443104568993,
+              "fwhm_keV": 21.756392168012738
+            },
+            {
+              "geometry": "Петри-60мл",
+              "label": "Петри/7-21",
+              "measured_E_keV": 230.24476953924827,
+              "expected_E_keV": 217.4645906092831,
+              "residual_keV": 12.78017892996516,
+              "ratio_to_photopeak": 0.1296811549263858,
+              "fwhm_keV": 21.96647580649588
+            },
+            {
+              "geometry": "Маринелли",
+              "label": "Мар/7-20",
+              "measured_E_keV": 234.64060125466008,
+              "expected_E_keV": 217.4645906092831,
+              "residual_keV": 17.176010645376977,
+              "ratio_to_photopeak": 0.09301807717531546,
+              "fwhm_keV": 21.96229410572176
+            },
+            {
+              "geometry": "Маринелли",
+              "label": "Мар/7-21",
+              "measured_E_keV": 231.73568949081707,
+              "expected_E_keV": 217.4645906092831,
+              "residual_keV": 14.271098881533959,
+              "ratio_to_photopeak": 0.054630700427313106,
+              "fwhm_keV": 21.75896326912772
+            },
+            {
+              "geometry": "M-source",
+              "label": "M_k/легкий",
+              "measured_E_keV": 238.8997630176984,
+              "expected_E_keV": 217.4645906092831,
+              "residual_keV": 21.435172408415298,
+              "ratio_to_photopeak": 0.12759862025713375,
+              "fwhm_keV": 22.784557893440105
+            }
+          ]
+        },
+        {
+          "name": "compton_edge",
+          "expected_E_keV": 1243.3554093907169,
+          "n_observations": 3,
+          "mean_intensity_ratio": 0.07674216071392104,
+          "std_intensity_ratio": 0.02566494132724151,
+          "min_intensity_ratio": 0.04972426047872901,
+          "max_intensity_ratio": 0.10079691632430218,
+          "mean_position_residual_keV": -53.21279843323972,
+          "observations": [
+            {
+              "geometry": "Петри-60мл",
+              "label": "Петри/7-21",
+              "measured_E_keV": 1189.3304215797968,
+              "expected_E_keV": 1243.3554093907169,
+              "residual_keV": -54.02498781092004,
+              "ratio_to_photopeak": 0.0797053053387319,
+              "fwhm_keV": 74.4226370047123
+            },
+            {
+              "geometry": "Маринелли",
+              "label": "Мар/7-20",
+              "measured_E_keV": 1189.408135210113,
+              "expected_E_keV": 1243.3554093907169,
+              "residual_keV": -53.94727418060393,
+              "ratio_to_photopeak": 0.10079691632430218,
+              "fwhm_keV": 73.17358863833842
+            },
+            {
+              "geometry": "M-source",
+              "label": "M_k/легкий",
+              "measured_E_keV": 1191.6892760825217,
+              "expected_E_keV": 1243.3554093907169,
+              "residual_keV": -51.666133308195185,
+              "ratio_to_photopeak": 0.04972426047872901,
+              "fwhm_keV": 66.3739227116643
+            }
+          ]
+        },
+        {
+          "name": "single_escape",
+          "expected_E_keV": 949.8199999999999,
+          "n_observations": 2,
+          "mean_intensity_ratio": 0.02867835717565972,
+          "std_intensity_ratio": 0.008392969925466752,
+          "min_intensity_ratio": 0.022743631227067428,
+          "max_intensity_ratio": 0.034613083124252014,
+          "mean_position_residual_keV": 5.242689719183261,
+          "observations": [
+            {
+              "geometry": "Дента-120мл",
+              "label": "Дента/7-21",
+              "measured_E_keV": 950.7864422162904,
+              "expected_E_keV": 949.8199999999999,
+              "residual_keV": 0.9664422162904884,
+              "ratio_to_photopeak": 0.022743631227067428,
+              "fwhm_keV": 64.04493280780615
+            },
+            {
+              "geometry": "Петри-60мл",
+              "label": "Петри/7-20",
+              "measured_E_keV": 959.338937222076,
+              "expected_E_keV": 949.8199999999999,
+              "residual_keV": 9.518937222076033,
+              "ratio_to_photopeak": 0.034613083124252014,
+              "fwhm_keV": 64.62597666016582
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "source": "LSRM Гамма-1С, окно «Калибровка по пику-образу» (5 зон)",
+  "spectrum_file": "detectors/Gamma-1C/reference_spectra/reference_kits/Marinelli_1L/Th-232/Th232_420-7-17_Маринелли_0cm.spe",
+  "session_label": "Th232_420-7-17_Маринелли_0cm",
+  "captured": "2026-06-20",
+  "common": {
+    "fit_method": "Асимметричный Гауссиан",
+    "peak_shape_template_tabs_keV": [55.80, 87.44, 238.98, 511.66, 662.40, 830.37, 2613.45],
+    "comment": "Шаблоны пиков-образов — нижние вкладки в окне. Это типовые формы пика на разных энергиях (видимо построены LSRM по эталонным спектрам Cs-137, Co-60, K-40 и др.). На каждой зоне калибровщик выбирает один из шаблонов как форму."
+  },
+  "zones": [
+    {
+      "library_energy_keV": 327.625,
+      "channel_max": 117.13,
+      "counts_in_zone": 24895,
+      "energy_keV_fitted": 327.62,
+      "fwhm_keV": 29.29,
+      "area_counts": 32694,
+      "area_uncertainty_counts": 1347,
+      "bg_polynomial_degree": 3,
+      "step_polynomial_degree": 0,
+      "step_value": 0.00382,
+      "chi2": 5.527,
+      "peak_type": "Фотопик",
+      "step_fit_enabled": false,
+      "active_shape_template_keV": 238.98,
+      "active_shape_params": {
+        "energy_keV": 238.978,
+        "position_with_uncertainty": [19.200, 19.200],
+        "fwhm_with_uncertainty": [7.72, 7.72],
+        "step_value": 0.005509,
+        "step_polynomial_degree": 0,
+        "section_type": "Фотопик"
+      }
+    },
+    {
+      "library_energy_keV": 580.077,
+      "channel_max": 203.45,
+      "counts_in_zone": 10271,
+      "energy_keV_fitted": 580.08,
+      "fwhm_keV": 43.12,
+      "area_counts": 221297,
+      "area_uncertainty_counts": 942,
+      "bg_polynomial_degree": 2,
+      "step_polynomial_degree": 0,
+      "step_value": -0.00567,
+      "chi2": 2.227,
+      "peak_type": "Фотопик",
+      "step_fit_enabled": true,
+      "active_shape_template_keV": 511.66,
+      "active_shape_params": {
+        "energy_keV": 511.656,
+        "position_with_uncertainty": [34.501, 34.501],
+        "fwhm_with_uncertainty": [13.39, 13.39],
+        "step_value": 0.001806,
+        "step_polynomial_degree": 0,
+        "section_type": "Фотопик"
+      }
+    },
+    {
+      "library_energy_keV": 1581.207,
+      "channel_max": 539.73,
+      "counts_in_zone": 798,
+      "energy_keV_fitted": 1581.21,
+      "fwhm_keV": 90.68,
+      "area_counts": 20903,
+      "area_uncertainty_counts": 720,
+      "bg_polynomial_degree": 1,
+      "step_polynomial_degree": 0,
+      "step_value": 0.017,
+      "chi2": 1.099,
+      "peak_type": "Фотопик",
+      "step_fit_enabled": true,
+      "active_shape_template_keV": 830.37,
+      "active_shape_params": {
+        "energy_keV": 830.369,
+        "position_with_uncertainty": [102.256, 34.085],
+        "fwhm_with_uncertainty": [49.37, 16.46],
+        "value_at_point": 1.592e-05,
+        "step_value": -0.000754,
+        "step_polynomial_degree": 0,
+        "section_type": "Фотопик"
+      }
+    },
+    {
+      "library_energy_keV": 2614.511,
+      "channel_max": 876.83,
+      "counts_in_zone": 543,
+      "energy_keV_fitted": 2612.86,
+      "fwhm_keV": 112.80,
+      "area_counts": 55491,
+      "area_uncertainty_counts": 286,
+      "bg_polynomial_degree": 1,
+      "step_polynomial_degree": 0,
+      "step_value": 0.00108,
+      "chi2": 3.646,
+      "peak_type": "Фотопик",
+      "step_fit_enabled": true,
+      "active_shape_template_keV": 2613.45,
+      "active_shape_params": {
+        "energy_keV": 2613.445,
+        "position_with_uncertainty": [185.214, 61.738],
+        "fwhm_with_uncertainty": [93.36, 31.12],
+        "value_at_point": 1.477e-18,
+        "step_value": 0.004177,
+        "step_polynomial_degree": 0,
+        "section_type": "Фотопик"
+      }
+    }
+  ],
+  "interpretation_for_our_pipeline": {
+    "bg_polynomial_degree_rule": "У LSRM степень фона падает с ростом энергии: 3 → 2 → 1 → 1. У нас сейчас фиксированная линия (degree=1) везде. Возможно стоит включить адаптивную степень в _continuum_grid_for_peak/_bg_continuum_grid.",
+    "step_value_sign": "Знак step_value у LSRM: положителен на низких/высоких, отрицателен в середине (−0.00567 на 580). Наш erfc-step (Правка C в json_report.py) пока всегда «нисходящий» (left > right). Возможно надо позволять знак.",
+    "fit_method": "LSRM использует «Асимметричный Гауссиан» — то есть форма пика не симметричная, левый и правый σ разные. У нас сейчас симметричный Gauss. Это объясняет часть Δ FWHM на низких энергиях."
+  }
+}

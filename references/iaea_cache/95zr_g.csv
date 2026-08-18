@@ -1,0 +1,11 @@
+energy,unc_en,intensity,unc_i,start_level_hl,start_level_energy,end_level_hl,end_level_energy,multipolarity,mixing_ratio,unc_mr,conversion_coeff,unc_cc,p_z,p_n,p_symbol,p_energy_shift,p_energy,unc_pe,jp,half_life,operator_hl,unc_hl,unit_hl,half_life_sec,unc_hls,decay,decay_%,unc_d,q,unc_q,d_z,d_n,d_symbol,ensdf_publication_cut-off,ensdf_authors,Extraction_date
+235.69,0.02,0.27,0.02,311904,235.690,3023222.4,0.0,M4,,,2.79,,40,55,Zr,,0,,5/2+,64.032,,6,d,5532364.8,518.4,B-,100,,1126.3,10,41,54,Nb,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-06-07
+724.192,0.004,44.27,0.22,0.00000000007,724.195,3023222.4,0.0,M1+E2,-0.11,2,0.00157,,40,55,Zr,,0,,5/2+,64.032,,6,d,5532364.8,518.4,B-,100,,1126.3,10,41,54,Nb,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-06-07
+756.725,0.012,54.38,0.22,0.00000000007,756.728,3023222.4,0.0,M1+E2,0.14,5,0.00142,,40,55,Zr,,0,,5/2+,64.032,,6,d,5532364.8,518.4,B-,100,,1126.3,10,41,54,Nb,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-06-07
+2.299,,0.0312146300861,0.0032255923125256566,,,,,,,,,,40,55,Zr,,0,,5/2+,64.032,,6,d,5532364.8,518.4,B-,100,,1126.3,10,41,54,Nb,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-06-07
+16.521,,0.15848212874552395,0.018530644874874307,,,,,,,,,,40,55,Zr,,0,,5/2+,64.032,,6,d,5532364.8,518.4,B-,100,,1126.3,10,41,54,Nb,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-06-07
+16.615,,0.3026778623864094,0.035361322960567425,,,,,,,,,,40,55,Zr,,0,,5/2+,64.032,,6,d,5532364.8,518.4,B-,100,,1126.3,10,41,54,Nb,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-06-07
+18.694,,0.07831699675484052,0.009177524758945373,,,,,,,,,,40,55,Zr,,0,,5/2+,64.032,,6,d,5532364.8,518.4,B-,100,,1126.3,10,41,54,Nb,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-06-07
+18.795,,0.09006454626806659,0.010546886589303415,,,,,,,,,,40,55,Zr,,0,,5/2+,64.032,,6,d,5532364.8,518.4,B-,100,,1126.3,10,41,54,Nb,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-06-07
+18.951,,0.011747549513226077,0.0014312391188376552,,,,,,,,,,40,55,Zr,,0,,5/2+,64.032,,6,d,5532364.8,518.4,B-,100,,1126.3,10,41,54,Nb,30-Jun-2009,S. K. Basu and  G. Mukherjee and  A. A. Sonzogni,2026-06-07
+
