@@ -6,31 +6,14 @@ from scipy.optimize import curve_fit
 from .core import poly_eval, poly_deriv, poly_inverse
 from . import pairref as pr
 
-SCALE_LOO_MAX = 3.0        # кэВ: LOO-СКО шкалы сверх этого -- шкала отвергается (0.15 ПШПВ на 662 кэВ)
 DEG_MAX = 4                # BecqMoni допускает полином степени <= 4
 CENTROID_ERR_MAX = 0.25    # доля ПШПВ: ошибка центроида больше -- репер не создаётся
 SIGNIF_REFUSE = 3.0        # значимость ниже -- репер не создаётся
 MULTIPLET_RATIO = 1.5      # ПШПВ больше ожидаемой во столько раз -- «вероятно мультиплет»
-GAIN_RANGE = (0.85, 1.20)  # допустимое отношение усиления переноса к усилению по калибровкам файлов
+GAIN_RANGE = (0.95, 1.05)  # ±5 % от усиления по калибровкам файлов: наблюдаемый разброс 0.993-1.013 (±1.3 %), запас ~4x
 SERIES = {"Ra-226": "U", "Pb-214": "U", "Bi-214": "U", "Pb-210": "U",
           "Ac-228": "Th", "Pb-212": "Th", "Bi-212": "Th", "Tl-208": "Th",
           "K-40": "K", "Cs-137": "Cs"}
-
-
-def interior_loo(res):
-    """Правка Claude (круг 1): LOO-СКО по внутренним реперам -- у крайних по энергии LOO есть экстраполяция за диапазон
-    реперов (медальон: 2614 кэВ -- 18.9 кэВ), шкала проверяется только внутри диапазона. Менее трёх внутренних -- по всем."""
-    pts = interior_points(res)
-    return float(np.sqrt(np.mean([p["loo"] ** 2 for p in pts]))) if pts else float("nan")
-
-
-def interior_points(res):
-    """Реперы с определённой LOO; при пяти и более -- без крайних по энергии (правка Claude, круг 1)."""
-    pts = [p for p in res.get("points", []) if np.isfinite(p.get("loo", float("nan")))]
-    if len(pts) >= 5:
-        Es = [p["E"] for p in pts]
-        pts = [p for p in pts if min(Es) < p["E"] < max(Es)]
-    return pts
 
 
 def select_degree(cfg, ctx, verbose=True):
@@ -40,7 +23,7 @@ def select_degree(cfg, ctx, verbose=True):
     all_results = []
     for deg in range(1, top + 1):
         res = pl._guarded_calibrate(dict(cfg, degree=deg), ctx, [0.0, 1.0, 0.0], False)
-        loo = interior_loo(res)
+        loo = res.get("loo_rms", float("nan"))   # правка Claude: LOO по ВСЕМ реперам (крайние -- честная цена охвата)
         all_results.append((deg, loo, res))
     
     valid = [(d, l, r) for d, l, r in all_results if not r.get("rejected") and np.isfinite(l)]
@@ -64,50 +47,6 @@ def select_degree(cfg, ctx, verbose=True):
     result["deg"] = best_deg
     result["deg_table"] = [[d, float(l)] for d, l, r in all_results]
     return result
-
-
-def file_rms(points, cal):
-    diffs = []
-    for p in points:
-        ch = p.get("ch")
-        E = p.get("E")
-        if ch is not None and E is not None and np.isfinite(ch):
-            diffs.append((E - poly_eval(cal, ch)) ** 2)
-    if not diffs:
-        return float('nan')
-    return float(np.sqrt(np.mean(diffs)))
-
-
-def quality_gate(res, cal, verbose=True):
-    if res.get("rejected"):
-        return res
-    
-    pts = res.get("points", [])
-    n = len(pts)
-    loo = interior_loo(res)
-    frms = file_rms(interior_points(res), cal)   # правка Claude: на тех же (внутренних) реперах, что и LOO
-    
-    if n < 3 or not np.isfinite(loo):
-        if verbose:
-            print("[SCAL] ПРЕДУПРЕЖДЕНИЕ: качество шкалы не проверено (реперов %d, LOO не определена)" % n)
-        return dict(res, quality={"loo": loo, "file_rms": frms, "checked": False})
-    
-    why = ""
-    if loo >= frms:
-        why = "шкала по реперам не лучше калибровки файла: LOO-СКО %.2f кэВ >= СКО файла %.2f кэВ на тех же (внутренних) реперах" % (loo, frms)
-    elif loo > SCALE_LOO_MAX:
-        why = "LOO-СКО %.2f кэВ > порога %.1f кэВ" % (loo, SCALE_LOO_MAX)
-    
-    q = {"loo": float(loo), "file_rms": float(frms), "checked": True}
-    
-    if why:
-        if verbose:
-            print("[CAL] ШКАЛА ОТВЕРГНУТА: %s -- остаётся калибровка файла %s" % (why, cal))
-        return dict(res, coeffs=list(cal), rejected=why, quality=q)
-    else:
-        if verbose:
-            print("[SCAL] шкала принята: LOO-СКО %.2f кэВ < СКО файла %.2f кэВ, порог %.1f кэВ" % (loo, frms, SCALE_LOO_MAX))
-        return dict(res, quality=q)
 
 
 def fit_doublet(counts, x_click, fwhm_ch):

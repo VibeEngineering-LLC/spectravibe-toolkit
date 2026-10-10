@@ -216,7 +216,7 @@ def scale_from_repers(repers, counts, cal, verbose=True):
         "auto": {"anchors": {}},
     }
 
-    res = q.quality_gate(q.select_degree(cfg, ctx, verbose), cal, verbose)   # правка Claude (круг 1): степень по LOO, порог качества
+    res = q.select_degree(cfg, ctx, verbose)   # правка Claude (архитектура «на шкале пробы»): степень по LOO, без гейтов -- решение в samplecal_net
     return dict(res, dropped=dropped, n_repers=len(good))
 
 
@@ -310,7 +310,7 @@ def apply_to(data, counts, cal, refit=True, verbose=True):
             
             if refit:
                 f = fit_click(counts, x, fwhm_new)
-                if f is not None and abs(f["ch"] - x) <= 1.0 * fwhm_new:   # правка Claude (круг 1): промах > 1 ПШПВ -- отбросить
+                if f is not None and abs(f["ch"] - x) <= 0.5 * fwhm_new and f["signif"] >= SIGNIF_MIN:   # правка Claude: промах > 0.5 ПШПВ или значимость < 5 -- отбросить
                     new_r = dict(r)
                     new_r["ch"] = f["ch"]
                     new_r["ch_err"] = f["ch_err"]
@@ -319,7 +319,7 @@ def apply_to(data, counts, cal, refit=True, verbose=True):
                     new_r["warn"] = f["warn"]
                     new_repers.append(new_r)
                 else:
-                    dropped.append("репер %s отброшен: на новом спектре пик не найден в 1 ПШПВ от прогноза (канал %.1f)%s" % (
+                    dropped.append("репер %s отброшен: на новом спектре нет пика значимостью >= 5 в 0.5 ПШПВ от прогноза (канал %.1f)%s" % (
                         r["name"], x, "" if f is None else ", подогнан в %.1f" % f["ch"]))
             else:
                 new_r = dict(r)
@@ -355,156 +355,6 @@ def register_by_visible(S_anc, B_anc):
         "h": [c0, c1, 0.0],
         "keys": keys,
         "resid": resid,
-    }
-
-
-def h_by_energy(scale_s, cal_b, n, e_lo=20.0, e_hi=3000.0, info=None):
-    """Строит отображение каналов пробы на каналы фона через энергии."""
-    x = np.arange(n, dtype=float)
-    E = poly_eval(scale_s, x)
-    xb = np.asarray(poly_inverse(list(cal_b), E, hi=n + 200), float)
-    ok = np.isfinite(xb) & (xb > 0.5) & (xb < n - 1.5) & (E >= e_lo) & (E <= e_hi)   # правка Claude: только область линий; вне шкалы фона обращение не годно
-    if ok.sum() < 3:
-        raise ValueError("перевод фона на шкалу пробы через энергии: шкалы пробы и фона не перекрываются")
-    m = np.polyfit(x[ok], xb[ok], 2)
-    if info is not None:   # правка Claude: погрешность квадратичного h против точного перевода через энергии
-        info["h_err_max"] = float(np.max(np.abs(np.polyval(m, x[ok]) - xb[ok])))
-    return [float(m[2]), float(m[1]), float(m[0])]
-
-
-def run_sample_cal(bg_path, sample_path, repers, use_intrinsic=True, verbose=True):
-    """Выполняет полную калибровку по пробе."""
-    rb.check_cancel("калибровка по пробе")
-    warns, hinfo, bg_how = [], {}, ""
-    S, B, k, live_s, live_b = reg.load_inputs(bg_path, sample_path)
-    cal_s = list(load_spectrum(sample_path)["cal"])
-    cal_b = list(load_spectrum(bg_path)["cal"])
-    n = len(B)
-
-    # 2. Собственные структуры
-    intr, S_anc = intrinsic_repers(S, cal_s)
-    intr = check_intrinsic(S_anc, intr, repers, S, cal_s, verbose)   # правка Claude: ложные опоры в сильной пробе
-    allr = list(repers)
-    if use_intrinsic:
-        existing_names = set(r["name"] for r in allr)
-        for r in intr:
-            if r["name"] not in existing_names:
-                allr.append(r)
-    
-    if verbose:
-        print("[SCAL] реперов всего %d, из них видимых в пробе собственных структур LaBr3 %d" % (len(allr), len(intr)))
-
-    # 3. Шкала пробы
-    # правка Claude: основная шкала -- реперы от 100 кэВ; 37 кэВ и прочие ниже 100 -- только в ветвь ниже 100 кэВ (как в паре)
-    sc = scale_from_repers([r for r in allr if r["E"] >= 100.0], S, cal_s, verbose)
-
-    # 4. Совмещение фона
-    rb.check_cancel("совмещение фона")
-    B_anc = anchors_of(B, cal_b)
-    reg_v = register_by_visible(S_anc, B_anc)
-    
-    if reg_v is not None:
-        h = reg_v["h"]
-        mode = "visible"
-        if verbose:
-            resid_str = ", ".join("%s=%.2f" % (k, v) for k, v in reg_v["resid"].items())
-            print("[SCAL] фон совмещён по видимым собственным структурам %s: h = %s, невязки %s кан" % (
-                reg_v["keys"], h, resid_str))
-    else:
-        scale_for_h = cal_s if sc.get("rejected") else sc["coeffs"]
-        from . import pipeline as pl   # правка Claude: «своя шкала» фона -- по его собственным структурам LaBr3
-        own_b = pl.run_ecal(bg_path, bg_path, [0.0, 1.0, 0.0], low=False, verbose=False)
-        cal_b_own, how = bg_own_scale(own_b, cal_b, B)
-        bg_how = how
-        if verbose:
-            print("[SCAL] шкала фона для перевода через энергии: %s %s" % (how, cal_b_own))
-        h = h_by_energy(scale_for_h, cal_b_own, n, info=hinfo)
-        if verbose:
-            print("[SCAL] квадратичный h против точного перевода через энергии (20-3000 кэВ): макс. отклонение %.2f кан%s" % (
-                hinfo["h_err_max"], " -- ПРЕДУПРЕЖДЕНИЕ: шкалы файлов плохо согласуются квадратичным h" if hinfo["h_err_max"] > 2.0 else ""))
-        mode = "energy"
-        if verbose:
-            print("[SCAL] видимых собственных структур в пробе меньше двух -- фон переводится на шкалу пробы через энергии (каждый файл по своей шкале)")
-
-    # 5. Реперы на каналах фона
-    repers_bg = repers_to_bg(valid_repers(allr)[0], h)   # правка Claude (круг 1): вынесено в функцию (тест T8)
-
-    scb = scale_from_repers([r for r in repers_bg if r["E"] >= 100.0], B, cal_b, verbose)
-    low = None if scb.get("rejected") else low_branch(scb["coeffs"], repers_bg, B, verbose)
-
-    # 6. Точки ПШПВ
-    fwhm_points = []
-    for r in repers_bg:
-        if np.isfinite(r["fwhm"]) and not any("ПШПВ" in w for w in r.get("warn", [])):   # правка Claude: без подозрительных ПШПВ
-            if r["source"] == SRC_LABR:
-                fwhm_points.append((r["ch"], r["fwhm"]))
-            else:
-                if np.isfinite(r["signif"]) and r["signif"] >= SIGNIF_MIN:
-                    fwhm_points.append((r["ch"], r["fwhm"]))
-    
-    fwhm_points.sort(key=lambda p: p[0])
-    
-    # Убрать дубли по каналу ближе 1 кан
-    if fwhm_points:
-        unique_points = [fwhm_points[0]]
-        for p in fwhm_points[1:]:
-            if abs(p[0] - unique_points[-1][0]) >= 1.0:
-                unique_points.append(p)
-        fwhm_points = unique_points
-
-    if len(fwhm_points) < 3:
-        ap_res = ap.autopreset(B, S, cal_b, verbose=False)
-        ref = ap.load_ref()
-        extra_points = ap.fwhm_points_for(ap_res, ref["fwhm_points"])
-        fwhm_points.extend([(p[0], p[1]) for p in extra_points])
-        fwhm_points.sort(key=lambda p: p[0])
-        # Повторно убрать дубли
-        if fwhm_points:
-            unique_points = [fwhm_points[0]]
-            for p in fwhm_points[1:]:
-                if abs(p[0] - unique_points[-1][0]) >= 1.0:
-                    unique_points.append(p)
-            fwhm_points = unique_points
-
-    from . import fwhm as F   # правка Claude: модель ПШПВ должна строиться (CheckCalibration) -- иначе точки фона
-    try:
-        F.fit_fwhm(n, [p[0] for p in fwhm_points], [p[1] for p in fwhm_points])
-    except ValueError as exc:
-        ref_pts = [(p[0], p[1]) for p in ap.fwhm_points_for(ap.autopreset(B, B, cal_b, verbose=False), ap.load_ref()["fwhm_points"])]
-        if verbose:
-            print("[SCAL] ПРЕДУПРЕЖДЕНИЕ: точки ПШПВ пробы не дают годной модели (%s) -- взяты опорные точки ПШПВ фона %s"
-                  % (str(exc).split(";")[0], ["%.1f:%.2f" % q for q in ref_pts]))
-        fwhm_points = ref_pts
-        warns.append("точки ПШПВ пробы не дают годной модели (%s) -- в XML опорные точки ПШПВ фона" % str(exc).split(";")[0])
-
-    # правка Claude (круг 1): предупреждения -- в окно программы, не только в журнал
-    warns.extend("опора %s пробы отброшена: %s" % (k, v["why"]) for k, v in S_anc.items() if v.get("why"))
-    warns.extend("%s: %s" % (nm, x["rejected"]) for nm, x in (("шкала пробы", sc), ("шкала на каналах фона", scb)) if x.get("rejected"))
-    if mode == "energy" and hinfo.get("h_err_max", 0.0) > 2.0:
-        warns.append("квадратичный h отклоняется от точного перевода через энергии до %.1f кан" % hinfo["h_err_max"])
-
-    # 7. Результат
-    return {
-        "mode": mode,
-        "h": h,
-        "visible_sample": [k for k in S_anc if S_anc[k]["visible"]],
-        "anchors_sample": S_anc,
-        "anchors_bg": B_anc,
-        "reg_visible": reg_v,
-        "scale_sample": sc,
-        "coeffs": scb["coeffs"],
-        "coeffs_xml": low["xml"]["coeffs"] if low else scb["coeffs"],
-        **({"low": low} if low else {}),
-        "points": scb["points"],
-        "chi2ndf": scb["chi2ndf"],
-        "rms": scb.get("rms"),
-        "loo_rms": scb.get("loo_rms"),
-        "rejected": scb.get("rejected", ""),
-        "fwhm_points": [[float(a), float(b)] for a, b in fwhm_points],
-        "repers": allr,
-        "k": k,
-        "warnings": warns,
-        "bg_scale_how": bg_how,
     }
 
 
@@ -547,33 +397,6 @@ def _autopreset_anchors(counts, cal):
             b["sum"] = dict(s)
             return b
     return a
-
-
-def low_branch(C, repers_bg, B, verbose=True):
-    """Правка Claude: ветвь ниже 100 кэВ по правилам пары (lowscale.report) -- пик 37 кэВ пробы и реперы < 100 кэВ."""
-    from . import lowscale as lw
-    lowe = json.loads((HERE / "presets" / "labr3_lowE.json").read_text(encoding="utf-8"))
-    pts = [{"name": r["name"], "E": r["E"], "dE": r["dE"], "ch": r["ch"], "ch_err": max(r["ch_err"], 0.01),
-            "kind": "intrinsic37" if r["name"] == "La138_37_intr" else "photon"} for r in repers_bg if r["E"] < 100.0]
-    n = len(B)
-    thr = next((i + 1 for i in range(n) if B[i] > 0), 1)
-    try:
-        if not pts:
-            raise ValueError("реперов ниже 100 кэВ нет")
-        lr = lw.report(list(C), pts, n, thr, e37=lowe["e37_gamma"], de37=lowe["de37"], verbose=verbose)
-    except Exception as exc:
-        if verbose:
-            print("[LOWE] ветвь ниже 100 кэВ не построена: %s" % exc)
-        return None
-    if not np.isfinite(lr["fit"]["sigma_s"]):
-        if verbose:
-            print("[LOWE] ветвь ниже 100 кэВ не принята: s без погрешности (реперов мало)")
-        return None
-    return {"s": lr["fit"]["s"], "sigma_s": lr["fit"]["sigma_s"], "shape": lr["fit"]["shape"], "dK": lr["fit"]["dK"],
-            "e37": lowe["e37_gamma"], "points": pts, "residuals": lr["residuals"], "loo": lr["loo"],
-            "e_threshold": lr["e_threshold"], "xml": lr["xml"], "dev_main": lr["dev_main"],
-            "warn_extrapolation": lr["warn_extrapolation"],
-            "band": {k: list(np.asarray(lr["band"][k])[::4]) for k in ("ch", "E", "sigma")}}
 
 
 INTR_TOL = {"a37": 15.0, "edge": 0.03 * 788.74, "sum": 0.02 * 1471.0}   # кэВ: допуск опоры против шкалы по реперам пробы
@@ -627,14 +450,3 @@ def anchors_for_save(counts, cal, repers, verbose=True):
     return anc
 
 
-def repers_to_bg(repers, h):
-    """Правка Claude (круг 1): реперы пробы на каналы фона: ch -> h(ch), ошибка и ПШПВ умножаются на |h'(ch)|."""
-    out = []
-    for r in repers:
-        deriv = abs(float(poly_deriv(h, r["ch"])))
-        new_r = dict(r)
-        new_r["ch"] = float(poly_eval(h, r["ch"]))
-        new_r["ch_err"] = r["ch_err"] * deriv
-        new_r["fwhm"] = r["fwhm"] * deriv if np.isfinite(r.get("fwhm", float("nan"))) else float("nan")
-        out.append(new_r)
-    return out
