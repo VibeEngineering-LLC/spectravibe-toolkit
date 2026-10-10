@@ -9,6 +9,7 @@
   bg-inventory  — инвентаризация файлов фона
   decompose     — собственная и внешняя части фона, доля K-40 под сумм-пиком
   selftest      — мутационный тест метода на паре «фон + образец»
+  sample-cal    — калибровка по пробе: разность на шкале пробы, --use-reper-scale -- шкала по реперам (если рекомендована)
 """
 
 import sys
@@ -83,6 +84,24 @@ def _cmd_subtract(args):
                     date=args.date, monotone_to=_monotone(args.monotone_to),
                     sum_window=tuple(args.sum_window) if args.sum_window else None, auto=not args.no_auto,
                     manual=_manual(args), reg_json=reg_json, xml_scale=args.xml_scale, lt_out=args.lt_out)
+    print(f"[OUT] {args.out_zeroed}")
+    print(f"[OUT] {args.out_signed}")
+    return 0
+
+
+def _cmd_sample_cal(args):
+    # правка Claude (VERIFY7): разность на шкале пробы; шкала XML -- калибровка файла пробы, шкала по реперам -- только с --use-reper-scale
+    from . import samplecal as sc, samplecal_net as sn
+    repers = sc.load_json(args.repers)["repers"] if args.repers else []
+    try:
+        r = sn.run_sample_cal(args.bg, args.sample, repers, mode=args.mode, use_reper_scale=args.use_reper_scale)
+    except ValueError as exc:
+        print("Ошибка: %s" % exc, file=sys.stderr)
+        return 2
+    sn.run_sample_subtract(args.bg, args.sample, r, r["fwhm_points"], args.out_zeroed, args.out_signed, name=args.name,
+                           date=args.date, lt_out=args.lt_out)
+    for w in r["warnings"]:
+        print("[WARN] " + w)
     print(f"[OUT] {args.out_zeroed}")
     print(f"[OUT] {args.out_signed}")
     return 0
@@ -222,6 +241,20 @@ def main(argv=None):
     p_sub.add_argument("--xml-scale", choices=["composite", "main"], default="composite", help="шкала в XML: составная (ветвь ниже 100 кэВ, полином до 4-й степени) или основная")
     p_sub.add_argument("--lt-out", choices=["sample", "bg"], default="sample", help="живое время выходного файла: образца (по умолчанию) или фона; cps разности от выбора не зависит")
     p_sub.set_defaults(func=_cmd_subtract)
+
+    # sample-cal (правка Claude)
+    p_sc = subparsers.add_parser("sample-cal", help="Калибровка по пробе: разность на шкале пробы")
+    p_sc.add_argument("--bg", required=True, help="Файл фона")
+    p_sc.add_argument("--sample", required=True, help="Файл пробы")
+    p_sc.add_argument("--repers", default=None, help="JSON набора реперов пробы (сохранённый на вкладке «Шкала по пробе»)")
+    p_sc.add_argument("--mode", choices=["visible", "energy"], default=None, help="перевод фона на пробу (по умолчанию -- автоматически)")
+    p_sc.add_argument("--use-reper-scale", action="store_true", help="записать шкалу по реперам (только если рекомендована)")
+    p_sc.add_argument("--out-zeroed", required=True, help="Файл zeroed")
+    p_sc.add_argument("--out-signed", required=True, help="Файл signed")
+    p_sc.add_argument("--name", help="Имя")
+    p_sc.add_argument("--date", default=datetime.date.today().isoformat(), help="Дата")
+    p_sc.add_argument("--lt-out", choices=["sample", "bg"], default="sample", help="живое время выходного файла")
+    p_sc.set_defaults(func=_cmd_sample_cal)
 
     # fwhm
     p_fw = subparsers.add_parser("fwhm", help="Модель FWHM")
