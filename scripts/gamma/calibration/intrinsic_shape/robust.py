@@ -6,9 +6,16 @@
 Сгенерировано gen_code.py (qwen3.8:27b) по спецификации, 2026-10-10
 """
 
+import time
 import numpy as np
 from .core import poly_eval, rebin_conserve_var
 from . import register as reg
+
+CANCEL = {"flag": False}   # правка Claude: флаг отмены, ставит окно (UI-поток), проверяется между итерациями
+
+
+class Cancelled(Exception):
+    """Операция отменена пользователем."""
 
 
 def hat_basis(n, lo, hi, spacing):
@@ -92,7 +99,7 @@ class RobustProblem(reg.Problem):
         w = 1.0 / np.sqrt(np.maximum(vs + self.k ** 2 * vb, 1.0))
         return (sv - self.k * bb), w
 
-    def nuisance(self, c, parts=None):
+    def nuisance(self, c, parts=None, need_cov=True):
         """
         Профилирование линейных возмущающих членов.
         Возвращает (coef, cov) или (None, None).
@@ -104,13 +111,17 @@ class RobustProblem(reg.Problem):
 
         d, w = parts
         m = self.mask
-        Aw = self.basis[m] * w[m, None]
-        y = d[m] * w[m]
-
-        # Решение нормальных уравнений через lstsq
-        coef = np.linalg.lstsq(Aw, y, rcond=None)[0]
-        # Вычисление ковариационной матрицы через псевдообратную
-        cov = np.linalg.pinv(Aw.T @ Aw)
+        if getattr(self, "_Bm", None) is None:   # правка Claude (скорость): базис на маске -- один раз, не на каждом шаге
+            self._Bm = self.basis[m]
+        wm = w[m]
+        Aw = self._Bm * wm[:, None]
+        G = Aw.T @ Aw
+        rhs = Aw.T @ (d[m] * wm)
+        try:   # нормальные уравнения K x K вместо SVD (n_маски x K) на каждой оценке χ²
+            coef = np.linalg.solve(G, rhs)
+        except np.linalg.LinAlgError:
+            coef = np.linalg.lstsq(Aw, d[m] * wm, rcond=None)[0]
+        cov = np.linalg.pinv(G) if need_cov else None   # ковариация нужна только итогу, не сетке
         return coef, cov
 
     def resid(self, c):
@@ -123,7 +134,7 @@ class RobustProblem(reg.Problem):
 
         d, w = parts
         if self.basis is not None:
-            coef, _ = self.nuisance(c, parts=parts)
+            coef, _ = self.nuisance(c, parts=parts, need_cov=False)
             d = d - self.basis @ coef
 
         return d * w
@@ -327,7 +338,7 @@ def structure_checks(net, var, model, windows, excl=(), z_thr=3.0):
 
 def register_robust(S, B, k, mask0, anchor, fwhm_fn, k40_ch=None, mode="auto",
                     knot_ch=150.0, z_peak=6.0, excl_fwhm=2.5, protect_fwhm=1.0,
-                    max_iter=6, chi2_auto=1.3, z_auto=5.0, verbose=True, compton_fn=None, exclude=True, extra_fn=None, **reg_kw):
+                    max_iter=6, chi2_auto=1.3, z_auto=5.0, verbose=True, chi2_stop=20.0, compton_fn=None, exclude=True, extra_fn=None, **reg_kw):
     """
     Устойчивая регистрация спектра образца на фоне.
     """
@@ -343,7 +354,12 @@ def register_robust(S, B, k, mask0, anchor, fwhm_fn, k40_ch=None, mode="auto",
     hi0 = true_indices[-1]
 
     # Простая регистрация
+    t_pl = time.time()
     plain = reg.register(S, B, k, mask0, anchor, verbose=False, **reg_kw)
+    if verbose:
+        print("[TIME] простая регистрация: %.1f с" % (time.time() - t_pl))
+    if CANCEL["flag"]:
+        raise Cancelled("операция отменена пользователем")
     net0, var0 = reg.apply(plain['c'], S, B, k)
     z_plain = net0[mask0].sum() / np.sqrt(var0[mask0].sum())
 
@@ -381,7 +397,8 @@ def register_robust(S, B, k, mask0, anchor, fwhm_fn, k40_ch=None, mode="auto",
             "iterations": 0,
             "converged": True,
             "steps_ch": [],
-            "same_basis": None
+            "same_basis": None,
+            "stop_reason": ""
         }
 
     # Построение базиса
@@ -417,7 +434,11 @@ def register_robust(S, B, k, mask0, anchor, fwhm_fn, k40_ch=None, mode="auto",
     model = None
     it = 0
 
+    hist, stop_reason, chi_prev = [], "", float("inf")
     for it in range(max_iter):
+        if CANCEL["flag"]:   # правка Claude: отмена из окна -- между итерациями
+            raise Cancelled("операция отменена пользователем (итерация %d)" % it)
+        t_it = time.time()
         skipped = []   # правка Claude: только пики последней итерации
         mask = mask_minus(mask0, excl)
         prob = RobustProblem(S, B, k, mask, anchor, basis)
@@ -453,12 +474,24 @@ def register_robust(S, B, k, mask0, anchor, fwhm_fn, k40_ch=None, mode="auto",
             for (ch, z) in keep:
                 print(f"[ROBUST]   пик кан {ch} z={z:.1f}")
 
+        if verbose:
+            print("[TIME] ROBUST итерация %d: %.1f с" % (it, time.time() - t_it))
         if new == excl and basis.shape[1] == prob.basis.shape[1]:
             peaks_all = keep
             converged = True
             excl_used = excl
             break
+        elif it >= 1 and (new in hist or (rr['chi2ndf'] > chi2_stop and rr['chi2ndf'] >= chi_prev)):   # правка Claude: досрочная остановка
+            stop_reason = ("набор исключённых окон повторяется (колебание)" if new in hist else
+                           "χ²/ndf %.1f > %.0f и не падает (было %.1f) на итерации %d" % (rr['chi2ndf'], chi2_stop, chi_prev, it))
+            basis, peaks_all, excl_used = prob.basis, keep, excl   # итог -- последняя выполненная регистрация
+            if verbose:
+                print("[ROBUST] ПРЕДУПРЕЖДЕНИЕ: не сошлась: образец с множеством линий по всей шкале (%s) -- "
+                      "остановлено досрочно на итерации %d из %d" % (stop_reason, it, max_iter))
+            break
         else:
+            hist.append(excl)
+            chi_prev = rr['chi2ndf']
             excl = new
             peaks_all = keep
             excl_used = excl
@@ -530,5 +563,6 @@ def register_robust(S, B, k, mask0, anchor, fwhm_fn, k40_ch=None, mode="auto",
         "converged": converged,
         "plain": plain,
         "steps_ch": list(steps_ch),
-        "same_basis": same
+        "same_basis": same,
+        "stop_reason": stop_reason
     }

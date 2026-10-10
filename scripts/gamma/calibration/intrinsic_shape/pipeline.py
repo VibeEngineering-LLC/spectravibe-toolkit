@@ -7,6 +7,7 @@
 """
 
 import json
+import time
 import pathlib
 import numpy as np
 from .core import load_spectrum, poly_eval, poly_deriv, poly_inverse
@@ -118,7 +119,9 @@ def extra_fn_for(ctx, verbose=True):
 
 
 def run_register(bg_path, sample_path, auto=True, manual=None, robust="auto", overrides=None, n_ms=20, profiles=False, out_json=None, z_peak=4.5, verbose=True):
+    t_s = time.time()
     ctx = setup(bg_path, sample_path, auto, manual, verbose)
+    ctx["t_setup"] = time.time() - t_s
     kw = dict(ctx["auto"]["register_kw"])
     if overrides:
         for key, v in overrides.items():
@@ -128,7 +131,10 @@ def run_register(bg_path, sample_path, auto=True, manual=None, robust="auto", ov
     if verbose:
         print("[IN] k=%.6f live_s=%.3f live_b=%.3f каналов=%d" % (ctx["k"], ctx["live_s"], ctx["live_b"], ctx["n"]))
 
+    t_a = time.time()
     anchor = reg.anchor37(ctx["B"], ctx["S"], x_bg=kw["anchor_bg"], x_sm=kw["anchor_sample"], w0=kw["anchor_fwhm"], hw=int(kw["anchor_hw"]), verbose=verbose)
+    if verbose:
+        print("[TIME] ANCHOR (автопресет и якорь): %.1f с" % (time.time() - t_a + ctx.get("t_setup", 0.0)))
     
     mask = np.zeros(ctx["n"], dtype=bool)
     lo, hi = kw["mask"]
@@ -210,6 +216,7 @@ def run_register(bg_path, sample_path, auto=True, manual=None, robust="auto", ov
         "k40": rr["k40"],
         "nuclides": ctx.get("nuclides", []),
         "converged": bool(rr.get("converged", True)),
+        "stop_reason": rr.get("stop_reason", ""),
         "iterations": int(rr.get("iterations", 0)),
         "steps_ch": [float(v) for v in rr.get("steps_ch", [])],
         "excluded_ch": [[int(a), int(b)] for a, b in rr["excluded"]],
@@ -457,6 +464,8 @@ def _one_point_scale(cfg, ctx, verbose=True):
 def _scale_defect(res, ctx):
     """Правка Claude: причина отвергнуть шкалу ("" -- годна): χ²/ndf не определён, порог > 100 кэВ, не возрастает."""
     C, n = res["coeffs"], ctx["n"]
+    if not np.all(np.isfinite(np.asarray(C, float))):   # правка Claude: NaN/inf в коэффициентах
+        return "нечисловые коэффициенты шкалы %s" % ["%.6g" % v for v in C]
     thr = next((i for i in range(n) if ctx["B"][i] > 0), 0)
     E = poly_eval(C, np.arange(n, dtype=float))
     if len(C) > 2 and not np.isfinite(res["chi2ndf"]):
@@ -481,8 +490,12 @@ def _guarded_calibrate(cfg, ctx, hh, verbose=True):
         deg = deg0 if n_pts > deg0 + 1 else 1   # квадратичная -- только при ndf >= 1
         if deg < deg0 and verbose:
             print("[CAL] ПРЕДУПРЕЖДЕНИЕ: реперов %d -- шкала линейная вместо степени %d" % (n_pts, deg0))
-        res = ops.calibrate(dict(cfg, degree=deg), ctx["B"], ctx["S"], hh)
-    why = _scale_defect(res, ctx)
+        try:
+            res = ops.calibrate(dict(cfg, degree=deg), ctx["B"], ctx["S"], hh)
+        except ValueError as exc:   # правка Claude: после отбраковки нечисловых реперов их меньше двух
+            res = {"coeffs": [float("nan")], "chi2ndf": float("nan"), "points": [], "rms": float("nan"),
+                   "loo_rms": float("nan"), "why": str(exc)}
+    why = res.get("why") or _scale_defect(res, ctx)
     if why:
         if verbose:
             print("[CAL] ШКАЛА ОТВЕРГНУТА: %s -- в XML остаётся калибровка файла фона %s" % (why, list(ctx["cal"])))
@@ -504,10 +517,19 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
     cfg, lines = pr.pair_ecal_cfg(cfg0, ctx["B"], net, var, hh, ctx["scale"], ctx["fwhm_fn"], verbose=False,
                                   tol_rel=0.03, min_sep=1.5)
     if lines and len(cfg["points"]) >= 4:
-        sc2 = list(ops.calibrate(cfg, ctx["B"], ctx["S"], hh)["coeffs"]) if verbose is not None else None
-        if verbose:
-            print("[PAIR] проход 2: шкала прохода 1 %s" % ["%.6g" % v for v in sc2])
-        cfg, lines = pr.pair_ecal_cfg(cfg0, ctx["B"], net, var, hh, sc2, ctx["fwhm_fn"], verbose=verbose, tol_rel=0.0)
+        try:
+            sc2 = list(ops.calibrate(cfg, ctx["B"], ctx["S"], hh)["coeffs"])
+        except ValueError:
+            sc2 = [float("nan")]
+        if _scale_defect({"coeffs": sc2, "chi2ndf": 1.0}, ctx):   # правка Claude: от негодной шкалы второй проход не идёт
+            if verbose:
+                print("[PAIR] проход 2 пропущен: шкала прохода 1 негодна %s" % ["%.6g" % v for v in sc2])
+            cfg, lines = pr.pair_ecal_cfg(cfg0, ctx["B"], net, var, hh, ctx["scale"], ctx["fwhm_fn"], verbose=verbose,
+                                          tol_rel=0.03, min_sep=1.5)
+        else:
+            if verbose:
+                print("[PAIR] проход 2: шкала прохода 1 %s" % ["%.6g" % v for v in sc2])
+            cfg, lines = pr.pair_ecal_cfg(cfg0, ctx["B"], net, var, hh, sc2, ctx["fwhm_fn"], verbose=verbose, tol_rel=0.0)
     elif verbose:
         cfg, lines = pr.pair_ecal_cfg(cfg0, ctx["B"], net, var, hh, ctx["scale"], ctx["fwhm_fn"], verbose=True,
                                       tol_rel=0.03, min_sep=1.5)

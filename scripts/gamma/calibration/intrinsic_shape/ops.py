@@ -70,7 +70,10 @@ def calibrate(cfg, bg_counts, sm_counts, h):
             
         # Print line
         print(f"[A] {spectrum} {name} ch_bg={c:.3f} +-{e:.3f} окна {np.round(cs, 2)}")
-        
+        if not (np.isfinite(c) and np.isfinite(e) and e > 0):   # правка Claude: репер не найден (scan -> NaN) -- вне набора
+            print(f"[A] {name}: репер отброшен -- положение не определено (канал {c}, ошибка {e})")
+            continue
+
         ch_list.append(c)
         che_list.append(e)
         E_list.append(E)
@@ -89,6 +92,11 @@ def calibrate(cfg, bg_counts, sm_counts, h):
     E = np.array(E_list)
     Ee = np.array(Ee_list)
     
+    if len(ch) < 2:   # правка Claude: после отбраковки нечисловых реперов
+        raise ValueError("найдено реперов %d -- шкала по реперам не строится" % len(ch))
+    if deg > 1 and len(ch) <= deg + 1:
+        print(f"[CAL] ПРЕДУПРЕЖДЕНИЕ: найдено реперов {len(ch)} -- шкала линейная вместо степени {deg}")
+        deg = 1
     fit = fit_poly(ch, che, E, Ee, deg)
     loo = leave_one_out(ch, che, E, Ee, deg)
     
