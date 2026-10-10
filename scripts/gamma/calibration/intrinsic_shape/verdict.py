@@ -368,7 +368,7 @@ def summarize(checks, min_eval_frac=0.5):
 
 def format_table(checks, title):
     """Форматирует результаты в таблицу."""
-    lines = [title]
+    lines = [title + " СПРАВОЧНО: самопроверка неполная, см. ограничения"]   # правка Claude (решение «вердикт справочно»)
     
     for c in checks:
         name = c["name"]
@@ -405,7 +405,7 @@ def format_table(checks, title):
     summ = summarize(checks)
     not_eval_str = ", ".join(summ["not_eval"]) if summ["not_eval"] else "нет"
     
-    line_sum = "[STRUCT] итог: оценено %d из %d, в норме %d; не оценено: %s" % (
+    line_sum = "[STRUCT] итог (справочно, в all_ok не входит): оценено %d из %d, в норме %d; не оценено: %s" % (
         summ["n_eval"], summ["n"], summ["n_ok"], not_eval_str
     )
     
