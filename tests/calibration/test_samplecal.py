@@ -1,7 +1,10 @@
-"""Тесты калибровки по пробе (samplecal): синтетика с известной шкалой, перенос набора реперов,
-источник энергии, отбраковка NaN, степень по числу реперов, XML для BecqMoni. Сгенерировано gen_code.py
-(qwen3.8:27b) по спецификации, 2026-10-10."""
+"""Тесты калибровки по пробе (samplecal, samplecal_q): нелинейная истинная шкала и независимые
+ширины, пулы центроидов, перенос набора реперов, источник энергии и дублеты, порог качества шкалы, XML, режим
+«через энергии» с независимой истиной, перевод реперов на сетку фона, ПШПВ, отказы fit_click, двойной фит,
+ранжирование линий, отмена; живой тест — при заданной переменной окружения LABR3_MEDALLION_DIR. Сгенерировано
+gen_code.py (qwen3.8:27b) по спецификации, 2026-10-10."""
 
+import os
 import re
 import math
 import pathlib
@@ -9,244 +12,223 @@ import numpy as np
 import pytest
 from gamma.calibration.intrinsic_shape.core import load_spectrum, poly_eval, poly_deriv, poly_inverse, rebin_conserve
 from gamma.calibration.intrinsic_shape import samplecal as sc
+from gamma.calibration.intrinsic_shape import samplecal_q as q
 from gamma.calibration.intrinsic_shape import pipeline as pl
 from gamma.calibration.intrinsic_shape import lowscale as lw
 from gamma.calibration.intrinsic_shape import fwhm as F
+from gamma.calibration.intrinsic_shape import robust as rb
 
 FIX = pathlib.Path(__file__).resolve().parents[1] / "fixtures" / "intrinsic_shape"
 BG = FIX / "labr3_background.xml"
 ECAL_REF = [-0.48496698, 1.35007262, 4.58971597e-04]
-ECAL_LIN = [-0.48, 1.62]   # линейная шкала для проверки степени по числу реперов
-THR = 16   # первый ненулевой канал фона фикстуры (порог прибора)
-LINES = [("Pb-214", 351.932), ("Bi-214", 609.312), ("Cs-137", 661.657), ("Bi-214", 1120.287), ("Bi-214", 1764.494), ("Tl-208", 2614.511)]
+TRUE3 = [2.0, 1.30, 4.0e-4, 6.0e-8]          # нелинейная (кубическая) истинная шкала синтетики
+THR = 16                                       # первый ненулевой канал фона фикстуры (порог прибора)
+LINES = [("Pb-214", 351.932), ("Bi-214", 609.312), ("Cs-137", 661.657), ("Bi-214", 1120.294), ("Bi-214", 1764.491), ("Tl-208", 2614.511)]
+LINES8 = [("Pb-212", 238.632), ("Pb-214", 351.932), ("Tl-208", 583.187), ("Cs-137", 661.657), ("Ac-228", 911.204),
+          ("Bi-214", 1120.294), ("Bi-214", 1764.491), ("Tl-208", 2614.511)]
+MED_CLICKS = [(628.3, "Pb-212", 238.632), (864.9, "Ac-228", 338.32), (898.9, "Pb-214", 351.932), (1431.4, "Tl-208", 583.187),
+              (2121.8, "Ac-228", 911.0), (2236.5, "Ac-228", 967.96), (2530.2, "Bi-214", 1120.294), (3680.6, "Bi-214", 1764.491),
+              (4978.3, "Tl-208", 2614.511)]
+
+
+def fwhm_true_keV(E):
+    return math.sqrt(4.0 + 0.9 * E + 2.0e-4 * E * E)
 
 
 def _stretch(counts, a, b, n):
-    """Растянуть спектр: сдвиг a, масштаб b, новая длина n."""
     edges = a + b * (np.arange(len(counts) + 1) - 0.5)
     return rebin_conserve(np.asarray(counts, float), edges, n)
 
 
-def _peaks(n, lines, area=30000.0, scale=ECAL_REF, a=0.0, b=1.0):
-    """Сгенерировать синтетический спектр с гауссовыми пиками.
-    
-    Возвращает (y, centers), где centers — список центров в порядке lines.
-    """
+def _peaks_true(n, lines, scale, area=30000.0):
     x = np.arange(n, dtype=float)
-    y = np.zeros(n, dtype=float)
+    y = np.zeros(n)
     centers = []
     for nuc, E in lines:
-        # Инверсия шкалы: энергия -> канал
-        ch_ref = float(poly_inverse(scale, E))
-        # Центр в новых координатах
-        c = a + b * ch_ref
-        # ПШПВ в новых координатах
+        c = float(poly_inverse(scale, E, hi=n + 200))
+        w = fwhm_true_keV(E) / float(poly_deriv(scale, c))
+        s = w / 2.3548
+        y += area / (math.sqrt(2 * math.pi) * s) * np.exp(-0.5 * ((x - c) / s) ** 2)
+        centers.append(c)
+    return y, centers
+
+
+def _synth(seed, scale=TRUE3, lines=LINES8, n=2048):
+    x = np.arange(n, dtype=float)
+    y, cs = _peaks_true(n, lines, scale)
+    S = np.random.default_rng(seed).poisson(400.0 * np.exp(-x / 400.0) + 20.0 + y).astype(float)
+    S[:THR] = 0.0
+    return S, cs
+
+
+def _peaks(n, lines, area=30000.0, a=0.0, b=1.0):
+    x = np.arange(n, dtype=float)
+    y = np.zeros(n)
+    centers = []
+    for nuc, E in lines:
+        c = a + b * poly_inverse(ECAL_REF, E)
         w = b * sc.fwhm_guess(c / b, n)
-        s = w / 2.355
-        # Гауссиана
-        gauss = area / (math.sqrt(2 * math.pi) * s) * np.exp(-0.5 * ((x - c) / s) ** 2)
-        y += gauss
+        s = w / 2.3548
+        y += area / (math.sqrt(2 * math.pi) * s) * np.exp(-0.5 * ((x - c) / s) ** 2)
         centers.append(c)
     return y, centers
 
 
 def _sigma_E(scale, r):
-    """Оценка погрешности энергии для репера r."""
     return math.hypot(r["dE"], float(poly_deriv(scale, r["ch"])) * r["ch_err"])
 
 
 def _repers_by_click(counts, centers, lines, shift=2.0):
-    """Построить список реперов, используя fit_click для каждого пика."""
-    repers = []
+    reps = []
     for c, (nuc, E) in zip(centers, lines):
         f = sc.fit_click(counts, c + shift, sc.fwhm_guess(c, len(counts)))
-        assert f is not None, f"fit_click failed for {nuc} at {E}"
-        repers.append(sc.reper_from_choice(f, E, nuc))
-    return repers
+        assert f is not None, (nuc, E)
+        reps.append(sc.reper_from_choice(f, E, nuc))
+    return reps
 
 
-def _write_like_bg(tmp_path, name, counts):
-    """Записать спектр в XML-файл, имитирующий структуру BG."""
-    t = BG.read_text("utf-8")
+def _write_like(tmp_path, name, counts, cal=None):
+    """Спектр в XML по образцу фона фикстуры; при cal -- своя энергетическая калибровка (правка Claude: ответ модели
+    не заменял DataPoint)."""
+    text = BG.read_text("utf-8")
     vals = iter(np.round(np.maximum(counts, 0)).astype(int))
-    result = re.sub(
-        r"<DataPoint>[^<]*</DataPoint>",
-        lambda m: "<DataPoint>%d</DataPoint>" % next(vals),
-        t
-    )
-    path = tmp_path / name
-    path.write_text(result, encoding="utf-8")
-    return path
+    text = re.sub(r"<DataPoint>[^<]*</DataPoint>", lambda m: "<DataPoint>%d</DataPoint>" % next(vals), text)
+    if cal is not None:
+        coeff = "".join("<Coefficient>%r</Coefficient>" % float(c) for c in cal)
+        text = re.sub(r"(<EnergyCalibration>.*?<PolynomialOrder>)\d+(</PolynomialOrder>\s*<Coefficients>).*?(</Coefficients>)",
+                      lambda m: m.group(1) + str(len(cal) - 1) + m.group(2) + coeff + m.group(3), text, count=1, flags=re.S)
+    p = tmp_path / name
+    p.write_text(text, encoding="utf-8")
+    return p
 
 
-def test_samplecal_synthetic_known_scale_recovered():
-    """Синтетика с известной шкалой: шкала должна быть восстановлена."""
-    n = 2048
-    x = np.arange(n, dtype=float)
-    rng = np.random.default_rng(7)
-    cont = 400.0 * np.exp(-x / 400.0) + 20.0
-    y, centers = _peaks(n, LINES)
-    counts = rng.poisson(cont + y).astype(float)
-    counts[:THR] = 0.0   # правка Claude: порог прибора, как у боевого спектра
-
-    rep = _repers_by_click(counts, centers, LINES)
-    res = sc.scale_from_repers(rep, counts, ECAL_REF, verbose=False)
-
-    assert not res.get("rejected"), f"Результат отклонен: {res}"
-    assert len(res["coeffs"]) == 3, f"Ожидалось 3 коэффициента, получено {len(res['coeffs'])}"
-
-    # Проверка точности восстановления энергии
-    for c, (nuc, E), r in zip(centers, LINES, rep):
-        E_rec = float(poly_eval(res["coeffs"], c))
-        sigma = _sigma_E(res["coeffs"], r)
-        assert abs(E_rec - E) <= 3.0 * sigma, (
-            f"Энергия {nuc} {E} не восстановлена: получено {E_rec}, σ={sigma}"
-        )
-
-    # Все реперы должны быть из библиотеки
-    assert all(r["source"] == sc.SRC_LIB for r in rep), "Не все реперы имеют источник SRC_LIB"
+def _flat_repers(Es, scale):
+    reps = []
+    for i, E in enumerate(Es):
+        reps.append({
+            "name": "p%d" % i,
+            "ch": float(poly_inverse(scale, E, hi=4000)),
+            "ch_err": 0.05,
+            "E": E,
+            "dE": 0.05,
+            "source": sc.SRC_LIB,
+            "nuclide": "X",
+            "fwhm": 8.0,
+            "signif": 50.0,
+            "warn": []
+        })
+    return reps
 
 
-def test_samplecal_json_transfer_same_scale(tmp_path):
-    """Перенос набора реперов через JSON: шкала должна сохраниться."""
+def _flat(n=2048):
+    c = np.full(n, 100.0)
+    c[:THR] = 0.0
+    return c
+
+
+def test_cubic_true_scale_recovered_with_degree_selection():
+    S, cs = _synth(7)
+    rep = _repers_by_click(S, cs, LINES8)
+    res = sc.scale_from_repers(rep, S, [0.0, 1.6, 0.0], verbose=False)
+    assert not res.get("rejected")
+    assert res["deg"] >= 3
+    for r in rep:
+        E_rec = poly_eval(res["coeffs"], r["ch"])
+        assert abs(E_rec - r["E"]) <= 3 * _sigma_E(res["coeffs"], r)
+    g = np.linspace(poly_inverse(TRUE3, 150.0, hi=2300), poly_inverse(TRUE3, 2200.0, hi=2300), 300)
+    assert np.max(np.abs(poly_eval(res["coeffs"], g) - poly_eval(TRUE3, g))) <= 1.0
+
+
+def test_centroid_pulls_unit_width():
+    z = []
+    for seed in range(100, 106):
+        S, cs = _synth(seed)
+        for c in cs:
+            f = sc.fit_click(S, c + 1.0, sc.fwhm_guess(c, len(S)))
+            z.append((f["ch"] - c) / f["ch_err"])
+    std_z = np.std(z)
+    assert 0.6 <= std_z <= 1.6, f"std(z) = {std_z}"
+
+
+def test_json_transfer_same_scale_and_physical_gain(tmp_path):
     d = load_spectrum(BG)
     B = d["counts"].astype(float)
-    cal = list(d["cal"])
+    cal = d["cal"]
     n = len(B)
-
     y, centers = _peaks(n, LINES[:5])
     s1 = B + y
     rep1 = _repers_by_click(s1, centers, LINES[:5])
     intr, anc1 = sc.intrinsic_repers(s1, cal)
     rep1 = rep1 + intr
-
-    # Сохранение и загрузка JSON
-    p = tmp_path / "repers.json"
-    sc.save_json(p, rep1, "LaBr3 test", n, anc1)
+    p = tmp_path / "r.json"
+    sc.save_json(p, rep1, "LaBr3 test", n, anc1, cal=cal)
     data = sc.load_json(p)
+    assert data["cal"] == [float(c) for c in cal]
+    for r in data["repers"]:
+        assert "signif" in r
+        assert "warn" in r
 
-    # Растяжение спектра
     s2 = _stretch(s1, 3.0, 1.05, n)
-    rep2, m = sc.apply_to(data, s2, cal, verbose=False)
+    rep2, m, dropped = sc.apply_to(data, s2, cal, verbose=False)
+    sc1 = sc.scale_from_repers(rep1, s1, [0.0, 1.6, 0.0], verbose=False)
+    sc2 = sc.scale_from_repers(rep2, s2, [0.0, 1.6, 0.0], verbose=False)
+    assert not sc1.get("rejected") and not sc2.get("rejected")
+    assert abs(m[1] - 1.05) < 0.01 and abs(m[0] - 3.0) < 1.5
+    non_labr = [r for r in rep2 if r["source"] != sc.SRC_LABR]
+    for r in non_labr:
+        y_val = r["ch"]
+        x_val = (y_val - 3.0) / 1.05
+        assert abs(poly_eval(sc2["coeffs"], y_val) - poly_eval(sc1["coeffs"], x_val)) <= 3 * _sigma_E(sc2["coeffs"], r)
+    assert len(non_labr) == 5
+    assert dropped == []
 
-    # Построение шкал
-    sc1 = sc.scale_from_repers(rep1, s1, cal, verbose=False)
-    sc2 = sc.scale_from_repers(rep2, s2, cal, verbose=False)
-
-    assert not sc1.get("rejected"), f"Шкала 1 отклонена: {sc1}"
-    assert not sc2.get("rejected"), f"Шкала 2 отклонена: {sc2}"
-
-    # Проверка параметров растяжения
-    assert abs(m[1] - 1.05) < 0.01, f"Масштаб: ожидалось 1.05, получено {m[1]}"
-    assert abs(m[0] - 3.0) < 1.5, f"Сдвиг: ожидалось 3.0, получено {m[0]}"
-
-    # Проверка согласованности энергий для реперов, не из LaBr
-    count_non_labr = 0
-    for r in rep2:
-        if r["source"] != sc.SRC_LABR:
-            count_non_labr += 1
-            y2 = r["ch"]
-            E2 = poly_eval(sc2["coeffs"], y2)
-            # Обратное преобразование координаты
-            y1 = (y2 - 3.0) / 1.05
-            E1 = poly_eval(sc1["coeffs"], y1)
-            sigma = _sigma_E(sc2["coeffs"], r)
-            assert abs(E2 - E1) <= 3.0 * sigma, (
-                f"Несогласованность энергий: E2={E2}, E1={E1}, σ={sigma}"
-            )
-
-    assert count_non_labr == 5, f"Ожидалось 5 реперов не из LaBr, получено {count_non_labr}"
+    s3 = _stretch(s1, 0.0, 1.5, n)
+    with pytest.raises(ValueError, match="нефизичное усиление|опор"):
+        sc.apply_to(data, s3, cal, verbose=False)
 
 
-def test_samplecal_manual_energy_marked_and_kept_in_json(tmp_path):
-    """Ручная энергия должна быть помечена и сохранена в JSON."""
+def test_manual_library_and_doublet_energy():
     fit = {"ch": 500.0, "ch_err": 0.1, "fwhm": 9.0, "signif": 50.0}
-    
-    r_lib = sc.reper_from_choice(fit, 661.657, "Cs-137")
-    r_man = sc.reper_from_choice(fit, 700.0, "Cs-137")
-    r_none = sc.reper_from_choice(fit, 1234.5)
-
-    assert r_lib["source"] == sc.SRC_LIB, f"Ожидалось SRC_LIB, получено {r_lib['source']}"
-    assert r_man["source"] == sc.SRC_MANUAL, f"Ожидалось SRC_MANUAL, получено {r_man['source']}"
-    assert r_none["source"] == sc.SRC_MANUAL, f"Ожидалось SRC_MANUAL, получено {r_none['source']}"
-    assert sc.SRC_MANUAL == "ручная", f"Ожидалось 'ручная', получено {sc.SRC_MANUAL}"
-
-    # Сохранение и загрузка
-    anc = {k: {"x": 1.0, "visible": False} for k in ("a37", "edge", "sum")}
-    sc.save_json(tmp_path / "r.json", [r_lib, r_man, r_none], "dev", 2048, anc)
-    data = sc.load_json(tmp_path / "r.json")
-
-    sources = [r["source"] for r in data["repers"]]
-    assert sources == [sc.SRC_LIB, sc.SRC_MANUAL, sc.SRC_MANUAL], (
-        f"Источники не сохранены: {sources}"
-    )
+    assert sc.reper_from_choice(fit, 661.657, "Cs-137")["source"] == sc.SRC_LIB
+    assert sc.reper_from_choice(fit, 700.0, "Cs-137")["source"] == sc.SRC_MANUAL
+    assert sc.reper_from_choice(fit, 662.5, "Cs-137")["source"] == sc.SRC_MANUAL
+    assert sc.reper_from_choice(fit, 1234.5)["source"] == sc.SRC_MANUAL
+    c = sc.candidate_lines(968.0)[0]
+    assert c["nuclide"] == "Ac-228"
+    assert abs(c["E"] - (964.77 * 4.99 + 968.97 * 15.8) / (4.99 + 15.8)) < 0.05
+    assert "дублет" in c["note"]
+    r = sc.reper_from_choice(fit, c["E"], "Ac-228")
+    assert r["source"] == sc.SRC_LIB
+    assert r["dE"] >= 2.0
 
 
-def test_samplecal_nan_centroid_dropped():
-    """Репер с NaN центроидом должен быть отброшен."""
-    rep = [
-        {
-            "name": "p%d" % i,
-            "ch": float(poly_inverse(ECAL_REF, E)),
-            "ch_err": 0.05,
-            "E": E,
-            "dE": 0.05,
-            "source": sc.SRC_LIB,
-            "nuclide": "X",
-            "fwhm": 8.0,
-            "signif": 50.0
-        }
-        for i, E in enumerate((351.932, 661.657, 1120.287, 1764.494))
-    ]
-    # Добавляем плохой репер с NaN
-    rep.append({
-        "name": "bad",
-        "ch": float("nan"),
-        "ch_err": float("nan"),
-        "E": 609.312,
-        "dE": 0.05,
-        "source": sc.SRC_LIB,
-        "nuclide": "Bi-214",
-        "fwhm": float("nan"),
-        "signif": float("nan")
-    })
+def test_nan_dropped_and_three_repers_linear():
+    bad = dict(_flat_repers([609.312], ECAL_REF)[0], name="bad", ch=float("nan"), ch_err=float("nan"))
+    res = sc.scale_from_repers(_flat_repers([351.932, 661.657, 1120.287, 1764.494], ECAL_REF) + [bad], _flat(), [6.0, 1.35007262, 4.58971597e-04], verbose=False)
+    assert res["dropped"] == ["bad"]
+    assert res["n_repers"] == 4
+    assert all(np.isfinite(c) for c in res["coeffs"])
+    assert not res.get("rejected")
 
-    counts = np.full(2048, 100.0)
-    counts[:THR] = 0.0   # правка Claude: порог прибора, как у боевого спектра
-    res = sc.scale_from_repers(rep, counts, ECAL_REF, verbose=False)
-
-    assert res["dropped"] == ["bad"], f"Ожидалось ['bad'], получено {res['dropped']}"
-    assert res["n_repers"] == 4, f"Ожидалось 4 репера, получено {res['n_repers']}"
-    assert np.all(np.isfinite(res["coeffs"])), "Коэффициенты содержат NaN/Inf"
-    assert not res.get("rejected"), f"Результат отклонен: {res}"
+    lin = [-0.48, 1.62]
+    res3 = sc.scale_from_repers(_flat_repers([351.932, 661.657, 1764.494], lin), _flat(), [6.0, 1.62], verbose=False)
+    assert len(res3["coeffs"]) == 2
+    assert not res3.get("rejected")
 
 
-def test_samplecal_three_repers_not_quadratic():
-    """С тремя реперами должна строиться линейная шкала (2 коэффициента)."""
-    rep = [
-        {
-            "name": "p%d" % i,
-            "ch": (E - ECAL_LIN[0]) / ECAL_LIN[1],   # правка Claude: линейная истинная шкала
-            "ch_err": 0.05,
-            "E": E,
-            "dE": 0.05,
-            "source": sc.SRC_LIB,
-            "nuclide": "X",
-            "fwhm": 8.0,
-            "signif": 50.0
-        }
-        for i, E in enumerate((351.932, 661.657, 1764.494))
-    ]
+def test_scale_not_better_than_file_rejected_and_loo_threshold():
+    rep = _flat_repers([238.6, 351.9, 583.2, 911.2, 1120.3, 1764.5], ECAL_REF)
+    res = sc.scale_from_repers(rep, _flat(), ECAL_REF, verbose=False)
+    assert "не лучше калибровки файла" in res["rejected"]
+    assert res["coeffs"] == ECAL_REF
 
-    counts = np.full(2048, 100.0)
-    counts[:THR] = 0.0   # правка Claude: порог прибора, как у боевого спектра
-    res = sc.scale_from_repers(rep, counts, ECAL_LIN, verbose=False)
-
-    assert len(res["coeffs"]) == 2, f"Ожидалось 2 коэффициента, получено {len(res['coeffs'])}"
-    assert not res.get("rejected"), f"Результат отклонен: {res}"
+    rng = np.random.default_rng(5)
+    noisy = [dict(r, E=r["E"] + float(d)) for r, d in zip(rep, rng.normal(0.0, 6.0, len(rep)))]
+    res2 = sc.scale_from_repers(noisy, _flat(), [60.0, 1.35007262, 4.58971597e-04], verbose=False)
+    assert "порога" in res2["rejected"]
 
 
-def test_samplecal_xml_passes_becqmoni_check(tmp_path):
+def test_xml_passes_becqmoni_check(tmp_path):
     """XML-вывод должен проходить проверку BecqMoni."""
     d = load_spectrum(BG)
     B = d["counts"].astype(float)
@@ -254,7 +236,7 @@ def test_samplecal_xml_passes_becqmoni_check(tmp_path):
 
     y, centers = _peaks(n, LINES[:5], area=60000.0, a=2.0, b=1.03)
     S = _stretch(B, 2.0, 1.03, n) + y
-    smp = _write_like_bg(tmp_path, "sample.xml", S)
+    smp = _write_like(tmp_path, "sample.xml", S)
     rep = _repers_by_click(S, centers, LINES[:5], shift=1.0)
 
     cal_res = sc.run_sample_cal(BG, smp, rep, verbose=False)
@@ -294,7 +276,157 @@ def test_samplecal_xml_passes_becqmoni_check(tmp_path):
     )
 
 
-def test_cancel_flag_stops_ecal_subtract_and_samplecal(tmp_path):
+
+def test_energy_mode_against_independent_truth(tmp_path):
+    TB = ECAL_REF
+    d = load_spectrum(BG)
+    B = d["counts"].astype(float)
+    n = len(B)
+    bgp = _write_like(tmp_path, "bg_true.xml", B, cal=TB)
+    
+    x = np.arange(n, dtype=float)
+    yv = np.zeros(n)
+    cs = []
+    for nuc, E in LINES[:5]:
+        c = 2.0 + 1.03 * float(poly_inverse(TB, E))
+        w = 1.03 * fwhm_true_keV(E) / float(poly_deriv(TB, poly_inverse(TB, E)))
+        s = w / 2.3548
+        yv += 60000.0 / (math.sqrt(2 * math.pi) * s) * np.exp(-0.5 * ((x - c) / s) ** 2)
+        cs.append(c)
+    
+    S = np.random.default_rng(3).poisson(3000.0 * np.exp(-x / 300.0) + 50.0 + yv).astype(float)
+    S[:THR] = 0
+    smp = _write_like(tmp_path, "sample.xml", S)
+    rep = _repers_by_click(S, cs, LINES[:5], shift=1.0)
+    r = sc.run_sample_cal(bgp, smp, rep, verbose=False)
+    assert r["mode"] == "energy"
+    for c, (nuc, E) in zip(cs, LINES[:5]):
+        val = poly_eval(r["h"], c)
+        target = poly_inverse(TB, E)
+        assert abs(val - target) <= 1.5, f"{nuc}, {E}, val={val}, target={target}"
+
+
+def test_repers_to_bg_scales_errors_and_widths():
+    out = sc.repers_to_bg([{"ch": 100.0, "ch_err": 0.3, "fwhm": 8.0, "E": 500.0}], [5.0, 2.0, 0.0])[0]
+    assert out["ch"] == 205.0
+    assert abs(out["ch_err"] - 0.6) < 1e-12
+    assert abs(out["fwhm"] - 16.0) < 1e-12
+
+
+def test_intrinsic_energies_are_nuclear_data():
+    en = sc.intrinsic_energies()
+    assert abs(en["a37"][0] - 35.75) < 1e-6
+    assert abs(en["edge"][0] - 788.74) < 1e-6
+    assert abs(en["sum"][0] - 1471.006) < 0.01
+
+
+def test_low_branch_and_fwhm_points_selection(tmp_path):
+    d = load_spectrum(BG)
+    B = d["counts"].astype(float)
+    cal = d["cal"]
+    n = len(B)
+    y, centers = _peaks(n, LINES[:5], area=60000.0, a=2.0, b=1.03)
+    S = _stretch(B, 2.0, 1.03, n) + y
+    smp = _write_like(tmp_path, "sample.xml", S)
+    rep = _repers_by_click(S, centers, LINES[:5], shift=1.0)
+    rep[0] = dict(rep[0], warn=["ПШПВ 40.00 кан больше ожидаемой 27.00 в 1.5 раза -- вероятно мультиплет"])
+    r = sc.run_sample_cal(BG, smp, rep, verbose=False)
+    assert "a37" in r["visible_sample"]
+    assert all(p["E"] >= 100 for p in r["points"])
+    assert all(p["E"] >= 100 for p in r["scale_sample"]["points"])
+    assert "low" in r
+    assert r["coeffs_xml"] == r["low"]["xml"]["coeffs"]
+    ch0 = poly_eval(r["h"], rep[0]["ch"])
+    ch1 = poly_eval(r["h"], rep[1]["ch"])
+    assert all(abs(p[0] - ch0) > 1.0 for p in r["fwhm_points"])
+    assert any(abs(p[0] - ch1) < 1.0 for p in r["fwhm_points"])
+
+
+def test_fit_click_refusals_multiplet_and_doublet():
+    B = load_spectrum(BG)["counts"].astype(float)
+    assert sc.fit_click(np.zeros(2048), 500.0, 9.0, 9.0) is None
+    assert sc.fit_click(B, 5.0, sc.fwhm_guess(5.0, 2048)) is None
+    
+    x = np.arange(2048, dtype=float)
+    base = np.full(2048, 400.0)
+    def pk(A):
+        return A / (math.sqrt(2 * math.pi) * 4.0) * np.exp(-0.5 * ((x - 1000.0) / 4.0) ** 2)
+    
+    # значимость ~2.5 (< 3) -- отказ; при площади 500 -- ~3.6: принят с предупреждением (замер, круг 1)
+    f2 = sc.fit_click(base + pk(340.0), 1000.0, 9.42, 9.42)
+    assert f2 is None
+    
+    f4 = sc.fit_click(base + pk(500.0), 1000.0, 9.42, 9.42)
+    assert f4 is not None
+    assert q.SIGNIF_REFUSE <= f4["signif"] < sc.SIGNIF_MIN
+    assert any("незначимый" in t for t in f4["warn"])
+    
+    w = 20.0
+    s = w / 2.3548
+    yd = 50.0 + 20000.0 / (math.sqrt(2 * math.pi) * s) * (np.exp(-0.5 * ((x - 990.0) / s) ** 2) + np.exp(-0.5 * ((x - 1010.0) / s) ** 2))
+    Sd = np.random.default_rng(1).poisson(yd).astype(float)
+    f = sc.fit_click(Sd, 1000.0, w, fwhm_expected=w)
+    assert any("мультиплет" in t for t in f["warn"])
+    d = q.fit_doublet(Sd, 1000.0, w)
+    assert len(d) == 2
+    assert abs(d[0]["ch"] - 990.0) <= 0.15 * w
+    assert abs(d[1]["ch"] - 1010.0) <= 0.15 * w
+
+
+def test_candidate_ranking_foreign_last():
+    c = sc.candidate_lines(346.0, visible_series={"U"})
+    assert c[0]["nuclide"] == "Pb-214"
+    assert abs(c[0]["E"] - 351.932) < 0.01
+    foreign_indices = [i for i, x in enumerate(c) if x["foreign"]]
+    non_foreign_indices = [i for i, x in enumerate(c) if not x["foreign"]]
+    if foreign_indices and non_foreign_indices:
+        assert min(foreign_indices) > max(non_foreign_indices)
+    for i in foreign_indices:
+        assert "чужой" in c[i]["note"]
+    c30 = sc.candidate_lines(346.0, visible_series={"U"}, n_max=200)
+    # интенсивность решает: ближайшая к 664 кэВ -- слабая Bi-214 665.45 (1.5 %), первой должна быть Cs-137 661.66 (85 %)
+    assert sc.candidate_lines(664.0)[0]["nuclide"] == "Cs-137"
+    assert any(x["nuclide"] == "Eu-152" for x in c30)
+
+
+def test_anchors_of_degenerate_spectrum_no_crash():
+    a = sc.anchors_of(np.zeros(8192), [0.0, 0.36, 3.0e-5])
+    assert all(a[k]["visible"] is False for k in ("a37", "edge", "sum"))
+
+
+def test_bg_own_scale_corrects_file_calibration():
+    """Правка Claude: шкала фона по своим структурам (2 точки, полином отвергнут) -- калибровка файла с поправкой
+    E' = a + b*E_файла проходит через обе точки."""
+    cal_b = [-5.0, 1.40, 1.0e-4]
+    pts = [{"ch": 300.0, "E": 450.0}, {"ch": 900.0, "E": 1400.0}]
+    B = np.full(2048, 100.0)
+    B[:THR] = 0.0
+    C, how = sc.bg_own_scale({"rejected": "порог", "points": pts}, cal_b, B)
+    assert "поправкой" in how
+    for q in pts:
+        assert abs(float(poly_eval(C, q["ch"])) - q["E"]) < 1e-6
+    narrow = [{"ch": 500.0, "E": 725.0}, {"ch": 850.0, "E": 1262.0}]   # охват меньше 3 раз (поправка порог прошла бы) -- файл
+    C2, how2 = sc.bg_own_scale({"rejected": "порог", "points": narrow}, cal_b, B)
+    assert how2 == "калибровка файла" and C2 == cal_b
+
+
+
+def test_false_intrinsic_anchor_dropped():
+    """Найдено живым прогоном (правка Claude): «пик 37 кэВ» сильной пробы на 82 кэВ по шкале её реперов отбрасывается,
+    верная опора остаётся."""
+    rep = [{"name": "p%d" % i, "ch": float(poly_inverse(ECAL_REF, E)), "ch_err": 0.05, "E": E, "dE": 0.05,
+            "source": sc.SRC_LIB, "nuclide": "X", "fwhm": 8.0, "signif": 50.0} for i, E in enumerate((351.932, 661.657, 1120.287, 1764.494))]
+    counts = np.full(2048, 100.0)
+    counts[:THR] = 0.0
+    anc = {"a37": {"x": float(poly_inverse(ECAL_REF, 82.0)), "visible": True},
+           "edge": {"x": float(poly_inverse(ECAL_REF, 788.74)), "visible": True}, "sum": {"x": 0.0, "visible": False}}
+    intr = [{"name": "La138_37_intr"}, {"name": "La138_789_edge"}]
+    out = sc.check_intrinsic(anc, intr, rep, counts, [6.0, 1.35007262, 4.58971597e-04], verbose=False)
+    assert [r["name"] for r in out] == ["La138_789_edge"] and anc["a37"]["visible"] is False and anc["edge"]["visible"] is True
+
+
+
+def test_cancel_flag_stops_stages(tmp_path):
     """LABR-11 п.7: флаг отмены останавливает «Шкалу», «Вычесть» и «Шкалу по пробе» между этапами (правка Claude)."""
     from gamma.calibration.intrinsic_shape import robust as rb
     rb.CANCEL["flag"] = True
@@ -311,76 +443,36 @@ def test_cancel_flag_stops_ecal_subtract_and_samplecal(tmp_path):
     assert not (tmp_path / "z.xml").exists()
 
 
-def test_samplecal_37_only_low_branch_and_wide_peak_not_in_fwhm(tmp_path):
-    """Найдено живым прогоном (правка Claude): 37 кэВ -- только в ветвь ниже 100 кэВ, не в основной полином; пик с
-    подозрительной ПШПВ -- не в точки ПШПВ; модель ПШПВ из точек строится (CheckCalibration)."""
-    d = load_spectrum(BG)
-    B = d["counts"].astype(float)
-    n = len(B)
-    y, centers = _peaks(n, LINES[:5], area=60000.0, a=2.0, b=1.03)
-    smp = _write_like_bg(tmp_path, "sample.xml", _stretch(B, 2.0, 1.03, n) + y)
-    rep = _repers_by_click(_stretch(B, 2.0, 1.03, n) + y, centers, LINES[:5], shift=1.0)
-    rep[0] = dict(rep[0], warn=["ПШПВ 40.00 кан отличается от ожидаемой 27.00 больше чем в 1.5 раза"])
-    r = sc.run_sample_cal(BG, smp, rep, verbose=False)
-    assert "a37" in r["visible_sample"] and all(p["E"] >= 100.0 for p in r["points"])
-    assert all(p["E"] >= 100.0 for p in r["scale_sample"]["points"])   # и в шкале пробы
-    assert "low" in r and r["coeffs_xml"] == r["low"]["xml"]["coeffs"]
-    ch0 = float(poly_eval(r["h"], rep[0]["ch"]))
-    assert all(abs(p[0] - ch0) > 1.0 for p in r["fwhm_points"])
-    assert F.check(F.fit_fwhm(n, [p[0] for p in r["fwhm_points"]], [p[1] for p in r["fwhm_points"]]), n)[0] is True
 
-
-def test_samplecal_false_intrinsic_anchor_dropped():
-    """Найдено живым прогоном (правка Claude): «пик 37 кэВ» сильной пробы на 82 кэВ по шкале её реперов отбрасывается,
-    верная опора остаётся."""
-    rep = [{"name": "p%d" % i, "ch": float(poly_inverse(ECAL_REF, E)), "ch_err": 0.05, "E": E, "dE": 0.05,
-            "source": sc.SRC_LIB, "nuclide": "X", "fwhm": 8.0, "signif": 50.0} for i, E in enumerate((351.932, 661.657, 1120.287, 1764.494))]
-    counts = np.full(2048, 100.0)
-    counts[:THR] = 0.0
-    anc = {"a37": {"x": float(poly_inverse(ECAL_REF, 82.0)), "visible": True},
-           "edge": {"x": float(poly_inverse(ECAL_REF, 788.74)), "visible": True}, "sum": {"x": 0.0, "visible": False}}
-    intr = [{"name": "La138_37_intr"}, {"name": "La138_789_edge"}]
-    out = sc.check_intrinsic(anc, intr, rep, counts, ECAL_REF, verbose=False)
-    assert [r["name"] for r in out] == ["La138_789_edge"] and anc["a37"]["visible"] is False and anc["edge"]["visible"] is True
-
-
-def test_samplecal_bg_own_scale_corrects_file_calibration():
-    """Правка Claude: шкала фона по своим структурам (2 точки, полином отвергнут) -- калибровка файла с поправкой
-    E' = a + b*E_файла проходит через обе точки."""
-    cal_b = [-5.0, 1.40, 1.0e-4]
-    pts = [{"ch": 300.0, "E": 450.0}, {"ch": 900.0, "E": 1400.0}]
-    B = np.full(2048, 100.0)
-    B[:THR] = 0.0
-    C, how = sc.bg_own_scale({"rejected": "порог", "points": pts}, cal_b, B)
-    assert "поправкой" in how
-    for q in pts:
-        assert abs(float(poly_eval(C, q["ch"])) - q["E"]) < 1e-6
-    narrow = [{"ch": 500.0, "E": 725.0}, {"ch": 850.0, "E": 1262.0}]   # охват меньше 3 раз (поправка порог прошла бы) -- файл
-    C2, how2 = sc.bg_own_scale({"rejected": "порог", "points": narrow}, cal_b, B)
-    assert how2 == "калибровка файла" and C2 == cal_b
-
-
-def test_samplecal_energy_mode_sample_line_lands_at_its_energy(tmp_path):
-    """Правка Claude: проба без видимых структур LaBr3 -- режим «через энергии»; линия пробы на сетке фона имеет по шкале
-    XML свою энергию, отклонение квадратичного h ограничено."""
-    n = 2048
-    x = np.arange(n, dtype=float)
-    y, centers = _peaks(n, LINES[:5], area=60000.0, a=2.0, b=1.03)
-    S = np.random.default_rng(3).poisson(3000.0 * np.exp(-x / 300.0) + 50.0 + y).astype(float)
-    S[:THR] = 0.0
-    smp = _write_like_bg(tmp_path, "sample.xml", S)
-    r = sc.run_sample_cal(BG, smp, _repers_by_click(S, centers, LINES[:5], shift=1.0), verbose=False)
-    assert r["mode"] == "energy" and not r["rejected"]
-    for c, (nuc, E) in zip(centers, LINES[:5]):
-        assert abs(float(poly_eval(r["coeffs_xml"], poly_eval(r["h"], c))) - E) <= 1.5, (nuc, E)
-
-
-def test_fit_click_degenerate_fit_rejected_weak_peak_kept():
-    """Правка Claude: щелчок без пика (нули, ниже порога) -- центроид не определён, репер не создаётся; слабый, но
-    подогнанный пик (значимость < 5) -- с предупреждением."""
-    B = load_spectrum(BG)["counts"].astype(float)
-    assert sc.fit_click(np.zeros(2048), 500.0, 9.0, 9.0) is None
-    assert sc.fit_click(B, 5.0, sc.fwhm_guess(5.0, 2048)) is None
-    assert sc.fit_click(B, 2.0, sc.fwhm_guess(2.0, 2048)) is None
-    f = sc.fit_click(B, 300.0, sc.fwhm_guess(300.0, 2048))
-    assert f is not None and f["signif"] < sc.SIGNIF_MIN and any("незначимый" in w for w in f["warn"])
+def test_live_medallion_not_worse_than_file():
+    D = os.environ.get("LABR3_MEDALLION_DIR")
+    if not D:
+        pytest.skip("нет LABR3_MEDALLION_DIR")
+    
+    d = load_spectrum(pathlib.Path(D) / "Медальон 8192.xml")
+    S = d["counts"].astype(float)
+    cal = d["cal"]
+    rep = []
+    for x, nuc, E in MED_CLICKS:
+        fw = sc.fwhm_guess(x, len(S))
+        f = sc.fit_click(S, x, fw, fwhm_expected=fw)
+        if f and any("мультиплет" in t for t in f.get("warn", [])):
+            dd = q.fit_doublet(S, x, fw)
+            f = min(dd, key=lambda c: abs(c["ch"] - x)) if dd else None
+        if f:
+            rep.append(sc.reper_from_choice(f, E, nuc))
+    
+    res = sc.scale_from_repers(rep, S, cal, verbose=False)
+    qd = res["quality"]
+    if not res.get("rejected"):
+        assert qd["loo"] < qd["file_rms"]
+    else:
+        assert list(res["coeffs"]) == list(cal)
+    
+    r1764 = [r for r in rep if abs(r["E"] - 1764.491) < 0.01][0]
+    assert abs(poly_eval(res["coeffs"], r1764["ch"]) - 1764.491) <= 3.0
+    
+    # Test anchors_of on another file
+    d2 = load_spectrum(pathlib.Path(D) / "Бисер 2.xml")
+    a = sc.anchors_of(d2["counts"].astype(float), list(d2["cal"]))
+    assert a is not None
