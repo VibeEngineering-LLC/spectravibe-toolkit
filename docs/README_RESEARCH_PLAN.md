@@ -22,8 +22,8 @@ identification, calibration, deconvolution, activity calculation»),
 
 Два контура, явно разделены в `CLAUDE.md:10-12`:
 - **Оператор** — запускает анализ спектра, **не** грузит dev-skill.
-- **Разработчик** — грузит `private-dev-skill` skill (`~/.claude/skills/private-dev-skill/SKILL.md`)
-  с правилами разработки/релиза (`CLAUDE.md:10-12`, mirror `docs/private-dev-skill_mirror_2026-06-06.md:14`).
+- **Разработчик** — грузит закрытый скилл разработки проекта (в этот репозиторий не входит)
+  с правилами разработки/релиза (`CLAUDE.md:10-12`).
 
 Лендинги ориентируем в первую очередь на **оператора** (точка входа), с короткой
 секцией «для разработчиков» со ссылками.
@@ -77,7 +77,7 @@ identification, calibration, deconvolution, activity calculation»),
 | `references/` | Методология, таблицы линий, спецификации алгоритмов, книги | `ls references/` |
 | `detectors/` | Ассеты по детекторам (11 папок) | `ls detectors/` |
 | `data/` | `aliases.json`, `nuclides.json`, `xrf_lines.json`, `anchor_patterns.json`, … | `ls data/` |
-| `docs/` | `RUN_SKILL.md`, `METHODOLOGY_LESSONS.md`, dev-skill mirror, `archive/` | `ls docs/` |
+| `docs/` | `RUN_SKILL.md`, `METHODOLOGY_LESSONS.md`, `archive/` | `ls docs/` |
 | `tests/` | Регрессионные тесты | `ls tests/` |
 | `evals/` | Фикстуры + сценарии приёмки | `README.md:134-142` |
 | `1_Version/` | Релизные архивы (zip), включая `books_library/` | `CLAUDE.md:36-40` |
@@ -139,7 +139,7 @@ identification, calibration, deconvolution, activity calculation»),
   (`README.md:169`).
 - Полный журнал — `KNOWN_AND_FIXED_ISSUES.md` (`README.md:179-188`).
 - Жизненный цикл: **Phase 1 — Development & Validation** (не GA),
-  `docs/private-dev-skill_mirror_2026-06-06.md:37-39`.
+  по правилам закрытого скилла разработки проекта.
 
 ### 9. Дизайн механизма «автоподдержки» лендинга (требование B)
 
@@ -147,17 +147,16 @@ identification, calibration, deconvolution, activity calculation»),
   - `.claude/skills/readme-sync/SKILL.md` — project-skill (сейчас в `.claude/`
     только `agents/`, папки `skills/` нет — создаём; `ls .claude/`).
   - `docs/readme-maintenance/README_CONTRACT.md` + `UPDATE_CHECKLIST.md`.
-  - User-level `private-dev-skill` — **отдельный репозиторий**, сюда не коммитим
-    (`CLAUDE.md:4`, mirror header `:3-5`).
+  - Закрытый скилл разработки проекта — **отдельный репозиторий**, сюда не коммитим
+    (`CLAUDE.md:4`).
 - **Встраивание в `agent-c-docs`** (владелец `*.md`, бампит `SKILL_VERSION`,
   `.claude/agents/agent-c-docs.md:30-38`): добавить `readme_en.md` + `readme_ru.md`
   в зону «Can edit» и триггер «на merge цикла / новой фиче обновить оба лендинга
   по `docs/readme-maintenance/UPDATE_CHECKLIST.md`»; явно отметить, что
   **`README.md` — pipeline-owned** (правится штатным релизным процессом,
   не landing-процессом).
-- **Указатель в `CLAUDE.md`**: 1–3 строки на skill+contract. Mirror dev-skill
-  (`docs/private-dev-skill_mirror_*.md`) помечен «do not edit»
-  (mirror header `:3`) — **не трогаем его**.
+- **Указатель в `CLAUDE.md`**: 1–3 строки на skill+contract. Копия закрытого скилла
+  разработки в публичном дереве не хранится.
 
 ---
 
@@ -208,7 +207,7 @@ identification, calibration, deconvolution, activity calculation»),
 - `CLAUDE.md` — короткий указатель (1–3 строки).
 
 **НЕ трогаем:** `README.md`, любые `scripts/**` и `*.py` (вкл.
-`version_check.py`), git-теги, dev-skill mirror.
+`version_check.py`), git-теги.
 
 **Коммиты (Phase 3, conventional, без push):**
 - `docs(readme): bilingual latte-style landing pages (readme_en + readme_ru)`
