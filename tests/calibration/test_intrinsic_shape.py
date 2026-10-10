@@ -459,3 +459,30 @@ def test_net_cps_equivalence_any_output_live_time(tmp_path, lt_out):
     cps_file = out["counts"] / lt_o
     n = len(B) - 1
     assert np.max(np.abs(cps_file[:n] - cps_true[:n])) <= 0.5 / lt_o + 1e-9
+
+
+def test_ecal_sample_below_bg_uses_bg_intrinsic_reperes(tmp_path):
+    """Образец ниже фона·k (фон с внешними линиями и континуумом, образец -- только собственный фон кристалла):
+    реперы шкалы берутся из фона, линии образца в отрицательной разности не ищутся, шкала годная (правка Claude)."""
+    B = load_spectrum(BG)["counts"].astype(float)
+    x = np.arange(len(B), dtype=float)
+    ext = 40.0 * np.exp(-x / 300.0) + sum(a * np.exp(-0.5 * ((x - c) / (w / 2.355)) ** 2)
+                                          for a, c, w in ((900.0, 239.5, 8.0), (1200.0, 338.0, 11.0)))
+    t = BG.read_text("utf-8")
+    vals = iter(np.round(B + ext).astype(int))
+    bg2 = tmp_path / "bg_external.xml"
+    bg2.write_text(re.sub(r"<DataPoint>[^<]*</DataPoint>", lambda m: "<DataPoint>%d</DataPoint>" % next(vals), t), encoding="utf-8")
+    e = pl.run_ecal(bg2, BG, [0.0, 1.0, 0.0], verbose=True)
+    names = [p["name"] for p in e["points"]]
+    E = poly_eval(e["coeffs"], np.arange(len(B), dtype=float))
+    assert {"La138_sum1473", "Ann511", "Pb214_352"} <= set(names) and not e.get("rejected")
+    assert e["lines"] == [] and 0 < E[20] < 100 and np.all(np.diff(E) > 0)
+
+
+def test_ecal_two_reperes_degenerate_scale_rejected_falls_back_to_file():
+    """Два репера фона (сумм-пик, β-край) -- линейная шкала; порог прибора вне 0..100 кэВ -- шкала отвергнута,
+    в XML калибровка файла фона, ветвь ниже 100 кэВ не строится, исключения нет (правка Claude)."""
+    e = pl.run_ecal(BG, BG, [0.0, 1.0, 0.0], verbose=True)
+    assert len(e["points"]) == 2 and len(e.get("ecal_points_cfg", [])) == 2
+    assert e.get("rejected") and list(e["coeffs"]) == list(load_spectrum(BG)["cal"]) and "low" not in e
+    assert list(e["coeffs_xml"]) == list(e["coeffs"])

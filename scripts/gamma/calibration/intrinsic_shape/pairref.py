@@ -19,6 +19,7 @@ from .peakfit import fit_peak
 # (Am-241, Ba-133, Co-60, Cs-134, Eu-152) в общем списке блокировали «изолированность» природных линий
 # (Cs-134 604.7 рядом с Bi-214 609) и давали ложные отождествления; их можно передать явно.
 SAMPLE_NUCLIDES = ("Cs-137", "K-40", "Pb-214", "Bi-214", "Tl-208", "Ac-228", "Pb-212")
+NET_Z_NEG = 3.0   # правка Claude: z суммы разности <= -3 -- «значимо отрицательна», линии образца в ней не ищутся
 EXTRA_NUCLIDES = ("Ra-226", "Am-241", "Ba-133", "Co-60", "Cs-134", "Eu-152")
 AVOID_KEV = ((30.0, 45.0), (505.0, 517.0), (1425.0, 1485.0))   # пик ~37 кэВ, аннигиляция/Tl-208 510.77, сумм-пик La-138 (K-40 там моделируется отдельно)
 ME_KEV = 510.999
@@ -365,7 +366,18 @@ def pair_ecal_cfg(preset_cfg, B, net, var, h, scale, fwhm_ch, lu=None, verbose=T
     checks = [c for c in cfg.get("checks", []) if c.get("spectrum") == "bg"]
 
     # Ищем линии в образце
-    lines = find_net_lines(net, var, scale, fwhm_ch, verbose=verbose, **line_kw)
+    # правка Claude: линии образца ищутся в разности, только если она не значимо отрицательна (фон из другой
+    # обстановки / перепутанные спектры: образец ниже фона·k -- «линии» разности ложные); собственные реперы -- из фона
+    nn = len(net)
+    a, b = int(60 * nn / 2048), int(1700 * nn / 2048) + 1
+    z_net = float(np.sum(net[a:b]) / np.sqrt(max(np.sum(var[a:b]), 1.0)))
+    if z_net <= -NET_Z_NEG:
+        lines = []
+        if verbose:
+            print("[PAIR] разность значимо отрицательна (z суммы %.1f в каналах %d-%d): образец ниже фона·k, линии "
+                  "образца не ищутся -- реперы только собственные структуры фона" % (z_net, a, b - 1))
+    else:
+        lines = find_net_lines(net, var, scale, fwhm_ch, verbose=verbose, **line_kw)
 
     # Добавляем линии как реперы
     new_points = []

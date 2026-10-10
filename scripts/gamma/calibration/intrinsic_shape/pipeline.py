@@ -436,6 +436,60 @@ def source_points(src_path, ctx, lowe, nuclide, C, verbose=True):
     return points
 
 
+ANCHOR_OF = {"La138_789_edge": "edge", "La138_sum1473": "sum"}   # правка Claude: репер -> опора автопресета
+
+
+def _one_point_scale(cfg, ctx, verbose=True):
+    """Правка Claude: один репер -- только масштаб исходной калибровки файла фона: E(x) = f * E_file(x)."""
+    p = cfg["points"][0]
+    a = ctx["auto"]["anchors"].get(ANCHOR_OF.get(p["name"], ""), {})
+    ch = float(p.get("ch", a.get("x", p.get("x0"))))
+    f = float(p["E"]) / float(poly_eval(ctx["cal"], ch))
+    C = [c * f for c in ctx["cal"]]
+    if verbose:
+        print("[CAL] ПРЕДУПРЕЖДЕНИЕ: репер один (%s, канал %.2f) -- шкала = калибровка файла фона x %.5f; степень и "
+              "невязки не проверяются" % (p["name"], ch, f))
+    return {"coeffs": C, "chi2ndf": float("nan"), "rms": 0.0, "loo_rms": float("nan"),
+            "points": [{"name": p["name"], "ch": ch, "ch_err": 0.0, "E": float(p["E"]), "E_err": float(p.get("dE", 0.0)),
+                        "residual": 0.0, "loo": float("nan")}]}
+
+
+def _scale_defect(res, ctx):
+    """Правка Claude: причина отвергнуть шкалу ("" -- годна): χ²/ndf не определён, порог > 100 кэВ, не возрастает."""
+    C, n = res["coeffs"], ctx["n"]
+    thr = next((i for i in range(n) if ctx["B"][i] > 0), 0)
+    E = poly_eval(C, np.arange(n, dtype=float))
+    if len(C) > 2 and not np.isfinite(res["chi2ndf"]):
+        return "χ²/ndf не определён (реперов не больше, чем параметров квадратичной шкалы)"
+    if not 0.0 <= float(E[thr]) <= 100.0:
+        return "порог прибора (канал %d) = %.0f кэВ вне 0..100 кэВ" % (thr, float(E[thr]))
+    if np.any(np.diff(E) <= 0):
+        return "шкала не возрастает на каналах 0..%d" % (n - 1)
+    return ""
+
+
+def _guarded_calibrate(cfg, ctx, hh, verbose=True):
+    """Правка Claude: степень по числу реперов; вырожденная шкала отвергается с откатом на калибровку файла фона."""
+    n_pts, deg0 = len(cfg["points"]), int(cfg.get("degree", 2))
+    if n_pts == 0:
+        raise ValueError("Шкала не построена: реперов нет. В фоне не найдены собственные структуры LaBr3 (сумм-пик ~1472, "
+                         "β-край 789, 511, 352 кэВ), линий образца нет. Проверьте, что «фон» -- исходный спектр фона, "
+                         "а не разность или образец, и опоры на вкладке «Совместить».")
+    if n_pts == 1:
+        res = _one_point_scale(cfg, ctx, verbose)
+    else:
+        deg = deg0 if n_pts > deg0 + 1 else 1   # квадратичная -- только при ndf >= 1
+        if deg < deg0 and verbose:
+            print("[CAL] ПРЕДУПРЕЖДЕНИЕ: реперов %d -- шкала линейная вместо степени %d" % (n_pts, deg0))
+        res = ops.calibrate(dict(cfg, degree=deg), ctx["B"], ctx["S"], hh)
+    why = _scale_defect(res, ctx)
+    if why:
+        if verbose:
+            print("[CAL] ШКАЛА ОТВЕРГНУТА: %s -- в XML остаётся калибровка файла фона %s" % (why, list(ctx["cal"])))
+        res = dict(res, coeffs=list(ctx["cal"]), rejected=why)
+    return res
+
+
 def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=True, use37=True, e37=None, source=None, source_nuclide=None, robust_json=None, out_json=None, verbose=True):
     ctx = setup(bg_path, sample_path, auto, manual, verbose=False)
     hh = _h_from(h)
@@ -459,7 +513,7 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
                                       tol_rel=0.03, min_sep=1.5)
     lu = len(lines) == 0 and pr.is_lu_sample(net, var, cfg0, hh, ctx["fwhm_fn"])
     
-    res = ops.calibrate(cfg, ctx["B"], ctx["S"], hh)
+    res = _guarded_calibrate(cfg, ctx, hh, verbose)   # правка Claude: число реперов и вырожденность шкалы
     
     C = list(res["coeffs"])
     if verbose and np.isfinite(res["chi2ndf"]) and res["chi2ndf"] > 3.0:   # правка Claude
@@ -481,12 +535,19 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
     result["fwhm_points"] = [list(p) for p in fw_pts]
     
     lr = None
-    if low:
+    if low and res.get("rejected") and verbose:
+        print("[LOWE] ветвь ниже 100 кэВ не строится: основная шкала отвергнута")
+    if low and not res.get("rejected"):
         lowe = _load_json(ap.HERE / "presets" / "labr3_lowE.json")
         if e37 is not None:
             lowe["e37_gamma"] = float(e37)
         
-        pts = low_points(ctx, res, hh, net, var, lu, lowe, C, verbose)
+        try:
+            pts = low_points(ctx, res, hh, net, var, lu, lowe, C, verbose)
+        except Exception as exc:   # правка Claude: «array of sample points is empty» и т. п. -- без окна ошибки
+            if verbose:
+                print("[LOWE] реперы ниже 100 кэВ не найдены: %s" % exc)
+            pts = []
         if source:
             pts += source_points(source, ctx, lowe, source_nuclide or "Am-241", C, verbose)
         
@@ -496,13 +557,19 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
                 thr = i + 1
                 break
         
-        try:
+        try:   # правка Claude: без реперов ветвь не строится; любое исключение -- понятное сообщение, а не окно ошибки
+            if not pts:
+                raise ValueError("реперов нет")
             lr = lw.report(C, pts, n, thr, e37=lowe["e37_gamma"], de37=lowe["de37"], use37=use37, verbose=verbose)
-        except ValueError as exc:
+        except Exception as exc:
             if verbose:
-                print("[LOWE] ветвь не построена: %s" % exc)
+                print("[LOWE] ветвь ниже 100 кэВ не построена: %s" % exc)
             lr = None
         
+        if lr and not np.isfinite(lr["fit"]["sigma_s"]):   # правка Claude: s не определён (один репер, граница) -- ветви нет
+            if verbose:
+                print("[LOWE] ветвь ниже 100 кэВ не принята: s = %.3f без погрешности (реперов мало)" % lr["fit"]["s"])
+            lr = None
         if lr:
             band_ch = lr["band"]["ch"]
             band_E = lr["band"]["E"]
