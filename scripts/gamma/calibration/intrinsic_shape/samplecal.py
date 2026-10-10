@@ -12,6 +12,7 @@ from . import autopreset as ap
 from . import pairref as pr
 from . import register as reg
 from . import robust as rb
+from . import samplecal_q as q   # правка Claude (круг 1): качество шкалы, ранжирование линий, двойной фит
 
 HERE = pathlib.Path(__file__).resolve().parent
 FORMAT = "labr3_samplecal/1"
@@ -42,14 +43,16 @@ def intrinsic_energies():
 def fit_click(counts, x_click, fwhm_ch, fwhm_expected=None):
     """Подгонка пика в окрестности клика. Возвращает словарь с параметрами или None."""
     hw = max(3, int(math.ceil(2.0 * fwhm_ch)))
-    r = fit_peak(np.asarray(counts, float), float(x_click), float(fwhm_ch), half_window=hw)
+    # правка Claude (круг 1): без ступеньки -- у слабых пиков на наклонном континууме её свободная высота сдвигает центроид
+    # на 4-6 кан (медальон, 1764 кэВ: 3686.6 со ступенькой, 3681.1 без, независимая подгонка 3680.6)
+    r = fit_peak(np.asarray(counts, float), float(x_click), float(fwhm_ch), half_window=hw, step=False)
 
     if r is None:
         return None
     if not np.isfinite(r["centroid"]) or not np.isfinite(r["centroid_err"]) or r["centroid_err"] <= 0:
         return None
-    if not (r.get("area", 1.0) > 0 and np.isfinite(r["fwhm"]) and r["centroid_err"] < r["fwhm"]
-            and abs(r["centroid"] - x_click) <= hw and 0.0 <= r["centroid"] <= len(counts) - 1 and r["signif"] > 0.0):
+    if not (r.get("area", 1.0) > 0 and np.isfinite(r["fwhm"]) and r["centroid_err"] <= q.CENTROID_ERR_MAX * r["fwhm"]
+            and abs(r["centroid"] - x_click) <= hw and 0.0 <= r["centroid"] <= len(counts) - 1 and r["signif"] >= q.SIGNIF_REFUSE):
         return None   # правка Claude: подгонка выродилась -- площадь <= 0, центроид не определён (ошибка >= ПШПВ) или вне окна
 
     warn = []
@@ -57,7 +60,9 @@ def fit_click(counts, x_click, fwhm_ch, fwhm_expected=None):
         warn.append("незначимый пик (значимость %.1f < %.0f)" % (r["signif"], SIGNIF_MIN))
     if fwhm_expected is not None:
         ratio = r["fwhm"] / fwhm_expected
-        if ratio < 1.0 / FWHM_RATIO_MAX or ratio > FWHM_RATIO_MAX:
+        if ratio > q.MULTIPLET_RATIO:   # правка Claude (круг 1): широкий пик -- вероятно мультиплет
+            warn.append("ПШПВ %.2f кан больше ожидаемой %.2f в %.1f раза -- вероятно мультиплет, предложен двойной фит" % (r["fwhm"], fwhm_expected, ratio))
+        elif ratio < 1.0 / FWHM_RATIO_MAX:
             warn.append("ПШПВ %.2f кан отличается от ожидаемой %.2f больше чем в %.1f раза" % (r["fwhm"], fwhm_expected, FWHM_RATIO_MAX))
 
     return {
@@ -70,18 +75,13 @@ def fit_click(counts, x_click, fwhm_ch, fwhm_expected=None):
     }
 
 
-def candidate_lines(E_est, nuclides=None, min_int=0.5, n_max=15, e_min=10.0, e_max=4000.0):
-    """Возвращает список кандидатов на линии из библиотеки, отсортированный по близости к E_est."""
+def candidate_lines(E_est, nuclides=None, min_int=0.5, n_max=15, e_min=10.0, e_max=4000.0, fwhm_keV=None, visible_series=()):
+    """Кандидаты линий: близость x интенсивность x ряды, видимые в пробе; чужие нуклиды ниже; дублеты одного нуклида --
+    эффективная энергия (правка Claude, круг 1)."""
     if nuclides is None:
         nuclides = tuple(pr.SAMPLE_NUCLIDES) + tuple(pr.EXTRA_NUCLIDES)
     lines = pr.library_lines(nuclides, min_int=min_int, e_min=e_min, e_max=e_max)
-    lines = sorted(lines, key=lambda l: abs(l["E"] - E_est))
-    result = []
-    for l in lines[:n_max]:
-        d = dict(l)
-        d["dE_est"] = l["E"] - E_est
-        result.append(d)
-    return result
+    return q.rank_candidates(lines, E_est, fwhm_keV or max(3.0, 0.03 * E_est), visible_series, n_max)   # правка Claude (круг 1)
 
 
 def make_reper(fit, E, source, nuclide=None, dE=None):
@@ -118,7 +118,10 @@ def make_reper(fit, E, source, nuclide=None, dE=None):
 
 def anchors_of(counts, cal):
     """Возвращает словарь опор LaBr3 с их видимостью и параметрами."""
-    a = _autopreset_anchors(counts, cal)
+    try:   # правка Claude (круг 1): пустое окно поиска («argmax of an empty sequence») -- опоры невидимы, без падения
+        a = _autopreset_anchors(counts, cal)
+    except (ValueError, IndexError, KeyError) as exc:
+        a = {k: {"ok": False, "reason": str(exc)} for k in ("a37", "edge", "sum")}
     result = {}
     for key in ("a37", "edge", "sum"):
         A = a.get(key, {})
@@ -213,13 +216,14 @@ def scale_from_repers(repers, counts, cal, verbose=True):
         "auto": {"anchors": {}},
     }
 
-    res = pl._guarded_calibrate(cfg, ctx, [0.0, 1.0, 0.0], verbose)
+    res = q.quality_gate(q.select_degree(cfg, ctx, verbose), cal, verbose)   # правка Claude (круг 1): степень по LOO, порог качества
     return dict(res, dropped=dropped, n_repers=len(good))
 
 
-def save_json(path, repers, device, n_ch, anchors):
-    """Сохраняет набор реперов в JSON."""
+def save_json(path, repers, device, n_ch, anchors, cal=None):
+    """Сохраняет набор реперов в JSON (правка Claude, круг 1: калибровка файла, значимость и предупреждения)."""
     data = {
+        "cal": [float(c) for c in cal] if cal is not None else None,
         "format": FORMAT,
         "device": str(device),
         "n_ch": int(n_ch),
@@ -237,6 +241,8 @@ def save_json(path, repers, device, n_ch, anchors):
                 "dE": float(r["dE"]),
                 "source": r["source"],
                 "nuclide": r["nuclide"],
+                "signif": float(r.get("signif", float("nan"))),
+                "warn": list(r.get("warn", [])),
             }
             for r in repers
         ],
@@ -249,6 +255,9 @@ def load_json(path):
     """Загружает набор реперов из JSON."""
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
+    for r in data.get("repers", []):   # правка Claude (круг 1): наборы без значимости/предупреждений -- без KeyError
+        r.setdefault("signif", float("nan"))
+        r.setdefault("warn", [])
     if data.get("format") != FORMAT:
         raise ValueError("не набор реперов калибровки по пробе: %s" % path)
     return data
@@ -271,6 +280,14 @@ def apply_to(data, counts, cal, refit=True, verbose=True):
     if verbose:
         print("[SCAL] перенос набора: отображение опор x' = %.4f + %.6f*x по %d опорам" % (c0, c1, len(common_keys)))
 
+    if data.get("cal"):   # правка Claude (круг 1): физичность усиления против калибровок файлов
+        ok, ratio, g_file = q.gain_check(c1, data["cal"], cal, float(np.mean(src_x)))
+    else:
+        ok, ratio, g_file = q.GAIN_RANGE[0] <= c1 <= q.GAIN_RANGE[1], c1, 1.0
+    if not ok:
+        raise ValueError("перенос набора реперов: нефизичное усиление x' = %.2f + %.4f*x (отношение %.3f к усилению по "
+                         "калибровкам файлов %.4f, допустимо %.2f-%.2f) -- опоры найдены неверно" % (c0, c1, ratio, g_file, *q.GAIN_RANGE))
+    dropped = []
     # Получаем новые собственные структуры LaBr3
     intr_repers, _ = intrinsic_repers(counts, cal)
     intr_names = set(r["name"] for r in intr_repers)
@@ -293,7 +310,7 @@ def apply_to(data, counts, cal, refit=True, verbose=True):
             
             if refit:
                 f = fit_click(counts, x, fwhm_new)
-                if f is not None and abs(f["ch"] - x) <= 2.0 * fwhm_new:
+                if f is not None and abs(f["ch"] - x) <= 1.0 * fwhm_new:   # правка Claude (круг 1): промах > 1 ПШПВ -- отбросить
                     new_r = dict(r)
                     new_r["ch"] = f["ch"]
                     new_r["ch_err"] = f["ch_err"]
@@ -302,11 +319,8 @@ def apply_to(data, counts, cal, refit=True, verbose=True):
                     new_r["warn"] = f["warn"]
                     new_repers.append(new_r)
                 else:
-                    new_r = dict(r)
-                    new_r["ch"] = x
-                    new_r["ch_err"] = math.hypot(r["ch_err"] * c1, 0.5)
-                    new_r["warn"] = list(r.get("warn", [])) + ["пик на новом спектре не подогнан, перенос по опорам"]
-                    new_repers.append(new_r)
+                    dropped.append("репер %s отброшен: на новом спектре пик не найден в 1 ПШПВ от прогноза (канал %.1f)%s" % (
+                        r["name"], x, "" if f is None else ", подогнан в %.1f" % f["ch"]))
             else:
                 new_r = dict(r)
                 new_r["ch"] = x
@@ -315,7 +329,10 @@ def apply_to(data, counts, cal, refit=True, verbose=True):
                     new_r["fwhm"] = fwhm_orig * abs(c1)
                 new_repers.append(new_r)
 
-    return new_repers, [c0, c1]
+    if verbose:
+        for msg in dropped:
+            print("[SCAL] ПРЕДУПРЕЖДЕНИЕ: " + msg)
+    return new_repers, [c0, c1], dropped
 
 
 def register_by_visible(S_anc, B_anc):
@@ -358,6 +375,7 @@ def h_by_energy(scale_s, cal_b, n, e_lo=20.0, e_hi=3000.0, info=None):
 def run_sample_cal(bg_path, sample_path, repers, use_intrinsic=True, verbose=True):
     """Выполняет полную калибровку по пробе."""
     rb.check_cancel("калибровка по пробе")
+    warns, hinfo, bg_how = [], {}, ""
     S, B, k, live_s, live_b = reg.load_inputs(bg_path, sample_path)
     cal_s = list(load_spectrum(sample_path)["cal"])
     cal_b = list(load_spectrum(bg_path)["cal"])
@@ -397,9 +415,9 @@ def run_sample_cal(bg_path, sample_path, repers, use_intrinsic=True, verbose=Tru
         from . import pipeline as pl   # правка Claude: «своя шкала» фона -- по его собственным структурам LaBr3
         own_b = pl.run_ecal(bg_path, bg_path, [0.0, 1.0, 0.0], low=False, verbose=False)
         cal_b_own, how = bg_own_scale(own_b, cal_b, B)
+        bg_how = how
         if verbose:
             print("[SCAL] шкала фона для перевода через энергии: %s %s" % (how, cal_b_own))
-        hinfo = {}
         h = h_by_energy(scale_for_h, cal_b_own, n, info=hinfo)
         if verbose:
             print("[SCAL] квадратичный h против точного перевода через энергии (20-3000 кэВ): макс. отклонение %.2f кан%s" % (
@@ -409,19 +427,7 @@ def run_sample_cal(bg_path, sample_path, repers, use_intrinsic=True, verbose=Tru
             print("[SCAL] видимых собственных структур в пробе меньше двух -- фон переводится на шкалу пробы через энергии (каждый файл по своей шкале)")
 
     # 5. Реперы на каналах фона
-    good_repers, _ = valid_repers(allr)
-    repers_bg = []
-    for r in good_repers:
-        ch_bg = poly_eval(h, r["ch"])
-        deriv = poly_deriv(h, r["ch"])
-        ch_err_bg = r["ch_err"] * abs(deriv)
-        fwhm_bg = r["fwhm"] * abs(deriv) if np.isfinite(r["fwhm"]) else float("nan")
-        
-        new_r = dict(r)
-        new_r["ch"] = ch_bg
-        new_r["ch_err"] = ch_err_bg
-        new_r["fwhm"] = fwhm_bg
-        repers_bg.append(new_r)
+    repers_bg = repers_to_bg(valid_repers(allr)[0], h)   # правка Claude (круг 1): вынесено в функцию (тест T8)
 
     scb = scale_from_repers([r for r in repers_bg if r["E"] >= 100.0], B, cal_b, verbose)
     low = None if scb.get("rejected") else low_branch(scb["coeffs"], repers_bg, B, verbose)
@@ -469,6 +475,13 @@ def run_sample_cal(bg_path, sample_path, repers, use_intrinsic=True, verbose=Tru
             print("[SCAL] ПРЕДУПРЕЖДЕНИЕ: точки ПШПВ пробы не дают годной модели (%s) -- взяты опорные точки ПШПВ фона %s"
                   % (str(exc).split(";")[0], ["%.1f:%.2f" % q for q in ref_pts]))
         fwhm_points = ref_pts
+        warns.append("точки ПШПВ пробы не дают годной модели (%s) -- в XML опорные точки ПШПВ фона" % str(exc).split(";")[0])
+
+    # правка Claude (круг 1): предупреждения -- в окно программы, не только в журнал
+    warns.extend("опора %s пробы отброшена: %s" % (k, v["why"]) for k, v in S_anc.items() if v.get("why"))
+    warns.extend("%s: %s" % (nm, x["rejected"]) for nm, x in (("шкала пробы", sc), ("шкала на каналах фона", scb)) if x.get("rejected"))
+    if mode == "energy" and hinfo.get("h_err_max", 0.0) > 2.0:
+        warns.append("квадратичный h отклоняется от точного перевода через энергии до %.1f кан" % hinfo["h_err_max"])
 
     # 7. Результат
     return {
@@ -490,16 +503,18 @@ def run_sample_cal(bg_path, sample_path, repers, use_intrinsic=True, verbose=Tru
         "fwhm_points": [[float(a), float(b)] for a, b in fwhm_points],
         "repers": allr,
         "k": k,
+        "warnings": warns,
+        "bg_scale_how": bg_how,
     }
 
 
-def reper_from_choice(fit, E, nuclide=None, tol=0.05):
-    """Правка Claude: источник энергии по выбору в диалоге -- линия библиотеки (нуклид и E совпали с таблицей) или «ручная»."""
+def reper_from_choice(fit, E, nuclide=None, tol=0.05, fwhm_keV=None):
+    """Правка Claude: источник энергии по выбору в диалоге -- линия библиотеки или дублет одного нуклида (эффективная
+    энергия по интенсивностям), иначе «ручная»."""
     if nuclide:
-        lines = pr.library_lines((nuclide,), min_int=0.0, e_min=0.0, e_max=1e5)
-        hit = [l for l in lines if abs(l["E"] - float(E)) <= tol]
+        hit = q.library_energy(nuclide, float(E), fwhm_keV or max(3.0, 0.03 * float(E)), tol)
         if hit:
-            return make_reper(fit, hit[0]["E"], SRC_LIB, nuclide=nuclide)
+            return make_reper(fit, hit[0], SRC_LIB, nuclide=nuclide, dE=hit[1])
     return make_reper(fit, E, SRC_MANUAL, nuclide=nuclide)
 
 
@@ -571,8 +586,7 @@ def check_intrinsic(S_anc, intr, user_repers, counts, cal, verbose=True):
     if len(user) < 2:
         return intr
     pre = scale_from_repers(user, counts, cal, verbose=False)
-    if pre.get("rejected"):
-        return intr
+    # правка Claude (круг 1): отвергнутая шкала = калибровка файла -- лучшая доступная, проверка опор всё равно по ней
     en = intrinsic_energies()
     for k, (E, dE, name) in en.items():
         if S_anc[k]["visible"]:
@@ -604,3 +618,23 @@ def bg_own_scale(own_b, cal_b, B):
             return C2, "калибровка файла с поправкой E' = %.2f + %.5f*E по собственным структурам фона (%s кэВ)" % (
                 ab[1], ab[0], ", ".join("%.1f" % q[1] for q in pts_b))
     return list(cal_b), "калибровка файла"
+
+
+def anchors_for_save(counts, cal, repers, verbose=True):
+    """Правка Claude (круг 1): опоры для JSON -- после проверки против шкалы по реперам пробы (ложная a37 не сохраняется)."""
+    anc = anchors_of(counts, cal)
+    check_intrinsic(anc, [], repers, counts, cal, verbose)
+    return anc
+
+
+def repers_to_bg(repers, h):
+    """Правка Claude (круг 1): реперы пробы на каналы фона: ch -> h(ch), ошибка и ПШПВ умножаются на |h'(ch)|."""
+    out = []
+    for r in repers:
+        deriv = abs(float(poly_deriv(h, r["ch"])))
+        new_r = dict(r)
+        new_r["ch"] = float(poly_eval(h, r["ch"]))
+        new_r["ch_err"] = r["ch_err"] * deriv
+        new_r["fwhm"] = r["fwhm"] * deriv if np.isfinite(r.get("fwhm", float("nan"))) else float("nan")
+        out.append(new_r)
+    return out
