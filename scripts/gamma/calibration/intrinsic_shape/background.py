@@ -351,11 +351,42 @@ def line_areas(counts, var, cal, live, tag):
         }
     return results
 
+def ref_windows(counts):
+    """Правка Claude (#LABR-8): окна сумм-пика (810-880, ядро 832-862) и α1 (1290-1400), заданные в каналах эталона
+    2048, -- в каналы этого прибора (load_any приводит к 2048 суммированием, но усиление у приборов разное)."""
+    from . import autopreset as ap
+    base = {"sum": (810, 880), "core": (832, 862), "a1": (1290, 1400)}
+    a = ap.autopreset(counts, counts, None, verbose=False)
+    if a["identity"]:
+        return base
+    print("[WIN] окна эталона пересчитаны по собственным структурам: масштаб %.4f" % a["r"])
+    return {k: tuple(ap.map_win(a["map"], lo, hi, len(counts))) for k, (lo, hi) in base.items()}
+
+
+def check_ecal(cal, counts, what):
+    """Правка Claude (#LABR-3): понятная ошибка вместо трассировки/мусора при вырожденной шкале (например --ecal 0 1 0).
+    Шкала должна быть конечной, возрастать на всех каналах и ставить собственный сумм-пик La-138 около 1471 кэВ."""
+    from . import autopreset as ap
+    c = [float(v) for v in cal]
+    if len(c) < 2 or not all(np.isfinite(c)):
+        raise ValueError("%s: нужны конечные коэффициенты c0 c1 [c2 ...] по возрастанию степени, получено %s" % (what, c))
+    e = poly_eval(c, np.arange(len(counts) + 1, dtype=float))
+    if np.any(np.diff(e) <= 0):
+        raise ValueError("%s: шкала %s не возрастает на каналах 0..%d" % (what, c, len(counts)))
+    ref = ap.load_ref()
+    s = ap.find_sum(counts, ap.find_a37(counts, ref)["x"], ref)
+    E = float(poly_eval(c, s["x"]))
+    if not 1300.0 <= E <= 1650.0:
+        raise ValueError("%s: шкала %s ставит собственный сумм-пик La-138 (канал %.1f) на %.0f кэВ, ожидается ~1471 кэВ; "
+                         "проверьте коэффициенты (порядок по возрастанию степени: c0 c1 c2)" % (what, c, s["x"], E))
+
+
 def decompose(ref_path, unshielded_paths, e_ref=None, out_json=None):
     """ref_path -- экранированный (эталонный) фон; unshielded_paths -- неэкранированные фоны (внешние линии видны);
     e_ref -- приближённая шкала эталона кэВ(канал) по возрастанию (по умолчанию -- калибровка файла)."""
     ref = load_any(ref_path)
     E_REF = list(e_ref) if e_ref is not None else list(ref["cal"])
+    check_ecal(E_REF, ref["counts"], "--ecal" if e_ref is not None else "калибровка файла эталона")   # правка Claude (#LABR-3)
     ar = {}
     for u in unshielded_paths:
         path = pathlib.Path(u)
@@ -439,8 +470,9 @@ def decompose(ref_path, unshielded_paths, e_ref=None, out_json=None):
             summaries[t] = {"n": 0}
 
     # Fractions
-    S_sum = np.sum(ref["counts"][810:881]) / ref["live"]
-    S_core = np.sum(ref["counts"][832:863]) / ref["live"]
+    W = ref_windows(ref["counts"])   # правка Claude (#LABR-8): окна в каналах этого прибора
+    S_sum = np.sum(ref["counts"][W["sum"][0]:W["sum"][1] + 1]) / ref["live"]
+    S_core = np.sum(ref["counts"][W["core"][0]:W["core"][1] + 1]) / ref["live"]
     
     # K40 fractions
     if "K40" in summaries and summaries["K40"]["n"] > 0:
@@ -463,7 +495,7 @@ def decompose(ref_path, unshielded_paths, e_ref=None, out_json=None):
         
     # Tl208_2614 fractions
     # Alpha1 window 1290-1400
-    S_alpha1 = np.sum(ref["counts"][1290:1401]) / ref["live"]
+    S_alpha1 = np.sum(ref["counts"][W["a1"][0]:W["a1"][1] + 1]) / ref["live"]
     
     if "Tl208_2614" in summaries and summaries["Tl208_2614"]["n"] > 0:
         f_median = summaries["Tl208_2614"]["median"] / S_alpha1
