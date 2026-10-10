@@ -37,7 +37,7 @@ Consequence: MDA is reported in **counts per second** (cps), not in becquerels. 
 
 > Production cost target (per-spectrum analysis): 20k Claude output-tokens
 > alarm threshold for algorithmic-optimization review. Scope: production-run
-> only (dev = MAXIMUM compute). See `~/.claude/skills/spectravibe-dev/SKILL.md` §«Production cost target».
+> only (dev = MAXIMUM compute). See the project's development-process skill (private, not part of this repository), section «Production cost target».
 
 ### Where to spend tokens (high value)
 
@@ -75,6 +75,7 @@ These references are **not** loaded by default. Read each one ONLY when its trig
 | `03c_iso11929_mda.md` | ~0.5k | Step 9 (MDA) |
 | `04_secondary_peaks.md` | ~2.5k | Step 10 secondary classification |
 | `05_intrinsic_detector_activity.md` | ~2k | Detector is scintillator (LaBr₃, NaI, CeBr₃) OR has unexplained low-E peaks |
+| `references/intrinsic_shape_calibration.md` | ~4k | LaBr₃/CeBr₃/LYSO spectra from different sessions (gain drift), background subtraction across dates, BecqMoni FWHM block — skill `skills/intrinsic-shape-cal/SKILL.md`, CLI `python -m gamma.calibration.intrinsic_shape` |
 | `06_report_format.md` | ~1.5k | Step 11 report assembly |
 | `07_dead_time_correction.md` | ~1.5k | Dead time > 5% OR pile-up signatures present |
 | `08a_xrf_principles.md` | ~1.5k | Peaks in 5–110 keV range AND XRF possible |
