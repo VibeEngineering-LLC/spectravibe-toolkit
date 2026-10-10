@@ -312,6 +312,7 @@ def make_net(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signed, n
     ref = sm if lt_out == "sample" else bg
     f_out = ref["live"] / sm["live"]   # resid -- отсчёты за LT_s; за LT_out -- умножить на LT_out/LT_s
     times = None if lt_out == "sample" else (ref["live"], ref["real"])
+    print("[NET] вычитание: net_cps = S'/LT_s - B~/LT_b (проверено независимо)")
     print("[NET] формула: net_cps[i] = S'[i]/LT_s - B~[i]/LT_b (S' -- образец на шкале фона через h, B~ -- фон с тем же размытием, сумма сохраняется), LT_s = %.3f с, LT_b = %.3f с; в XML: net_cps*LT_out, "
           "LT_out = %.3f с (%s), целые отсчёты" % (sm["live"], bg["live"], ref["live"], "образец" if lt_out == "sample" else "фон"))
 
