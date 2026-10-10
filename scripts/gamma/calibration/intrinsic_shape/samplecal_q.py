@@ -10,6 +10,7 @@ DEG_MAX = 4                # BecqMoni допускает полином степ
 CENTROID_ERR_MAX = 0.25    # доля ПШПВ: ошибка центроида больше -- репер не создаётся
 SIGNIF_REFUSE = 3.0        # значимость ниже -- репер не создаётся
 MULTIPLET_RATIO = 1.5      # ПШПВ больше ожидаемой во столько раз -- «вероятно мультиплет»
+DEG4_MIN_REPERS = 7        # против переобучения: степень 4 при LOO <= 3 кэВ -- только от 7 реперов (VERIFY7: LOO 0.05 на 6 точках)
 GAIN_RANGE = (0.95, 1.05)  # ±5 % от усиления по калибровкам файлов: наблюдаемый разброс 0.993-1.013 (±1.3 %), запас ~4x
 SERIES = {"Ra-226": "U", "Pb-214": "U", "Bi-214": "U", "Pb-210": "U",
           "Ac-228": "Th", "Pb-212": "Th", "Bi-212": "Th", "Tl-208": "Th",
@@ -19,7 +20,7 @@ SERIES = {"Ra-226": "U", "Pb-214": "U", "Bi-214": "U", "Pb-210": "U",
 def select_degree(cfg, ctx, verbose=True):
     from . import pipeline as pl
     n = len(cfg["points"])
-    top = max(1, min(DEG_MAX, n - 2))
+    top = max(1, min(DEG_MAX, n - 2, DEG_MAX if n >= DEG4_MIN_REPERS else 3))   # правка Claude: степень 4 -- от 7 реперов
     all_results = []
     for deg in range(1, top + 1):
         res = pl._guarded_calibrate(dict(cfg, degree=deg), ctx, [0.0, 1.0, 0.0], False)
@@ -247,3 +248,13 @@ def gain_check(c1, cal_src, cal_dst, x_mid):
     ratio = c1 / g_file
     ok = GAIN_RANGE[0] <= ratio <= GAIN_RANGE[1]
     return (ok, ratio, g_file)
+
+
+def current_scale(repers):
+    """Правка Claude (VERIFY7 п.3): текущая шкала по реперам для диалога линий -- при >= 2 реперах (линейная при 2-3,
+    квадратичная при >= 4); иначе None (тогда -- калибровка файла)."""
+    pts = [(float(r["ch"]), float(r["E"])) for r in repers if np.isfinite(r.get("ch", np.nan)) and np.isfinite(r.get("E", np.nan))]
+    if len(pts) < 2 or len({p[0] for p in pts}) < 2:
+        return None
+    deg = 2 if len(pts) >= 4 else 1
+    return [float(c) for c in np.polynomial.polynomial.polyfit([p[0] for p in pts], [p[1] for p in pts], deg)]

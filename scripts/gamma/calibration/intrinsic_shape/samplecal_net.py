@@ -1,6 +1,7 @@
 """Калибровка по пробе,
-архитектура «разность на шкале пробы»: шкала XML по умолчанию — калибровка файла пробы, замена шкалой по реперам
-только при охвате, проверке на независимых линиях и LOO ≤ 3 кэВ; фон переводится на сетку пробы (по видимым
+архитектура «разность на шкале пробы»: шкала XML по умолчанию — калибровка файла пробы; шкала по реперам рекомендуется
+при охвате, LOO ≤ 3 кэВ и СКО калибровки файла на реперах больше LOO с запасом (эталон — энергии реперов), независимые линии
+(по шкале реперов) — доп. проверка; записывается только решением пользователя; фон переводится на сетку пробы (по видимым
 собственным структурам LaBr3 линейно либо точно через энергии) с сохранением дисперсии; XML — на сетке пробы.
 Сгенерировано gen_code.py (qwen3.8:27b) по спецификации, 2026-10-11."""
 
@@ -107,17 +108,19 @@ def coverage_ok(Es):
     return True, ""
 
 
-def independent_lines(counts, cal, repers, verbose=True):
-    """Поиск независимых линий для проверки калибровки."""
-    S = np.asarray(counts, float)
+# правка Claude (VERIFY7, «эталон -- энергии реперов»): гейт -- по энергиям реперов; независимые линии -- по шкале реперов;
+# замена шкалы -- только явным применением. Сгенерировано gen_code.py (qwen3.8:27b) по спецификации, 2026-10-11.
+REC_RATIO = 1.5          # СКО калибровки файла на реперах должно превышать LOO шкалы по реперам не меньше чем в 1.5 раза
+REC_MARGIN = 1.0         # ... и не меньше чем на 1 кэВ (шум на медальоне: LOO 1.79 кэВ, файл на реперах 1.43 кэВ)
+IND_WORSE_RATIO = 1.5
+IND_WORSE_MARGIN = 1.0   # кэВ: «заметно хуже» на независимых линиях -- предупреждение, не запрет
+
+def _find_lines(S, scale, repers):
+    """Пики пробы со значимостью >= 5, отождествлённые по шкале scale (шкала по реперам, не калибровка файла)."""
     n = len(S)
     fw = lambda x: sc.fwhm_guess(x, n)
-    
     pk = find_peaks(S, fw, threshold=4.0, ch_min=max(15, int(0.01 * n)), ch_max=n - 20, min_signif=IND_SIGNIF_MIN)
-    
     lib = pr.library_lines(pr.SAMPLE_NUCLIDES, min_int=1.0, e_min=E_LO, e_max=E_HI)
-    
-    # Сильные линии для пиков вылета
     strong = [l["E"] for l in lib if l["I"] >= 20.0 and l["E"] > 1500.0]
     excl = list(INTRINSIC_E) + [511.0] + [e - 511.0 for e in strong] + [e - 1022.0 for e in strong]
     
@@ -127,36 +130,22 @@ def independent_lines(counts, cal, repers, verbose=True):
         if f is None or f["signif"] < IND_SIGNIF_MIN:
             continue
         
-        E = poly_eval(cal, f["ch"])
-        fk = f["fwhm"] * abs(poly_deriv(cal, f["ch"]))  # ПШПВ в кэВ
+        E = float(poly_eval(scale, f["ch"]))
+        fk = f["fwhm"] * abs(float(poly_deriv(scale, f["ch"])))
         
-        # Пропуск, если вне диапазона
         if E < E_LO or E > E_HI:
             continue
-        
-        # Пропуск, если совпадает с исключенными
         if any(abs(E - e) <= fk for e in excl):
             continue
-        
-        # Пропуск, если совпадает с реперами
-        skip = False
-        for r_ in repers:
-            if abs(r_["ch"] - f["ch"]) <= f["fwhm"] or abs(r_["E"] - E) <= fk:
-                skip = True
-                break
-        if skip:
+        if any(abs(q["ch"] - f["ch"]) <= f["fwhm"] or abs(q["E"] - E) <= fk for q in repers):
             continue
         
-        # Поиск ближайших линий в библиотеке
         near = [l for l in lib if abs(l["E"] - E) <= 0.5 * fk]
         if not near:
             continue
         
         top = max(near, key=lambda l: l["I"])
-        
-        # Проверка неоднозначности
-        amb = [l for l in lib if l is not top and abs(l["E"] - top["E"]) <= fk and l["I"] >= AMBIG_FRAC * top["I"]]
-        if amb:
+        if any(l is not top and abs(l["E"] - top["E"]) <= fk and l["I"] >= AMBIG_FRAC * top["I"] for l in lib):   # правка Claude: неоднозначность -- по всей библиотеке, не только по near
             continue
         
         lines.append({
@@ -168,50 +157,64 @@ def independent_lines(counts, cal, repers, verbose=True):
             "fwhm": f["fwhm"]
         })
     
-    # Убрать дубли по E (оставить с большей значимостью)
+    # дубли по E -- остаётся линия с наибольшей значимостью
     if lines:
-        lines.sort(key=lambda l: l["E"])
-        unique = []
+        lines.sort(key=lambda x: x["E"])
+        unique_lines = []
         i = 0
         while i < len(lines):
-            current = lines[i]
+            best = lines[i]
             j = i + 1
-            best = current
-            while j < len(lines) and lines[j]["E"] == current["E"]:
+            while j < len(lines) and lines[j]["E"] == best["E"]:
                 if lines[j]["signif"] > best["signif"]:
                     best = lines[j]
                 j += 1
-            unique.append(best)
+            unique_lines.append(best)
             i = j
-        lines = unique
-    
-    if verbose:
-        if lines:
-            energies = ", ".join("%.1f" % l["E"] for l in lines)
-            print("[SCAL] независимых линий: %d (%s)" % (len(lines), energies))
-        else:
-            print("[SCAL] независимых линий: 0")
+        lines = unique_lines
     
     return lines
 
+def independent_lines(counts, scale, repers, verbose=True):
+    """Независимые линии -- отождествление по шкале реперов, два прохода: второй -- по шкале, уточнённой реперами и линиями
+    первого прохода (только для меток); калибровка файла не используется."""
+    S = np.asarray(counts, float)
+    lines = _find_lines(S, scale, repers)
+    
+    # второй проход -- по шкале, уточнённой реперами и линиями первого прохода (только метки)
+    deg = len(scale) - 1
+    xs = [q["ch"] for q in repers] + [l["ch"] for l in lines]
+    ys = [q["E"] for q in repers] + [l["E"] for l in lines]
+    
+    if len(xs) >= deg + 3:
+        ref = list(np.polynomial.polynomial.polyfit(xs, ys, deg))
+        lines = _find_lines(S, ref, repers)
+    
+    if verbose:
+        energies_str = ", ".join("%.1f" % l["E"] for l in lines)
+        print("[SCAL] независимых линий (по шкале реперов): %d (%s)" % (len(lines), energies_str))
+    
+    return lines
 
 def rms_on(C, lines):
-    """СКО на независимых линиях."""
     if not lines:
         return np.nan
-    diffs = [poly_eval(C, l["ch"]) - l["E"] for l in lines]
-    return float(np.sqrt(np.mean(np.square(diffs))))
-
+    return float(np.sqrt(np.mean(np.square([poly_eval(C, l["ch"]) - l["E"] for l in lines]))))
 
 def decide_scale(counts, cal_s, repers, verbose=True):
-    """Решение о замене шкалы XML."""
+    """Рекомендация шкалы XML. Эталон -- энергии, присвоенные реперам: СКО калибровки файла на реперах против LOO шкалы
+    по реперам. По умолчанию шкала XML -- калибровка файла пробы (replaced=False); замена -- только apply_reper_scale()."""
     S = np.asarray(counts, float)
     good = sc.valid_repers([r for r in repers if r["E"] >= E_LO])[0]
     
     out = {
         "coeffs": list(cal_s),
+        "coeffs_file": list(cal_s),
+        "coeffs_new": [],
+        "recommend": False,
         "replaced": False,
         "why": "",
+        "warnings": [],
         "deg": 0,
         "loo_rms": np.nan,
         "deg_table": [],
@@ -219,22 +222,28 @@ def decide_scale(counts, cal_s, repers, verbose=True):
         "independent": [],
         "rms_new": np.nan,
         "rms_file": np.nan,
+        "rms_file_repers": np.nan,
         "chi2ndf": np.nan,
-        "rms": np.nan
+        "rms": np.nan,
+        "rows_repers": [],
+        "rows_ind": []
     }
     
-    # Проверка охвата
-    ok, why = coverage_ok([r["E"] for r in good])
-    if not ok:
+    def stop(why):
         out["why"] = why
         if verbose:
-            print("[SCAL] шкала XML: калибровка файла пробы -- %s" % why)
+            print("[SCAL] шкала XML: калибровка файла пробы -- " + why)
         return out
     
-    # Подготовка конфигурации для калибровки
-    points = []
-    for r in good:
-        points.append({
+    if good:
+        out["rms_file_repers"] = rms_on(cal_s, good)
+    
+    ok, why = coverage_ok([r["E"] for r in good])
+    if not ok:
+        return stop(why)
+    
+    points = [
+        {
             "name": r.get("name", ""),
             "spectrum": "bg",
             "kind": "given",
@@ -245,74 +254,97 @@ def decide_scale(counts, cal_s, repers, verbose=True):
             "x0": r["ch"],
             "w0": 3.0,
             "hw": 0
-        })
-    
+        } for r in good
+    ]
     cfg = {"degree": 2, "points": points}
-    ctx = {
-        "B": S,
-        "S": S,
-        "cal": list(cal_s),
-        "n": len(S),
-        "auto": {"anchors": {}}
-    }
-    
+    ctx = {"B": S, "S": S, "cal": list(cal_s), "n": len(S), "auto": {"anchors": {}}}
     res = select_degree_full(cfg, ctx, verbose)
     
-    # Перенос результатов
     out["deg"] = res.get("deg", 0)
     out["deg_table"] = res.get("deg_table", [])
     out["loo_rms"] = res.get("loo_rms", np.nan)
     out["points"] = res.get("points", [])
     out["chi2ndf"] = res.get("chi2ndf", np.nan)
     out["rms"] = res.get("rms", np.nan)
-    out["coeffs_new"] = list(res.get("coeffs", []))   # правка Claude: шкала по реперам -- для отчёта и внешнего пересчёта
+    out["coeffs_new"] = list(res.get("coeffs", []))
     
     if res.get("rejected"):
-        out["why"] = "шкала по реперам отвергнута: " + res["rejected"]
-        if verbose:
-            print("[SCAL] шкала XML: калибровка файла пробы -- %s" % out["why"])
-        return out
+        return stop("шкала по реперам отвергнута: " + res["rejected"])
     
     loo = out["loo_rms"]
     if not np.isfinite(loo) or loo > LOO_MAX:
-        out["why"] = "LOO-СКО по всем реперам %.2f кэВ > %.1f кэВ" % (loo, LOO_MAX)
-        if verbose:
-            print("[SCAL] шкала XML: калибровка файла пробы -- %s" % out["why"])
-        return out
+        return stop("LOO-СКО по всем реперам %.2f кэВ > %.1f кэВ" % (loo, LOO_MAX))
     
-    # Проверка на независимых линиях
-    ind = independent_lines(S, cal_s, good, verbose)
+    loo_by = {p.get("name"): p.get("loo", np.nan) for p in out["points"]}
+    out["rows_repers"] = [
+        (
+            r.get("name", ""),
+            float(r["E"]),
+            float(r["ch"]),
+            float(poly_eval(cal_s, r["ch"]) - r["E"]),
+            float(poly_eval(out["coeffs_new"], r["ch"]) - r["E"]),
+            float(loo_by.get(r.get("name", ""), np.nan))
+        ) for r in good
+    ]
+    
+    ind = independent_lines(S, out["coeffs_new"], good, verbose)
     out["independent"] = ind
+    out["rms_new"] = rms_on(out["coeffs_new"], ind)
+    out["rms_file"] = rms_on(cal_s, ind)
+    out["rows_ind"] = [
+        (
+            l["nuclide"],
+            float(l["E"]),
+            float(l["ch"]),
+            float(poly_eval(cal_s, l["ch"]) - l["E"]),
+            float(poly_eval(out["coeffs_new"], l["ch"]) - l["E"])
+        ) for l in ind
+    ]
     
     if len(ind) < IND_MIN:
-        out["why"] = "нечем проверить: независимых линий %d < %d" % (len(ind), IND_MIN)
-        if verbose:
-            print("[SCAL] шкала XML: калибровка файла пробы -- %s" % out["why"])
-        return out
+        out["warnings"].append("доп. проверки нет: независимых линий %d < %d" % (len(ind), IND_MIN))
+    else:
+        if out["rms_new"] > max(IND_WORSE_RATIO * out["rms_file"], out["rms_file"] + IND_WORSE_MARGIN):
+            out["warnings"].append("на %d независимых линиях шкала по реперам заметно хуже калибровки файла: %.2f против %.2f кэВ" % (len(ind), out["rms_new"], out["rms_file"]))
     
-    coeffs_new = res.get("coeffs", cal_s)
-    rn = rms_on(coeffs_new, ind)
-    rf = rms_on(cal_s, ind)
-    out["rms_new"] = rn
-    out["rms_file"] = rf
+    rf = out["rms_file_repers"]
+    if not (rf >= REC_RATIO * loo and rf - loo >= REC_MARGIN):
+        return stop("СКО калибровки файла на реперах %.2f кэВ не превышает LOO шкалы по реперам %.2f кэВ с запасом (x%.1f и +%.1f кэВ)" % (rf, loo, REC_RATIO, REC_MARGIN))
     
-    if not (rn < rf):
-        out["why"] = "на %d независимых линиях СКО шкалы по реперам %.2f кэВ не меньше СКО калибровки файла %.2f кэВ" % (
-            len(ind), rn, rf)
-        if verbose:
-            print("[SCAL] шкала XML: калибровка файла пробы -- %s" % out["why"])
-        return out
-    
-    # Замена шкалы
-    out["coeffs"] = list(coeffs_new)
-    out["replaced"] = True
-    out["why"] = ""
-    
+    out["recommend"] = True
     if verbose:
-        print("[SCAL] шкала XML: по реперам (степень %d, LOO %.2f кэВ, независимых %d: %.2f против %.2f кэВ у файла)" % (
-            out["deg"], loo, len(ind), rn, rf))
+        print("[SCAL] рекомендована шкала по реперам: степень %d, LOO %.2f кэВ, калибровка файла на реперах %.2f кэВ" % (out["deg"], loo, rf))
     
     return out
+
+def apply_reper_scale(dec):
+    """Применение шкалы по реперам (решение пользователя): только при рекомендации, иначе ValueError с причиной."""
+    if not dec.get("recommend"):
+        raise ValueError("шкала по реперам не рекомендована: " + (dec.get("why") or "нет шкалы"))
+    return dict(dec, coeffs=list(dec["coeffs_new"]), replaced=True)
+
+def log_decision(dec):
+    """Журнал: решение и обе шкалы."""
+    print("[SCAL] калибровка файла пробы: " + ", ".join("%.10g" % c for c in dec["coeffs_file"]))
+    
+    if dec["coeffs_new"]:
+        print("[SCAL] шкала по реперам (степень %d, LOO %.2f кэВ): " % (dec["deg"], dec["loo_rms"]) + ", ".join("%.10g" % c for c in dec["coeffs_new"]))
+    
+    print("[SCAL] СКО калибровки файла на реперах %.2f кэВ; на независимых линиях: по реперам %.2f, файл %.2f кэВ (%d линий)" % (
+        dec["rms_file_repers"], dec["rms_new"], dec["rms_file"], len(dec["independent"])
+    ))
+    
+    if dec["replaced"]:
+        decision_str = "шкала по реперам (применена)"
+    elif dec["recommend"]:
+        decision_str = "калибровка файла пробы; шкала по реперам рекомендована, применяет пользователь"
+    else:
+        decision_str = "калибровка файла пробы: " + dec["why"]
+    
+    print("[SCAL] решение: шкала XML -- " + decision_str)
+    
+    for w in dec["warnings"]:
+        print("[SCAL] предупреждение: " + w)
 
 
 def bg_edges_on_sample(n_b, transfer):
@@ -342,7 +374,7 @@ def bg_on_sample(B, n_s, transfer):
     return vals, var
 
 
-def run_sample_cal(bg_path, sample_path, repers, use_intrinsic=True, mode=None, verbose=True):
+def run_sample_cal(bg_path, sample_path, repers, use_intrinsic=True, mode=None, verbose=True, use_reper_scale=False):
     """Основная функция калибровки по пробе."""
     rb.check_cancel("калибровка по пробе")
     
@@ -369,8 +401,15 @@ def run_sample_cal(bg_path, sample_path, repers, use_intrinsic=True, mode=None, 
     
     # Решение о шкале
     dec = decide_scale(S, cal_s, allr, verbose)
-    if not dec["replaced"]:
+    if use_reper_scale:   # правка Claude: замену применяет пользователь (кнопка GUI / --use-reper-scale)
+        dec = apply_reper_scale(dec)
+    warns += dec["warnings"]
+    if dec["recommend"] and not dec["replaced"]:
+        warns.append("шкала по реперам рекомендована -- применить: «Записать шкалу по реперам» (по умолчанию -- калибровка файла пробы)")
+    elif not dec["replaced"]:
         warns.append("шкала XML -- калибровка файла пробы: " + dec["why"])
+    if verbose:
+        log_decision(dec)
     
     # Перевод фона на пробу
     rb.check_cancel("перевод фона на пробу")

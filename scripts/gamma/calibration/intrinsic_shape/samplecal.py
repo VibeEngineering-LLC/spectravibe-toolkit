@@ -284,9 +284,13 @@ def apply_to(data, counts, cal, refit=True, verbose=True):
         ok, ratio, g_file = q.gain_check(c1, data["cal"], cal, float(np.mean(src_x)))
     else:
         ok, ratio, g_file = q.GAIN_RANGE[0] <= c1 <= q.GAIN_RANGE[1], c1, 1.0
-    if not ok:
+    if not ok:   # правка Claude (VERIFY7 п.4): согласованные опоры -- виновата калибровка файла приёмника, не опоры
+        dev = np.abs(c0 + c1 * src_x - dst_x) / np.array([fwhm_guess(x, len(counts)) for x in dst_x])
+        agree = (len(common_keys) >= 3 and float(dev.max()) <= 0.5) or (len(common_keys) == 2 and q.GAIN_RANGE[0] <= c1 <= q.GAIN_RANGE[1])
+        tail = ("опоры согласованы между собой -- вероятно, неверна калибровка файла приёмника" if agree
+                else "опоры найдены неверно")
         raise ValueError("перенос набора реперов: нефизичное усиление x' = %.2f + %.4f*x (отношение %.3f к усилению по "
-                         "калибровкам файлов %.4f, допустимо %.2f-%.2f) -- опоры найдены неверно" % (c0, c1, ratio, g_file, *q.GAIN_RANGE))
+                         "калибровкам файлов %.4f, допустимо %.2f-%.2f) -- %s" % (c0, c1, ratio, g_file, *q.GAIN_RANGE, tail))
     dropped = []
     # Получаем новые собственные структуры LaBr3
     intr_repers, _ = intrinsic_repers(counts, cal)
@@ -426,21 +430,55 @@ def check_intrinsic(S_anc, intr, user_repers, counts, cal, verbose=True):
 BG_SPAN_MIN = 3.0   # отношение крайних энергий точек фона, при котором поправка калибровки файла применяется
 
 
+BG_EXTRA_E = (609.312, 1120.294, 1764.491, 2614.511)   # линии фона (Bi-214, Tl-208) -- доп. опоры шкалы фона; K-40 1460.8 не берётся (рядом сумм-структура LaBr3)
+# правка Claude (VERIFY7 п.3): поправка шкалы фона -- больше двух опор, если они есть. Сгенерировано gen_code.py (qwen3.8:27b), 2026-10-11.
+
 def bg_own_scale(own_b, cal_b, B):
-    """Правка Claude: «своя шкала» фона -- по его собственным структурам; если полином по ним отвергнут, а точек >= 2 --
-    калибровка файла с линейной поправкой по энергии E' = a + b*E_файла (кривизна файла сохраняется)."""
+    """Правка Claude: «своя шкала» фона -- по его собственным структурам; если полином по ним отвергнут, а точек >= 2 -- калибровка
+файла с поправкой по энергии E' = g(E_файла), опоры: собственные структуры + линии фона BG_EXTRA_E, найденные со значимостью >= 5
+в пределах 0.5 ПШПВ от прогноза; поправка квадратичная при >= 4 опорах, иначе линейная. Последняя опора ниже 2614.5 кэВ --
+в описании предупреждение об экстраполяции. Возвращает (коэффициенты, описание)."""
     from . import pipeline as pl
+    n = len(B)
     if not own_b.get("rejected"):
-        return list(own_b["coeffs"]), "по собственным структурам фона"
-    pts_b = [(q["ch"], q["E"]) for q in own_b.get("points", []) if np.isfinite(q["ch"])]
-    Es = [q[1] for q in pts_b]
-    if len(pts_b) >= 2 and max(Es) >= BG_SPAN_MIN * min(Es):   # узкий охват (789 и 1471) -- поправка экстраполирует вниз хуже файла
-        ab = np.polyfit(poly_eval(list(cal_b), np.array([q[0] for q in pts_b])), [q[1] for q in pts_b], 1)
-        C2 = [float(ab[1] + ab[0] * cal_b[0])] + [float(ab[0] * c) for c in cal_b[1:]]
-        if not pl._scale_defect({"coeffs": C2, "chi2ndf": 0.0}, {"n": len(B), "B": B}):
-            return C2, "калибровка файла с поправкой E' = %.2f + %.5f*E по собственным структурам фона (%s кэВ)" % (
-                ab[1], ab[0], ", ".join("%.1f" % q[1] for q in pts_b))
-    return list(cal_b), "калибровка файла"
+        C = list(own_b["coeffs"])
+        Es0 = [q["E"] for q in own_b.get("points", []) if np.isfinite(q["ch"])]
+        how = "по собственным структурам фона"
+        if Es0 and max(Es0) < 2614.5 - 1.0:
+            how += "; экстраполяция выше последней опоры %.0f кэВ" % max(Es0)
+        return C, how
+    pts = [(float(q["ch"]), float(q["E"])) for q in own_b.get("points", []) if np.isfinite(q["ch"])]
+    if len(pts) < 2 or max(e for _, e in pts) < BG_SPAN_MIN * min(e for _, e in pts):
+        return list(cal_b), "калибровка файла"
+    ab = np.polyfit(poly_eval(list(cal_b), np.array([p[0] for p in pts])), [p[1] for p in pts], 1)
+    C1 = [float(ab[1] + ab[0] * cal_b[0])] + [float(ab[0] * c) for c in cal_b[1:]]
+    extra = []
+    for E in BG_EXTRA_E:
+        if any(abs(E - e) < 1.0 for _, e in pts):
+            continue
+        x0 = float(poly_inverse(C1, E, hi=n + 200))
+        if not (20 < x0 < n - 20):
+            continue
+        fw = fwhm_guess(x0, n)
+        f = fit_click(B, x0, fw)
+        if f is not None and f["signif"] >= SIGNIF_MIN and abs(f["ch"] - x0) <= 0.5 * f["fwhm"]:
+            extra.append((float(f["ch"]), E))
+    allp = pts + extra
+    deg = 2 if len(allp) >= 4 else 1
+    g = np.polynomial.polynomial.polyfit(poly_eval(list(cal_b), np.array([p[0] for p in allp])), [p[1] for p in allp], deg)
+    out = np.zeros(1)
+    pw = np.ones(1)
+    for a in g:
+        out = np.polynomial.polynomial.polyadd(out, a * pw)
+        pw = np.polynomial.polynomial.polymul(pw, np.asarray(cal_b, float))
+    C2 = [float(v) for v in out]
+    if pl._scale_defect({"coeffs": C2, "chi2ndf": 0.0}, {"n": n, "B": B}):
+        return list(cal_b), "калибровка файла"
+    Es = sorted(e for _, e in allp)
+    how = "калибровка файла с поправкой степени %d по %d опорам фона (%s кэВ)" % (deg, len(allp), ", ".join("%.1f" % e for e in Es))
+    if Es[-1] < 2614.5 - 1.0:
+        how += "; экстраполяция выше последней опоры %.0f кэВ" % Es[-1]
+    return C2, how
 
 
 def anchors_for_save(counts, cal, repers, verbose=True):

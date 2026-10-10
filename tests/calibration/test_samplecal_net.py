@@ -116,7 +116,7 @@ def test_medallion_narrow_set_forbidden():
     cal = list(d["cal"])
     clicks = [c for c in MED_CLICKS if c[2] in (351.932, 583.187, 911.0, 967.96)]
     dec = sn.decide_scale(S, cal, _med_repers(clicks), verbose=False)
-    assert not dec["replaced"]
+    assert not dec["replaced"] and not dec["recommend"]
     assert "охват" in dec["why"] or "трети" in dec["why"]
     assert dec["coeffs"] == cal
 
@@ -127,7 +127,7 @@ def test_medallion_extreme_reper_error_rejected():
     cal = list(d["cal"])
     rep = _med_repers(shift_E=(2614.511, 25.0))
     dec = sn.decide_scale(S, cal, rep, verbose=False)
-    assert not dec["replaced"]
+    assert not dec["replaced"] and not dec["recommend"] and "LOO" in dec["why"]   # правка Claude (VERIFY7)
     assert dec["coeffs"] == cal
 
 
@@ -141,7 +141,9 @@ def test_synthetic_cubic_replaced_and_checked():
     file_cal = [TRUE3[0] + 3.0, TRUE3[1] * 1.003, TRUE3[2], TRUE3[3]]
     rep = [sc.reper_from_choice(sc.fit_click(S, c + 1.0, sc.fwhm_guess(c, n)), E, nuc) for c, (nuc, E) in zip(cs, REPER_LINES)]
     dec = sn.decide_scale(S, file_cal, rep, verbose=False)
-    assert dec["replaced"]
+    assert dec["recommend"] and not dec["replaced"] and dec["coeffs"] == file_cal   # правка Claude: применяет пользователь
+    dec = sn.apply_reper_scale(dec)
+    assert dec["replaced"] and dec["coeffs"] == dec["coeffs_new"]
     assert len(dec["independent"]) >= 3
     assert dec["rms_new"] < 1.0
     assert dec["rms_new"] < dec["rms_file"]
@@ -167,7 +169,7 @@ def test_synthetic_extreme_reper_error_rejected_by_loo():
     assert "LOO" in dec["why"]
     assert dec["coeffs"] == file_cal
 
-def test_no_independent_lines_forbidden():
+def test_no_independent_lines_warning_not_forbidden():
     n = 2048
     x = np.arange(n, dtype=float)
     y, cs = _lines_on(TRUE3, REPER_LINES, n)
@@ -176,8 +178,9 @@ def test_no_independent_lines_forbidden():
     file_cal = [TRUE3[0] + 3.0, TRUE3[1] * 1.003, TRUE3[2], TRUE3[3]]
     rep = [sc.reper_from_choice(sc.fit_click(S, c + 1.0, sc.fwhm_guess(c, n)), E, nuc) for c, (nuc, E) in zip(cs, REPER_LINES)]
     dec = sn.decide_scale(S, file_cal, rep, verbose=False)
-    assert not dec["replaced"]
-    assert "нечем проверить" in dec["why"]
+    assert not dec["replaced"]   # правка Claude (VERIFY7): нет независимых линий -- предупреждение, не запрет
+    assert any("доп. проверки нет" in w for w in dec["warnings"])
+    assert dec["recommend"]
 
 
 def test_bg_to_sample_visible_cancels_structures(tmp_path):
