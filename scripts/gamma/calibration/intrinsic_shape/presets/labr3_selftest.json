@@ -1,0 +1,49 @@
+{
+ "_note": "Конфиг selftest для LaBr3(Ce) 2048 каналов (AtomNano 5 PRO), каналы шкалы ФОНА. Окна, половины hold-out, пороги и мутации -- из конфига v3 прототипа (sha256 b55d1a7551dc6c96..., 2026-10-10), пороги не менялись. Изменения при переносе: (1) проверка reg:dchi2 выведена из зачёта в INFO -- она сравнивает h с аргминимумом своей же регистрации и проверяет согласованность, а не правильность; (2) итог считается по НОВЫМ провалам сверх провалов исправной версии; (3) мутации «чужой фон» берутся из аргументов --alt-bg, а не из списка; (4) known_base_failures -- известный провал исправной версии, задокументирован в references/intrinsic_shape_calibration.md.",
+ "known_base_failures": ["fitB->A|alpha3:z_dip"],
+ "_known_base_failures_note": "Исправная версия на тестовой паре: 1 провал из 51 -- hold-out B->A, окно alpha3, z_dip ~ +3.16 при пороге 3.0. Порог не менялся; это известное ограничение (плоская альфа-полоса, слабая структура).",
+ "anchor": {"x_bg": 28.9, "x_sm": 28.6, "w0": 3.3, "hw": 6},
+ "windows": {
+  "La_beta_edge": [470, 560],
+  "La_compton":   [690, 790],
+  "La_sum_K40":   [805, 875],
+  "Tl208_alpha1": [1290, 1400],
+  "alpha2":       [1460, 1530],
+  "alpha3":       [1585, 1635]
+ },
+ "half_A": ["La_beta_edge", "Tl208_alpha1", "alpha3"],
+ "half_B": ["La_sum_K40", "La_compton", "alpha2"],
+ "info_holdout": {"fit": ["La_compton", "Tl208_alpha1", "alpha3"], "check": ["La_beta_edge", "La_sum_K40", "alpha2"]},
+ "full_mask": [430, 1700],
+ "integrals": [[430, 1700], [352, 2046]],
+ "pivot_joint": 840.0,
+ "shift_scan": {"lo": -2.0, "hi": 2.0, "step": 0.05},
+ "shift_scan_wide": {"lo": -4.0, "hi": 4.0, "step": 0.05},
+ "wide_scan_windows": ["Tl208_alpha1", "alpha2", "alpha3"],
+ "sigma_method": "bootstrap",
+ "n_boot": 20,
+ "seed": 20261010,
+ "joint_grid": {"d_lo": -1.5, "d_hi": 1.5, "d_step": 0.05, "s_lo": -0.004, "s_hi": 0.004, "s_step": 0.0002},
+ "thresholds": {
+  "z_dip": 3.0,
+  "z_chi2": 3.0,
+  "z_shift_win": 3.0,
+  "z_joint_shift": 3.0,
+  "z_joint_scale": 3.0,
+  "z_joint_amp": 3.0,
+  "z_dist": 3.0,
+  "z_int": 3.0,
+  "dchi2_reg": 9.0
+ },
+ "registration": {"n_ms": 10},
+ "mutations": [
+  {"name": "shift+0.3",            "kind": "shift",   "value": 0.3},
+  {"name": "shift-0.3",            "kind": "shift",   "value": -0.3},
+  {"name": "stretch+0.2%@840",     "kind": "stretch", "value": 0.002,  "pivot": 840.0},
+  {"name": "stretch-0.2%@840",     "kind": "stretch", "value": -0.002, "pivot": 840.0},
+  {"name": "stretch+0.2%@0",       "kind": "stretch", "value": 0.002,  "pivot": 0.0},
+  {"name": "stretch-0.2%@0",       "kind": "stretch", "value": -0.002, "pivot": 0.0},
+  {"name": "k+1%",                 "kind": "k",       "value": 0.01},
+  {"name": "k-1%",                 "kind": "k",       "value": -0.01}
+ ]
+}

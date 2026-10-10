@@ -13,6 +13,7 @@
 |---|---|
 | `SKILL.md` | Рабочая инструкция: двухпроходный сценарий анализа от метаданных до MDA. Точка входа для агента. |
 | `scripts/gamma/` | Библиотека: ввод-вывод форматов, поиск пиков, калибровка, идентификация, деконволюция мультиплетов, активность и MDA, дозовые коэффициенты, отчёты. |
+| `skills/intrinsic-shape-cal/` | Скилл и CLI `python -m gamma.calibration.intrinsic_shape`: калибровка по форме собственных структур (LaBr₃, CeBr₃, LYSO), вычитание фона разных сессий, ПШПВ для BecqMoni; методика — `references/intrinsic_shape_calibration.md`. |
 | `scripts/*.py` | Утилиты командной строки — `analyze_spectrum.py`, `convert_spectrum.py`, `run_skill.py` и др. |
 | `tests/` | Тесты по шагам конвейера (`step01_io` … `step11_reporting`) плюс снапшот-фикстуры. |
 | `detectors/` | Спектры, паспорта и калибровки 11 гамма-спектрометров: NaI, HPGe, LaBr₃, CdTe/CZT, RadiaCode, AtomSpectra. Сводка с количеством — в [SPECTRA_MAP.md](SPECTRA_MAP.md). |
