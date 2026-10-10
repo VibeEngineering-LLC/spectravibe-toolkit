@@ -378,19 +378,25 @@ def register_robust(S, B, k, mask0, anchor, fwhm_fn, k40_ch=None, mode="auto",
             "basis": None,
             "coef": None,
             "model": None,
-            "iterations": 0
+            "iterations": 0,
+            "converged": True,
+            "steps_ch": [],
+            "same_basis": None
         }
 
     # Построение базиса
     # правка Claude: комптоновские края линий образца (K-40 и найденных пиков, compton_fn: канал пика -> канал края)
     # -- ступени в базисе (структуры образца, не собственные); K-40 -- последний столбец.
     s40 = fwhm_fn(k40_ch) / 2.3548 if k40_ch is not None else None
+    steps_ch = []   # правка Claude (раунд 4): каналы ступеней последнего базиса -- для вердикта по окнам
     def make_basis(peak_chs):
         cols = [hat_basis(n, lo0, hi0, knot_ch)]
+        steps_ch.clear()
         for pc in (list(peak_chs) + ([k40_ch] if k40_ch is not None else [])) if compton_fn else []:
             ce = compton_fn(pc)
             if ce is not None and lo0 < ce < hi0:
                 cols.append(step_col(n, ce, fwhm_fn(ce) / 2.3548)[:, None])
+                steps_ch.append(float(ce))
         if k40_ch is not None:
             cols.append(gauss_col(n, k40_ch, s40)[:, None])
         return np.column_stack(cols)
@@ -484,6 +490,18 @@ def register_robust(S, B, k, mask0, anchor, fwhm_fn, k40_ch=None, mode="auto",
             "area_err": float(area_err)
         }
 
+    # правка Claude (раунд 4, п.6): сравнение простой и устойчивой на ОДНОМ наборе каналов (итоговая маска) и ОДНОЙ модели
+    m_fin = mask_minus(mask0, excl)
+    p_nom = reg.Problem(S, B, k, m_fin, anchor)
+    p_mod = RobustProblem(S, B, k, m_fin, anchor, basis)
+    same = {"n_ch": int(m_fin.sum()),
+            "no_model": [p_nom.chi2(plain['c']) / p_nom.ndf(), p_nom.chi2(c) / p_nom.ndf()],
+            "with_model": [p_mod.chi2(plain['c']) / p_mod.ndf(), p_mod.chi2(c) / p_mod.ndf()]}
+    if verbose:
+        print("[ROBUST] на одних каналах (%d, итоговая маска): без модели образца chi2/ndf простая %.3f -> устойчивая %.3f; "
+              "с моделью образца %.3f -> %.3f" % (same["n_ch"], *same["no_model"], *same["with_model"]))
+        if not converged:
+            print("[ROBUST] ПРЕДУПРЕЖДЕНИЕ: исключение линий не сошлось за %d итераций -- итог не устойчив" % max_iter)
     if verbose:
         print(f"[ROBUST] итог: chi2/ndf {rr['chi2ndf']:.4f} (простая {plain['chi2ndf']:.4f}), окон исключено {len(excl)}, каналов {np.sum(mask_minus(mask0, excl))} из {n}, сходимость {converged}")
         for w in excl:
@@ -510,5 +528,7 @@ def register_robust(S, B, k, mask0, anchor, fwhm_fn, k40_ch=None, mode="auto",
         "model": model,
         "iterations": it + 1,
         "converged": converged,
-        "plain": plain
+        "plain": plain,
+        "steps_ch": list(steps_ch),
+        "same_basis": same
     }

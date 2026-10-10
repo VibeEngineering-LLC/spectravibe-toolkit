@@ -297,25 +297,34 @@ def device_config(points, ch_ref=1309, n_ch=2048):
     return F0, ch, W
 
 
-def make_net(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signed, name=None, date="", monotone_to=1.5, sum_window=(352, 2046)):
-    """Построение чистого спектра (вычитание фона) и запись в XML."""
+def make_net(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signed, name=None, date="", monotone_to=1.5, sum_window=(352, 2046), lt_out="sample"):
+    """Построение чистого спектра (вычитание фона) и запись в XML.
+    Правка Claude (раунд 4, п.11): разность -- в cps по каналам, net_cps = S/LT_s - B/LT_b; в XML записано
+    net_cps * LT_out (целые), LiveTime/MeasurementTime файла = времена выбранного спектра (lt_out: "sample" | "bg")."""
     bg, sm = load_pair(bg_path, sample_path)
     B = bg["counts"]
     S = sm["counts"]
     k = sm["live"] / bg["live"]
-    
+
     resid, var = reg_apply(h, S, B, k)
-    
-    net_zeroed = np.maximum(0.0, np.round(resid))
-    net_signed = np.round(resid)
+    if lt_out not in ("sample", "bg"):
+        raise ValueError("lt_out: ожидается 'sample' или 'bg', получено %r" % (lt_out,))
+    ref = sm if lt_out == "sample" else bg
+    f_out = ref["live"] / sm["live"]   # resid -- отсчёты за LT_s; за LT_out -- умножить на LT_out/LT_s
+    times = None if lt_out == "sample" else (ref["live"], ref["real"])
+    print("[NET] формула: net_cps[i] = S'[i]/LT_s - B~[i]/LT_b (S' -- образец на шкале фона через h, B~ -- фон с тем же размытием, сумма сохраняется), LT_s = %.3f с, LT_b = %.3f с; в XML: net_cps*LT_out, "
+          "LT_out = %.3f с (%s), целые отсчёты" % (sm["live"], bg["live"], ref["live"], "образец" if lt_out == "sample" else "фон"))
+
+    net_zeroed = np.maximum(0.0, np.round(resid * f_out))
+    net_signed = np.round(resid * f_out)
     
     fwc = fwhm_model(fw_points, len(B), monotone_to)
     
     if name is None:
         name = pathlib.Path(sm["name"]).stem + " - фон (рег. по форме)"
         
-    write_xml(sample_path, out_zeroed, net_zeroed, False, ecal, h, k, fwc, fw_points, name, date)
-    write_xml(sample_path, out_signed, net_signed, True, ecal, h, k, fwc, fw_points, name, date)
+    write_xml(sample_path, out_zeroed, net_zeroed, False, ecal, h, k, fwc, fw_points, name, date, times=times)
+    write_xml(sample_path, out_signed, net_signed, True, ecal, h, k, fwc, fw_points, name, date, times=times)
     
     min_val = np.min(resid)
     neg_channels = np.sum(resid < 0)
@@ -350,5 +359,9 @@ def make_net(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signed, n
         "var": var,
         "fwhm": fwc,
         "zeroed": net_zeroed,
-        "signed": net_signed
+        "signed": net_signed,
+        "lt_out": lt_out,
+        "live_out": float(ref["live"]),
+        "live_s": float(sm["live"]),
+        "live_b": float(bg["live"])
     }

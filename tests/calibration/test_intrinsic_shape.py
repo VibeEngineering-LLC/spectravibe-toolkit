@@ -311,21 +311,26 @@ def test_robust_registration_with_sample_lines():
     d_rob = abs(poly_eval(rob["c"], 845.0) - poly_eval(H_REF, 845.0))
     print("d_plain:", d_plain, "d_rob:", d_rob)
 
-    windows = json.loads((PRESETS / "labr3_selftest.json").read_text("utf-8"))["windows"]
+    # правка Claude (раунд 4): вердикт verdict.structure_verdict -- остаток без модели, простая и устойчивая на одной основе
+    from gamma.calibration.intrinsic_shape import verdict as vd
+    ctx = pl.setup(BG, SAMPLE, verbose=False)
+    kw = pl.verdict_kw(ctx, rob["excluded"], rob["steps_ch"])
     net_p, var_p = reg.apply(plain["c"], S2, B, k)
     net_r, var_r = reg.apply(rob["c"], S2, B, k)
-    chk_p = rb.structure_checks(net_p, var_p, None, windows)
-    chk_r = rb.structure_checks(net_r, var_r, rob["model"], windows, rob["excluded"])
-    n_bad_p = sum(not c["ok"] for c in chk_p)
-    n_bad_r = sum(not c["ok"] and c.get("n_used", 0) >= 5 for c in chk_r)
-    print("n_bad_p:", n_bad_p, "n_bad_r:", n_bad_r)
+    chk_p = vd.structure_verdict(net_p, var_p, ctx["windows"], **kw)
+    chk_r = vd.structure_verdict(net_r, var_r, ctx["windows"], **kw)
+    n_bad_p = sum(c["evaluated"] and not c["ok"] for c in chk_p)
+    n_bad_r = sum(c["evaluated"] and not c["ok"] for c in chk_r)
+    a1 = [c for c in chk_r if c["name"] == "Tl208_alpha1"][0]   # линия 1300 кан закрывает левую половину окна
+    print("n_bad_p:", n_bad_p, "n_bad_r:", n_bad_r, "alpha1:", a1["status"], a1["hidden_frac"])
 
-    assert rob["mode"] == "robust"
+    assert rob["mode"] == "robust" and rob["converged"]
     assert len(rob["excluded"]) >= 2
     assert d_rob < 0.3
     assert d_rob < d_plain
-    assert n_bad_p >= 3
-    assert n_bad_r <= 1
+    assert n_bad_p >= 1
+    assert n_bad_r == 0
+    assert a1["evaluated"] is False and a1["hidden_frac"] > 0
 
 
 def test_nested_pair_detected():
@@ -390,3 +395,67 @@ def test_fwhm_single_point_warns(capsys):
     cli_main(["fwhm", "--points"] + ["%g:%g" % p for p in FW_POINTS])
     out2 = capsys.readouterr().out
     assert "ПРЕДУПРЕЖДЕНИЕ: точек" not in out2
+
+
+def test_verdict_window_red_on_local_shift_and_flags_dependent_pair():
+    """Раунд 4: вердикт окна без модели на тех же каналах -- сдвиг h краснеет; зависимая пара (S=B) -- флаг."""
+    from gamma.calibration.intrinsic_shape import verdict as vd
+    ctx = pl.setup(BG, SAMPLE, verbose=False)
+    kw = pl.verdict_kw(ctx, [], [])
+    S, B, k = ctx["S"], ctx["B"], ctx["k"]
+    good = vd.summarize(vd.structure_verdict(*reg.apply(H_REF, S, B, k), ctx["windows"], **kw))
+    bad_h = [H_REF[0] + 1.0] + list(H_REF[1:])   # сдвиг на 1 канал
+    bad = vd.structure_verdict(*reg.apply(bad_h, S, B, k), ctx["windows"], **kw)
+    dep = vd.summarize(vd.structure_verdict(*reg.apply([0.0, 1.0, 0.0], B, B, 1.0), ctx["windows"], **kw))
+    assert good["struct_ok"] and good["n_eval"] == good["n"]
+    assert not vd.summarize(bad)["struct_ok"]
+    assert [c["name"] for c in bad if c["evaluated"] and not c["ok"]]
+    assert dep["dependent"] and not dep["struct_ok"]
+
+
+def test_verdict_overlap_not_evaluated_and_net_xml_has_no_background(tmp_path):
+    """Раунд 4: окно, скрытое линиями образца больше порога, -- «не оценено»; в net.xml нет фона BecqMoni."""
+    from gamma.calibration.intrinsic_shape import verdict as vd
+    ctx = pl.setup(BG, SAMPLE, verbose=False)
+    w = ctx["windows"]["La_sum_K40"]
+    half = (w["hi"] - w["lo"]) // 2
+    excl_small = [[w["lo"], w["lo"] + int(0.2 * half)]]
+    excl_big = [[w["lo"], w["lo"] + int(0.6 * half)]]
+    net, var = reg.apply(H_REF, ctx["S"], ctx["B"], ctx["k"])
+    a = vd.window_verdict(net, var, "La_sum_K40", w, excl_small, ctx["fwhm_fn"])
+    b = vd.window_verdict(net, var, "La_sum_K40", w, excl_big, ctx["fwhm_fn"])
+    assert a["evaluated"] and 0 < a["hidden_frac_l"] <= vd.HIDE_MAX
+    assert not b["evaluated"] and b["status"] == "не оценено" and b["hidden_frac_l"] > vd.HIDE_MAX
+    # образец с фоном внутри (как сохраняет BecqMoni): имя фона и блок BackgroundEnergySpectrum -- копия спектра
+    t = SAMPLE.read_text("utf-8")
+    blk = re.search(r"([ \t]*)<EnergySpectrum>.*?</EnergySpectrum>\r?\n", t, flags=re.S).group(0)
+    t = t.replace("<BackgroundSpectrumFile />", "<BackgroundSpectrumFile>fon.xml</BackgroundSpectrumFile>")
+    t = t.replace(blk, blk + blk.replace("EnergySpectrum>", "BackgroundEnergySpectrum>"), 1)
+    smp = tmp_path / "sample_with_bg.xml"
+    smp.write_text(t, encoding="utf-8")
+    assert "<BackgroundEnergySpectrum>" in t and "fon.xml" in t
+    E = pl.run_ecal(BG, smp, H_REF, verbose=False)
+    pl.run_subtract(BG, smp, H_REF, E, E["fwhm_points"], tmp_path / "n.xml", tmp_path / "s.xml", verbose=False)
+    for f in ("n.xml", "s.xml"):
+        t = (tmp_path / f).read_text("utf-8")
+        assert "BackgroundEnergySpectrum" not in t and "BackgroundSpectrumFile" not in t
+        assert t.count("<DataPoint>") == len(ctx["B"])
+
+
+@pytest.mark.parametrize("lt_out", ["sample", "bg"])
+def test_net_cps_equivalence_any_output_live_time(tmp_path, lt_out):
+    """Раунд 4, п.11: net/LT_out == S/LT_s - B/LT_b с точностью округления до целого; cps не зависит от выбора LT_out."""
+    E = pl.run_ecal(BG, SAMPLE, H_REF, verbose=False)
+    r = pl.run_subtract(BG, SAMPLE, H_REF, E, E["fwhm_points"], tmp_path / "n.xml", tmp_path / "s.xml",
+                        verbose=False, lt_out=lt_out)
+    S, B, k, lt_s, lt_b = reg.load_inputs(BG, SAMPLE)
+    edges = poly_eval(H_REF, np.arange(len(S) + 1) - 0.5)
+    s_reb, _ = rebin_conserve_var(S, edges, len(B))
+    b_t, _ = reg.blur_bg(lambda x: poly_eval(H_REF, x), np.asarray(B, float))   # фон с размытием того же отображения
+    cps_true = s_reb / lt_s - b_t / lt_b         # пересчёт по формуле, не из resid make_net
+    out = load_spectrum(tmp_path / "s.xml", n_ch=len(B))
+    lt_o = out["live"]
+    assert abs(lt_o - (lt_s if lt_out == "sample" else lt_b)) < 1e-6 * lt_o
+    cps_file = out["counts"] / lt_o
+    n = len(B) - 1
+    assert np.max(np.abs(cps_file[:n] - cps_true[:n])) <= 0.5 / lt_o + 1e-9
