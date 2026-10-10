@@ -486,3 +486,16 @@ def test_ecal_two_reperes_degenerate_scale_rejected_falls_back_to_file():
     assert len(e["points"]) == 2 and len(e.get("ecal_points_cfg", [])) == 2
     assert e.get("rejected") and list(e["coeffs"]) == list(load_spectrum(BG)["cal"]) and "low" not in e
     assert list(e["coeffs_xml"]) == list(e["coeffs"])
+
+
+def test_calibrate_drops_nan_reper_and_scale_stays_finite():
+    """Репер с нечисловым каналом (край не найден -> NaN) исключается до подгонки; шкала по остальным конечна (правка Claude)."""
+    cfg = json.loads((PRESETS / "labr3_ecal.json").read_text("utf-8"))
+    bad = {"name": "NaN_reper", "spectrum": "bg", "kind": "given", "ch": float("nan"), "ch_err": float("nan"),
+           "E": 1000.0, "dE": 1.0, "x0": 0.0, "w0": 1.0, "hw": 0}
+    cfg["points"] = cfg["points"] + [bad]
+    S, B, k, _, _ = reg.load_inputs(BG, SAMPLE)
+    res = ops.calibrate(cfg, B, S, H_REF)
+    assert "NaN_reper" not in [p["name"] for p in res["points"]]
+    assert len(res["points"]) == len(cfg["points"]) - 1
+    assert np.all(np.isfinite(res["coeffs"])) and np.isfinite(res["chi2ndf"])
