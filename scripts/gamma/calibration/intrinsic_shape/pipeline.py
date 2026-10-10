@@ -17,6 +17,7 @@ from . import robust as rb
 from . import pairref as pr
 from . import lowscale as lw
 from . import ops
+from . import verdict as vd
 
 STRUCT_NAMES = ("La_beta_edge", "La_compton", "La_sum_K40", "Tl208_alpha1", "alpha2", "alpha3")
 E_SUM = 1471.0
@@ -68,15 +69,22 @@ def setup(bg_path, sample_path, auto=True, manual=None, verbose=True):
 
     k40 = A["sum"]["x"] - (E_SUM - E_K40) / poly_deriv(scale, A["sum"]["x"])
     
-    st = ap.selftest_cfg_for(a, _load_json(ap.HERE / "presets" / "labr3_selftest.json"))
-    windows = {nm: st["windows"][nm] for nm in STRUCT_NAMES if nm in st["windows"]}
-    
+    # правка Claude (раунд 4, п.2): окна структур -- в энергиях (ядерные данные), каналы -- через шкалу пары
+    windows = vd.windows_to_channels(vd.load_windows_kev(), scale, len(B))
+
     return {
         "S": S, "B": B, "k": k, "live_s": live_s, "live_b": live_b,
         "cal": cal, "auto": a, "fwhm_fn": fw, "scale": scale,
         "k40_ch": float(k40), "windows": windows, "n": len(B),
         "bg_path": str(bg_path), "sample_path": str(sample_path), "nested": nested
     }
+
+
+def verdict_kw(ctx, excluded, steps_ch):
+    """Правка Claude (раунд 4): общие аргументы вердикта по окнам -- исключения, ступени, K-40 (канал, сигма)."""
+    k40 = {"ch": float(ctx["k40_ch"]), "sigma": float(ctx["fwhm_fn"](ctx["k40_ch"]) / 2.3548)}
+    return {"excl": [[int(a), int(b)] for a, b in excluded], "fwhm_fn": ctx["fwhm_fn"],
+            "steps_ch": [float(s) for s in steps_ch], "k40": k40}
 
 
 def compton_fn_for(ctx):
@@ -146,8 +154,14 @@ def run_register(bg_path, sample_path, auto=True, manual=None, robust="auto", ov
     
     net, var = reg.apply(rr["c"], ctx["S"], ctx["B"], ctx["k"])
     
-    checks = rb.structure_checks(net, var, rr["model"], ctx["windows"], rr["excluded"])
-    
+    # правка Claude (раунд 4, п.1): вердикт -- на остатке БЕЗ модели образца; простая и устойчивая -- на одной основе
+    # (те же окна, исключения, ступени, K-40 только в окне сумм-пика)
+    vkw = verdict_kw(ctx, rr["excluded"], rr.get("steps_ch", []))
+    checks = vd.structure_verdict(net, var, ctx["windows"], **vkw)
+    c_plain = (rr.get("plain") or {}).get("c", rr["c"])
+    net_p, var_p = reg.apply(c_plain, ctx["S"], ctx["B"], ctx["k"])
+    checks_plain = vd.structure_verdict(net_p, var_p, ctx["windows"], **vkw)
+
     scale = ctx["scale"]
     excluded_kev = [[int(lo), int(hi), float(poly_eval(scale, lo)), float(poly_eval(scale, hi))] for lo, hi in rr["excluded"]]
 
@@ -157,16 +171,12 @@ def run_register(bg_path, sample_path, auto=True, manual=None, robust="auto", ov
             print("[ROBUST]   кан %d-%d (%.0f-%.0f кэВ)" % (e[0], e[1], e[2], e[3]))
         if rr["k40"]:
             print("[ROBUST] K-40 образца под сумм-пиком: площадь %.0f ± %.0f отсчётов (кан %.1f)" % (rr["k40"]["area"], rr["k40"]["area_err"], rr["k40"]["ch"]))
-        
-        print("[STRUCT] окна собственных структур (остаток после модели образца):")
-        for c in checks:
-            status = "OK" if c["ok"] else "ВНЕ НОРМЫ"
-            reason = "" if c["ok"] else " (" + c["reason"] + ")"
-            print("[STRUCT] %-13s кан %d-%d (каналов %d): z_sum %+6.2f z_dip %+6.2f z_chi2 %+6.2f %s%s" % (
-                c["name"], c["lo"], c["hi"], c["n_used"], c["z_sum"], c["z_dip"], c["z_chi2"], status, reason
-            ))
-        n_ok = sum(1 for c in checks if c["ok"])
-        print("[STRUCT] итог: окон в норме %d из %d" % (n_ok, len(checks)))
+        if rr["mode"] == "robust" and not rr.get("converged", True):
+            print("[ROBUST] ПРЕДУПРЕЖДЕНИЕ: устойчивая регистрация не сошлась -- итог не принимается (all_ok=False)")
+        print(vd.format_table(checks, "[STRUCT] окна собственных структур, регистрация %s (остаток без модели образца, "
+                              "базовая линия по боковым полосам):" % rr["mode"]))
+        if rr["mode"] == "robust":
+            print(vd.format_table(checks_plain, "[STRUCT] те же окна, простая регистрация (та же основа):"))
 
     a = ctx["auto"]
     A = a["anchors"]
@@ -199,10 +209,18 @@ def run_register(bg_path, sample_path, auto=True, manual=None, robust="auto", ov
         "excluded": excluded_kev,
         "k40": rr["k40"],
         "nuclides": ctx.get("nuclides", []),
+        "converged": bool(rr.get("converged", True)),
+        "iterations": int(rr.get("iterations", 0)),
+        "steps_ch": [float(v) for v in rr.get("steps_ch", [])],
+        "excluded_ch": [[int(a), int(b)] for a, b in rr["excluded"]],
+        "same_basis": rr.get("same_basis"),
         "model": (None if rr["model"] is None else [round(float(v), 3) for v in rr["model"]])
     }
-    
+
     out["structure"] = checks
+    out["structure_plain"] = checks_plain
+    out["structure_summary"] = vd.summarize(checks)
+    out["structure_plain_summary"] = vd.summarize(checks_plain)
     out["k40_ch"] = float(ctx["k40_ch"])
     out["scale_prov"] = [float(v) for v in ctx["scale"]]
 
@@ -552,7 +570,7 @@ def _ecal_from(ecal):
     raise ValueError("Неподдерживаемый тип ecal")
 
 
-def run_subtract(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signed, name=None, date="", monotone_to=1.5, sum_window=None, auto=True, manual=None, reg_json=None, xml_scale="composite", verbose=True):
+def run_subtract(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signed, name=None, date="", monotone_to=1.5, sum_window=None, auto=True, manual=None, reg_json=None, xml_scale="composite", verbose=True, lt_out="sample"):
     ctx = setup(bg_path, sample_path, auto, manual, verbose=False)
     hh = _h_from(h)
     E = _ecal_from(ecal)
@@ -564,41 +582,30 @@ def run_subtract(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signe
     res = ops.make_net(
         bg_path, sample_path, hh, C_xml, fw_points,
         out_zeroed, out_signed, name=name, date=date,
-        monotone_to=monotone_to, sum_window=tuple(sw)
+        monotone_to=monotone_to, sum_window=tuple(sw), lt_out=lt_out
     )
     
-    excluded = []
-    model = None
-    
+    # правка Claude (раунд 4): вердикт без модели образца; исключения и ступени -- из регистрации, окна -- через шкалу пары
+    excluded, steps, converged, model = [], [], True, None
     if reg_json is not None:
         if isinstance(reg_json, (str, pathlib.Path)):
             reg_json = _load_json(reg_json)
-        
-        if "robust" in reg_json:
-            excluded = [[int(e[0]), int(e[1])] for e in reg_json["robust"]["excluded"]]
-            if reg_json["robust"].get("model") is not None:
-                model = np.asarray(reg_json["robust"]["model"], dtype=float)
-                if len(model) != len(res["resid"]):
-                    model = None
-                    if verbose:
-                        print("[WARN] размер модели не совпадает с остатком, модель отключена")
-    
-    checks = rb.structure_checks(res["resid"], res["var"], model, ctx["windows"], excluded)
-    
+        rj = reg_json.get("robust", {})
+        excluded = rj.get("excluded_ch") or [[int(e[0]), int(e[1])] for e in rj.get("excluded", [])]
+        steps, converged = rj.get("steps_ch", []), bool(rj.get("converged", True))
+    windows = vd.windows_to_channels(vd.load_windows_kev(), E["coeffs"], ctx["n"])
+    checks = vd.structure_verdict(res["resid"], res["var"], windows, **verdict_kw(ctx, excluded, steps))
     if verbose:
-        print("[STRUCT] окна собственных структур (остаток после модели образца):")
-        for c in checks:
-            status = "OK" if c["ok"] else "ВНЕ НОРМЫ"
-            reason = "" if c["ok"] else " (" + c["reason"] + ")"
-            print("[STRUCT] %-13s кан %d-%d (каналов %d): z_sum %+6.2f z_dip %+6.2f z_chi2 %+6.2f %s%s" % (
-                c["name"], c["lo"], c["hi"], c["n_used"], c["z_sum"], c["z_dip"], c["z_chi2"], status, reason
-            ))
-        n_ok = sum(1 for c in checks if c["ok"])
-        print("[STRUCT] итог: окон в норме %d из %d" % (n_ok, len(checks)))
+        if not converged:
+            print("[ROBUST] ПРЕДУПРЕЖДЕНИЕ: устойчивая регистрация не сошлась -- итог не принимается")
+        print(vd.format_table(checks, "[STRUCT] окна собственных структур (остаток без модели образца, базовая линия "
+                              "по боковым полосам, окна по шкале пары):"))
         print("[ACC] сумма разности по всей области -- справочно (у образца со своими линиями не равна нулю)")
     
     result = dict(res)
     result["checks"] = checks
+    result["checks_summary"] = vd.summarize(checks)
+    result["converged"] = converged
     result["model"] = model
     result["excluded"] = excluded
     result["coeffs_xml"] = C_xml

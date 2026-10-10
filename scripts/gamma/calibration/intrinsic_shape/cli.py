@@ -82,7 +82,7 @@ def _cmd_subtract(args):
     pl.run_subtract(args.bg, args.sample, h, ecal, fw_points, args.out_zeroed, args.out_signed, name=args.name,
                     date=args.date, monotone_to=_monotone(args.monotone_to),
                     sum_window=tuple(args.sum_window) if args.sum_window else None, auto=not args.no_auto,
-                    manual=_manual(args), reg_json=reg_json, xml_scale=args.xml_scale)
+                    manual=_manual(args), reg_json=reg_json, xml_scale=args.xml_scale, lt_out=args.lt_out)
     print(f"[OUT] {args.out_zeroed}")
     print(f"[OUT] {args.out_signed}")
     return 0
@@ -220,6 +220,7 @@ def main(argv=None):
     p_sub.add_argument("--monotone-to", default="1.5", help="ширина не убывает до канала X*N (число) или c2>=0")
     p_sub.add_argument("--sum-window", nargs=2, type=int, default=None, help="Окно суммирования LO HI (справочно); по умолчанию -- автопресет")
     p_sub.add_argument("--xml-scale", choices=["composite", "main"], default="composite", help="шкала в XML: составная (ветвь ниже 100 кэВ, полином до 4-й степени) или основная")
+    p_sub.add_argument("--lt-out", choices=["sample", "bg"], default="sample", help="живое время выходного файла: образца (по умолчанию) или фона; cps разности от выбора не зависит")
     p_sub.set_defaults(func=_cmd_subtract)
 
     # fwhm
