@@ -547,7 +547,8 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
     result["lines"] = lines
     result["ecal_points_cfg"] = cfg["points"]
     
-    fw_lines = list(lines)   # правка Claude: + пики фона (кроме аннигиляции -- доплеровское уширение) как точки ПШПВ
+    # правка Claude: шкала отвергнута -- положения линий образца из разности не доверены, для ПШПВ берутся только пики фона
+    fw_lines = [] if res.get("rejected") else list(lines)   # + пики фона (кроме аннигиляции -- доплеровское уширение)
     for p in ([] if lu else cfg["points"]):
         if p.get("spectrum") == "bg" and p.get("kind") == "peak" and not p["name"].startswith(("Ann", "La138")):
             r = fit_peak(ctx["B"], p["x0"], p["w0"], half_window=int(p["hw"]))
