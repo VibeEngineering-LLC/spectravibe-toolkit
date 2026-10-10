@@ -332,7 +332,7 @@ def is_lu_sample(net, var, ecal_cfg, h, fwhm_ch, z_min=10.0):
     return True
 
 
-def pair_ecal_cfg(preset_cfg, B, net, var, h, scale, fwhm_ch, lu=None, verbose=True, **line_kw):
+def pair_ecal_cfg(preset_cfg, B, net, var, h, scale, fwhm_ch, lu=None, verbose=True, use_lines=True, **line_kw):
     """
     Формирует конфигурацию калибровки для пары (фон + образец).
     Возвращает (cfg, lines).
@@ -371,7 +371,11 @@ def pair_ecal_cfg(preset_cfg, B, net, var, h, scale, fwhm_ch, lu=None, verbose=T
     nn = len(net)
     a, b = int(60 * nn / 2048), int(1700 * nn / 2048) + 1
     z_net = float(np.sum(net[a:b]) / np.sqrt(max(np.sum(var[a:b]), 1.0)))
-    if z_net <= -NET_Z_NEG:
+    if not use_lines:   # правка Claude (LABR-11 п.0): регистрация не сошлась -- положения линий в разности смещены
+        lines = []
+        if verbose:
+            print("[PAIR] устойчивая регистрация не сошлась: линии образца из разности в реперы не берутся (их положения на шкале фона смещены)")
+    elif z_net <= -NET_Z_NEG:
         lines = []
         if verbose:
             print("[PAIR] разность значимо отрицательна (z суммы %.1f в каналах %d-%d): образец ниже фона·k, линии "

@@ -6,6 +6,7 @@
 Сгенерировано gen_code.py (qwen3.8:27b) по спецификации, 2026-10-10
 """
 
+import functools
 import json
 import time
 import pathlib
@@ -513,8 +514,14 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
     
     net, var = reg.apply(hh, ctx["S"], ctx["B"], ctx["k"])
     
+    # правка Claude (LABR-11 п.0): регистрация не сошлась -- линии образца из разности в реперы не берутся
+    if isinstance(robust_json, (str, pathlib.Path)):
+        robust_json = _load_json(robust_json)
+    use_lines = bool(((robust_json or {}).get("robust") or {}).get("converged", True))
+    _pec = functools.partial(pr.pair_ecal_cfg, use_lines=use_lines)
+    rb.check_cancel()
     # правка Claude: два прохода -- (1) по предварительной шкале с допуском 3 %, (2) по шкале прохода 1 без допуска
-    cfg, lines = pr.pair_ecal_cfg(cfg0, ctx["B"], net, var, hh, ctx["scale"], ctx["fwhm_fn"], verbose=False,
+    cfg, lines = _pec(cfg0, ctx["B"], net, var, hh, ctx["scale"], ctx["fwhm_fn"], verbose=False,
                                   tol_rel=0.03, min_sep=1.5)
     if lines and len(cfg["points"]) >= 4:
         try:
@@ -524,14 +531,14 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
         if _scale_defect({"coeffs": sc2, "chi2ndf": 1.0}, ctx):   # правка Claude: от негодной шкалы второй проход не идёт
             if verbose:
                 print("[PAIR] проход 2 пропущен: шкала прохода 1 негодна %s" % ["%.6g" % v for v in sc2])
-            cfg, lines = pr.pair_ecal_cfg(cfg0, ctx["B"], net, var, hh, ctx["scale"], ctx["fwhm_fn"], verbose=verbose,
+            cfg, lines = _pec(cfg0, ctx["B"], net, var, hh, ctx["scale"], ctx["fwhm_fn"], verbose=verbose,
                                           tol_rel=0.03, min_sep=1.5)
         else:
             if verbose:
                 print("[PAIR] проход 2: шкала прохода 1 %s" % ["%.6g" % v for v in sc2])
-            cfg, lines = pr.pair_ecal_cfg(cfg0, ctx["B"], net, var, hh, sc2, ctx["fwhm_fn"], verbose=verbose, tol_rel=0.0)
+            cfg, lines = _pec(cfg0, ctx["B"], net, var, hh, sc2, ctx["fwhm_fn"], verbose=verbose, tol_rel=0.0)
     elif verbose:
-        cfg, lines = pr.pair_ecal_cfg(cfg0, ctx["B"], net, var, hh, ctx["scale"], ctx["fwhm_fn"], verbose=True,
+        cfg, lines = _pec(cfg0, ctx["B"], net, var, hh, ctx["scale"], ctx["fwhm_fn"], verbose=True,
                                       tol_rel=0.03, min_sep=1.5)
     lu = len(lines) == 0 and pr.is_lu_sample(net, var, cfg0, hh, ctx["fwhm_fn"])
     
@@ -565,6 +572,7 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
         if e37 is not None:
             lowe["e37_gamma"] = float(e37)
         
+        rb.check_cancel("перед ветвью ниже 100 кэВ")
         try:
             pts = low_points(ctx, res, hh, net, var, lu, lowe, C, verbose)
         except Exception as exc:   # правка Claude: «array of sample points is empty» и т. п. -- без окна ошибки
@@ -669,6 +677,7 @@ def run_subtract(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signe
     
     sw = sum_window or ctx["auto"]["sum_window"]
     
+    rb.check_cancel("перед вычитанием")
     res = ops.make_net(
         bg_path, sample_path, hh, C_xml, fw_points,
         out_zeroed, out_signed, name=name, date=date,
@@ -683,6 +692,7 @@ def run_subtract(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signe
         rj = reg_json.get("robust", {})
         excluded = rj.get("excluded_ch") or [[int(e[0]), int(e[1])] for e in rj.get("excluded", [])]
         steps, converged = rj.get("steps_ch", []), bool(rj.get("converged", True))
+    rb.check_cancel("перед проверкой окон")
     windows = vd.windows_to_channels(vd.load_windows_kev(), E["coeffs"], ctx["n"])
     checks = vd.structure_verdict(res["resid"], res["var"], windows, **verdict_kw(ctx, excluded, steps))
     if verbose:
