@@ -18,6 +18,12 @@ class Cancelled(Exception):
     """Операция отменена пользователем."""
 
 
+def check_cancel(where=""):
+    """Правка Claude: точка отмены между этапами (Шкала, Вычесть, Совместить)."""
+    if CANCEL["flag"]:
+        raise Cancelled("операция отменена пользователем" + (" (" + where + ")" if where else ""))
+
+
 def hat_basis(n, lo, hi, spacing):
     """
     Построение базиса кусочно-линейных "шапок" (hat functions).

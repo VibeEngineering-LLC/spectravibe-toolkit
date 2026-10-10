@@ -499,3 +499,19 @@ def test_calibrate_drops_nan_reper_and_scale_stays_finite():
     assert "NaN_reper" not in [p["name"] for p in res["points"]]
     assert len(res["points"]) == len(cfg["points"]) - 1
     assert np.all(np.isfinite(res["coeffs"])) and np.isfinite(res["chi2ndf"])
+
+
+def test_ecal_no_net_lines_when_robust_not_converged(tmp_path):
+    """LABR-11 п.0: устойчивая регистрация не сошлась -- линии образца из разности в реперы не берутся (правка Claude)."""
+    B = load_spectrum(BG)["counts"].astype(float)
+    x = np.arange(len(B), dtype=float)
+    c662 = float(poly_inverse(load_spectrum(BG)["cal"], 661.657))
+    line = 40000.0 / (np.sqrt(2 * np.pi) * 4.0) * np.exp(-0.5 * ((x - c662) / 4.0) ** 2)
+    vals = iter(np.round(B + line).astype(int))
+    smp = tmp_path / "sample_cs.xml"
+    smp.write_text(re.sub(r"<DataPoint>[^<]*</DataPoint>", lambda m: "<DataPoint>%d</DataPoint>" % next(vals),
+                          BG.read_text("utf-8")), encoding="utf-8")
+    ok = pl.run_ecal(BG, smp, [0.0, 1.0, 0.0], verbose=False, robust_json={"robust": {"converged": True}})
+    bad = pl.run_ecal(BG, smp, [0.0, 1.0, 0.0], verbose=False, robust_json={"robust": {"converged": False}})
+    assert any(l["nuclide"] == "Cs-137" for l in ok["lines"])
+    assert bad["lines"] == [] and not any(p["name"].startswith("Cs137") for p in bad["points"])
