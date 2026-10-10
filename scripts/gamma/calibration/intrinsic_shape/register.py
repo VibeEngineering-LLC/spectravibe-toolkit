@@ -182,18 +182,19 @@ def local_fit(prob, c_start, fixed=None, max_nfev=300):
     return c, float(np.sum(res.fun ** 2))
 
 
-def hvals(c, chans=TEST_CH):
+def hvals(c, chans=None):
+    chans = TEST_CH if chans is None else chans   # правка Claude: каналы проверки h задаются (автопресет)
     return np.array([poly_eval(c, x) for x in chans])
 
 
-def multistart(prob, starts, n_max=20, tol_ch=0.02):
+def multistart(prob, starts, n_max=20, tol_ch=0.02, chans=None):
     results = []
     for g, c in starts[:n_max]:
         c_fit, chi2 = local_fit(prob, c)
         results.append({
             'c': c_fit,
             'chi2': chi2,
-            'h': hvals(c_fit),
+            'h': hvals(c_fit, chans),
             'start_chi2': g
         })
         
@@ -255,7 +256,8 @@ def profile(prob, minima, idx, values, n_starts=5):
     return out
 
 
-def mapping_spread(minima, dchi2=4.0, chans=TEST_CH):
+def mapping_spread(minima, dchi2=4.0, chans=None):
+    chans = TEST_CH if chans is None else chans
     c2min = minima[0]['chi2']
     sel = [m for m in minima if m['chi2'] - c2min <= dchi2]
     H = np.array([hvals(m['c'], chans) for m in sel])
@@ -280,8 +282,9 @@ def coarse_c1(S, B, anchor, window=(780, 900)):
     return (pB - anchor[1]) / (pS - anchor[0])
 
 
-def register(S, B, k, mask, anchor, bg_var=None, c1_center=None, c1_half=0.008, c1_step=0.0002, c2_lo=-1.0e-5, c2_hi=2.0e-6, c2_step=2.0e-7, n_ms=20, verbose=True, coarse_window=(780, 900)):
-    prob = Problem(S, B, k, mask, anchor, bg_var)
+def register(S, B, k, mask, anchor, bg_var=None, c1_center=None, c1_half=0.008, c1_step=0.0002, c2_lo=-1.0e-5, c2_hi=2.0e-6, c2_step=2.0e-7, n_ms=20, verbose=True, coarse_window=(780, 900), test_ch=None, problem=None):
+    # правка Claude: test_ch -- каналы проверки h (автопресет); problem -- готовая задача (устойчивая регистрация)
+    prob = Problem(S, B, k, mask, anchor, bg_var) if problem is None else problem
     if c1_center is None:
         c1_center = coarse_c1(S, B, anchor, coarse_window)
         
@@ -289,7 +292,7 @@ def register(S, B, k, mask, anchor, bg_var=None, c1_center=None, c1_half=0.008, 
     c2s = np.arange(c2_lo, c2_hi + 1e-15, c2_step)
     
     G, starts = grid_search(prob, c1s, c2s)
-    minima = multistart(prob, starts, n_max=n_ms)
+    minima = multistart(prob, starts, n_max=n_ms, chans=test_ch)
     # правка Claude: дополнительная мелкая сетка (шаг /10) вокруг лучших 3 минимумов + спуск -> добавляется в список минимумов
     xs_, xb_ = anchor[0], anchor[1]
     extra = []
@@ -298,11 +301,11 @@ def register(S, B, k, mask, anchor, bg_var=None, c1_center=None, c1_half=0.008, 
         fc2 = m['c'][2] + np.arange(-10, 11) * c2_step / 10
         _, st = grid_search(prob, fc1, fc2)
         extra += st[:3]
-    minima = multistart(prob, [(m['chi2'], m['c']) for m in minima] + extra, n_max=len(minima) + len(extra))
+    minima = multistart(prob, [(m['chi2'], m['c']) for m in minima] + extra, n_max=len(minima) + len(extra), chans=test_ch)
     best = minima[0]
     
     cov, perr, chi2ndf = covariance(prob, best['c'])
-    spread = mapping_spread(minima)
+    spread = mapping_spread(minima, chans=test_ch)
     
     ib, jb = np.unravel_index(np.argmin(G), G.shape)
     on_edge = ib in (0, len(c1s) - 1) or jb in (0, len(c2s) - 1)
@@ -312,7 +315,7 @@ def register(S, B, k, mask, anchor, bg_var=None, c1_center=None, c1_half=0.008, 
         print(f"[MIN] distinct local minima after multistart: {len(minima)}")
         for i, m in enumerate(minima):
             h_str = ", ".join([f"{v:.3f}" for v in m['h']])
-            print(f"[MIN] #{i} chi2={m['chi2']:.2f} dchi2={m['chi2'] - best['chi2']:.2f} c=[{m['c'][0]:.6f}, {m['c'][1]:.7f}, {m['c'][2]:.4e}] h(29,337,845,1340,1610)={h_str}")
+            print(f"[MIN] #{i} chi2={m['chi2']:.2f} dchi2={m['chi2'] - best['chi2']:.2f} c=[{m['c'][0]:.6f}, {m['c'][1]:.7f}, {m['c'][2]:.4e}] h({','.join('%g' % v for v in spread['chans'])})={h_str}")
             
     return {
         'c': best['c'],
@@ -355,9 +358,9 @@ def load_inputs(bg_path, sample_path):
     return S, B, k, sm['live'], bg['live']
 
 
-def report(S, B, k, anchor, mask, out_json=None, profiles=True, **reg_kw):
+def report(S, B, k, anchor, mask, out_json=None, profiles=True, r=None, **reg_kw):
     """Регистрация + печать h, ковариации, минимумов, профилей, «требует толкования»; JSON -- в out_json."""
-    r = register(S, B, k, mask, anchor, **reg_kw)
+    r = register(S, B, k, mask, anchor, **reg_kw) if r is None else r   # правка Claude: готовый результат (устойчивая регистрация)
     
     c = r['c']
     perr = r['perr']

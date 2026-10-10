@@ -51,54 +51,38 @@ def _monotone(value):
     return float(value)
 
 
+def _manual(args):
+    """Ручная поправка опор автопресета: --anchors-ch A37 SUM [EDGE] (каналы фона)."""
+    v = getattr(args, "anchors_ch", None)
+    return None if not v else dict(zip(("a37", "sum", "edge"), [float(x) for x in v]))
+
+
 def _cmd_register(args):
-    from . import register as reg
-
-    S, B, k, live_s, live_b = reg.load_inputs(args.bg, args.sample)
-    print(f"[IN] k={k:.6f} live_s={live_s:.3f} live_b={live_b:.3f} каналов={len(B)}")
-
-    anchor = reg.anchor37(
-        B, S,
-        x_bg=args.anchor_bg,
-        x_sm=args.anchor_sample,
-        w0=args.anchor_fwhm,
-        hw=args.anchor_hw,
-        verbose=True
-    )
-
-    mask = np.zeros(len(B), dtype=bool)
-    lo, hi = args.mask
-    mask[lo:hi + 1] = True
-
-    reg.report(
-        S, B, k, anchor, mask,
-        out_json=args.out,
-        profiles=args.profiles,
-        n_ms=args.n_ms,
-        coarse_window=tuple(args.coarse_window)
-    )
-
-    if args.out:
-        print(f"[OUT] {args.out}")
+    # правка Claude: автопресет (#LABR-8) + устойчивая регистрация (линии образца); явные ключи перекрывают автопресет
+    from . import pipeline as pl
+    ov = {"mask": args.mask, "anchor_bg": args.anchor_bg, "anchor_sample": args.anchor_sample, "anchor_fwhm": args.anchor_fwhm,
+          "anchor_hw": args.anchor_hw, "coarse_window": args.coarse_window}
+    pl.run_register(args.bg, args.sample, auto=not args.no_auto, manual=_manual(args), robust=args.robust, overrides=ov,
+                    n_ms=args.n_ms, profiles=args.profiles, out_json=args.out, z_peak=args.z_peak)
     return 0
 
 
 def _cmd_subtract(args):
-    from . import ops
-
-    h = ops.load_h(args.h[0] if len(args.h) == 1 else args.h)
-    ecal = _coeffs(args.ecal)
-    fw_points = _points(args.fwhm_points)
-
-    ops.make_net(
-        args.bg, args.sample, h, ecal, fw_points,
-        args.out_zeroed, args.out_signed,
-        name=args.name,
-        date=args.date,
-        monotone_to=_monotone(args.monotone_to),
-        sum_window=tuple(args.sum_window)
-    )
-
+    # правка Claude: шкала/ПШПВ из JSON шага ecal (составная шкала ниже 60 кэВ, точки ПШПВ пары), окна -- автопресет
+    from . import ops, pipeline as pl
+    h_arg = args.h[0] if len(args.h) == 1 else args.h
+    h = ops.load_h(h_arg)
+    reg_json = h_arg if isinstance(h_arg, str) and pathlib.Path(h_arg).is_file() else None
+    e_path = pathlib.Path(args.ecal[0]) if len(args.ecal) == 1 else None
+    ecal = pl._ecal_from(str(e_path)) if e_path is not None and e_path.is_file() else pl._ecal_from(_coeffs(args.ecal))
+    fw_points = _points(args.fwhm_points) if args.fwhm_points else [tuple(p) for p in ecal.get("fwhm_points", [])]
+    if not fw_points:
+        print("Ошибка: нет точек ПШПВ: укажите --fwhm-points или JSON шага ecal с полем fwhm_points", file=sys.stderr)
+        return 2
+    pl.run_subtract(args.bg, args.sample, h, ecal, fw_points, args.out_zeroed, args.out_signed, name=args.name,
+                    date=args.date, monotone_to=_monotone(args.monotone_to),
+                    sum_window=tuple(args.sum_window) if args.sum_window else None, auto=not args.no_auto,
+                    manual=_manual(args), reg_json=reg_json, xml_scale=args.xml_scale)
     print(f"[OUT] {args.out_zeroed}")
     print(f"[OUT] {args.out_signed}")
     return 0
@@ -139,27 +123,17 @@ def _cmd_fwhm(args):
         print(f"[OUT] {args.xml_out}")
 
     if args.device:
-        ops.device_config(points, args.ch_ref)
+        ops.device_config(points, args.ch_ref, args.n_ch)
 
     return 0
 
 
 def _cmd_ecal(args):
-    from . import register as reg
-    from . import ops
-
-    S, B, k, live_s, live_b = reg.load_inputs(args.bg, args.sample)
-    cfg_path = pathlib.Path(args.config)
-    cfg = json.loads(cfg_path.read_text("utf-8"))
-
-    h = ops.load_h(args.h[0] if len(args.h) == 1 else args.h)
-    res = ops.calibrate(cfg, B, S, h)
-
-    if args.out:
-        out_path = pathlib.Path(args.out)
-        out_path.write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
-        print(f"[OUT] {args.out}")
-
+    # правка Claude: реперы пары (линии образца по библиотеке) + ветвь шкалы ниже 100 кэВ (#LABR-9)
+    from . import pipeline as pl
+    h = args.h[0] if len(args.h) == 1 else [float(v) for v in args.h]
+    pl.run_ecal(args.bg, args.sample, h, preset=args.config, auto=not args.no_auto, manual=_manual(args), low=not args.no_low,
+                use37=not args.no_37, e37=args.e37, source=args.source, source_nuclide=args.source_nuclide, out_json=args.out)
     return 0
 
 
@@ -184,6 +158,11 @@ def _cmd_decompose(args):
     from . import background
 
     e_ref = _coeffs(args.ecal) if args.ecal else None
+    try:   # правка Claude (#LABR-3): вырожденная шкала -- понятная ошибка
+        background.check_ecal(e_ref, background.load_any(args.ref)["counts"], "--ecal") if e_ref is not None else None
+    except ValueError as exc:
+        print("Ошибка: %s" % exc, file=sys.stderr)
+        return 2
     background.decompose(
         args.ref, args.unshielded,
         e_ref=e_ref,
@@ -195,7 +174,7 @@ def _cmd_decompose(args):
 def _cmd_selftest(args):
     from . import selftest
 
-    return selftest.main(args.bg, args.sample, args.config, alt_bg=args.alt_bg)
+    return selftest.main(args.bg, args.sample, args.config, alt_bg=args.alt_bg, auto=not args.no_auto, manual=_manual(args))
 
 
 def main(argv=None):
@@ -214,15 +193,17 @@ def main(argv=None):
     p_reg = subparsers.add_parser("register", help="Регистрация образца")
     p_reg.add_argument("--bg", required=True, help="Файл фона")
     p_reg.add_argument("--sample", required=True, help="Файл образца")
-    p_reg.add_argument("--mask", nargs=2, type=int, default=[430, 1700], help="каналы функционала регистрации LO HI (шкала фона)")
-    p_reg.add_argument("--anchor-bg", type=float, default=28.9, help="канал якоря в фоне (LaBr3: пик ~37 кэВ)")
-    p_reg.add_argument("--anchor-sample", type=float, default=28.6, help="канал якоря в образце")
-    p_reg.add_argument("--anchor-fwhm", type=float, default=3.3, help="стартовая ПШПВ якоря, кан")
-    p_reg.add_argument("--anchor-hw", type=int, default=6, help="полуокно подгонки якоря, кан")
-    p_reg.add_argument("--coarse-window", nargs=2, type=int, default=[780, 900], help="окно сильной структуры для грубого наклона LO HI")
+    p_reg.add_argument("--mask", nargs=2, type=int, default=None, help="каналы функционала регистрации LO HI (шкала фона); по умолчанию -- автопресет (эталон 430 1700)")
+    p_reg.add_argument("--anchor-bg", type=float, default=None, help="канал якоря в фоне (LaBr3: пик ~37 кэВ)")
+    p_reg.add_argument("--anchor-sample", type=float, default=None, help="канал якоря в образце")
+    p_reg.add_argument("--anchor-fwhm", type=float, default=None, help="стартовая ПШПВ якоря, кан")
+    p_reg.add_argument("--anchor-hw", type=int, default=None, help="полуокно подгонки якоря, кан")
+    p_reg.add_argument("--coarse-window", nargs=2, type=int, default=None, help="окно сильной структуры для грубого наклона LO HI")
     p_reg.add_argument("--n-ms", type=int, default=20, help="число стартов локального спуска")
     p_reg.add_argument("--profiles", action="store_true", help="печатать профили chi2 по c0, c1, c2 (медленно)")
     p_reg.add_argument("--out", help="Файл вывода JSON")
+    p_reg.add_argument("--robust", choices=["auto", "on", "off"], default="auto", help="устойчивая регистрация при линиях образца (auto -- по chi2/ndf и z разности)")
+    p_reg.add_argument("--z-peak", type=float, default=4.5, help="порог значимости пика образца в разности для исключения окна")
     p_reg.set_defaults(func=_cmd_register)
 
     # subtract
@@ -231,13 +212,14 @@ def main(argv=None):
     p_sub.add_argument("--sample", required=True, help="Файл образца")
     p_sub.add_argument("--h", nargs="+", required=True, help="Коэффициенты h (JSON или 3 числа)")
     p_sub.add_argument("--ecal", nargs="+", required=True, help="Коэффициенты ecal (JSON или числа)")
-    p_sub.add_argument("--fwhm-points", nargs="+", required=True, help="Точки FWHM 'канал:fwhm'")
+    p_sub.add_argument("--fwhm-points", nargs="+", default=None, help="Точки FWHM 'канал:fwhm'")
     p_sub.add_argument("--out-zeroed", required=True, help="Файл zeroed")
     p_sub.add_argument("--out-signed", required=True, help="Файл signed")
     p_sub.add_argument("--name", help="Имя")
     p_sub.add_argument("--date", default=datetime.date.today().isoformat(), help="Дата")
     p_sub.add_argument("--monotone-to", default="1.5", help="ширина не убывает до канала X*N (число) или c2>=0")
-    p_sub.add_argument("--sum-window", nargs=2, type=int, default=[352, 2046], help="Окно суммирования LO HI")
+    p_sub.add_argument("--sum-window", nargs=2, type=int, default=None, help="Окно суммирования LO HI (справочно); по умолчанию -- автопресет")
+    p_sub.add_argument("--xml-scale", choices=["composite", "main"], default="composite", help="шкала в XML: составная (ветвь ниже 100 кэВ, полином до 4-й степени) или основная")
     p_sub.set_defaults(func=_cmd_subtract)
 
     # fwhm
@@ -260,8 +242,13 @@ def main(argv=None):
     p_ec.add_argument("--bg", required=True, help="Файл фона")
     p_ec.add_argument("--sample", required=True, help="Файл образца")
     p_ec.add_argument("--h", nargs="+", required=True, help="Коэффициенты h")
-    p_ec.add_argument("--config", default=str(pathlib.Path(__file__).resolve().parent / "presets" / "labr3_ecal.json"), help="Конфигурация")
+    p_ec.add_argument("--config", default=None, help="пресет реперов (по умолчанию presets/labr3_ecal.json, пересчитывается автопресетом)")
     p_ec.add_argument("--out", help="Файл вывода JSON")
+    p_ec.add_argument("--no-low", action="store_true", help="не строить ветвь шкалы ниже 100 кэВ")
+    p_ec.add_argument("--no-37", action="store_true", help="пик ~37 кэВ не входит в подгонку ветви")
+    p_ec.add_argument("--e37", type=float, default=None, help="гамма-эквивалент собственного пика ~37 кэВ (по умолчанию 35.75; литература 35.5-36)")
+    p_ec.add_argument("--source", help="спектр внешнего источника того же прибора (реперы ниже 60 кэВ)")
+    p_ec.add_argument("--source-nuclide", choices=["Am-241", "Ba-133"], default="Am-241", help="нуклид внешнего источника")
     p_ec.set_defaults(func=_cmd_ecal)
 
     # bg-inventory
@@ -287,6 +274,9 @@ def main(argv=None):
     p_st.add_argument("--alt-bg", nargs="*", default=[], help="Дополнительные фоны")
     p_st.set_defaults(func=_cmd_selftest)
 
+    for sp in (p_reg, p_sub, p_ec, p_st):   # правка Claude: автопресет (#LABR-8)
+        sp.add_argument("--no-auto", action="store_true", help="не пересчитывать пресеты под прибор (каналы эталона 2048)")
+        sp.add_argument("--anchors-ch", nargs="+", type=float, default=None, help="ручная поправка опор фона: A37 SUM [EDGE], каналы")
     args = parser.parse_args(argv)
 
     if args.cmd == "selftest" and args.config is None:

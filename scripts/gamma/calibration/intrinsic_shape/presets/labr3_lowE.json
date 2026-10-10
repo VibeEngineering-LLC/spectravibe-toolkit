@@ -1,0 +1,28 @@
+{
+ "_note": "Реперы низкоэнергетической ветви шкалы LaBr3(Ce) (< 100 кэВ). В фоне K-рентген Pb (экран) смешан с K-рентгеном Bi от Pb-214 (радон), доля неизвестна: энергия -- середина двух бленд, неопределённость -- половина их разности. Энергии рентгеновских бленд считаются во время работы как средневзвешенные по интенсивности из data/xray_lines_lsrm.csv (элемент + список линий); гамма-линии внешнего источника -- из data/nuclides.json. Единственная энергия не из данных проекта -- Lu-176 88.34 кэВ (ENSDF, M.S. Basunia, Nucl. Data Sheets 107 (2006) 791; та же, что в прототипе labr3_selfcal/lines.json), используется только для образца с Lu-176. Гамма-эквивалент собственного пика ~37 кэВ -- параметр модели: 35.5-36 кэВ на гамма-шкалах (Cheng 2020, Zeng 2016), 37.45 кэВ при фотонной калибровке 32-40 кэВ (Li 2011).",
+ "e37_gamma": 35.75,
+ "de37": 0.5,
+ "bg_xray": [
+  {"name": "PbBiKa_mix", "element": "Pb", "mix_element": "Bi", "lines": ["Ka1", "Ka2", "Ka3"]},
+  {"name": "PbBiKb_mix", "element": "Pb", "mix_element": "Bi", "lines": ["Kb1", "Kb2", "Kb3", "Kb4", "Kb5"]}
+ ],
+ "lu_xray": [
+  {"name": "HfKb_blend", "element": "Hf", "lines": ["Kb1", "Kb2", "Kb3", "Kb4", "Kb5"]}
+ ],
+ "lu_gamma": [
+  {"name": "Lu176_88", "E": 88.34, "dE": 0.5, "src": "ENSDF, Basunia NDS 107 (2006) 791 -- не из данных проекта"}
+ ],
+ "sources": {
+  "Am-241": {"gamma": "Am-241", "xray": [
+   {"name": "NpLb_blend", "element": "Np", "lines": ["Lb1", "Lb2", "Lb3", "Lb4", "Lb5", "Lb6"]},
+   {"name": "NpLg_blend", "element": "Np", "lines": ["Lg1", "Lg2", "Lg3", "Lg6"]}
+  ]},
+  "Ba-133": {"gamma": "Ba-133", "xray": [
+   {"name": "CsKa_blend", "element": "Cs", "lines": ["Ka1", "Ka2", "Ka3"]},
+   {"name": "CsKb_blend", "element": "Cs", "lines": ["Kb1", "Kb2", "Kb3", "Kb4", "Kb5"]}
+  ]}
+ },
+ "source_min_int": 1.0,
+ "source_e_max": 400.0,
+ "min_signif": 5.0
+}

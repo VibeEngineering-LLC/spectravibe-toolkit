@@ -12,16 +12,16 @@ HERE = pathlib.Path(__file__).resolve().parent
 DEFAULT_CFG = HERE / "presets" / "labr3_selftest.json"
 
 
-def mask_windows(cfg, names):
-    m = np.zeros(N_CH, dtype=bool)
+def mask_windows(cfg, names, n=N_CH):
+    m = np.zeros(n, dtype=bool)   # правка Claude: длина -- из данных (любое число каналов)
     for n in names:
         lo, hi = cfg["windows"][n]
         m[lo:hi + 1] = True
     return m
 
 
-def mask_range(lo, hi):
-    m = np.zeros(N_CH, dtype=bool)
+def mask_range(lo, hi, n=N_CH):
+    m = np.zeros(n, dtype=bool)
     m[lo:hi + 1] = True
     return m
 
@@ -139,7 +139,7 @@ def check_set(c, S, B, k, bg_var, cfg, names, prefix):
             z = (d2 - d1) / np.hypot(sg2, sg1)
         checks.append((prefix + "dist:" + first + "->" + last, float(z), float(th["z_dist"]), abs(z) <= th["z_dist"]))
 
-    union_mask = np.zeros(N_CH, dtype=bool)
+    union_mask = np.zeros(len(B), dtype=bool)
     for n in ordered:
         lo, hi = cfg["windows"][n]
         union_mask[lo:hi + 1] = True
@@ -163,19 +163,19 @@ def integral_checks(c, S, B, k, bg_var, cfg, prefix):
 def register_all(S, B, k, bg_var, cfg):
     anchor = sr.anchor37(B, S, verbose=False, **cfg.get("anchor", {}))
     masks = {
-        "full": mask_range(*cfg["full_mask"]),
-        "A": mask_windows(cfg, cfg["half_A"]),
-        "B": mask_windows(cfg, cfg["half_B"]),
+        "full": mask_range(*cfg["full_mask"], n=len(B)),
+        "A": mask_windows(cfg, cfg["half_A"], len(B)),
+        "B": mask_windows(cfg, cfg["half_B"], len(B)),
     }
     if "info_holdout" in cfg:   # правка Claude (v3): информационная регистрация вне зачёта
-        masks["info"] = mask_windows(cfg, cfg["info_holdout"]["fit"])
+        masks["info"] = mask_windows(cfg, cfg["info_holdout"]["fit"], len(B))
     regs = {}
     for key in masks:
-        regs[key] = sr.register(S, B, k, masks[key], anchor, bg_var=bg_var, n_ms=cfg["registration"]["n_ms"], verbose=False)
+        regs[key] = sr.register(S, B, k, masks[key], anchor, bg_var=bg_var, verbose=False, **cfg["registration"])   # правка Claude: n_ms и окна регистрации (автопресет)
         c = regs[key]["c"]
-        hv = np.round(sr.hvals(c), 3)
-        print("[REG] fit=%s c=[%.6f, %.7f, %.4e] chi2/ndf=%.4f h(29,337,845,1340,1610)=%s" % (
-            key, c[0], c[1], c[2], regs[key]["chi2ndf"], hv))
+        hv = np.round(sr.hvals(c, cfg["registration"].get("test_ch")), 3)
+        print("[REG] fit=%s c=[%.6f, %.7f, %.4e] chi2/ndf=%.4f h(%s)=%s" % (
+            key, c[0], c[1], c[2], regs[key]["chi2ndf"], ",".join("%g" % v for v in cfg["registration"].get("test_ch", sr.TEST_CH)), hv))
     return regs
 
 
@@ -206,7 +206,7 @@ def run_checks(regs, S, B, k, bg_var, cfg, mut=None):
     return checks
 
 
-def load_alt_bg(fname, B, live_b):
+def load_alt_bg(fname, B, live_b, cfg=None):
     """Другой фон, зарегистрированный на шкалу эталонного (мутация «чужой фон»)."""
     alt = load_spectrum(fname, n_ch=len(B))
     A = alt["counts"].copy()
@@ -215,8 +215,11 @@ def load_alt_bg(fname, B, live_b):
     if np.array_equal(A, B):
         raise RuntimeError("background identical; mutation is vacuous")
     kk = alt["live"] / live_b
-    anchor = sr.anchor37(B, A, verbose=False)
-    r = sr.register(A, B, kk, mask_range(430, 1700), anchor, n_ms=10, verbose=False)
+    cfg = cfg or {}   # правка Claude: якорь, маска и окна регистрации -- из конфига (автопресет)
+    a = cfg.get("anchor", {})
+    anchor = sr.anchor37(B, A, verbose=False, **({"x_bg": a["x_bg"], "x_sm": a["x_sm"], "w0": a["w0"], "hw": a["hw"]} if a else {}))
+    rk = dict(cfg.get("registration", {}), n_ms=10)
+    r = sr.register(A, B, kk, mask_range(*cfg.get("full_mask", (430, 1700)), n=len(B)), anchor, verbose=False, **rk)
     e = poly_eval(r["c"], np.arange(len(A) + 1) - 0.5)
     B2, var2 = rebin_conserve_var(A, e, len(B))
     print("[ALTBG] registered onto reference grid: c=%s chi2/ndf=%.4f" % (r["c"], r["chi2ndf"]))
@@ -231,7 +234,7 @@ def summarize(label, checks):
     return len(failed)
 
 
-def main(bg_path, sample_path, cfg_path=None, alt_bg=()):
+def main(bg_path, sample_path, cfg_path=None, alt_bg=(), auto=True, manual=None):
     """Код возврата 0: у исправной нет провалов сверх known_base_failures и каждая мутация даёт >=1 НОВЫЙ провал."""
     cfg_path = pathlib.Path(cfg_path or DEFAULT_CFG)
     raw = cfg_path.read_bytes()
@@ -239,6 +242,9 @@ def main(bg_path, sample_path, cfg_path=None, alt_bg=()):
     print("[CFG] %s sha256=%s" % (cfg_path.name, hashlib.sha256(raw).hexdigest()))
 
     S, B, k, live_s, live_b = sr.load_inputs(bg_path, sample_path)
+    if auto:   # правка Claude: окна конфига -- в каналах этого прибора (автопресет по собственным структурам фона)
+        from . import autopreset as ap
+        cfg = ap.selftest_cfg_for(ap.autopreset(B, S, load_spectrum(bg_path)["cal"], manual=manual), cfg)
 
     regs0 = register_all(S, B, k, None, cfg)
     base = run_checks(regs0, S, B, k, None, cfg)
@@ -261,7 +267,7 @@ def main(bg_path, sample_path, cfg_path=None, alt_bg=()):
             if not f.is_file():
                 print("[SKIP] мутация %s: файл фона не найден (%s)" % (mut["name"], mut["file"]))
                 continue
-            B2, var2, live2 = load_alt_bg(f, B, live_b)
+            B2, var2, live2 = load_alt_bg(f, B, live_b, cfg)
             k2 = live_s / live2
             regs = register_all(S, B2, k2, var2, cfg)
             checks = run_checks(regs, S, B2, k2, var2, cfg)

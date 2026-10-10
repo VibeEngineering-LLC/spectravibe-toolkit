@@ -50,9 +50,12 @@ def calibrate(cfg, bg_counts, sm_counts, h):
         counts = bg_counts if spectrum == "bg" else sm_counts
         kind_s = "peak" if kind == "peak" else "edge"
         
-        c, e, cs = scan(counts, {"x0": x0, "w0": w0, "hw": hw}, kind_s)
+        if kind == "given":   # правка Claude: репер, измеренный заранее на шкале фона (линии образца в разности)
+            c, e, cs = float(p["ch"]), float(p["ch_err"]), np.array([p["ch"]])
+        else:
+            c, e, cs = scan(counts, {"x0": x0, "w0": w0, "hw": hw}, kind_s)
         
-        if spectrum != "bg":
+        if spectrum == "sample":
             # перенос на шкалу фона: c_bg = h(c), ошибка = hypot(h'(c) * e, h_err_ch)
             # Ensure c is float for scalar operations
             c_float = float(c)
@@ -121,7 +124,7 @@ def calibrate(cfg, bg_counts, sm_counts, h):
         counts = bg_counts if spectrum == "bg" else sm_counts
         c, e, _ = scan(counts, {"x0": x0, "w0": w0, "hw": hw}, "peak")
         
-        if spectrum != "bg":
+        if spectrum == "sample":
             c = poly_eval(h, float(c))
             
         E_val = poly_eval(coeffs, float(c))
@@ -231,6 +234,9 @@ def fwhm_model(points, n_ch, monotone_to=1.5):
     """Построение модели ПШПВ и проверка."""
     x = [p[0] for p in points]
     f = [p[1] for p in points]
+    if len(points) < 3:   # правка Claude (#LABR-3): модель с 3 коэффициентами по 1-2 точкам данными не определена
+        print("[FWHM] ПРЕДУПРЕЖДЕНИЕ: точек ПШПВ %d < 3 -- коэффициенты c0, c1, c2 данными не определены "
+              "(подобраны ограничениями модели); ширина вдали от точек ненадёжна, добавьте точки" % len(points))
     
     c = fit_fwhm(n_ch, x, f, monotone_to=monotone_to)
     
@@ -270,7 +276,7 @@ def fwhm_to_xml(xml_in, xml_out, points, ecal, n_ch, monotone_to=1.5):
     return c
 
 
-def device_config(points, ch_ref=1309):
+def device_config(points, ch_ref=1309, n_ch=2048):
     """Расчёт параметров устройства для конфигурации ПШПВ."""
     x = [p[0] for p in points]
     f = [p[1] for p in points]
@@ -285,7 +291,7 @@ def device_config(points, ch_ref=1309):
         pct = (residual / fwhm_meas * 100) if fwhm_meas != 0 else 0.0
         print(f"[FWHM] ch {ch_val:.2f}: измерено {fwhm_meas:.2f}, модель {fwhm_model_val:.2f}, невязка {residual:+.2f} кан ({pct:+.1f} %)")
         
-    ok, vals, vertex, margin = check(coefs, 2048)
+    ok, vals, vertex, margin = check(coefs, n_ch)   # правка Claude: число каналов прибора
     print(f"[FWHM] CheckCalibration: годен={ok} ПШПВ(0,500,1309,N-1)={vals} вершина параболы={vertex:.1f} запас за N-1={margin:.1f} кан")
     
     return F0, ch, W
