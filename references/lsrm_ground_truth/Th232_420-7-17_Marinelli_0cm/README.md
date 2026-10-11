@@ -4,7 +4,7 @@
 **Статус:** authoritative reference (F-157, ЛСРМ > Будыка > Gilmore).
 **Привязка к спектру (наш проект):**
 `<REPO>\detectors\Gamma-1C\reference_spectra\reference_kits\Marinelli_1L\Th-232\Th232_420-7-17_Маринелли_0cm.spe`
-**LSRM-путь автора проекта:** `C:\LSRM\Work\BG\Gamma-1S\Spe - поверки\Поверка 2024\Маринелли\Th232_420-7-17_Маринелли_0cm.spe`
+**LSRM-путь автора проекта:** `<LSRM>\Work\BG\Gamma-1S\...\Th232_420-7-17_Маринелли_0cm.spe`
 
 ## Содержание папки
 
@@ -99,7 +99,7 @@ acts  = json.loads((ROOT / "activity_lsrm.json").read_text(encoding="utf-8"))["l
 | `06_zone_1581_keV_view1.png` | Зона 1581.21 кэВ (вариант 1) — фон степ. 1, ступ. 0.017, χ²=1.099, шаблон 830.37 | `peak_zones_lsrm.json` → zones[2] |
 | `07_zone_1581_keV_view2.png` | Та же зона 1581.21 (вариант с cyan-маркерами секции в окне) | `peak_zones_lsrm.json` → zones[2] |
 | `08_zone_2614_keV.png` | Зона 2614.86 кэВ — фон степ. 1, ступ. **+0.00108**, χ²=3.646, шаблон 2613.45 | `peak_zones_lsrm.json` → zones[3] |
-| `09_activity_info.png` | Окно «Информация об активности» (Base: `C:\LSRM\Work\BG\Gamma-1S\Spe - поверки\Поверка 2024\Маринелли`) — Th-232 итог: площадь 1470000±40000, активность 2200±30. По 14 линиям (синяя выделена 238.632); 1620.5 и 1630.627 — upper-limit | `activity_lsrm.json` |
+| `09_activity_info.png` | Окно «Информация об активности» (Base: `<LSRM>\Work\BG\Gamma-1S\...`) — Th-232 итог: площадь 1470000±40000, активность 2200±30. По 14 линиям (синяя выделена 238.632); 1620.5 и 1630.627 — upper-limit | `activity_lsrm.json` |
 
 ## История
 
