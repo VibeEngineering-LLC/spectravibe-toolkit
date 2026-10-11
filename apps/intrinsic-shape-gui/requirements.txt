@@ -1,0 +1,8 @@
+# Окружение IntrinsicShapeGUI (проверено на Python 3.14.7, Windows 11 x64)
+numpy==2.4.6
+scipy==1.17.1
+defusedxml==0.7.1
+PySide6-Essentials==6.11.1
+pyqtgraph==0.14.0
+# только для сборки exe (build.bat)
+pyinstaller==6.21.0
