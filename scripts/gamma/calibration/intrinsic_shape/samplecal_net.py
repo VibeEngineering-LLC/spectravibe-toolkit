@@ -23,6 +23,8 @@ IND_SIGNIF_MIN = 5.0                # значимость независимо�
 IND_MIN = 3                         # независимых линий для проверки замены
 LOO_MAX = 3.0                       # кэВ
 DEG_MAX = 4
+IND_VETO_MARGIN = 1.0               # кэВ: вето, если на независимых линиях шкала по реперам хуже файла больше чем на 1 кэВ
+                                    # (шум центроидов: медальон B8, порча только выше 1.2 МэВ -- 2.25 против 2.17 кэВ)
 DEG3_MIN_REPERS = 8                 # VERIFY8: степень 3 и выше -- от 8 реперов, степень не выше n-3 (ndf >= 2)
 AMBIG_FRAC = 0.30                   # другая линия библиотеки с интенсивностью >= 30 % ближе 1 ПШПВ -- линия неоднозначна
 INTRINSIC_E = (35.75, 788.74, 1435.8, 1471.0)   # собственные структуры LaBr3 -- не независимые линии
@@ -309,8 +311,9 @@ def decide_scale(counts, cal_s, repers, verbose=True):
     
     if len(ind) < IND_MIN:
         out["warnings"].append("доп. проверки нет: независимых линий %d < %d" % (len(ind), IND_MIN))
-    elif out["rms_new"] > out["rms_file"]:   # правка Claude (VERIFY8): >= 3 независимых линий и шкала на них хуже -- вето
-        return stop("на %d независимых линиях шкала по реперам хуже калибровки файла: %.2f против %.2f кэВ" % (len(ind), out["rms_new"], out["rms_file"]))
+    elif out["rms_new"] > out["rms_file"] + IND_VETO_MARGIN:   # правка Claude (VERIFY8): >= 3 независимых линий и шкала на них хуже -- вето
+        return stop("на %d независимых линиях шкала по реперам хуже калибровки файла: %.2f против %.2f кэВ (допуск %.1f кэВ)" % (
+            len(ind), out["rms_new"], out["rms_file"], IND_VETO_MARGIN))
     
     rf = out["rms_file_repers"]
     if not (rf >= REC_RATIO * loo and rf - loo >= REC_MARGIN):
