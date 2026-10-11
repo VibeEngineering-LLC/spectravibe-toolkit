@@ -37,7 +37,8 @@ def load_windows_kev(path=None):
             "source": w.get("source", ""),
             "reference": bool(w.get("reference", False)),
             "overlap_lines_kev": [float(v) for v in w.get("overlap_lines_kev", [])],
-            "overlap_note": w.get("overlap_note", "")
+            "overlap_note": w.get("overlap_note", ""),
+            "reference_note": w.get("reference_note", "")
         })
     return result
 
@@ -74,7 +75,8 @@ def windows_to_channels(wins_kev, scale, n):
             "source": source,
             "reference": bool(w.get("reference", False)),
             "overlap_ch": overlap_ch,
-            "overlap_note": w.get("overlap_note", "")
+            "overlap_note": w.get("overlap_note", ""),
+            "reference_note": w.get("reference_note", "")
         }
     return result
 
@@ -181,7 +183,8 @@ def window_verdict(net, var, name, w, excl, fwhm_fn, steps_ch=(), k40=None, z_th
         "n_steps": 0,
         "noise_infl": 0.0,
         "reference": bool(w.get("reference", False)),
-        "overlap": ""
+        "overlap": "",
+        "reference_note": w.get("reference_note", "")
     }
 
     # линия образца, способная дать остаток в окне, найдена в пробе -- окно не оценивается и красного не даёт

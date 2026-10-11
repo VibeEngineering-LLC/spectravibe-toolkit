@@ -294,9 +294,7 @@ def run_subtract(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signe
     # отдельное предупреждение (жёлтый статус): итог окон не в норме при зелёном all_ok
     struct_warning = not struct_ok
     struct_warning_text = "окон собственных структур в норме %d из %d; не оценено %d" % (
-        summ["n_ok"], summ["n"], summ["n_not_eval"])
-    if summ.get("ref_not_ok"):
-        struct_warning_text += "; справочные окна вне нормы: " + ", ".join(summ["ref_not_ok"])
+        summ["n_ok"], summ["n"], summ["n_not_eval"])   # справочные окна сюда не входят
 
     return {
         "k": float(res["k"]),
@@ -361,6 +359,8 @@ def struct_table_html(checks, title="Окна собственных струк�
         else:
             st, col = ("в норме", "#333") if c["ok"] else ("вне нормы", "#c62828")   # нейтральный, не зелёный
         why = (" (" + c["reason"] + ")") if c.get("reason") else ""
+        if c.get("reference") and c.get("evaluated") and not c["ok"]:
+            why += " (справочное, в вердикт не входит" + ("; " + c["reference_note"] if c.get("reference_note") else "") + ")"
         rows.append("<tr><td>%s</td><td>%.0f–%.0f</td><td>%d–%d</td><td>%.0f %%</td><td>%+.2f</td><td>%+.2f</td>"
                     '<td>%+.2f</td><td style="color:%s">%s</td></tr>' % (
                         html.escape(c["name"] + (" (справочное)" if c.get("reference") else "")), c["e_lo"], c["e_hi"], c["lo"], c["hi"], 100.0 * c["hidden_frac"],
