@@ -92,14 +92,17 @@ def _cmd_subtract(args):
 def _cmd_sample_cal(args):
     # правка Claude (VERIFY7): разность на шкале пробы; шкала XML -- калибровка файла пробы, шкала по реперам -- только с --use-reper-scale
     from . import samplecal as sc, samplecal_net as sn
-    repers = sc.load_json(args.repers)["repers"] if args.repers else []
-    try:
+    try:   # правка Claude (VERIFY8): 2 -- шкала по реперам не рекомендована, 3 -- прочие ошибки
+        repers = sc.load_json(args.repers)["repers"] if args.repers else []
         r = sn.run_sample_cal(args.bg, args.sample, repers, mode=args.mode, use_reper_scale=args.use_reper_scale)
-    except ValueError as exc:
+        sn.run_sample_subtract(args.bg, args.sample, r, r["fwhm_points"], args.out_zeroed, args.out_signed, name=args.name,
+                               date=args.date, lt_out=args.lt_out)
+    except sn.NotRecommended as exc:
         print("Ошибка: %s" % exc, file=sys.stderr)
         return 2
-    sn.run_sample_subtract(args.bg, args.sample, r, r["fwhm_points"], args.out_zeroed, args.out_signed, name=args.name,
-                           date=args.date, lt_out=args.lt_out)
+    except (ValueError, OSError) as exc:
+        print("Ошибка: %s" % exc, file=sys.stderr)
+        return 3
     for w in r["warnings"]:
         print("[WARN] " + w)
     print(f"[OUT] {args.out_zeroed}")

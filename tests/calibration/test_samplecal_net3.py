@@ -111,7 +111,7 @@ def test_control_not_recommended():
     dec = sn.decide_scale(S, cal, rep, verbose=False)
     assert not dec["recommend"] and not dec["replaced"]
     assert dec["coeffs"] == cal
-    assert "не превышает" in dec["why"]
+    assert "не превышает" in dec["why"] or "хуже калибровки файла" in dec["why"]   # правка Claude (VERIFY8): вето независимых линий
     own = math.sqrt(np.mean([(np.polyval(cal[::-1], r["ch"]) - r["E"]) ** 2 for r in rep if r["E"] >= 100.0]))
     assert abs(own - dec["rms_file_repers"]) < 1e-6
     with pytest.raises(ValueError, match="не рекомендована"):
@@ -235,6 +235,7 @@ def test_energy_mode_uses_own_background_scale(tmp_path, monkeypatch):
     for p in pts:
         assert abs(float(poly_eval(cb, p["ch"])) - p["E"]) < 0.5
     assert "экстраполяция выше последней опоры" in r["transfer"]["bg_scale_how"]
+    assert any("экстраполирована" in w for w in r["warnings"])   # правка Claude (VERIFY8): отдельное предупреждение в окне
 
 
 def test_background_scale_extra_anchors():

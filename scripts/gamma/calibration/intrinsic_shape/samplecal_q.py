@@ -17,10 +17,13 @@ SERIES = {"Ra-226": "U", "Pb-214": "U", "Bi-214": "U", "Pb-210": "U",
           "K-40": "K", "Cs-137": "Cs"}
 
 
-def select_degree(cfg, ctx, verbose=True):
+def select_degree(cfg, ctx, verbose=True, ndf_min=1, deg3_min=None):
     from . import pipeline as pl
     n = len(cfg["points"])
-    top = max(1, min(DEG_MAX, n - 2, DEG_MAX if n >= DEG4_MIN_REPERS else 3))   # правка Claude: степень 4 -- от 7 реперов
+    top = min(DEG_MAX, n - 1 - ndf_min, DEG_MAX if n >= DEG4_MIN_REPERS else 3)   # правка Claude: степень 4 -- от 7 реперов
+    if deg3_min and n < deg3_min:   # правка Claude (VERIFY8): решение о шкале XML -- степень 3+ только от deg3_min реперов
+        top = min(top, 2)
+    top = max(1, top)
     all_results = []
     for deg in range(1, top + 1):
         res = pl._guarded_calibrate(dict(cfg, degree=deg), ctx, [0.0, 1.0, 0.0], False)
