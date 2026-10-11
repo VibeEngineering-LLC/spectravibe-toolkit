@@ -51,7 +51,7 @@ def test_independent_veto_and_main_case_not_vetoed():
     rep = _med_repers()
     dec = sn.decide_scale(S, cal, rep, verbose=False)
     assert len(dec["independent"]) >= 3
-    if dec["rms_new"] > dec["rms_file"]:
+    if dec["rms_new"] > dec["rms_file"] + sn.IND_VETO_MARGIN:
         assert not dec["recommend"] and "хуже калибровки файла" in dec["why"]
     bad = [cal[0] + 15.0] + list(cal[1:])
     dec2 = sn.decide_scale(S, bad, rep, verbose=False)
@@ -134,3 +134,18 @@ def test_second_pass_adds_line():
     dec = sn.decide_scale(S, list(d["cal"]), rep, verbose=False)
     first = [round(l["E"], 1) for l in sn._find_lines(S, dec["coeffs_new"], rep)]
     assert 295.2 not in first and 295.2 in [round(l["E"], 1) for l in dec["independent"]]
+
+
+def test_independent_veto_margin(monkeypatch):
+    """Правка Claude (VERIFY8): вето -- шкала по реперам хуже файла на независимых линиях больше чем на IND_VETO_MARGIN."""
+    lin = [-0.48, 1.62]
+    rep = _flat_repers([238.6, 351.9, 583.2, 911.2, 1120.3, 1764.5, 2614.5], lin)
+    fake = {"coeffs": list(lin), "deg": 1, "deg_table": [], "loo_rms": 0.2, "points": [], "chi2ndf": 0.0, "rms": 0.0}
+    monkeypatch.setattr(sn, "select_degree_full", lambda *a, **k: dict(fake))
+    for delta, vetoed in ((4.0, True), (1.6, False)):
+        lines = [{"E": float(lin[0] + lin[1] * ch) + delta, "nuclide": "X", "ch": ch, "ch_err": 0.05, "signif": 20.0, "fwhm": 8.0}
+                 for ch in (300.0, 700.0, 1300.0)]
+        monkeypatch.setattr(sn, "independent_lines", lambda *a, **k: [dict(l) for l in lines])
+        dec = sn.decide_scale(np.full(2048, 100.0), [lin[0] + 3.0, lin[1]], rep, verbose=False)
+        assert ("хуже калибровки файла" in dec["why"]) is vetoed
+        assert dec["recommend"] is (not vetoed)
