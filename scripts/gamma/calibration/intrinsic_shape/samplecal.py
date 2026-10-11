@@ -173,11 +173,28 @@ def valid_repers(repers):
     good = []
     dropped = []
     for r in repers:
-        if (np.isfinite(r["ch"]) and np.isfinite(r["ch_err"]) and np.isfinite(r["E"]) and r["ch_err"] > 0):
-            good.append(r)
-        else:
+        if not (np.isfinite(r["ch"]) and np.isfinite(r["ch_err"]) and np.isfinite(r["E"]) and r["ch_err"] > 0):
             dropped.append(r["name"])
+            continue
+        dup = duplicate_of(r, good)   # правка Claude (VERIFY8): одна линия -- один репер
+        if dup is not None:
+            dropped.append("%s (повтор %s)" % (r["name"], dup["name"]))
+        else:
+            good.append(r)
     return good, dropped
+
+
+def duplicate_of(r, repers):
+    """Правка Claude (VERIFY8): репер из repers, совпадающий с r по энергии или по каналу в пределах 0.5 ПШПВ, иначе None.
+    ПШПВ в кэВ -- ПШПВ в каналах, умноженная на наклон шкалы (реперы r и кандидата), иначе 3 % энергии."""
+    fw_r = r.get("fwhm", np.nan)
+    for k in repers:
+        fw = np.nanmax([fw_r, k.get("fwhm", np.nan), 1.0])
+        slope = abs(k["E"] - r["E"]) / abs(k["ch"] - r["ch"]) if abs(k["ch"] - r["ch"]) > 1e-9 else np.nan
+        fwk = fw * slope if np.isfinite(slope) and slope > 0 else 0.03 * max(r["E"], k["E"])
+        if abs(k["ch"] - r["ch"]) <= 0.5 * fw or abs(k["E"] - r["E"]) <= 0.5 * min(fwk, 0.03 * max(r["E"], k["E"])):
+            return k
+    return None
 
 
 def scale_from_repers(repers, counts, cal, verbose=True):
@@ -187,7 +204,7 @@ def scale_from_repers(repers, counts, cal, verbose=True):
     good, dropped = valid_repers(repers)
     if verbose:
         for name in dropped:
-            print("[SCAL] репер %s отброшен: положение не определено" % name)
+            print("[SCAL] репер %s отброшен: %s" % (name, "одна линия -- один репер" if "(повтор" in name else "положение не определено"))
 
     if not good:
         raise ValueError("Шкала по пробе не построена: реперов нет")
