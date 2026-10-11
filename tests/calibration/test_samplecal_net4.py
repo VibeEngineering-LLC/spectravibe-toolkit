@@ -98,7 +98,7 @@ def test_cli_error_codes(tmp_path):
 
 
 def test_xml_degree_rule(monkeypatch):
-    """Правка Claude (VERIFY8): решение о шкале XML -- степень не выше n-3, степень 3+ только от 8 реперов."""
+    """решение о шкале XML -- степень не выше n-3, степень 3+ только от 8 реперов."""
     from gamma.calibration.intrinsic_shape import pipeline as pl
     monkeypatch.setattr(pl, "_guarded_calibrate", lambda cfg, ctx, h, v: {"loo_rms": 5.0 - cfg["degree"], "coeffs": [0.0] * (cfg["degree"] + 1), "points": []})
     for n, top in ((4, 1), (5, 2), (7, 2), (8, 4)):
@@ -106,7 +106,7 @@ def test_xml_degree_rule(monkeypatch):
 
 
 def test_independent_labels_do_not_depend_on_file_calibration():
-    """Правка Claude (VERIFY8, N4): метки независимых линий -- по шкале реперов; при любой порче файла набор тот же."""
+    """метки независимых линий -- по шкале реперов; при любой порче файла набор тот же."""
     from test_samplecal_net3 import _corrupt, DIST
     d = load_spectrum(MED); S = d["counts"].astype(float); cal = list(d["cal"]); rep = _med_repers()
     ref = [l["E"] for l in sn.decide_scale(S, cal, rep, verbose=False)["independent"]]
@@ -116,7 +116,7 @@ def test_independent_labels_do_not_depend_on_file_calibration():
 
 
 def test_bg_extra_anchor_needs_significance():
-    """Правка Claude (VERIFY8, N13): доп. опора фона со значимостью 3.5-4.6 (< 5) не берётся, с 6.6 -- берётся."""
+    """доп. опора фона со значимостью 3.5-4.6 (< 5) не берётся, с 6.6 -- берётся."""
     n, cal = 2048, [0.0, 1.4]; x = np.arange(n, dtype=float)
     own = {"rejected": "тест", "points": [{"ch": 351.932 / 1.4, "E": 351.932}, {"ch": 1120.294 / 1.4, "E": 1120.294}]}
     for area, k in ((450.0, 2), (800.0, 3)):
@@ -127,7 +127,7 @@ def test_bg_extra_anchor_needs_significance():
 
 
 def test_second_pass_adds_line():
-    """Правка Claude (VERIFY8, N17): реперы 338/911/968/1120/2615 -- первый проход по шкале реперов не узнаёт Pb-214 295.2,
+    """реперы 338/911/968/1120/2615 -- первый проход по шкале реперов не узнаёт Pb-214 295.2,
     второй (шкала, уточнённая линиями первого прохода) -- узнаёт."""
     d = load_spectrum(MED); S = d["counts"].astype(float)
     rep = [r for r in _med_repers() if round(r["E"]) in (338, 911, 968, 1120, 2615)]
@@ -137,7 +137,7 @@ def test_second_pass_adds_line():
 
 
 def test_independent_veto_margin(monkeypatch):
-    """Правка Claude (VERIFY8): вето -- шкала по реперам хуже файла на независимых линиях больше чем на IND_VETO_MARGIN."""
+    """вето -- шкала по реперам хуже файла на независимых линиях больше чем на IND_VETO_MARGIN."""
     lin = [-0.48, 1.62]
     rep = _flat_repers([238.6, 351.9, 583.2, 911.2, 1120.3, 1764.5, 2614.5], lin)
     fake = {"coeffs": list(lin), "deg": 1, "deg_table": [], "loo_rms": 0.2, "points": [], "chi2ndf": 0.0, "rms": 0.0}

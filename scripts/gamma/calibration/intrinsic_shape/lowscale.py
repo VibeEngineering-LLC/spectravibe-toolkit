@@ -72,7 +72,7 @@ def g_of_e(E, s, **kw):
     return g
 
 
-def e_of_l(L, s, shape="quad", dK=DK_STEP, e_join=E_JOIN, e_k=E_K_LA, e_min=5.0):   # правка Claude: сетка от 5 кэВ (порог прибора ~15 кэВ); от 1 кэВ модель немонотонна уже при s>0.085
+def e_of_l(L, s, shape="quad", dK=DK_STEP, e_join=E_JOIN, e_k=E_K_LA, e_min=5.0):   # сетка от 5 кэВ (порог прибора ~15 кэВ); от 1 кэВ модель немонотонна уже при s>0.085
     """
     Обратная функция e_of_l(L) = g^{-1}(L).
     Использует плотную сетку для интерполяции.
@@ -128,7 +128,7 @@ def fit_s(C, points, shape="quad", dK=DK_STEP, e37=E37_GAMMA, de37=DE37, use37=T
     Подгонка параметра s по реперам.
     """
     if s_grid is None:
-        s_grid = np.linspace(-0.3, 0.3, 1201)   # правка Claude: s -- поправка ОТНОСИТЕЛЬНО основного полинома, знак данными
+        s_grid = np.linspace(-0.3, 0.3, 1201)   # s -- поправка ОТНОСИТЕЛЬНО основного полинома, знак данными
     
     # Prepare points
     used_points = []
@@ -358,7 +358,7 @@ def loo(C, points, shape="quad", dK=DK_STEP, e37=E37_GAMMA, de37=DE37, use37=Tru
                     "dE": de37,
                     "ch": p["ch"],
                     "ch_err": p["ch_err"],
-                    "kind": "photon"   # правка Claude: энергия уже заменена на e37; без kind fit_s падал -> LOO = nan
+                    "kind": "photon"   # энергия уже заменена на e37; без kind fit_s падал -> LOO = nan
                 })
         else:
             if p["E"] < E_JOIN:
@@ -399,7 +399,7 @@ def band(C, fit, ch_grid, alt_fit=None):
             E_plus = branch_energy(C, ch_grid, fit["s"] + fit["sigma_s"], shape=fit["shape"], dK=fit["dK"])
             E_minus = branch_energy(C, ch_grid, fit["s"] - fit["sigma_s"], shape=fit["shape"], dK=fit["dK"])
             stat = np.abs(E_plus - E_minus) / 2.0
-        except ValueError:   # правка Claude: s +- sigma вне области монотонности -- полоса по одному краю
+        except ValueError:   # s +- sigma вне области монотонности -- полоса по одному краю
             E_one = branch_energy(C, ch_grid, fit["s"] - np.sign(fit["s"]) * fit["sigma_s"], shape=fit["shape"], dK=fit["dK"])
             stat = np.abs(E_one - E)
     
@@ -453,7 +453,7 @@ def fit_poly_xml(C, fit, n_ch, e_lo=17.0, e_hi=3000.0, max_deg=4, tol_fn=None, m
         }
     
     # Weights
-    # правка Claude: допуск -- полоса неопределённости ветви (tol_fn), не меньше 0.3 кэВ; выше 100 кэВ основная шкала точна
+    # допуск -- полоса неопределённости ветви (tol_fn), не меньше 0.3 кэВ; выше 100 кэВ основная шкала точна
     tol = np.maximum(0.3, tol_fn(ch_used)) if tol_fn is not None else np.maximum(0.15, 0.002 * E_used)
     w = 1.0 / tol**2
     
@@ -491,7 +491,7 @@ def fit_poly_xml(C, fit, n_ch, e_lo=17.0, e_hi=3000.0, max_deg=4, tol_fn=None, m
                 else:
                     max_dev["%g-%g" % r] = np.nan
             
-            # правка Claude: полином, портящий шкалу выше 100 кэВ больше max_damage кэВ, не пишется (запасной -- основная)
+            # полином, портящий шкалу выше 100 кэВ больше max_damage кэВ, не пишется (запасной -- основная)
             damage = max([v for k, v in max_dev.items() if float(k.split('-')[0]) >= E_JOIN and np.isfinite(v)] or [0.0])
             if damage > max_damage:
                 return {"coeffs": list(C), "deg": len(C) - 1, "max_dev": max_dev, "fallback": True, "damage": float(damage), "deg_tried": d}

@@ -111,7 +111,7 @@ def test_control_not_recommended():
     dec = sn.decide_scale(S, cal, rep, verbose=False)
     assert not dec["recommend"] and not dec["replaced"]
     assert dec["coeffs"] == cal
-    assert "не превышает" in dec["why"] or "хуже калибровки файла" in dec["why"]   # правка Claude (VERIFY8): вето независимых линий
+    assert "не превышает" in dec["why"] or "хуже калибровки файла" in dec["why"]   # вето независимых линий
     own = math.sqrt(np.mean([(np.polyval(cal[::-1], r["ch"]) - r["E"]) ** 2 for r in rep if r["E"] >= 100.0]))
     assert abs(own - dec["rms_file_repers"]) < 1e-6
     with pytest.raises(ValueError, match="не рекомендована"):
@@ -161,7 +161,7 @@ def test_cli_use_reper_scale(tmp_path):
 
 
 def test_subtract_livetime_ratio_and_pulls(tmp_path):
-    """Правка Claude: перевод через энергии с точными шкалами (подогнанное отображение по видимым структурам даёт
+    """перевод через энергии с точными шкалами (подогнанное отображение по видимым структурам даёт
     систематику сдвига ~0.2 кан, она расширяет пулы до 1.35-1.55); шум фона и пробы независимы, LiveTime пробы = 3*фона."""
     d = load_spectrum(BG)
     B = d["counts"].astype(float)
@@ -235,7 +235,7 @@ def test_energy_mode_uses_own_background_scale(tmp_path, monkeypatch):
     for p in pts:
         assert abs(float(poly_eval(cb, p["ch"])) - p["E"]) < 0.5
     assert "экстраполяция выше последней опоры" in r["transfer"]["bg_scale_how"]
-    assert any("экстраполирована" in w for w in r["warnings"])   # правка Claude (VERIFY8): отдельное предупреждение в окне
+    assert any("экстраполирована" in w for w in r["warnings"])   # отдельное предупреждение в окне
 
 
 def test_background_scale_extra_anchors():
@@ -273,7 +273,7 @@ def test_dialog_scale_from_repers():
 
 
 def test_margin_ratio_and_difference(monkeypatch):
-    """Правка Claude: оба условия запаса по отдельности -- LOO шкалы по реперам задаётся подменой select_degree_full,
+    """оба условия запаса по отдельности -- LOO шкалы по реперам задаётся подменой select_degree_full,
     СКО файла на точных реперах равно сдвигу калибровки файла."""
     lin = [-0.48, 1.62]
     rep = _flat_repers([238.6, 351.9, 583.2, 911.2, 1120.3, 1764.5, 2614.5], lin)
@@ -287,7 +287,7 @@ def test_margin_ratio_and_difference(monkeypatch):
 
 
 def test_degree4_needs_seven_repers(monkeypatch):
-    """Правка Claude (VERIFY7 п.4): LOO убывает со степенью -- степень 4 выбирается только при >= 7 реперах."""
+    """LOO убывает со степенью -- степень 4 выбирается только при >= 7 реперах."""
     calls = []
 
     def fake(cfg, ctx, h, verbose):

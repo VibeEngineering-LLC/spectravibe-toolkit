@@ -31,7 +31,7 @@ def _load_json(path):
 
 
 def nested_pair(bg_path, sample_path, S=None, B=None):
-    """Правка Claude: «образец» -- продолжение того же набора, что и «фон» (одно время начала, счёт образца >= фона
+    """«образец» -- продолжение того же набора, что и «фон» (одно время начала, счёт образца >= фона
     во всех каналах). Тогда разность -- не «образец минус фон», а chi2/ndf регистрации ~ 0.2 (счёт коррелирован)."""
     b, s = load_spectrum(bg_path), load_spectrum(sample_path)
     B = b["counts"] if B is None else B
@@ -71,7 +71,7 @@ def setup(bg_path, sample_path, auto=True, manual=None, verbose=True):
 
     k40 = A["sum"]["x"] - (E_SUM - E_K40) / poly_deriv(scale, A["sum"]["x"])
     
-    # правка Claude (раунд 4, п.2): окна структур -- в энергиях (ядерные данные), каналы -- через шкалу пары
+    # окна структур -- в энергиях (ядерные данные), каналы -- через шкалу пары
     windows = vd.windows_to_channels(vd.load_windows_kev(), scale, len(B))
 
     return {
@@ -83,7 +83,7 @@ def setup(bg_path, sample_path, auto=True, manual=None, verbose=True):
 
 
 def verdict_kw(ctx, excluded, steps_ch):
-    """Правка Claude (раунд 4): общие аргументы вердикта по окнам -- исключения, ступени, K-40 (канал, сигма)."""
+    """общие аргументы вердикта по окнам -- исключения, ступени, K-40 (канал, сигма)."""
     k40 = {"ch": float(ctx["k40_ch"]), "sigma": float(ctx["fwhm_fn"](ctx["k40_ch"]) / 2.3548)}
     return {"excl": [[int(a), int(b)] for a, b in excluded], "fwhm_fn": ctx["fwhm_fn"],
             "steps_ch": [float(s) for s in steps_ch], "k40": k40}
@@ -109,7 +109,7 @@ def extra_fn_for(ctx, verbose=True):
     calls = []
     def _extra(peak_chs):
         calls.append(1)
-        if len(calls) == 1:   # правка Claude: на итерации 0 пики -- ещё и диполи рассогласования; отождествлять с итерации 1
+        if len(calls) == 1:   # на итерации 0 пики -- ещё и диполи рассогласования; отождествлять с итерации 1
             return []
         chs, nuclides = pr.chain_centres(peak_chs, ctx["scale"], ctx["fwhm_fn"], ctx["n"])
         ctx["nuclides"] = nuclides
@@ -155,13 +155,13 @@ def run_register(bg_path, sample_path, auto=True, manual=None, robust="auto", ov
         k40_ch=ctx["k40_ch"], mode=robust, verbose=verbose,
         compton_fn=compton_fn_for(ctx), extra_fn=extra_fn_for(ctx, verbose),
         z_peak=z_peak, protect_fwhm=3.0, **rkw
-    )   # правка Claude: окно сумм-пика La-138 (+-3 ПШПВ от K-40) не исключается -- K-40 моделируется
+    )   # окно сумм-пика La-138 (+-3 ПШПВ от K-40) не исключается -- K-40 моделируется
 
     r, out = reg.report(ctx["S"], ctx["B"], ctx["k"], anchor, rr["mask"], out_json=None, profiles=profiles, r=rr["reg"], **rkw)
     
     net, var = reg.apply(rr["c"], ctx["S"], ctx["B"], ctx["k"])
     
-    # правка Claude (раунд 4, п.1): вердикт -- на остатке БЕЗ модели образца; простая и устойчивая -- на одной основе
+    # вердикт -- на остатке БЕЗ модели образца; простая и устойчивая -- на одной основе
     # (те же окна, исключения, ступени, K-40 только в окне сумм-пика)
     vkw = verdict_kw(ctx, rr["excluded"], rr.get("steps_ch", []))
     checks = vd.structure_verdict(net, var, ctx["windows"], **vkw)
@@ -295,7 +295,7 @@ def low_points(ctx, cal_res, h, net, var, lu, lowe, C, verbose=True):
 
     for item in lowe.get("bg_xray", []):
         E, dE = pr.xray_blend(item["element"], item["lines"])
-        if item.get("mix_element"):   # правка Claude: в фоне K-рентген Pb экрана смешан с Bi K от Pb-214 (доля неизвестна)
+        if item.get("mix_element"):   # в фоне K-рентген Pb экрана смешан с Bi K от Pb-214 (доля неизвестна)
             E2, dE2 = pr.xray_blend(item["mix_element"], item["lines"])
             E, dE = (E + E2) / 2.0, max(dE, dE2, abs(E2 - E) / 2.0)
         try:
@@ -444,11 +444,11 @@ def source_points(src_path, ctx, lowe, nuclide, C, verbose=True):
     return points
 
 
-ANCHOR_OF = {"La138_789_edge": "edge", "La138_sum1473": "sum"}   # правка Claude: репер -> опора автопресета
+ANCHOR_OF = {"La138_789_edge": "edge", "La138_sum1473": "sum"}   # репер -> опора автопресета
 
 
 def _one_point_scale(cfg, ctx, verbose=True):
-    """Правка Claude: один репер -- только масштаб исходной калибровки файла фона: E(x) = f * E_file(x)."""
+    """один репер -- только масштаб исходной калибровки файла фона: E(x) = f * E_file(x)."""
     p = cfg["points"][0]
     a = ctx["auto"]["anchors"].get(ANCHOR_OF.get(p["name"], ""), {})
     ch = float(p.get("ch", a.get("x", p.get("x0"))))
@@ -463,9 +463,9 @@ def _one_point_scale(cfg, ctx, verbose=True):
 
 
 def _scale_defect(res, ctx):
-    """Правка Claude: причина отвергнуть шкалу ("" -- годна): χ²/ndf не определён, порог > 100 кэВ, не возрастает."""
+    """причина отвергнуть шкалу ("" -- годна): χ²/ndf не определён, порог > 100 кэВ, не возрастает."""
     C, n = res["coeffs"], ctx["n"]
-    if not np.all(np.isfinite(np.asarray(C, float))):   # правка Claude: NaN/inf в коэффициентах
+    if not np.all(np.isfinite(np.asarray(C, float))):   # NaN/inf в коэффициентах
         return "нечисловые коэффициенты шкалы %s" % ["%.6g" % v for v in C]
     thr = next((i for i in range(n) if ctx["B"][i] > 0), 0)
     E = poly_eval(C, np.arange(n, dtype=float))
@@ -479,7 +479,7 @@ def _scale_defect(res, ctx):
 
 
 def _guarded_calibrate(cfg, ctx, hh, verbose=True):
-    """Правка Claude: степень по числу реперов; вырожденная шкала отвергается с откатом на калибровку файла фона."""
+    """степень по числу реперов; вырожденная шкала отвергается с откатом на калибровку файла фона."""
     n_pts, deg0 = len(cfg["points"]), int(cfg.get("degree", 2))
     if n_pts == 0:
         raise ValueError("Шкала не построена: реперов нет. В фоне не найдены собственные структуры LaBr3 (сумм-пик ~1472, "
@@ -493,7 +493,7 @@ def _guarded_calibrate(cfg, ctx, hh, verbose=True):
             print("[CAL] ПРЕДУПРЕЖДЕНИЕ: реперов %d -- шкала линейная вместо степени %d" % (n_pts, deg0))
         try:
             res = ops.calibrate(dict(cfg, degree=deg), ctx["B"], ctx["S"], hh)
-        except ValueError as exc:   # правка Claude: после отбраковки нечисловых реперов их меньше двух
+        except ValueError as exc:   # после отбраковки нечисловых реперов их меньше двух
             res = {"coeffs": [float("nan")], "chi2ndf": float("nan"), "points": [], "rms": float("nan"),
                    "loo_rms": float("nan"), "why": str(exc)}
     why = res.get("why") or _scale_defect(res, ctx)
@@ -514,13 +514,13 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
     
     net, var = reg.apply(hh, ctx["S"], ctx["B"], ctx["k"])
     
-    # правка Claude (LABR-11 п.0): регистрация не сошлась -- линии образца из разности в реперы не берутся
+    # регистрация не сошлась -- линии образца из разности в реперы не берутся
     if isinstance(robust_json, (str, pathlib.Path)):
         robust_json = _load_json(robust_json)
     use_lines = bool(((robust_json or {}).get("robust") or {}).get("converged", True))
     _pec = functools.partial(pr.pair_ecal_cfg, use_lines=use_lines)
     rb.check_cancel()
-    # правка Claude: два прохода -- (1) по предварительной шкале с допуском 3 %, (2) по шкале прохода 1 без допуска
+    # два прохода -- (1) по предварительной шкале с допуском 3 %, (2) по шкале прохода 1 без допуска
     cfg, lines = _pec(cfg0, ctx["B"], net, var, hh, ctx["scale"], ctx["fwhm_fn"], verbose=False,
                                   tol_rel=0.03, min_sep=1.5)
     if lines and len(cfg["points"]) >= 4:
@@ -528,7 +528,7 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
             sc2 = list(ops.calibrate(cfg, ctx["B"], ctx["S"], hh)["coeffs"])
         except ValueError:
             sc2 = [float("nan")]
-        if _scale_defect({"coeffs": sc2, "chi2ndf": 1.0}, ctx):   # правка Claude: от негодной шкалы второй проход не идёт
+        if _scale_defect({"coeffs": sc2, "chi2ndf": 1.0}, ctx):   # от негодной шкалы второй проход не идёт
             if verbose:
                 print("[PAIR] проход 2 пропущен: шкала прохода 1 негодна %s" % ["%.6g" % v for v in sc2])
             cfg, lines = _pec(cfg0, ctx["B"], net, var, hh, ctx["scale"], ctx["fwhm_fn"], verbose=verbose,
@@ -542,10 +542,10 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
                                       tol_rel=0.03, min_sep=1.5)
     lu = len(lines) == 0 and pr.is_lu_sample(net, var, cfg0, hh, ctx["fwhm_fn"])
     
-    res = _guarded_calibrate(cfg, ctx, hh, verbose)   # правка Claude: число реперов и вырожденность шкалы
+    res = _guarded_calibrate(cfg, ctx, hh, verbose)   # число реперов и вырожденность шкалы
     
     C = list(res["coeffs"])
-    if verbose and np.isfinite(res["chi2ndf"]) and res["chi2ndf"] > 3.0:   # правка Claude
+    if verbose and np.isfinite(res["chi2ndf"]) and res["chi2ndf"] > 3.0:
         print("[CAL] ПРЕДУПРЕЖДЕНИЕ: chi2/ndf = %.1f -- реперы не описываются полиномом степени %d в пределах погрешностей "
               "(макс. |невязка| %.1f кэВ); собственные структуры (сумм-пик, β-край) имеют свой гамма-эквивалент"
               % (res["chi2ndf"], len(C) - 1, max(abs(p["residual"]) for p in res["points"])))
@@ -554,7 +554,7 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
     result["lines"] = lines
     result["ecal_points_cfg"] = cfg["points"]
     
-    # правка Claude: шкала отвергнута -- положения линий образца из разности не доверены, для ПШПВ берутся только пики фона
+    # шкала отвергнута -- положения линий образца из разности не доверены, для ПШПВ берутся только пики фона
     fw_lines = [] if res.get("rejected") else list(lines)   # + пики фона (кроме аннигиляции -- доплеровское уширение)
     for p in ([] if lu else cfg["points"]):
         if p.get("spectrum") == "bg" and p.get("kind") == "peak" and not p["name"].startswith(("Ann", "La138")):
@@ -575,7 +575,7 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
         rb.check_cancel("перед ветвью ниже 100 кэВ")
         try:
             pts = low_points(ctx, res, hh, net, var, lu, lowe, C, verbose)
-        except Exception as exc:   # правка Claude: «array of sample points is empty» и т. п. -- без окна ошибки
+        except Exception as exc:   # «array of sample points is empty» и т. п. -- без окна ошибки
             if verbose:
                 print("[LOWE] реперы ниже 100 кэВ не найдены: %s" % exc)
             pts = []
@@ -588,7 +588,7 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
                 thr = i + 1
                 break
         
-        try:   # правка Claude: без реперов ветвь не строится; любое исключение -- понятное сообщение, а не окно ошибки
+        try:   # без реперов ветвь не строится; любое исключение -- понятное сообщение, а не окно ошибки
             if not pts:
                 raise ValueError("реперов нет")
             lr = lw.report(C, pts, n, thr, e37=lowe["e37_gamma"], de37=lowe["de37"], use37=use37, verbose=verbose)
@@ -597,7 +597,7 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
                 print("[LOWE] ветвь ниже 100 кэВ не построена: %s" % exc)
             lr = None
         
-        if lr and not np.isfinite(lr["fit"]["sigma_s"]):   # правка Claude: s не определён (один репер, граница) -- ветви нет
+        if lr and not np.isfinite(lr["fit"]["sigma_s"]):   # s не определён (один репер, граница) -- ветви нет
             if verbose:
                 print("[LOWE] ветвь ниже 100 кэВ не принята: s = %.3f без погрешности (реперов мало)" % lr["fit"]["s"])
             lr = None
@@ -684,7 +684,7 @@ def run_subtract(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signe
         monotone_to=monotone_to, sum_window=tuple(sw), lt_out=lt_out
     )
     
-    # правка Claude (раунд 4): вердикт без модели образца; исключения и ступени -- из регистрации, окна -- через шкалу пары
+    # вердикт без модели образца; исключения и ступени -- из регистрации, окна -- через шкалу пары
     excluded, steps, converged, model = [], [], True, None
     if reg_json is not None:
         if isinstance(reg_json, (str, pathlib.Path)):

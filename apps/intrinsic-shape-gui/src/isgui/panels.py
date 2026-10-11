@@ -28,7 +28,7 @@ class LowScalePlot(QtWidgets.QWidget):
     def set_data(self, ecal):
         """Заполняет график данными из словаря ecal."""
         self.plot.clear()
-        if self.plot.plotItem.legend is not None:   # правка Claude: легенда не очищается plot.clear()
+        if self.plot.plotItem.legend is not None:   # легенда не очищается plot.clear()
             self.plot.plotItem.legend.clear()
 
         if "low" not in ecal or not ecal["low"]["band"]["ch"]:
@@ -97,7 +97,7 @@ class LowScalePlot(QtWidgets.QWidget):
             # Находим канал, где E пересекает 37 кэВ (предполагаем, что E возрастает)
             ch_37 = np.interp(37, E, ch)
             line = pg.InfiniteLine(pos=ch_37, angle=90, pen=pg.mkPen(color=(220, 50, 50), style=QtCore.Qt.DashLine),
-                                   label="37 кэВ: ниже -- экстраполяция", labelOpts={"position": 0.9})   # правка Claude
+                                   label="37 кэВ: ниже -- экстраполяция", labelOpts={"position": 0.9})
             self.plot.addItem(line)
 
         self.note.setText(

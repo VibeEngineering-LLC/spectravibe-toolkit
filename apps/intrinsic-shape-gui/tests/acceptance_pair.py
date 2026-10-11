@@ -13,7 +13,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 FIX = ROOT.parents[1] / "tests" / "fixtures" / "intrinsic_shape"
 BG = FIX / "labr3_background.xml"
 SM = FIX / "labr3_lu176_sample.xml"
-# правка Claude (перенос в toolkit): реальные спектры -- только через переменные окружения, иначе шаги F/G пропускаются
+# реальные спектры -- только через переменные окружения, иначе шаги F/G пропускаются
 def _env_path(name):
     v = os.environ.get(name, "")
     return pathlib.Path(v) if v else None
@@ -74,7 +74,7 @@ def apply_mutation(name):
     elif name == "G3_maskon":
         global _MASK_SWITCH_BROKEN
         _MASK_SWITCH_BROKEN = True
-        def _undo():   # правка Claude: откат флага модуля
+        def _undo():   # откат флага модуля
             global _MASK_SWITCH_BROKEN
             _MASK_SWITCH_BROKEN = False
         return _undo
@@ -349,7 +349,7 @@ def step_h(tmp, record, interp, app, w, wait_job):
         "res=%s, h=%s, bg=%s" % (res, w.h is not None, w.bg_edit.text() != "")
     )
 
-    # (b) Пользователь отвечает «Да»; в поле ручной поправки -- устаревшее значение прошлой пары (правка Claude, раунд 4)
+    # (b) Пользователь отвечает «Да»; в поле ручной поправки -- устаревшее значение прошлой пары (, раунд 4)
     w.anchor_box.manual_edit.setText(load_criteria()["H3"]["stale_manual"])
     QtWidgets.QMessageBox.question = staticmethod(lambda *a, **k: QtWidgets.QMessageBox.Yes)
     try:
@@ -397,7 +397,7 @@ def step_h(tmp, record, interp, app, w, wait_job):
     w._update_pair()
     w._do_register()
     wait_job()
-    h_ref = backend_pair.run_register(str(BG), str(SM))["h"]   # правка Claude (раунд 4): эталон -- чистый запуск
+    h_ref = backend_pair.run_register(str(BG), str(SM))["h"]   # эталон -- чистый запуск
 
     record(
         "H3 после «Новый спектр» новая пара совмещается так же, как в чистом запуске",

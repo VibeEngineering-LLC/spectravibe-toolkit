@@ -1,7 +1,7 @@
 """Обработчики режима «калибровка по пробе» (разность на шкале пробы): шкала и вычитание через
 gamma.calibration.intrinsic_shape.samplecal_net; результат -- в формате вкладки «Вычесть» и графика.
 Сгенерировано gen_code.py (qwen3.8:27b) по спецификации, 2026-10-11 (ответ повторил шапку спецификации -- взят код; ключи
-decision_html исправлены Claude); run_sample_cal и decision_html переписаны по VERIFY7
+decision_html исправлены вручную); run_sample_cal и decision_html переписаны по VERIFY7
 (gen_code.py, qwen3.8:27b, 2026-10-11)."""
 import datetime
 import pathlib
@@ -142,7 +142,7 @@ def decision_html(r):
         lines.append("<p><b>Рекомендована шкала по реперам</b> (степень %d, LOO %s кэВ): СКО калибровки файла на реперах %s кэВ -- больше LOO с запасом (x1.5 и +1 кэВ). В XML по умолчанию -- калибровка файла пробы; применить -- кнопкой «Записать шкалу по реперам».</p>" % (d["deg"], fmt(d["loo_rms"]), fmt(d.get("rms_file_repers"))))
     else:
         lines.append("<p><b>Калибровка файла пробы</b> -- шкала по реперам не рекомендована: %s</p>" % html.escape(d.get("why", "")))
-        if d.get("need"):   # правка Claude (VERIFY8): что нужно для замены и что есть сейчас
+        if d.get("need"):   # что нужно для замены и что есть сейчас
             lines.append("<p><i>%s</i></p>" % html.escape(d["need"]))
     
     lines.append('<table border="1" cellspacing="0" cellpadding="3"><tr><th></th><th>Калибровка файла</th><th>Шкала по реперам</th></tr>')

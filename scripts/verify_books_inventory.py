@@ -31,7 +31,7 @@ F-300/W6 additions:
 
   • env `GAMMA_BOOKS_LIBRARY_DIR` (абсолютный путь) — высший приоритет
   • default: `<root>/books_library` (внутри проекта, на верхнем уровне)
-    Например: `D:\...\0_Work\gamma-spectrum-analysis\books_library\`
+    Например: `<ROOT>\books_library\`
 
 Контракт сверки
 ---------------

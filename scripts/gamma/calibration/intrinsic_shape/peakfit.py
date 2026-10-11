@@ -197,7 +197,7 @@ def find_edges(counts, sigma_fn, min_z=5.0, ch_min=15, ch_max=2040, step=4):
             continue
         x = np.arange(lo, hi + 1, dtype=float)
         y = counts[lo:hi + 1]
-        # Правка вручную (Claude): знак в спецификации был неверен — d/dc сглаженного
+        # Ручная правка: знак в спецификации был неверен — d/dc сглаженного
         # спектра = sum y_i*(i-c)/s^2*g; z>0 — счёт растёт с каналом.
         w = (x - c) / (s ** 2) * np.exp(-0.5 * ((x - c) / s) ** 2)
         d = np.sum(w * y)

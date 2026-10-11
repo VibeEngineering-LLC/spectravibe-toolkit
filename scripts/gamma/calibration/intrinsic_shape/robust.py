@@ -11,7 +11,7 @@ import numpy as np
 from .core import poly_eval, rebin_conserve_var
 from . import register as reg
 
-CANCEL = {"flag": False}   # правка Claude: флаг отмены, ставит окно (UI-поток), проверяется между итерациями
+CANCEL = {"flag": False}   # флаг отмены, ставит окно (UI-поток), проверяется между итерациями
 
 
 class Cancelled(Exception):
@@ -19,7 +19,7 @@ class Cancelled(Exception):
 
 
 def check_cancel(where=""):
-    """Правка Claude: точка отмены между этапами (Шкала, Вычесть, Совместить)."""
+    """точка отмены между этапами (Шкала, Вычесть, Совместить)."""
     if CANCEL["flag"]:
         raise Cancelled("операция отменена пользователем" + (" (" + where + ")" if where else ""))
 
@@ -66,7 +66,7 @@ def hat_basis(n, lo, hi, spacing):
 
 
 def step_col(n, x0, sigma):
-    """Правка Claude: ступень (комптоновский край линии образца) 0.5*erfc((x-x0)/(sqrt2*sigma)) -- 1 слева, 0 справа."""
+    """ступень (комптоновский край линии образца) 0.5*erfc((x-x0)/(sqrt2*sigma)) -- 1 слева, 0 справа."""
     from scipy.special import erfc
     x = np.arange(n, dtype=float)
     return 0.5 * erfc((x - x0) / (np.sqrt(2.0) * sigma))
@@ -117,7 +117,7 @@ class RobustProblem(reg.Problem):
 
         d, w = parts
         m = self.mask
-        if getattr(self, "_Bm", None) is None:   # правка Claude (скорость): базис на маске -- один раз, не на каждом шаге
+        if getattr(self, "_Bm", None) is None:   # базис на маске -- один раз, не на каждом шаге
             self._Bm = self.basis[m]
         wm = w[m]
         Aw = self._Bm * wm[:, None]
@@ -204,7 +204,7 @@ def find_peaks_mf(resid, var, fwhm_fn, lo, hi, z_min=6.0):
         end = min(len(z_scores) - 1, i + local_radius)
 
         if z_scores[i] == np.max(z_scores[start:end + 1]):
-            # правка Claude: диполь рассогласования (рядом провал отклика сравнимой величины) -- не линия образца
+            # диполь рассогласования (рядом провал отклика сравнимой величины) -- не линия образца
             w2 = max(2, int(2.0 * fw))
             if np.min(z_scores[max(0, i - w2):min(len(z_scores), i + w2 + 1)]) < -0.8 * z_scores[i]:
                 continue
@@ -408,10 +408,10 @@ def register_robust(S, B, k, mask0, anchor, fwhm_fn, k40_ch=None, mode="auto",
         }
 
     # Построение базиса
-    # правка Claude: комптоновские края линий образца (K-40 и найденных пиков, compton_fn: канал пика -> канал края)
+    # комптоновские края линий образца (K-40 и найденных пиков, compton_fn: канал пика -> канал края)
     # -- ступени в базисе (структуры образца, не собственные); K-40 -- последний столбец.
     s40 = fwhm_fn(k40_ch) / 2.3548 if k40_ch is not None else None
-    steps_ch = []   # правка Claude (раунд 4): каналы ступеней последнего базиса -- для вердикта по окнам
+    steps_ch = []   # каналы ступеней последнего базиса -- для вердикта по окнам
     def make_basis(peak_chs):
         cols = [hat_basis(n, lo0, hi0, knot_ch)]
         steps_ch.clear()
@@ -442,10 +442,10 @@ def register_robust(S, B, k, mask0, anchor, fwhm_fn, k40_ch=None, mode="auto",
 
     hist, stop_reason, chi_prev = [], "", float("inf")
     for it in range(max_iter):
-        if CANCEL["flag"]:   # правка Claude: отмена из окна -- между итерациями
+        if CANCEL["flag"]:   # отмена из окна -- между итерациями
             raise Cancelled("операция отменена пользователем (итерация %d)" % it)
         t_it = time.time()
-        skipped = []   # правка Claude: только пики последней итерации
+        skipped = []   # только пики последней итерации
         mask = mask_minus(mask0, excl)
         prob = RobustProblem(S, B, k, mask, anchor, basis)
         rr = reg.register(S, B, k, mask, anchor, verbose=False, problem=prob, **reg_kw)
@@ -467,7 +467,7 @@ def register_robust(S, B, k, mask0, anchor, fwhm_fn, k40_ch=None, mode="auto",
             else:
                 keep.append((ch, z))
 
-        # правка Claude: extra_fn -- каналы прочих линий нуклидов, отождествлённых по найденным пикам (библиотека линий)
+        # extra_fn -- каналы прочих линий нуклидов, отождествлённых по найденным пикам (библиотека линий)
         extra = list(extra_fn([p[0] for p in keep])) if extra_fn else []
         if k40_ch is not None:   # зона сумм-пика La-138 не исключается и для линий библиотеки
             extra = [x for x in extra if abs(x - k40_ch) > protect_fwhm * fwhm_fn(k40_ch)]
@@ -487,7 +487,7 @@ def register_robust(S, B, k, mask0, anchor, fwhm_fn, k40_ch=None, mode="auto",
             converged = True
             excl_used = excl
             break
-        elif it >= 1 and (new in hist or (rr['chi2ndf'] > chi2_stop and rr['chi2ndf'] >= chi_prev)):   # правка Claude: досрочная остановка
+        elif it >= 1 and (new in hist or (rr['chi2ndf'] > chi2_stop and rr['chi2ndf'] >= chi_prev)):   # досрочная остановка
             stop_reason = ("набор исключённых окон повторяется (колебание)" if new in hist else
                            "χ²/ndf %.1f > %.0f и не падает (было %.1f) на итерации %d" % (rr['chi2ndf'], chi2_stop, chi_prev, it))
             basis, peaks_all, excl_used = prob.basis, keep, excl   # итог -- последняя выполненная регистрация
@@ -529,7 +529,7 @@ def register_robust(S, B, k, mask0, anchor, fwhm_fn, k40_ch=None, mode="auto",
             "area_err": float(area_err)
         }
 
-    # правка Claude (раунд 4, п.6): сравнение простой и устойчивой на ОДНОМ наборе каналов (итоговая маска) и ОДНОЙ модели
+    # сравнение простой и устойчивой на ОДНОМ наборе каналов (итоговая маска) и ОДНОЙ модели
     m_fin = mask_minus(mask0, excl)
     p_nom = reg.Problem(S, B, k, m_fin, anchor)
     p_mod = RobustProblem(S, B, k, m_fin, anchor, basis)

@@ -3,7 +3,7 @@ import os, sys, time, pathlib
 _T0 = time.time()
 if not getattr(sys, "frozen", False):   # разработка: модуль toolkit -- scripts/ корня репозитория
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[4] / "scripts"))
-else:   # правка Claude: ядерные данные toolkit (nuclides.json, X-ray CSV) лежат в сборке в data/ рядом с модулями
+else:   # ядерные данные toolkit (nuclides.json, X-ray CSV) лежат в сборке в data/ рядом с модулями
     import gamma.data
     gamma.data.DATA_DIR = pathlib.Path(getattr(sys, "_MEIPASS", pathlib.Path(sys.executable).parent)) / "data"
 if os.environ.get("ISGUI_SMOKE_CALC"):   # приёмка сборки: "фон|образец|папка" -> расчёт без окна, итог в папка/calc.txt
@@ -11,7 +11,7 @@ if os.environ.get("ISGUI_SMOKE_CALC"):   # приёмка сборки: "фон|
     bg, sm, out = os.environ["ISGUI_SMOKE_CALC"].split("|"); pathlib.Path(out).mkdir(parents=True, exist_ok=True)
     r = bp.run_register(bg, sm); e = bp.run_ecal(bg, sm, r["h"])
     s = bp.run_subtract(bg, sm, r["h"], e, e["fwhm_points"], out + "/net.xml", out + "/net_signed.xml", reg_json=r["h_json"])
-    try:   # правка Claude (LABR-11): калибровка по пробе в сборке (реперы -- только видимые структуры LaBr3)
+    try:   # калибровка по пробе в сборке (реперы -- только видимые структуры LaBr3)
         from isgui import backend_sample as bs; c = bs.run_sample_cal(bg, sm, []); sc_txt = "samplecal_mode=%s visible=%s replaced=%s recommend=%s" % (c["mode"], ",".join(c["visible_sample"]), c["decision"]["replaced"], c["decision"]["recommend"])
     except Exception as exc:
         sc_txt = "samplecal_error=%s" % exc

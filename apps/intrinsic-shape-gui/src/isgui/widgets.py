@@ -8,7 +8,7 @@ from PySide6 import QtCore, QtWidgets, QtGui
 from . import backend
 
 NEG_NAME = "Разность < 0 (|net|)"
-# правка Claude: доля обнулённых каналов разности в области 60-1700 (шкала 2048, пересчёт по числу каналов),
+# доля обнулённых каналов разности в области 60-1700 (шкала 2048, пересчёт по числу каналов),
 # выше которой вычитание фактически обнуляет образец (фон снят в другой обстановке); 30 % -- порог из запроса
 ZEROED_WARN_FRAC = 0.30
 
@@ -26,7 +26,7 @@ def zeroed_warning(signed):
 
 
 class OpTimer(QtCore.QObject):
-    """Правка Claude: счётчик «прошло mm:ss» длительной операции; обновляется таймером Qt в UI-потоке раз в секунду."""
+    """счётчик «прошло mm:ss» длительной операции; обновляется таймером Qt в UI-потоке раз в секунду."""
     def __init__(self, label, parent=None):
         super().__init__(parent)
         self.label, self.title, self.t0, self.elapsed = label, "", None, 0.0
@@ -102,7 +102,7 @@ class SpectrumPlot(QtWidgets.QWidget):
         self.axis_combo.addItems(["Каналы (шкала фона)", "Энергия, кэВ"])
         self.mode_combo = QtWidgets.QComboBox()
         self.mode_combo.addItems(["Разность: обнулённая", "Разность: со знаком"])
-        self.unit_combo = QtWidgets.QComboBox()   # правка Claude (раунд 4, п.11): ось Y -- cps (по умолчанию) или отсчёты
+        self.unit_combo = QtWidgets.QComboBox()   # ось Y -- cps (по умолчанию) или отсчёты
         self.unit_combo.addItems(["cps на канал", "Отсчёты на канал"])
         self.log_check = QtWidgets.QCheckBox("Лог. шкала Y")
         self.log_check.setChecked(True)
@@ -186,7 +186,7 @@ class SpectrumPlot(QtWidgets.QWidget):
         if self.show_bg.isChecked():
             self.plot.plot(x, prep(data["bg_k"]), pen=pg.mkPen((230, 120, 20), width=1),
                            name="Фон·k (совмещён)", connect="finite")
-        if self.show_net.isChecked() and logy:   # правка Claude: лог-шкала -- разность со знаком, |net<0| отдельно
+        if self.show_net.isChecked() and logy:   # лог-шкала -- разность со знаком, |net<0| отдельно
             sg = np.asarray(data["signed"], float) / (data["live_out"] if cps else 1.0)
             self.plot.plot(x, np.where(sg > 0, sg, np.nan), pen=pg.mkPen((20, 140, 40), width=1.5),
                            name="Разность", connect="finite")

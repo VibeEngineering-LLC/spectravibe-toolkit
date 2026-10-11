@@ -57,7 +57,7 @@ CLASSES = [
 BG_PATTERN = re.compile(r"(?i)bckg|background|фон")
 
 # Классы с замороженной раскладкой: фон остаётся там, где лежит в дереве
-# измерений, и в отдельную папку не выносится. Решение оператора.
+# измерений, и в отдельную папку не выносится. Решение автора.
 FROZEN_LAYOUT = {"Gamma-1S"}
 OPERATOR_LINE = re.compile(rb"^OPERATOR=.*$", re.MULTILINE)
 

@@ -45,7 +45,7 @@ def scan_centroid(counts, x0, w0, hw):
     """
     cs = []
     es = []
-    # правка Claude: при hw=6 множители 0.7 и 0.85 дают одно и то же окно (5) -> дубликат занижал разброс; берём различные окна
+    # при hw=6 множители 0.7 и 0.85 дают одно и то же окно (5) -> дубликат занижал разброс; берём различные окна
     for h in sorted({max(5, int(round(hw * f))) for f in (0.7, 0.85, 1.0, 1.15, 1.3)}):
         r = fit_peak(counts, x0, w0, half_window=h)
         if r is not None:
@@ -167,7 +167,7 @@ def local_fit(prob, c_start, fixed=None, max_nfev=300):
         free = [i for i in range(3) if i != idx]
         q0[idx] = value * SC[idx]
         
-    # правка Claude (#DBG-1): относительный diff_step=1e-4 на q1~1000 давал шаг 0.1 кан-экв. (h(1610) +0.16 кан),
+    # относительный diff_step=1e-4 на q1~1000 давал шаг 0.1 кан-экв. (h(1610) +0.16 кан),
     # сравнимый с рябью chi2 по c1 -> спуск останавливался не в минимуме (точка verify_v6 была ниже на 2.0).
     # Оптимизируем смещение p = q - q0 (каналы при x=1000), абсолютный шаг ~0.005 кан.
     def fun(p):
@@ -183,7 +183,7 @@ def local_fit(prob, c_start, fixed=None, max_nfev=300):
 
 
 def hvals(c, chans=None):
-    chans = TEST_CH if chans is None else chans   # правка Claude: каналы проверки h задаются (автопресет)
+    chans = TEST_CH if chans is None else chans   # каналы проверки h задаются (автопресет)
     return np.array([poly_eval(c, x) for x in chans])
 
 
@@ -228,7 +228,7 @@ def covariance(prob, c, step=0.01):
 
 
 def profile_grid(prob, idx, values, c1s, c2s, n_ref=3):
-    """Правка Claude: профиль chi2 по параметру idx через сетку по двум другим (c0 из жёсткого якоря, если он свободен)
+    """профиль chi2 по параметру idx через сетку по двум другим (c0 из жёсткого якоря, если он свободен)
     + локальное уточнение с фиксированным idx из n_ref лучших ячеек; спуск из минимумов (profile) застревал."""
     xs, xb = prob.anchor[0], prob.anchor[1]
     out = np.zeros(len(values))
@@ -283,7 +283,7 @@ def coarse_c1(S, B, anchor, window=(780, 900)):
 
 
 def register(S, B, k, mask, anchor, bg_var=None, c1_center=None, c1_half=0.008, c1_step=0.0002, c2_lo=-1.0e-5, c2_hi=2.0e-6, c2_step=2.0e-7, n_ms=20, verbose=True, coarse_window=(780, 900), test_ch=None, problem=None):
-    # правка Claude: test_ch -- каналы проверки h (автопресет); problem -- готовая задача (устойчивая регистрация)
+    # test_ch -- каналы проверки h (автопресет); problem -- готовая задача (устойчивая регистрация)
     prob = Problem(S, B, k, mask, anchor, bg_var) if problem is None else problem
     if c1_center is None:
         c1_center = coarse_c1(S, B, anchor, coarse_window)
@@ -293,7 +293,7 @@ def register(S, B, k, mask, anchor, bg_var=None, c1_center=None, c1_half=0.008, 
     
     G, starts = grid_search(prob, c1s, c2s)
     minima = multistart(prob, starts, n_max=n_ms, chans=test_ch)
-    # правка Claude: дополнительная мелкая сетка (шаг /10) вокруг лучших 3 минимумов + спуск -> добавляется в список минимумов
+    # дополнительная мелкая сетка (шаг /10) вокруг лучших 3 минимумов + спуск -> добавляется в список минимумов
     xs_, xb_ = anchor[0], anchor[1]
     extra = []
     for m in minima[:3]:
@@ -360,7 +360,7 @@ def load_inputs(bg_path, sample_path):
 
 def report(S, B, k, anchor, mask, out_json=None, profiles=True, r=None, **reg_kw):
     """Регистрация + печать h, ковариации, минимумов, профилей, «требует толкования»; JSON -- в out_json."""
-    r = register(S, B, k, mask, anchor, **reg_kw) if r is None else r   # правка Claude: готовый результат (устойчивая регистрация)
+    r = register(S, B, k, mask, anchor, **reg_kw) if r is None else r   # готовый результат (устойчивая регистрация)
     
     c = r['c']
     perr = r['perr']
@@ -393,7 +393,7 @@ def report(S, B, k, anchor, mask, out_json=None, profiles=True, r=None, **reg_kw
             print(f"[PROF] c{idx}={v:.7g} dchi2={p - r['chi2']:.2f}")
         if P.min() < r['chi2'] - 0.5:
             prof_lower.append(f"профиль c{idx} нашёл точку ниже глобального минимума на {r['chi2'] - P.min():.2f} — минимум не достигнут")
-        # правка Claude: широкий профиль (шаг ~ разброс минимумов / 10) грубее 1 sigma -> добавлен мелкий профиль +-4 perr
+        # широкий профиль (шаг ~ разброс минимумов / 10) грубее 1 sigma -> добавлен мелкий профиль +-4 perr
         vf = r['c'][idx] + np.linspace(-4.0, 4.0, 17) * r['perr'][idx]
         Pf = profile_grid(r['prob'], idx, vf, r['c1s'], r['c2s'])
         print(f"[PROF] c{idx} мелкий (+-4 perr): " + " ".join(f"{p - r['chi2']:.2f}" for p in Pf))

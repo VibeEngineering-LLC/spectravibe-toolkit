@@ -1,4 +1,4 @@
-"""Главное окно. Сгенерировано gen_code.py (qwen3.8:27b) по specs/main_window.md, 2026-10-10; правки Claude помечены.
+"""Главное окно. Сгенерировано gen_code.py (qwen3.8:27b) по specs/main_window.md, 2026-10-10.
 Расчёты -- только через isgui.backend в фоновом потоке (isgui.widgets.Job)."""
 import json
 import pathlib
@@ -8,9 +8,9 @@ import numpy as np
 
 from PySide6 import QtCore, QtGui, QtWidgets
 
-from . import backend, backend_pair, backend_sample   # правка Claude: обработчики пары (автопресет, линии образца, ветвь шкалы)
+from . import backend, backend_pair, backend_sample   # обработчики пары (автопресет, линии образца, ветвь шкалы)
 from .panels import LowScalePlot, AnchorBox
-from .peakpicker import PeakPickerPanel   # правка Claude (LABR-11): калибровка по пробе
+from .peakpicker import PeakPickerPanel   # калибровка по пробе
 from .widgets import Job, LogView, SpectrumPlot, FwhmPlot, fill_table, status_html, OpTimer
 
 
@@ -31,11 +31,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ecal_points = []
         self.net = None
         self.job = None
-        self.ecal_res = None   # правка Claude: полный результат «Шкалы» (составная шкала, точки ПШПВ пары)
+        self.ecal_res = None   # полный результат «Шкалы» (составная шкала, точки ПШПВ пары)
         self.manual = None
         self.n_ch = 2048
         self.saved = False
-        self.sample_res = None   # правка Claude: результат режима «по пробе» (разность на сетке пробы)
+        self.sample_res = None   # результат режима «по пробе» (разность на сетке пробы)
         self.buttons = []
 
         # Центральное виджет
@@ -53,7 +53,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.tabs = QtWidgets.QTabWidget()
         self.tabs.addTab(self._build_register(), "1. Совместить")
         self.tabs.addTab(self._build_ecal(), "2. Шкала")
-        self.tabs.addTab(self._build_samplecal(), "2б. Шкала по пробе")   # правка Claude (LABR-11)
+        self.tabs.addTab(self._build_samplecal(), "2б. Шкала по пробе")
         self.tabs.addTab(self._build_subtract(), "3. Вычесть")
         self.tabs.addTab(self._build_plot(), "График")
         self.tabs.addTab(self._build_fwhm(), "ПШПВ")
@@ -76,7 +76,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.progress.setMaximumWidth(220)
         self.progress.setVisible(False)
         self.statusBar().addPermanentWidget(self.progress)
-        self.elapsed_label = QtWidgets.QLabel("")   # правка Claude: счётчик времени и отмена длительной операции
+        self.elapsed_label = QtWidgets.QLabel("")   # счётчик времени и отмена длительной операции
         self.statusBar().addPermanentWidget(self.elapsed_label)
         self.op_timer = OpTimer(self.elapsed_label, self)
         self.cancel_btn = QtWidgets.QPushButton("Отмена")
@@ -155,7 +155,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.log.append_text("\n=== %s ===\n" % title)
         for b in self.buttons:
             b.setEnabled(False)
-        self.apply_scale_btn.setEnabled(False)   # правка Claude (VERIFY8): во время любой задачи -- недоступна
+        self.apply_scale_btn.setEnabled(False)   # во время любой задачи -- недоступна
         self.progress.setRange(0, 0)
         self.progress.setVisible(True)
         self.statusBar().showMessage(title + " — выполняется…")
@@ -181,7 +181,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.log.append_text("[TIME] %s: %.0f с\n" % (self.op_timer.title, self.op_timer.stop()))
 
     def _cancel(self):
-        """Правка Claude: запросить отмену; рабочий поток проверяет флаг между итерациями."""
+        """запросить отмену; рабочий поток проверяет флаг между итерациями."""
         from gamma.calibration.intrinsic_shape import robust as _rb
         _rb.CANCEL["flag"] = True
         self.log.append_text("Отмена запрошена — операция остановится после текущего шага\n")
@@ -199,7 +199,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def _fail(self, title, msg, tb):
         """Обработка ошибки задачи."""
         self._end_job()
-        if msg.startswith("Внутренняя ошибка"):   # правка Claude: трассировка -- только для внутренних ошибок,
+        if msg.startswith("Внутренняя ошибка"):   # трассировка -- только для внутренних ошибок,
             self.log.append_text(tb)               # сообщение показывается ВСЕГДА (было внутри if)
         self.log.append_text("ОШИБКА: " + msg + "\n")
         self._error(msg)
@@ -230,7 +230,7 @@ class MainWindow(QtWidgets.QMainWindow):
         btn_sm = QtWidgets.QPushButton("Обзор…")
         btn_sm.clicked.connect(self._choose_sample)
         layout.addWidget(btn_sm, 1, 2)
-        btn_new = QtWidgets.QPushButton("Новый спектр")   # правка Claude: сброс файлов и результатов без перезапуска
+        btn_new = QtWidgets.QPushButton("Новый спектр")   # сброс файлов и результатов без перезапуска
         btn_new.setToolTip("Сбросить выбранные файлы и все результаты, начать новую пару")
         btn_new.clicked.connect(self._new_spectrum)
         layout.addWidget(btn_new, 0, 3, 2, 1)
@@ -260,7 +260,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def _update_pair(self):
         """Обновить информацию о выбранной паре файлов."""
-        # правка Claude: editingFinished срабатывает и при потере фокуса -- сбрасывать результаты только при смене файлов
+        # editingFinished срабатывает и при потере фокуса -- сбрасывать результаты только при смене файлов
         if self._paths() == getattr(self, "_pair_key", None):
             return
         self._pair_key = self._paths()
@@ -270,7 +270,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ecal = None
         self.net = None
         self.ecal_points = []
-        self.ecal_res = None; self.saved = False; self.sample_res = None   # правка Claude
+        self.ecal_res = None; self.saved = False; self.sample_res = None
         self._reset_sample_scale()
         self.plot.clear_data()
 
@@ -285,7 +285,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.pair_label.setText(status_html(False, html.escape(backend.friendly(exc))))
             return
 
-        self.n_ch = p["bg"]["n_ch"]   # правка Claude: число каналов пары (ПШПВ, параметры прибора)
+        self.n_ch = p["bg"]["n_ch"]   # число каналов пары (ПШПВ, параметры прибора)
         # Формирование HTML-информации
         parts = []
         bg_info = p["bg"]
@@ -301,7 +301,7 @@ class MainWindow(QtWidgets.QMainWindow):
             parts.append(status_html(False, html.escape(p["warning"])))
 
         self.pair_label.setText("<br>".join(parts))
-        try:   # правка Claude (LABR-11): спектр пробы -- на вкладку выбора пиков
+        try:   # спектр пробы -- на вкладку выбора пиков
             self.picker.set_sample(sm)
         except Exception as exc:
             self.log.append_text("Вкладка «Шкала по пробе»: спектр не загружен — %s\n" % backend.friendly(exc))
@@ -313,7 +313,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.out_dir.setText(str(pathlib.Path(sm).parent))
 
     def _new_spectrum(self, confirm=True):
-        """Правка Claude: «Новый спектр» -- сброс файлов, результатов и вкладок без перезапуска."""
+        """«Новый спектр» -- сброс файлов, результатов и вкладок без перезапуска."""
         if confirm and (self.h is not None or self.ecal is not None) and not self.saved:
             ans = QtWidgets.QMessageBox.question(self, "Новый спектр", "Результат совмещения/шкалы не сохранён в файл. Сбросить всё?")
             if ans != QtWidgets.QMessageBox.Yes:
@@ -329,10 +329,10 @@ class MainWindow(QtWidgets.QMainWindow):
         return True
 
     def _reset_views(self):
-        """Правка Claude: все вкладки -- в исходное состояние."""
+        """все вкладки -- в исходное состояние."""
         self.pair_label.setText("Файлы не выбраны")
         self.anchor_box.reset(); self.low_plot.clear_data(); self.plot.clear_data(); self.lt_combo.setCurrentIndex(0)
-        self.picker._clear(); self.picker.curve.setData([], []); self.picker.counts = None   # правка Claude (LABR-11)
+        self.picker._clear(); self.picker.curve.setData([], []); self.picker.counts = None
         for v in (self.reg_view, self.sub_view, self.dec_view, self.st_view, self.sc_view):
             v.setHtml("")
         for tb in (self.ecal_table, self.fw_table, self.inv_table):
@@ -356,7 +356,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         label.setWordWrap(True)
         layout.addWidget(label)
-        self.anchor_box = AnchorBox()   # правка Claude: опоры автопресета, ручная поправка, линии образца
+        self.anchor_box = AnchorBox()   # опоры автопресета, ручная поправка, линии образца
         layout.addWidget(self.anchor_box)
 
         layout.addWidget(self._btn("Совместить", self._do_register))
@@ -369,7 +369,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def _do_register(self):
         """Запустить совмещение."""
         bg, sm = self._paths()
-        try:   # правка Claude: ручная поправка опор и режим линий образца
+        try:   # ручная поправка опор и режим линий образца
             self.manual = backend_pair.parse_manual(self.anchor_box.manual_text())
         except backend.UserError as exc:
             self._error(str(exc))
@@ -382,12 +382,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.h = r["h"]
         self.h_json = r["h_json"]
         self.ecal = None
-        self.sample_res = None   # правка Claude: «Совместить» возвращает режим пары
+        self.sample_res = None   # «Совместить» возвращает режим пары
         self.net = None
 
         h = r["h"]
         perr = r["perr"]
-        x_sum = r["auto"]["anchors"]["sum"]["x"]   # правка Claude: канал сумм-пика этого прибора
+        x_sum = r["auto"]["anchors"]["sum"]["x"]   # канал сумм-пика этого прибора
         h846 = h[0] + h[1] * x_sum + h[2] * x_sum ** 2
 
         parts = []
@@ -419,7 +419,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 parts.append("<p><b>%s</b><br>%s</p>" % (html.escape(item), html.escape(expl)))
 
         parts.append("<p>Дальше: вкладка «2. Шкала».</p>")
-        self.reg_view.setHtml("<br>".join(parts) + backend_pair.register_html(r))   # правка Claude
+        self.reg_view.setHtml("<br>".join(parts) + backend_pair.register_html(r))
         self.anchor_box.show_found(r["auto"])
         self.ecal_res = None; self.saved = False
 
@@ -430,7 +430,7 @@ class MainWindow(QtWidgets.QMainWindow):
         w = QtWidgets.QWidget()
         layout = QtWidgets.QVBoxLayout(w)
 
-        layout.addWidget(QtWidgets.QLabel(   # правка Claude: реперы пары и ветвь ниже 100 кэВ
+        layout.addWidget(QtWidgets.QLabel(   # реперы пары и ветвь ниже 100 кэВ
             "Энергетическая шкала фона по реперам пары: собственные структуры LaBr3 и линии, найденные в разности "
             "(Lu-176 -- по пресету). Ниже 100 кэВ -- отдельная ветвь (непропорциональность, K-край La)."
         ))
@@ -454,7 +454,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ecal_summary.setWordWrap(True)
         self.ecal_summary.setTextFormat(QtCore.Qt.RichText)
         layout.addWidget(self.ecal_summary)
-        self.low_plot = LowScalePlot()   # правка Claude: ветвь шкалы ниже 100 кэВ и полоса неопределённости
+        self.low_plot = LowScalePlot()   # ветвь шкалы ниже 100 кэВ и полоса неопределённости
         layout.addWidget(self.low_plot, 1)
 
         return w
@@ -465,15 +465,15 @@ class MainWindow(QtWidgets.QMainWindow):
             self._error("Сначала выполните «Совместить»")
             return
         bg, sm = self._paths()
-        self._run("Шкала", backend_pair.run_ecal, (bg, sm, self.h),   # правка Claude
+        self._run("Шкала", backend_pair.run_ecal, (bg, sm, self.h),
                   {"manual": self.manual, "reg_json": self.h_json, "source": self.src_edit.text().strip() or None,
                    "source_nuclide": self.src_combo.currentText()}, self._show_ecal)
 
     def _show_ecal(self, r):
-        """Показать результат шкалы. Правка Claude: реперы пары, ветвь ниже 100 кэВ, точки ПШПВ пары."""
+        """Показать результат шкалы. реперы пары, ветвь ниже 100 кэВ, точки ПШПВ пары."""
         self.ecal = r["coeffs"]
         self.ecal_res = r
-        self.sample_res = None   # правка Claude: «Шкала» пары -- режим пары
+        self.sample_res = None   # «Шкала» пары -- режим пары
         self.ecal_points = backend_pair.markers_from(r)
         self.net = None
         fill_table(self.ecal_table, ["Репер", "Ветвь", "Канал фона", "± канал", "E, кэВ", "Невязка, кэВ", "LOO, кэВ"],
@@ -484,7 +484,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.fw_points_edit.setText(" ".join("%.2f:%.3f" % (p[0], p[1]) for p in r["fwhm_points"]))
 
     def _build_samplecal(self):
-        """Правка Claude (LABR-11): вкладка калибровки по пробе -- выбор пиков, реперы, шкала, совмещение фона."""
+        """вкладка калибровки по пробе -- выбор пиков, реперы, шкала, совмещение фона."""
         w = QtWidgets.QWidget(); layout = QtWidgets.QVBoxLayout(w)
         self.picker = PeakPickerPanel()
         self.picker.message.connect(lambda m: self.log.append_text(m))   # журнал создаётся после вкладок
@@ -493,7 +493,7 @@ class MainWindow(QtWidgets.QMainWindow):
         layout.addWidget(self.picker, 3)
         self.sc_view = self._html_view()
         layout.addWidget(self.sc_view, 1)
-        # правка Claude (VERIFY7): таблица «файл / реперы» и применение шкалы по реперам решением пользователя
+        # таблица «файл / реперы» и применение шкалы по реперам решением пользователя
         self.sc_table = QtWidgets.QTableWidget()
         layout.addWidget(self.sc_table, 1)
         self.apply_scale_btn = QtWidgets.QPushButton("Записать шкалу по реперам")
@@ -504,13 +504,13 @@ class MainWindow(QtWidgets.QMainWindow):
         return w
 
     def _reset_sample_scale(self):
-        """Правка Claude (VERIFY8): смена пары / «Новый спектр» -- кнопка гаснет, таблица и рекомендация сбрасываются."""
+        """смена пары / «Новый спектр» -- кнопка гаснет, таблица и рекомендация сбрасываются."""
         self.apply_scale_btn.setEnabled(False)
         self.sc_table.setRowCount(0)
         self.sc_view.clear()
 
     def _do_sample_cal(self, use_reper_scale=False):
-        """Правка Claude (LABR-11): шкала по реперам пробы и видимым структурам LaBr3; результат заменяет «Совместить»+«Шкала»."""
+        """шкала по реперам пробы и видимым структурам LaBr3; результат заменяет «Совместить»+«Шкала»."""
         bg, sm = self._paths()
         if not bg or not sm:
             self._error("Выберите файл фона и файл образца")
@@ -522,11 +522,11 @@ class MainWindow(QtWidgets.QMainWindow):
                   {"use_reper_scale": bool(use_reper_scale)}, self._show_sample_cal)
 
     def _show_sample_cal(self, r):
-        """Правка Claude (архитектура «на шкале пробы»): шкала XML и перевод фона на пробу; «Вычесть» строит разность на сетке пробы."""
+        """шкала XML и перевод фона на пробу; «Вычесть» строит разность на сетке пробы."""
         self.sample_res, self.h, self.h_json = r, [0.0, 1.0, 0.0], None
         self.ecal, self.ecal_res, self.net = r["coeffs"], r, None
         self.ecal_points = backend_pair.markers_from(r)
-        fill_table(self.ecal_table, r["branch_headers"], r["branch_rows"])   # правка Claude (VERIFY7): «файл / реперы»
+        fill_table(self.ecal_table, r["branch_headers"], r["branch_rows"])   # «файл / реперы»
         fill_table(self.sc_table, r["branch_headers"], r["branch_rows"])
         d = r["decision"]
         self.apply_scale_btn.setEnabled(bool(d.get("recommend")) and not d.get("replaced"))
@@ -566,7 +566,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         desc.setWordWrap(True)
         grid.addWidget(desc, 2, 0, 1, 3)
-        # правка Claude (раунд 4, п.11): живое время выходного файла -- выбор, нормировку не отключает
+        # живое время выходного файла -- выбор, нормировку не отключает
         grid.addWidget(QtWidgets.QLabel("Живое время файла:"), 4, 0)
         self.lt_combo = QtWidgets.QComboBox()
         self.lt_combo.addItems(["образца (по умолчанию)", "фона"])
@@ -629,19 +629,19 @@ class MainWindow(QtWidgets.QMainWindow):
 
         bg, sm = self._paths()
         lt = "bg" if self.lt_combo.currentIndex() == 1 else "sample"
-        if self.sample_res is not None:   # правка Claude: режим «по пробе» -- разность на сетке пробы
+        if self.sample_res is not None:   # режим «по пробе» -- разность на сетке пробы
             self._run("Вычитание (на шкале пробы)", backend_sample.run_sample_subtract,
                       (bg, sm, self.sample_res, points, z_path, s_path), {"lt_out": lt}, self._show_subtract)
             return
         self._run(
-            "Вычитание", backend_pair.run_subtract,   # правка Claude: составная шкала, модель линий образца
+            "Вычитание", backend_pair.run_subtract,   # составная шкала, модель линий образца
             (bg, sm, self.h, self.ecal_res or self.ecal, points, z_path, s_path),
             {"reg_json": self.h_json, "manual": self.manual,
              "lt_out": "bg" if self.lt_combo.currentIndex() == 1 else "sample"}, self._show_subtract
         )
 
     def _show_subtract(self, r):
-        """Показать результат вычитания. Правка Claude: проверки окон собственных структур вместо «сумма = 0»."""
+        """Показать результат вычитания. проверки окон собственных структур вместо «сумма = 0»."""
         self.net = r
         self.saved = True
         self.plot.set_data(r, self.ecal_points)
@@ -743,7 +743,7 @@ class MainWindow(QtWidgets.QMainWindow):
         pts = self._points_or_error()
         if pts is None:
             return
-        self._run("Параметры прибора", backend.run_device, (pts,),   # правка Claude: канал отсчёта -- в каналах прибора
+        self._run("Параметры прибора", backend.run_device, (pts,),   # канал отсчёта -- в каналах прибора
                   {"ch_ref": int(round(1309 * self.n_ch / 2048)), "n_ch": self.n_ch}, self._show_device)
 
     def _show_device(self, r):
@@ -864,7 +864,7 @@ class MainWindow(QtWidgets.QMainWindow):
         lst = [s.strip() for s in self.dec_list.text().split("|") if s.strip()]
         self._run(
             "Разложение фона", backend.run_decompose, (ref, lst),
-            # правка Claude: шкала «Шкалы» относится к фону пары -- передаётся, только если эталон и есть этот фон
+            # шкала «Шкалы» относится к фону пары -- передаётся, только если эталон и есть этот фон
             {"ecal": self.ecal if ref and ref == self._paths()[0] else None}, self._show_decompose
         )
 

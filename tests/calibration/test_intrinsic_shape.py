@@ -296,7 +296,7 @@ def test_robust_registration_with_sample_lines():
     )
     continuum = 30.0 * np.exp(-x / 700.0) * (x > 20)
     rng = np.random.default_rng(7)
-    S2 = S + rng.poisson(lines + continuum).astype(float)   # правка Claude: шум -- только у добавки (S уже пуассоновский)
+    S2 = S + rng.poisson(lines + continuum).astype(float)   # шум -- только у добавки (S уже пуассоновский)
     S2[-1] = 0
 
     anchor = reg.anchor37(B, S2, verbose=False)
@@ -311,7 +311,7 @@ def test_robust_registration_with_sample_lines():
     d_rob = abs(poly_eval(rob["c"], 845.0) - poly_eval(H_REF, 845.0))
     print("d_plain:", d_plain, "d_rob:", d_rob)
 
-    # правка Claude (раунд 4): вердикт verdict.structure_verdict -- остаток без модели, простая и устойчивая на одной основе
+    # вердикт verdict.structure_verdict -- остаток без модели, простая и устойчивая на одной основе
     from gamma.calibration.intrinsic_shape import verdict as vd
     ctx = pl.setup(BG, SAMPLE, verbose=False)
     kw = pl.verdict_kw(ctx, rob["excluded"], rob["steps_ch"])
@@ -355,7 +355,7 @@ def test_lowscale_recovers_known_s():
     fit = lw.fit_s(C, pts)
     assert abs(fit["s"] - s_true) < 2e-3
     fit0 = lw.fit_s(C, pts, dK=0.0)
-    # правка Claude: ступень 1.7 % на 37 кэВ = 0.61 кэВ при sigma репера 0.5 кэВ -- мутация видна на уровне ~1.3 sigma
+    # ступень 1.7 % на 37 кэВ = 0.61 кэВ при sigma репера 0.5 кэВ -- мутация видна на уровне ~1.3 sigma
     print("chi2 с изломом %.3g, без излома %.3g" % (fit["chi2"], fit0["chi2"]))
     assert fit0["chi2"] > fit["chi2"] + 1.0
 
@@ -463,7 +463,7 @@ def test_net_cps_equivalence_any_output_live_time(tmp_path, lt_out):
 
 def test_ecal_sample_below_bg_uses_bg_intrinsic_reperes(tmp_path):
     """Образец ниже фона·k (фон с внешними линиями и континуумом, образец -- только собственный фон кристалла):
-    реперы шкалы берутся из фона, линии образца в отрицательной разности не ищутся, шкала годная (правка Claude)."""
+    реперы шкалы берутся из фона, линии образца в отрицательной разности не ищутся, шкала годная ()."""
     B = load_spectrum(BG)["counts"].astype(float)
     x = np.arange(len(B), dtype=float)
     ext = 40.0 * np.exp(-x / 300.0) + sum(a * np.exp(-0.5 * ((x - c) / (w / 2.355)) ** 2)
@@ -481,7 +481,7 @@ def test_ecal_sample_below_bg_uses_bg_intrinsic_reperes(tmp_path):
 
 def test_ecal_two_reperes_degenerate_scale_rejected_falls_back_to_file():
     """Два репера фона (сумм-пик, β-край) -- линейная шкала; порог прибора вне 0..100 кэВ -- шкала отвергнута,
-    в XML калибровка файла фона, ветвь ниже 100 кэВ не строится, исключения нет (правка Claude)."""
+    в XML калибровка файла фона, ветвь ниже 100 кэВ не строится, исключения нет ()."""
     e = pl.run_ecal(BG, BG, [0.0, 1.0, 0.0], verbose=True)
     assert len(e["points"]) == 2 and len(e.get("ecal_points_cfg", [])) == 2
     assert e.get("rejected") and list(e["coeffs"]) == list(load_spectrum(BG)["cal"]) and "low" not in e
@@ -489,7 +489,7 @@ def test_ecal_two_reperes_degenerate_scale_rejected_falls_back_to_file():
 
 
 def test_calibrate_drops_nan_reper_and_scale_stays_finite():
-    """Репер с нечисловым каналом (край не найден -> NaN) исключается до подгонки; шкала по остальным конечна (правка Claude)."""
+    """Репер с нечисловым каналом (край не найден -> NaN) исключается до подгонки; шкала по остальным конечна ()."""
     cfg = json.loads((PRESETS / "labr3_ecal.json").read_text("utf-8"))
     bad = {"name": "NaN_reper", "spectrum": "bg", "kind": "given", "ch": float("nan"), "ch_err": float("nan"),
            "E": 1000.0, "dE": 1.0, "x0": 0.0, "w0": 1.0, "hw": 0}
@@ -502,7 +502,7 @@ def test_calibrate_drops_nan_reper_and_scale_stays_finite():
 
 
 def test_ecal_no_net_lines_when_robust_not_converged(tmp_path):
-    """LABR-11 п.0: устойчивая регистрация не сошлась -- линии образца из разности в реперы не берутся (правка Claude)."""
+    """LABR-11 п.0: устойчивая регистрация не сошлась -- линии образца из разности в реперы не берутся ()."""
     B = load_spectrum(BG)["counts"].astype(float)
     x = np.arange(len(B), dtype=float)
     c662 = float(poly_inverse(load_spectrum(BG)["cal"], 661.657))

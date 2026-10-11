@@ -276,7 +276,7 @@ def run_subtract(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signe
     energy = poly_eval(list(res["coeffs_xml"]), np.arange(len(B), dtype=float))
 
     # Проверка структур
-    # правка Claude (раунд 4): вердикт окон -- verdict.summarize (статус «не оценено» при перекрытии линиями образца,
+    # вердикт окон -- verdict.summarize (статус «не оценено» при перекрытии линиями образца,
     # двусторонний z_χ²); несошедшаяся устойчивая регистрация -- all_ok=False
     checks = res["checks"]
     summ = res["checks_summary"]
@@ -290,7 +290,7 @@ def run_subtract(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signe
         for f in files
     )
 
-    all_ok = bool(fw_ok and files_ok and converged)   # правка Claude: вердикт окон справочный, в all_ok не входит
+    all_ok = bool(fw_ok and files_ok and converged)   # вердикт окон справочный, в all_ok не входит
 
     return {
         "k": float(res["k"]),
@@ -339,7 +339,7 @@ def _k40_row(c):
 
 
 def struct_table_html(checks, title="Окна собственных структур"):
-    """Правка Claude (раунд 4): таблица окон -- энергии, доля каналов, скрытых линиями образца, статус «не оценено»."""
+    """таблица окон -- энергии, доля каналов, скрытых линиями образца, статус «не оценено»."""
     import html
     rows = ["<h3>%s</h3>" % html.escape(title),
             '<p style="color:#555"><i>справочно: самопроверка неполная, см. ограничения</i></p>', '<table border="1" cellpadding="3">',
@@ -439,7 +439,7 @@ def register_html(r):
         f"<p>χ²/ndf простой регистрации {robust['chi2ndf_plain']:.3f} → "
         f"итог {robust['chi2ndf']:.3f} (разные каналы и модели -- справочно)</p>"
     )
-    sb = robust.get("same_basis")   # правка Claude (раунд 4, п.6): сравнение на одних каналах и одной модели
+    sb = robust.get("same_basis")   # сравнение на одних каналах и одной модели
     if sb:
         parts.append(f"<p>На одних каналах ({sb['n_ch']}): без модели образца χ²/ndf простая {sb['no_model'][0]:.3f} → "
                      f"устойчивая {sb['no_model'][1]:.3f}; с моделью {sb['with_model'][0]:.3f} → {sb['with_model'][1]:.3f}</p>")
@@ -486,7 +486,7 @@ def ecal_html(r):
     parts = []
 
     # Основная шкала
-    coeffs = r["coeffs"]   # правка Claude: любая степень; отвергнутая шкала -- красной строкой, в XML калибровка файла
+    coeffs = r["coeffs"]   # любая степень; отвергнутая шкала -- красной строкой, в XML калибровка файла
     scale_text = "Основная шкала E(x) = " + " + ".join("%.6g·x^%d" % (c, i) if i else "%.6g" % c for i, c in enumerate(coeffs))
     if r.get("rejected"):
         parts.append('<p style="color:#c62828"><b>Шкала по реперам отвергнута:</b> %s. В XML остаётся калибровка '
@@ -503,7 +503,7 @@ def ecal_html(r):
     else:
         lines = r.get("lines", [])
         if lines:
-            lines_text = ", ".join(f"{l['nuclide']} {l['E']:.1f} кэВ" for l in lines)   # правка Claude: ключ nuclide
+            lines_text = ", ".join(f"{l['nuclide']} {l['E']:.1f} кэВ" for l in lines)   # ключ nuclide
             parts.append(
                 f"<p>Реперы образца: линии, найденные в разности: "
                 f"{html.escape(lines_text)}</p>"
@@ -532,7 +532,7 @@ def ecal_html(r):
 
         xml = low.get("xml", {})
         if xml.get("fallback"):
-            dev = xml.get("damage", float("nan"))   # правка Claude: порча шкалы выше 100 кэВ
+            dev = xml.get("damage", float("nan"))   # порча шкалы выше 100 кэВ
             parts.append(
                 f"<p>В XML записывается: основная шкала "
                 f"(составная портит шкалу выше 100 кэВ на {dev:.2f} кэВ)</p>"

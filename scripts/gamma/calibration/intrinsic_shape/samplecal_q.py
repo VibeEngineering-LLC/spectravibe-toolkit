@@ -20,14 +20,14 @@ SERIES = {"Ra-226": "U", "Pb-214": "U", "Bi-214": "U", "Pb-210": "U",
 def select_degree(cfg, ctx, verbose=True, ndf_min=1, deg3_min=None):
     from . import pipeline as pl
     n = len(cfg["points"])
-    top = min(DEG_MAX, n - 1 - ndf_min, DEG_MAX if n >= DEG4_MIN_REPERS else 3)   # правка Claude: степень 4 -- от 7 реперов
-    if deg3_min and n < deg3_min:   # правка Claude (VERIFY8): решение о шкале XML -- степень 3+ только от deg3_min реперов
+    top = min(DEG_MAX, n - 1 - ndf_min, DEG_MAX if n >= DEG4_MIN_REPERS else 3)   # степень 4 -- от 7 реперов
+    if deg3_min and n < deg3_min:   # решение о шкале XML -- степень 3+ только от deg3_min реперов
         top = min(top, 2)
     top = max(1, top)
     all_results = []
     for deg in range(1, top + 1):
         res = pl._guarded_calibrate(dict(cfg, degree=deg), ctx, [0.0, 1.0, 0.0], False)
-        loo = res.get("loo_rms", float("nan"))   # правка Claude: LOO по ВСЕМ реперам (крайние -- честная цена охвата)
+        loo = res.get("loo_rms", float("nan"))   # LOO по ВСЕМ реперам (крайние -- честная цена охвата)
         all_results.append((deg, loo, res))
     
     valid = [(d, l, r) for d, l, r in all_results if not r.get("rejected") and np.isfinite(l)]
@@ -246,7 +246,7 @@ def series_seen(repers):
 
 def gain_check(c1, cal_src, cal_dst, x_mid):
     E = poly_eval(cal_src, x_mid)
-    x2 = float(poly_inverse(list(cal_dst), E, hi=4.0 * x_mid + 1000.0))   # правка Claude: по умолчанию сетка обращения -- до 2248 кан
+    x2 = float(poly_inverse(list(cal_dst), E, hi=4.0 * x_mid + 1000.0))   # по умолчанию сетка обращения -- до 2248 кан
     g_file = float(poly_deriv(cal_src, x_mid)) / float(poly_deriv(cal_dst, x2))
     ratio = c1 / g_file
     ok = GAIN_RANGE[0] <= ratio <= GAIN_RANGE[1]
@@ -254,7 +254,7 @@ def gain_check(c1, cal_src, cal_dst, x_mid):
 
 
 def current_scale(repers):
-    """Правка Claude (VERIFY7 п.3): текущая шкала по реперам для диалога линий -- при >= 2 реперах (линейная при 2-3,
+    """текущая шкала по реперам для диалога линий -- при >= 2 реперах (линейная при 2-3,
     квадратичная при >= 4); иначе None (тогда -- калибровка файла)."""
     pts = [(float(r["ch"]), float(r["E"])) for r in repers if np.isfinite(r.get("ch", np.nan)) and np.isfinite(r.get("E", np.nan))]
     if len(pts) < 2 or len({p[0] for p in pts}) < 2:

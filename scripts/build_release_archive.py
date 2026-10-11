@@ -321,9 +321,9 @@ def main(argv: list[str] | None = None) -> int:
         print(f"ERROR: не похоже на корень skill: {root}", file=sys.stderr)
         return 2
 
-    # Default архивный каталог: соседний с 0_Work/, на уровне
-    # <SKILLS_DIR>/. root = 0_Work/gamma-spectrum-analysis/, поэтому
-    # root.parent.parent = <SKILLS_DIR>/.
+    # Default архивный каталог: на два уровня выше корня skill
+    # (root = <WORK>/gamma-spectrum-analysis/, поэтому
+    # root.parent.parent = каталог, соседний с <WORK>/).
     out_dir = Path(args.out_dir).resolve() if args.out_dir \
         else (root.parent.parent / "1_Version")
 

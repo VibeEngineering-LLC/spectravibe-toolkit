@@ -1,5 +1,5 @@
 """intrinsic-shape -- командная строка калибровки по форме собственных структур (python -m gamma.calibration.intrinsic_shape).
-Сгенерировано gen_code.py (qwen3.8:27b) по спецификации, 2026-10-10; правки Claude -- только тексты справки.
+Сгенерировано gen_code.py (qwen3.8:27b) по спецификации, 2026-10-10; только тексты справки.
 
 Подкоманды:
   register      — совмещение шкалы образца со шкалой фона по форме: h, ковариация, список минимумов
@@ -59,7 +59,7 @@ def _manual(args):
 
 
 def _cmd_register(args):
-    # правка Claude: автопресет (#LABR-8) + устойчивая регистрация (линии образца); явные ключи перекрывают автопресет
+    # автопресет (#LABR-8) + устойчивая регистрация (линии образца); явные ключи перекрывают автопресет
     from . import pipeline as pl
     ov = {"mask": args.mask, "anchor_bg": args.anchor_bg, "anchor_sample": args.anchor_sample, "anchor_fwhm": args.anchor_fwhm,
           "anchor_hw": args.anchor_hw, "coarse_window": args.coarse_window}
@@ -69,7 +69,7 @@ def _cmd_register(args):
 
 
 def _cmd_subtract(args):
-    # правка Claude: шкала/ПШПВ из JSON шага ecal (составная шкала ниже 60 кэВ, точки ПШПВ пары), окна -- автопресет
+    # шкала/ПШПВ из JSON шага ecal (составная шкала ниже 60 кэВ, точки ПШПВ пары), окна -- автопресет
     from . import ops, pipeline as pl
     h_arg = args.h[0] if len(args.h) == 1 else args.h
     h = ops.load_h(h_arg)
@@ -90,9 +90,9 @@ def _cmd_subtract(args):
 
 
 def _cmd_sample_cal(args):
-    # правка Claude (VERIFY7): разность на шкале пробы; шкала XML -- калибровка файла пробы, шкала по реперам -- только с --use-reper-scale
+    # разность на шкале пробы; шкала XML -- калибровка файла пробы, шкала по реперам -- только с --use-reper-scale
     from . import samplecal as sc, samplecal_net as sn
-    try:   # правка Claude (VERIFY8): 2 -- шкала по реперам не рекомендована, 3 -- прочие ошибки
+    try:   # 2 -- шкала по реперам не рекомендована, 3 -- прочие ошибки
         repers = sc.load_json(args.repers)["repers"] if args.repers else []
         r = sn.run_sample_cal(args.bg, args.sample, repers, mode=args.mode, use_reper_scale=args.use_reper_scale)
         sn.run_sample_subtract(args.bg, args.sample, r, r["fwhm_points"], args.out_zeroed, args.out_signed, name=args.name,
@@ -128,7 +128,7 @@ def _cmd_fwhm(args):
         print("Ошибка: нет точек FWHM. Укажите --points или --measure.", file=sys.stderr)
         return 2
 
-    try:   # правка Claude: понятная ошибка модели ПШПВ вместо трассировки
+    try:   # понятная ошибка модели ПШПВ вместо трассировки
         c = ops.fwhm_model(points, args.n_ch, _monotone(args.monotone_to))
     except ValueError as exc:
         print("Ошибка: %s" % exc, file=sys.stderr)
@@ -151,7 +151,7 @@ def _cmd_fwhm(args):
 
 
 def _cmd_ecal(args):
-    # правка Claude: реперы пары (линии образца по библиотеке) + ветвь шкалы ниже 100 кэВ (#LABR-9)
+    # реперы пары (линии образца по библиотеке) + ветвь шкалы ниже 100 кэВ (#LABR-9)
     from . import pipeline as pl
     h = args.h[0] if len(args.h) == 1 else [float(v) for v in args.h]
     pl.run_ecal(args.bg, args.sample, h, preset=args.config, auto=not args.no_auto, manual=_manual(args), low=not args.no_low,
@@ -180,7 +180,7 @@ def _cmd_decompose(args):
     from . import background
 
     e_ref = _coeffs(args.ecal) if args.ecal else None
-    try:   # правка Claude (#LABR-3): вырожденная шкала -- понятная ошибка
+    try:   # вырожденная шкала -- понятная ошибка
         background.check_ecal(e_ref, background.load_any(args.ref)["counts"], "--ecal") if e_ref is not None else None
     except ValueError as exc:
         print("Ошибка: %s" % exc, file=sys.stderr)
@@ -245,7 +245,7 @@ def main(argv=None):
     p_sub.add_argument("--lt-out", choices=["sample", "bg"], default="sample", help="живое время выходного файла: образца (по умолчанию) или фона; cps разности от выбора не зависит")
     p_sub.set_defaults(func=_cmd_subtract)
 
-    # sample-cal (правка Claude)
+    # sample-cal ()
     p_sc = subparsers.add_parser("sample-cal", help="Калибровка по пробе: разность на шкале пробы")
     p_sc.add_argument("--bg", required=True, help="Файл фона")
     p_sc.add_argument("--sample", required=True, help="Файл пробы")
@@ -311,7 +311,7 @@ def main(argv=None):
     p_st.add_argument("--alt-bg", nargs="*", default=[], help="Дополнительные фоны")
     p_st.set_defaults(func=_cmd_selftest)
 
-    for sp in (p_reg, p_sub, p_ec, p_st):   # правка Claude: автопресет (#LABR-8)
+    for sp in (p_reg, p_sub, p_ec, p_st):   # автопресет (#LABR-8)
         sp.add_argument("--no-auto", action="store_true", help="не пересчитывать пресеты под прибор (каналы эталона 2048)")
         sp.add_argument("--anchors-ch", nargs="+", type=float, default=None, help="ручная поправка опор фона: A37 SUM [EDGE], каналы")
     args = parser.parse_args(argv)

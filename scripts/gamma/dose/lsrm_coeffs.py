@@ -9,6 +9,7 @@
 Диапазон методики 50–3000 кэВ (вне — канал в дозу не вносится).
 """
 from __future__ import annotations
+import os
 import xml.etree.ElementTree as ET
 from pathlib import Path
 import numpy as np
@@ -16,9 +17,8 @@ import numpy as np
 E_LO, E_HI = 50.0, 3000.0  # диапазон методики, кэВ
 
 # спектр первого прогона (подвал радон) — дефолт для воспроизводимости
-DEFAULT_SPECTRUM = Path(
-    r"<DATA_DIR>\Atom GS5050 PRO MAX\Фон подвал радон.xml"
-)
+DEFAULT_SPECTRUM = Path(os.environ.get(
+    "SPECTRAVIBE_DOSE_SPECTRUM", "<DATA_DIR>/dose_curve_spectrum.xml"))
 
 # Табл.12.2: E[МэВ], μen/ρ[м²/кг] воздух, f(10)
 _T122 = np.array([

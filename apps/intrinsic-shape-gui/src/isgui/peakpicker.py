@@ -1,6 +1,6 @@
 """Вкладка «Калибровка по пробе»: выбор пиков пробы щелчком по графику, диалог энергии (линия из ядерных данных или
 ручной ввод), таблица реперов, набор реперов в JSON. Сгенерировано gen_code.py (qwen3.8:27b) по specs/peakpicker.md,
-2026-10-10 (ответ модели повторил спецификацию перед кодом -- взят блок кода, правка Claude)."""
+2026-10-10 (ответ модели повторил спецификацию перед кодом -- взят блок кода, )."""
 import math
 import numpy as np
 import pyqtgraph as pg
@@ -43,7 +43,7 @@ class ReperDialog(QtWidgets.QDialog):
         layout.addWidget(self.radio_lib)
 
         self.table = QtWidgets.QTableWidget()
-        self.table.setColumnCount(5)   # правка Claude (круг 1): примечание -- дублет, чужой нуклид, ряд виден
+        self.table.setColumnCount(5)   # примечание -- дублет, чужой нуклид, ряд виден
         self.table.setHorizontalHeaderLabels(["Нуклид", "E, кэВ", "Интенсивность, %", "E − оценка, кэВ", "Примечание"])
         self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.table.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
@@ -58,7 +58,7 @@ class ReperDialog(QtWidgets.QDialog):
                 self.table.setItem(i, 2, QtWidgets.QTableWidgetItem("%.2f" % c["I"]))
                 self.table.setItem(i, 3, QtWidgets.QTableWidgetItem("%+.1f" % c["dE_est"]))
                 self.table.setItem(i, 4, QtWidgets.QTableWidgetItem(c.get("note", "")))
-                if c.get("foreign"):   # правка Claude (круг 1): чужие нуклиды -- серым, строка 0 молча не выбирается
+                if c.get("foreign"):   # чужие нуклиды -- серым, строка 0 молча не выбирается
                     for j in range(5):
                         self.table.item(i, j).setForeground(QtGui.QColor("#888888"))
             self.table.clearSelection()
@@ -163,7 +163,7 @@ class PeakPickerPanel(QtWidgets.QWidget):
 
         # Таблица реперов
         self.table = QtWidgets.QTableWidget()
-        self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)   # правка Claude: иначе selectedRows() пуст
+        self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)   # иначе selectedRows() пуст
         self.table.itemDoubleClicked.connect(self._on_table_double_click)
         layout.addWidget(self.table)
 
@@ -192,7 +192,7 @@ class PeakPickerPanel(QtWidgets.QWidget):
         self.buttons.append(btn_load)
 
         btn_scale = QtWidgets.QPushButton("Шкала по пробе")
-        btn_scale.clicked.connect(lambda *a: self.scale_requested.emit())   # правка Claude: clicked передаёт bool
+        btn_scale.clicked.connect(lambda *a: self.scale_requested.emit())   # clicked передаёт bool
         btn_layout.addWidget(btn_scale)
         self.buttons.append(btn_scale)
 
@@ -220,7 +220,7 @@ class PeakPickerPanel(QtWidgets.QWidget):
         self._refresh()
 
     def _coeffs(self):
-        """Правка Claude (VERIFY7 п.3): шкала для диалога -- принятая шкала, иначе текущая шкала по реперам пробы (>= 2),
+        """шкала для диалога -- принятая шкала, иначе текущая шкала по реперам пробы (>= 2),
         иначе калибровка файла."""
         from gamma.calibration.intrinsic_shape import samplecal_q as q
         if self.scale is not None:
@@ -228,7 +228,7 @@ class PeakPickerPanel(QtWidgets.QWidget):
         return q.current_scale(self.repers) or self.cal
 
     def _fwhm_keV(self, fit):
-        """Правка Claude (круг 1): ПШПВ пика в кэВ по текущей шкале -- ширина слияния дублетов в списке линий."""
+        """ПШПВ пика в кэВ по текущей шкале -- ширина слияния дублетов в списке линий."""
         from gamma.calibration.intrinsic_shape.core import poly_deriv
         coeffs = self._coeffs()
         return float(fit["fwhm"]) * abs(float(poly_deriv(coeffs, fit["ch"]))) if np.isfinite(fit.get("fwhm", float("nan"))) else None
@@ -258,7 +258,7 @@ class PeakPickerPanel(QtWidgets.QWidget):
             self.message.emit("Пик у канала %.1f не подогнан (центроид не определён) — репер не добавлен\n" % x)
             return
 
-        if any("мультиплет" in w for w in fit["warn"]):   # правка Claude (круг 1): предложение двойного фита
+        if any("мультиплет" in w for w in fit["warn"]):   # предложение двойного фита
             ans = QtWidgets.QMessageBox.question(self, "Вероятно мультиплет", "Пик шире ожидаемого -- вероятно мультиплет.\n"
                                                  "Выполнить двойной фит и взять компонент, ближайший к щелчку?")
             if ans == QtWidgets.QMessageBox.Yes:
@@ -274,7 +274,7 @@ class PeakPickerPanel(QtWidgets.QWidget):
         if dlg.exec() == QtWidgets.QDialog.Accepted and dlg.result_value:
             E, nuc = dlg.result_value
             r = sc.reper_from_choice(fit, E, nuc, fwhm_keV=fwk)
-            dup = sc.duplicate_of(r, self.repers)   # правка Claude (VERIFY8): одна линия -- один репер
+            dup = sc.duplicate_of(r, self.repers)   # одна линия -- один репер
             if dup is not None:
                 self.message.emit("Репер %s не добавлен: повтор репера %s (та же линия -- в пределах 0.5 ПШПВ по энергии или каналу)\n"
                                   % (r["name"], dup["name"]))
@@ -307,7 +307,7 @@ class PeakPickerPanel(QtWidgets.QWidget):
         if dlg.exec() == QtWidgets.QDialog.Accepted and dlg.result_value:
             E, nuc = dlg.result_value
             new_r = sc.reper_from_choice(fit, E, nuc, fwhm_keV=fwk)
-            dup = sc.duplicate_of(new_r, [q for i, q in enumerate(self.repers) if i != row])   # правка Claude (VERIFY8)
+            dup = sc.duplicate_of(new_r, [q for i, q in enumerate(self.repers) if i != row])
             if dup is not None:
                 self.message.emit("Репер не изменён: энергия %.1f кэВ -- повтор репера %s\n" % (new_r["E"], dup["name"]))
                 return
@@ -338,7 +338,7 @@ class PeakPickerPanel(QtWidgets.QWidget):
             return
 
         from gamma.calibration.intrinsic_shape import samplecal as sc
-        anc = sc.anchors_for_save(self.counts, self.cal, self.repers, verbose=False)   # правка Claude (круг 1): ложные опоры не сохраняются
+        anc = sc.anchors_for_save(self.counts, self.cal, self.repers, verbose=False)   # ложные опоры не сохраняются
         sc.save_json(fn, self.repers, self.path, self.n, anc, cal=self.cal)
         self.message.emit("Набор реперов сохранён: %s\n" % fn)
 
@@ -358,7 +358,7 @@ class PeakPickerPanel(QtWidgets.QWidget):
             data = sc.load_json(fn)
             if int(data["n_ch"]) != self.n:
                 raise ValueError("набор для %d каналов, спектр — %d" % (data["n_ch"], self.n))
-            reps, m, dropped = sc.apply_to(data, self.counts, self.cal, verbose=False)   # правка Claude (круг 1)
+            reps, m, dropped = sc.apply_to(data, self.counts, self.cal, verbose=False)
             for msg in dropped:
                 self.message.emit("ПРЕДУПРЕЖДЕНИЕ: " + msg + "\n")
             self.repers = [r for r in reps if r["source"] != sc.SRC_LABR]

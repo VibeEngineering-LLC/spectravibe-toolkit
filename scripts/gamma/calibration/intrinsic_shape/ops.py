@@ -1,5 +1,5 @@
 """Высокоуровневые операции командной строки intrinsic-shape: шкала по реперам, инвентарь фонов, модель ПШПВ,
-разностные спектры. Сгенерировано gen_code.py (qwen3.8:27b) по спецификации, 2026-10-10; правки Claude помечены."""
+разностные спектры. Сгенерировано gen_code.py (qwen3.8:27b) по спецификации, 2026-10-10."""
 
 import json
 import pathlib
@@ -50,7 +50,7 @@ def calibrate(cfg, bg_counts, sm_counts, h):
         counts = bg_counts if spectrum == "bg" else sm_counts
         kind_s = "peak" if kind == "peak" else "edge"
         
-        if kind == "given":   # правка Claude: репер, измеренный заранее на шкале фона (линии образца в разности)
+        if kind == "given":   # репер, измеренный заранее на шкале фона (линии образца в разности)
             c, e, cs = float(p["ch"]), float(p["ch_err"]), np.array([p["ch"]])
         else:
             c, e, cs = scan(counts, {"x0": x0, "w0": w0, "hw": hw}, kind_s)
@@ -70,7 +70,7 @@ def calibrate(cfg, bg_counts, sm_counts, h):
             
         # Print line
         print(f"[A] {spectrum} {name} ch_bg={c:.3f} +-{e:.3f} окна {np.round(cs, 2)}")
-        if not (np.isfinite(c) and np.isfinite(e) and e > 0):   # правка Claude: репер не найден (scan -> NaN) -- вне набора
+        if not (np.isfinite(c) and np.isfinite(e) and e > 0):   # репер не найден (scan -> NaN) -- вне набора
             print(f"[A] {name}: репер отброшен -- положение не определено (канал {c}, ошибка {e})")
             continue
 
@@ -92,7 +92,7 @@ def calibrate(cfg, bg_counts, sm_counts, h):
     E = np.array(E_list)
     Ee = np.array(Ee_list)
     
-    if len(ch) < 2:   # правка Claude: после отбраковки нечисловых реперов
+    if len(ch) < 2:   # после отбраковки нечисловых реперов
         raise ValueError("найдено реперов %d -- шкала по реперам не строится" % len(ch))
     if deg > 1 and len(ch) <= deg + 1:
         print(f"[CAL] ПРЕДУПРЕЖДЕНИЕ: найдено реперов {len(ch)} -- шкала линейная вместо степени {deg}")
@@ -106,12 +106,12 @@ def calibrate(cfg, bg_counts, sm_counts, h):
     
     print(f"[CAL] deg{deg} coeffs={coeffs} chi2/ndf={chi2ndf:.3f}")
     
-    loo_rms = float(np.sqrt(np.nanmean(loo ** 2))) if not np.all(np.isnan(loo)) else float("nan")   # правка Claude: rms, не среднее |LOO|
+    loo_rms = float(np.sqrt(np.nanmean(loo ** 2))) if not np.all(np.isnan(loo)) else float("nan")   # rms, не среднее |LOO|
     
     for i, pd in enumerate(point_details):
         E_fit = poly_eval(coeffs, pd["ch"])
-        residual = pd["E"] - E_fit   # правка Claude: невязка = E_ref - E_fit (как в прототипе)
-        loo_val = float(loo[i])   # правка Claude: NaN не подменяется нулём
+        residual = pd["E"] - E_fit   # невязка = E_ref - E_fit (как в прототипе)
+        loo_val = float(loo[i])   # NaN не подменяется нулём
         print(f"[CAL] {pd['name']:15} ch_bg={pd['ch']:.3f} E_ref={pd['E']:.2f} E_fit={E_fit:.3f} невязка={residual:+.3f} LOO={loo_val:+.3f}")
         
         # Update point_details with residual and loo for return
@@ -211,7 +211,7 @@ def inventory(files, windows=None):
 
 
 def measure_fwhm(counts, channels, fwhm0, max_rel_err=0.2, width_range=(0.4, 2.5)):
-    """Измерение ПШПВ в указанных каналах. Правка Claude: точка отбраковывается (с причиной), если
+    """Измерение ПШПВ в указанных каналах. точка отбраковывается (с причиной), если
     σ(ПШПВ)/ПШПВ > max_rel_err или ПШПВ вне width_range * стартовой ширины (в разностном спектре -- нет пика)."""
     results = []
     for x in channels:
@@ -242,7 +242,7 @@ def fwhm_model(points, n_ch, monotone_to=1.5):
     """Построение модели ПШПВ и проверка."""
     x = [p[0] for p in points]
     f = [p[1] for p in points]
-    if len(points) < 3:   # правка Claude (#LABR-3): модель с 3 коэффициентами по 1-2 точкам данными не определена
+    if len(points) < 3:   # модель с 3 коэффициентами по 1-2 точкам данными не определена
         print("[FWHM] ПРЕДУПРЕЖДЕНИЕ: точек ПШПВ %d < 3 -- коэффициенты c0, c1, c2 данными не определены "
               "(подобраны ограничениями модели); ширина вдали от точек ненадёжна, добавьте точки" % len(points))
     
@@ -299,7 +299,7 @@ def device_config(points, ch_ref=1309, n_ch=2048):
         pct = (residual / fwhm_meas * 100) if fwhm_meas != 0 else 0.0
         print(f"[FWHM] ch {ch_val:.2f}: измерено {fwhm_meas:.2f}, модель {fwhm_model_val:.2f}, невязка {residual:+.2f} кан ({pct:+.1f} %)")
         
-    ok, vals, vertex, margin = check(coefs, n_ch)   # правка Claude: число каналов прибора
+    ok, vals, vertex, margin = check(coefs, n_ch)   # число каналов прибора
     print(f"[FWHM] CheckCalibration: годен={ok} ПШПВ(0,500,1309,N-1)={vals} вершина параболы={vertex:.1f} запас за N-1={margin:.1f} кан")
     
     return F0, ch, W
@@ -307,7 +307,7 @@ def device_config(points, ch_ref=1309, n_ch=2048):
 
 def make_net(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signed, name=None, date="", monotone_to=1.5, sum_window=(352, 2046), lt_out="sample"):
     """Построение чистого спектра (вычитание фона) и запись в XML.
-    Правка Claude (раунд 4, п.11): разность -- в cps по каналам, net_cps = S/LT_s - B/LT_b; в XML записано
+    разность -- в cps по каналам, net_cps = S/LT_s - B/LT_b; в XML записано
     net_cps * LT_out (целые), LiveTime/MeasurementTime файла = времена выбранного спектра (lt_out: "sample" | "bg")."""
     bg, sm = load_pair(bg_path, sample_path)
     B = bg["counts"]
@@ -337,7 +337,7 @@ def make_net(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signed, n
     
     min_val = np.min(resid)
     neg_channels = np.sum(resid < 0)
-    clamped_count = int(np.sum(net_signed < 0))   # правка Claude: каналы, которые кламп обнулил (целое < 0)
+    clamped_count = int(np.sum(net_signed < 0))   # каналы, которые кламп обнулил (целое < 0)
     
     print(f"[NET] k={k:.6f} min={min_val:.2f} отриц. каналов={int(neg_channels)} изменено клампом={clamped_count}")
     

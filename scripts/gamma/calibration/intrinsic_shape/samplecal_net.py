@@ -31,7 +31,7 @@ INTRINSIC_E = (35.75, 788.74, 1435.8, 1471.0)   # собственные стр�
 
 
 def load_own(bg_path, sample_path):
-    """Правка Claude: фон и проба -- каждый на своём числе каналов (load_pair приводит пробу к сетке фона);
+    """фон и проба -- каждый на своём числе каналов (load_pair приводит пробу к сетке фона);
     последний канал-переполнение обнуляется."""
     bg, sm = load_spectrum(bg_path), load_spectrum(sample_path)
     bg["counts"][-1] = 0.0
@@ -81,10 +81,10 @@ def inverse_extrap(C, E, lo, hi):
 
 
 def select_degree_full(points_cfg, ctx, verbose=True):
-    """Правка Claude: степень по LOO-СКО по ВСЕМ реперам, не выше n-3 и 4, степень 3+ -- от 8 реперов (VERIFY8) -- samplecal_q.select_degree."""
+    """степень по LOO-СКО по ВСЕМ реперам, не выше n-3 и 4, степень 3+ -- от 8 реперов (VERIFY8) -- samplecal_q.select_degree."""
     if len(points_cfg["points"]) - 3 < 1:
         return {"rejected": "реперов %d -- степень не определена" % len(points_cfg["points"]), "loo_rms": np.nan, "deg": 0, "deg_table": []}
-    return sc.q.select_degree(points_cfg, ctx, verbose, ndf_min=2, deg3_min=DEG3_MIN_REPERS)   # правка Claude (VERIFY8)
+    return sc.q.select_degree(points_cfg, ctx, verbose, ndf_min=2, deg3_min=DEG3_MIN_REPERS)
 
 
 def coverage_ok(Es):
@@ -111,7 +111,7 @@ def coverage_ok(Es):
     return True, ""
 
 
-# правка Claude (VERIFY7, «эталон -- энергии реперов»): гейт -- по энергиям реперов; независимые линии -- по шкале реперов;
+# гейт -- по энергиям реперов; независимые линии -- по шкале реперов;
 # замена шкалы -- только явным применением. Сгенерировано gen_code.py (qwen3.8:27b) по спецификации, 2026-10-11.
 REC_RATIO = 1.5          # СКО калибровки файла на реперах должно превышать LOO шкалы по реперам не меньше чем в 1.5 раза
 REC_MARGIN = 1.0         # ... и не меньше чем на 1 кэВ (шум на медальоне: LOO 1.79 кэВ, файл на реперах 1.43 кэВ)
@@ -146,7 +146,7 @@ def _find_lines(S, scale, repers):
             continue
         
         top = max(near, key=lambda l: l["I"])
-        if any(l is not top and abs(l["E"] - top["E"]) <= fk and l["I"] >= AMBIG_FRAC * top["I"] for l in lib):   # правка Claude: неоднозначность -- по всей библиотеке, не только по near
+        if any(l is not top and abs(l["E"] - top["E"]) <= fk and l["I"] >= AMBIG_FRAC * top["I"] for l in lib):   # неоднозначность -- по всей библиотеке, не только по near
             continue
         
         lines.append({
@@ -233,7 +233,7 @@ def decide_scale(counts, cal_s, repers, verbose=True):
     
     def stop(why):
         out["why"] = why
-        Es = [r["E"] for r in good]   # правка Claude (VERIFY8): что нужно для замены и что есть сейчас -- в окно
+        Es = [r["E"] for r in good]   # что нужно для замены и что есть сейчас -- в окно
         out["need"] = ("для замены нужно: >= %d разных реперов (степень 3 и выше -- от %d), охват >= %.0f кэВ с реперами в нижней и верхней "
                        "трети, LOO <= %.1f кэВ; сейчас: реперов %d, охват %.0f кэВ, LOO %s кэВ" % (
                            N_REPERS_MIN, DEG3_MIN_REPERS, COVER_MIN * (E_HI - E_LO), LOO_MAX, len(good),
@@ -282,7 +282,7 @@ def decide_scale(counts, cal_s, repers, verbose=True):
     if not np.isfinite(loo) or loo > LOO_MAX:
         return stop("LOO-СКО по всем реперам %.2f кэВ > %.1f кэВ" % (loo, LOO_MAX))
     
-    out["warnings"] += systematic_check(S, out["coeffs_new"], min(r["E"] for r in good), max(r["E"] for r in good))   # правка Claude (VERIFY8)
+    out["warnings"] += systematic_check(S, out["coeffs_new"], min(r["E"] for r in good), max(r["E"] for r in good))
     loo_by = {p.get("name"): p.get("loo", np.nan) for p in out["points"]}
     out["rows_repers"] = [
         (
@@ -311,7 +311,7 @@ def decide_scale(counts, cal_s, repers, verbose=True):
     
     if len(ind) < IND_MIN:
         out["warnings"].append("доп. проверки нет: независимых линий %d < %d" % (len(ind), IND_MIN))
-    elif out["rms_new"] > out["rms_file"] + IND_VETO_MARGIN:   # правка Claude (VERIFY8): >= 3 независимых линий и шкала на них хуже -- вето
+    elif out["rms_new"] > out["rms_file"] + IND_VETO_MARGIN:   # >= 3 независимых линий и шкала на них хуже -- вето
         return stop("на %d независимых линиях шкала по реперам хуже калибровки файла: %.2f против %.2f кэВ (допуск %.1f кэВ)" % (
             len(ind), out["rms_new"], out["rms_file"], IND_VETO_MARGIN))
     
@@ -326,10 +326,10 @@ def decide_scale(counts, cal_s, repers, verbose=True):
     return out
 
 def systematic_check(S, scale, emin=-np.inf, emax=np.inf):
-    """Правка Claude (VERIFY8): общая систематическая ошибка энергий реперов (сдвиг/масштаб всех энергий) LOO не ловит --
+    """общая систематическая ошибка энергий реперов (сдвиг/масштаб всех энергий) LOO не ловит --
     проверка по линиям с известной энергией, не зависящим от выбора пользователя: собственные структуры LaBr3, видимые в пробе
     (пик 37 кэВ, сумм-пик), и аннигиляция 511 кэВ. Расхождение на шкале по реперам больше 1 ПШПВ -- предупреждение.
-    Проверяются только линии внутри диапазона энергий реперов [emin, emax] (вне его -- экстраполяция шкалы, правка Claude).
+    Проверяются только линии внутри диапазона энергий реперов [emin, emax] (вне его -- экстраполяция шкалы, ).
     Сгенерировано gen_code.py (qwen3.8:27b) по спецификации, 2026-10-11."""
     S = np.asarray(S, float); n = len(S); out = []
     try:
@@ -342,12 +342,12 @@ def systematic_check(S, scale, emin=-np.inf, emax=np.inf):
             E0 = float(en[key][0])
             E = float(poly_eval(scale, x))
             fwk = float(anc[key]["fwhm"]) * abs(float(poly_deriv(scale, x)))
-            # правка Claude: дальше 3 ПШПВ -- опора найдена не там (на сильной пробе «сумм-пик» ложится на линию пробы), не систематика
+            # дальше 3 ПШПВ -- опора найдена не там (на сильной пробе «сумм-пик» ложится на линию пробы), не систематика
             if np.isfinite(fwk) and fwk > 0 and fwk < abs(E - E0) <= 3.0 * fwk:
                 out.append("собственная структура LaBr3 %.1f кэВ на шкале по реперам -- %.1f кэВ (расхождение %+.1f кэВ больше ПШПВ %.1f кэВ): возможна общая систематическая ошибка энергий реперов" % (E0, E, E - E0, fwk))
     x0 = float(inverse_extrap(scale, 511.0, -0.5, n - 0.5))
     if 20 < x0 < n - 20 and emin <= 511.0 <= emax:
-        # правка Claude: самый значимый пик в +-3 ПШПВ от прогноза (подгонка у прогноза не видит сдвиг больше 1 ПШПВ)
+        # самый значимый пик в +-3 ПШПВ от прогноза (подгонка у прогноза не видит сдвиг больше 1 ПШПВ)
         fw0 = sc.fwhm_guess(x0, n)
         pk = [r for r in find_peaks(S, lambda x: sc.fwhm_guess(x, n), threshold=4.0, ch_min=max(15, int(x0 - 3 * fw0)),
                                     ch_max=min(n - 20, int(x0 + 3 * fw0)), min_signif=5.0)]
@@ -362,7 +362,7 @@ def systematic_check(S, scale, emin=-np.inf, emax=np.inf):
 
 
 class NotRecommended(ValueError):
-    """Правка Claude (VERIFY8): шкала по реперам не рекомендована -- отличается от прочих ошибок (CLI: код 2, прочие -- 3)."""
+    """шкала по реперам не рекомендована -- отличается от прочих ошибок (CLI: код 2, прочие -- 3)."""
 
 
 def apply_reper_scale(dec):
@@ -443,13 +443,13 @@ def run_sample_cal(bg_path, sample_path, repers, use_intrinsic=True, mode=None, 
     allr = list(repers)
     if use_intrinsic:
         existing_names = {r.get("name") for r in allr}
-        for r in intr:   # правка Claude: intr -- список реперов
+        for r in intr:   # intr -- список реперов
             if r["name"] not in existing_names:
                 allr.append(r)
     
     # Решение о шкале
     dec = decide_scale(S, cal_s, allr, verbose)
-    if use_reper_scale:   # правка Claude: замену применяет пользователь (кнопка GUI / --use-reper-scale)
+    if use_reper_scale:   # замену применяет пользователь (кнопка GUI / --use-reper-scale)
         dec = apply_reper_scale(dec)
     warns += dec["warnings"]
     if dec["recommend"] and not dec["replaced"]:
@@ -488,7 +488,7 @@ def run_sample_cal(bg_path, sample_path, repers, use_intrinsic=True, mode=None, 
             "bg_scale_how": how
         }
         warns.append("видимых собственных структур в пробе меньше двух -- фон переведён на шкалу пробы через энергии (фон: %s)" % how)
-        if "экстраполяция" in how:   # правка Claude (VERIFY8): отдельное предупреждение в окне, не только в описании шкалы фона
+        if "экстраполяция" in how:   # отдельное предупреждение в окне, не только в описании шкалы фона
             warns.append("шкала фона выше последней опоры экстраполирована -- линии фона выше неё переводятся на пробу с ошибкой (" +
                          how.split("экстраполяция", 1)[1].strip() + ")")
     
@@ -514,7 +514,7 @@ def run_sample_cal(bg_path, sample_path, repers, use_intrinsic=True, mode=None, 
     
     pts.sort(key=lambda x: x[0])
     
-    # правка Claude: SLSQP в fit_fwhm сходится на 8192 кан только с точкой у начала шкалы -- сначала точки пробы,
+    # SLSQP в fit_fwhm сходится на 8192 кан только с точкой у начала шкалы -- сначала точки пробы,
     # затем они же с опорной точкой прибора на 1.5 % шкалы, затем опорные точки прибора
     low = (0.015 * n_s, sc.fwhm_guess(0.015 * n_s, n_s))
     ref = [(x * n_s / 2048.0, sc.fwhm_guess(x * n_s / 2048.0, n_s)) for x in (29.2, 142.87, 211.97, 338.14, 847.1)]   # каналы точек ПШПВ пресета

@@ -65,7 +65,7 @@ def _write_like(tmp_path, name, counts, cal=None):
 
 
 def _med_repers(clicks=MED_CLICKS, shift_E=None):
-    """Реперы фикстуры образца по кликам (как PeakPicker; при «мультиплет» -- двойной фит). Правка Claude: генерация
+    """Реперы фикстуры образца по кликам (как PeakPicker; при «мультиплет» -- двойной фит). генерация
     подгоняла по массиву каналов вместо клика и искала «мультиплет» как элемент списка."""
     S = load_spectrum(MED)["counts"].astype(float)
     reps = []
@@ -103,7 +103,7 @@ def test_medallion_decision_not_worse_than_file():
         assert dec["coeffs"] == cal
         assert dec["why"]
     assert sn.rms_on(dec["coeffs"], dec["independent"]) <= sn.rms_on(cal, dec["independent"]) + 1e-9
-    # правка Claude: пересчёт СКО своей формулой (не sn.rms_on) и исключения ложных «независимых» линий
+    # пересчёт СКО своей формулой (не sn.rms_on) и исключения ложных «независимых» линий
     own = lambda C: math.sqrt(np.mean([(np.polyval(C[::-1], l["ch"]) - l["E"]) ** 2 for l in dec["independent"]]))
     assert abs(dec["rms_file"] - own(cal)) < 1e-6 and abs(dec["rms_new"] - own(dec["coeffs_new"])) < 1e-6
     bad = (1460.82, 2118.51, 1588.2, 510.77)   # K-40 на сумм-пике La-138, вылеты Tl-208, аннигиляция
@@ -127,7 +127,7 @@ def test_medallion_extreme_reper_error_rejected():
     cal = list(d["cal"])
     rep = _med_repers(shift_E=(2614.511, 25.0))
     dec = sn.decide_scale(S, cal, rep, verbose=False)
-    assert not dec["replaced"] and not dec["recommend"] and "LOO" in dec["why"]   # правка Claude (VERIFY7)
+    assert not dec["replaced"] and not dec["recommend"] and "LOO" in dec["why"]
     assert dec["coeffs"] == cal
 
 
@@ -141,19 +141,19 @@ def test_synthetic_cubic_replaced_and_checked():
     file_cal = [TRUE3[0] + 3.0, TRUE3[1] * 1.003, TRUE3[2], TRUE3[3]]
     rep = [sc.reper_from_choice(sc.fit_click(S, c + 1.0, sc.fwhm_guess(c, n)), E, nuc) for c, (nuc, E) in zip(cs, REPER_LINES)]
     dec = sn.decide_scale(S, file_cal, rep, verbose=False)
-    assert dec["recommend"] and not dec["replaced"] and dec["coeffs"] == file_cal   # правка Claude: применяет пользователь
+    assert dec["recommend"] and not dec["replaced"] and dec["coeffs"] == file_cal   # применяет пользователь
     dec = sn.apply_reper_scale(dec)
     assert dec["replaced"] and dec["coeffs"] == dec["coeffs_new"]
     assert len(dec["independent"]) >= 3
     assert dec["rms_new"] < 1.0
     assert dec["rms_new"] < dec["rms_file"]
     own = lambda C: math.sqrt(np.mean([(np.polyval(C[::-1], l["ch"]) - l["E"]) ** 2 for l in dec["independent"]]))
-    assert abs(dec["rms_file"] - own(file_cal)) < 1e-6 and abs(dec["rms_new"] - own(dec["coeffs"])) < 1e-6   # правка Claude
+    assert abs(dec["rms_file"] - own(file_cal)) < 1e-6 and abs(dec["rms_new"] - own(dec["coeffs"])) < 1e-6
 
 
 
 def test_synthetic_extreme_reper_error_rejected_by_loo():
-    """Правка Claude: крайний репер (2614.5) +25 кэВ, независимые линии только до 1238 кэВ -- кросс-проверка его не
+    """крайний репер (2614.5) +25 кэВ, независимые линии только до 1238 кэВ -- кросс-проверка его не
     видит, отвергнуть обязана LOO по всем реперам (крайние включены)."""
     n = 2048
     x = np.arange(n, dtype=float)
@@ -178,7 +178,7 @@ def test_no_independent_lines_warning_not_forbidden():
     file_cal = [TRUE3[0] + 3.0, TRUE3[1] * 1.003, TRUE3[2], TRUE3[3]]
     rep = [sc.reper_from_choice(sc.fit_click(S, c + 1.0, sc.fwhm_guess(c, n)), E, nuc) for c, (nuc, E) in zip(cs, REPER_LINES)]
     dec = sn.decide_scale(S, file_cal, rep, verbose=False)
-    assert not dec["replaced"]   # правка Claude (VERIFY7): нет независимых линий -- предупреждение, не запрет
+    assert not dec["replaced"]   # нет независимых линий -- предупреждение, не запрет
     assert any("доп. проверки нет" in w for w in dec["warnings"])
     assert dec["recommend"]
 
@@ -213,7 +213,7 @@ def test_bg_to_sample_visible_cancels_structures(tmp_path):
     a = max(0, int(c - half_w))
     b = min(n, int(c + half_w))
     assert abs(res[a:b].sum() - pk.sum()) <= 3 * math.sqrt(var[a:b].sum())
-    # правка Claude: вне пика фон, переведённый на пробу, совпадает с пробой поканально (точный перевод;
+    # вне пика фон, переведённый на пробу, совпадает с пробой поканально (точный перевод;
     # проба построена тем же переводом без шума; порог прибора до кан. 40 исключён) -- chi2/ndf << 1; ошибка формы перевода его поднимает
     m = np.ones(n, bool); m[a:b] = False; m[:40] = False; m[n - 300:] = False
     assert np.sum(res[m] ** 2 / var[m]) / m.sum() < 0.05
@@ -225,7 +225,7 @@ def test_bg_to_sample_energy_exact(tmp_path):
     TS = [1.0, 1.28, 4.2e-4, 5.0e-8]
     B = load_spectrum(bgp)["counts"].astype(float)
     n = len(B)
-    # правка Claude: проба строится независимо от проверяемого кода -- края каналов фона в каналах пробы точным
+    # проба строится независимо от проверяемого кода -- края каналов фона в каналах пробы точным
     # обращением шкалы пробы (poly_inverse по каждому краю), не через sn.bg_on_sample
     xb = np.arange(n + 1) - 0.5
     S0 = rebin_conserve(B, np.array([float(poly_inverse(TS, poly_eval(TB, v), hi=n + 400)) for v in xb]), n)
@@ -257,7 +257,7 @@ def test_bg_to_sample_energy_exact(tmp_path):
     a = max(0, int(c - half_w))
     b = min(n, int(c + half_w))
     assert abs(res[a:b].sum() - pk.sum()) <= 3 * math.sqrt(var[a:b].sum())
-    # правка Claude: вне пика фон, переведённый на пробу, совпадает с пробой поканально (точный перевод;
+    # вне пика фон, переведённый на пробу, совпадает с пробой поканально (точный перевод;
     # проба построена тем же переводом без шума; порог прибора до кан. 40 исключён) -- chi2/ndf << 1; ошибка формы перевода его поднимает
     m = np.ones(n, bool); m[a:b] = False; m[:40] = False; m[n - 300:] = False
     assert np.sum(res[m] ** 2 / var[m]) / m.sum() < 0.05

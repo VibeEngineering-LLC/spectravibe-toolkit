@@ -15,11 +15,11 @@ from gamma.data.nuclide_library import get_nuclide
 from .core import poly_eval, poly_inverse, poly_deriv
 from .peakfit import fit_peak
 
-# правка Claude: по умолчанию -- природные ряды, K-40 и Cs-137 (типичный образец среды). Калибровочные нуклиды
+# по умолчанию -- природные ряды, K-40 и Cs-137 (типичный образец среды). Калибровочные нуклиды
 # (Am-241, Ba-133, Co-60, Cs-134, Eu-152) в общем списке блокировали «изолированность» природных линий
 # (Cs-134 604.7 рядом с Bi-214 609) и давали ложные отождествления; их можно передать явно.
 SAMPLE_NUCLIDES = ("Cs-137", "K-40", "Pb-214", "Bi-214", "Tl-208", "Ac-228", "Pb-212")
-NET_Z_NEG = 3.0   # правка Claude: z суммы разности <= -3 -- «значимо отрицательна», линии образца в ней не ищутся
+NET_Z_NEG = 3.0   # z суммы разности <= -3 -- «значимо отрицательна», линии образца в ней не ищутся
 EXTRA_NUCLIDES = ("Ra-226", "Am-241", "Ba-133", "Co-60", "Cs-134", "Eu-152")
 AVOID_KEV = ((30.0, 45.0), (505.0, 517.0), (1425.0, 1485.0))   # пик ~37 кэВ, аннигиляция/Tl-208 510.77, сумм-пик La-138 (K-40 там моделируется отдельно)
 ME_KEV = 510.999
@@ -262,7 +262,7 @@ def find_net_lines(net, var, scale, fwhm_ch, nuclides=SAMPLE_NUCLIDES, z_min=8.0
 
         fw = fwhm_ch(x0)
         hw = max(5, int(round(1.6 * fw)))
-        # правка Claude: предварительная шкала может ошибаться на проценты (калибровка файла) -- сначала максимум
+        # предварительная шкала может ошибаться на проценты (калибровка файла) -- сначала максимум
         # разности в окне +-max(1.5 ПШПВ, tol_rel*x0), подгонка -- от него (иначе центроид упирается в границу)
         dx = max(1.5 * fw, tol_rel * x0)
         a_, b_ = int(max(0, x0 - dx)), int(min(n - 1, x0 + dx))
@@ -313,7 +313,7 @@ def is_lu_sample(net, var, ecal_cfg, h, fwhm_ch, z_min=10.0):
     Проверяет, является ли образец Lu-176, ищя линии 202 и 307 кэВ.
     """
     lu_points = []
-    for p in ecal_cfg.get("points", []):   # правка Claude: конфиг -- словарь points/checks
+    for p in ecal_cfg.get("points", []):   # конфиг -- словарь points/checks
         if p.get("name") in ("Lu176_202", "Lu176_307") and p.get("spectrum") == "sample":
             lu_points.append(p)
 
@@ -349,7 +349,7 @@ def pair_ecal_cfg(preset_cfg, B, net, var, h, scale, fwhm_ch, lu=None, verbose=T
     cfg = copy.deepcopy(preset_cfg)
 
     # Оставляем только точки с spectrum == "bg"
-    bg_points = [p for p in cfg["points"] if p.get("spectrum") == "bg"]   # правка Claude
+    bg_points = [p for p in cfg["points"] if p.get("spectrum") == "bg"]
 
     # Для точек типа "peak" проверяем наличие пика
     kept_bg = []
@@ -366,12 +366,12 @@ def pair_ecal_cfg(preset_cfg, B, net, var, h, scale, fwhm_ch, lu=None, verbose=T
     checks = [c for c in cfg.get("checks", []) if c.get("spectrum") == "bg"]
 
     # Ищем линии в образце
-    # правка Claude: линии образца ищутся в разности, только если она не значимо отрицательна (фон из другой
+    # линии образца ищутся в разности, только если она не значимо отрицательна (фон из другой
     # обстановки / перепутанные спектры: образец ниже фона·k -- «линии» разности ложные); собственные реперы -- из фона
     nn = len(net)
     a, b = int(60 * nn / 2048), int(1700 * nn / 2048) + 1
     z_net = float(np.sum(net[a:b]) / np.sqrt(max(np.sum(var[a:b]), 1.0)))
-    if not use_lines:   # правка Claude (LABR-11 п.0): регистрация не сошлась -- положения линий в разности смещены
+    if not use_lines:   # регистрация не сошлась -- положения линий в разности смещены
         lines = []
         if verbose:
             print("[PAIR] устойчивая регистрация не сошлась: линии образца из разности в реперы не берутся (их положения на шкале фона смещены)")
@@ -461,7 +461,7 @@ def compton_edge_kev(E):
 
 
 def chain_centres(peak_chs, scale, fwhm_ch, n, nuclides=SAMPLE_NUCLIDES, min_int=2.0, id_frac=0.5, tol_fwhm=0.5):
-    """Правка Claude: нуклид отождествлён, если найденный пик совпал (|E - E_lib| < tol_fwhm*ПШПВ) с одной из его
+    """нуклид отождествлён, если найденный пик совпал (|E - E_lib| < tol_fwhm*ПШПВ) с одной из его
     сильнейших линий (I >= id_frac * I_max); при нескольких кандидатах берётся первый по порядку списка nuclides.
     Возвращает (каналы ВСЕХ линий отождествлённых нуклидов с I >= min_int %, список нуклидов)."""
     def ch_of(E):

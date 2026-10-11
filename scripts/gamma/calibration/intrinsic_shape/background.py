@@ -72,7 +72,7 @@ def analytic_peak_counts(y_lo, y_hi, mu, sigma, T=0.75, step=0.0):
     total_density = density + step_density
     
     cum = np.cumsum(total_density) * dy
-    # fix Claude: float() broke array input (bins); return array
+    # fix: float() broke array input (bins); return array
     return np.interp(y_hi, yy, cum, left=0.0, right=cum[-1]) - np.interp(y_lo, yy, cum, left=0.0, right=cum[-1])
 
 
@@ -137,7 +137,7 @@ def fit_peak_diff(d, v, mu0, sig0, mu_range, bg_deg=2, half_width_sig=3.5):
             # b = (M * w[:, None]).T @ d
             
             A = (M * w[:, None]).T @ M
-            b = (M * w[:, None]).T @ d[lo:hi+1]  # fix Claude: window slice (generated code used the full array)
+            b = (M * w[:, None]).T @ d[lo:hi+1]  # fix: window slice (generated code used the full array)
             
             try:
                 coef = np.linalg.solve(A, b)
@@ -352,7 +352,7 @@ def line_areas(counts, var, cal, live, tag):
     return results
 
 def ref_windows(counts):
-    """Правка Claude (#LABR-8): окна сумм-пика (810-880, ядро 832-862) и α1 (1290-1400), заданные в каналах эталона
+    """окна сумм-пика (810-880, ядро 832-862) и α1 (1290-1400), заданные в каналах эталона
     2048, -- в каналы этого прибора (load_any приводит к 2048 суммированием, но усиление у приборов разное)."""
     from . import autopreset as ap
     base = {"sum": (810, 880), "core": (832, 862), "a1": (1290, 1400)}
@@ -364,7 +364,7 @@ def ref_windows(counts):
 
 
 def check_ecal(cal, counts, what):
-    """Правка Claude (#LABR-3): понятная ошибка вместо трассировки/мусора при вырожденной шкале (например --ecal 0 1 0).
+    """понятная ошибка вместо трассировки/мусора при вырожденной шкале (например --ecal 0 1 0).
     Шкала должна быть конечной, возрастать на всех каналах и ставить собственный сумм-пик La-138 около 1471 кэВ."""
     from . import autopreset as ap
     c = [float(v) for v in cal]
@@ -386,7 +386,7 @@ def decompose(ref_path, unshielded_paths, e_ref=None, out_json=None):
     e_ref -- приближённая шкала эталона кэВ(канал) по возрастанию (по умолчанию -- калибровка файла)."""
     ref = load_any(ref_path)
     E_REF = list(e_ref) if e_ref is not None else list(ref["cal"])
-    check_ecal(E_REF, ref["counts"], "--ecal" if e_ref is not None else "калибровка файла эталона")   # правка Claude (#LABR-3)
+    check_ecal(E_REF, ref["counts"], "--ecal" if e_ref is not None else "калибровка файла эталона")
     ar = {}
     for u in unshielded_paths:
         path = pathlib.Path(u)
@@ -470,7 +470,7 @@ def decompose(ref_path, unshielded_paths, e_ref=None, out_json=None):
             summaries[t] = {"n": 0}
 
     # Fractions
-    W = ref_windows(ref["counts"])   # правка Claude (#LABR-8): окна в каналах этого прибора
+    W = ref_windows(ref["counts"])   # окна в каналах этого прибора
     S_sum = np.sum(ref["counts"][W["sum"][0]:W["sum"][1] + 1]) / ref["live"]
     S_core = np.sum(ref["counts"][W["core"][0]:W["core"][1] + 1]) / ref["live"]
     

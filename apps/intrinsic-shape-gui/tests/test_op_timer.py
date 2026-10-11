@@ -1,4 +1,4 @@
-"""Счётчик «прошло mm:ss»: растёт во время операции 3 с, после остановки фиксируется (правка Claude, 2026-10-10).
+"""Счётчик «прошло mm:ss»: растёт во время операции 3 с, после остановки фиксируется (, 2026-10-10).
 Запуск: python tests/test_op_timer.py (код 0 -- зелёный) или через pytest."""
 import os, sys, time, pathlib
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")

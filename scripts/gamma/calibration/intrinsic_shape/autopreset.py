@@ -413,7 +413,7 @@ def map_selftest_cfg(m, cfg, ref, a37_bg, a37_sm, n):
         for pair in cfg_copy["integrals"]:
             lo, hi = pair
             if hi >= ref["n_ch"] - 2:
-                new_integrals.append([max(0, int(round(map_x(m, lo)))), n - 2])   # правка Claude: целый канал
+                new_integrals.append([max(0, int(round(map_x(m, lo)))), n - 2])   # целый канал
             else:
                 new_integrals.append(map_win(m, lo, hi, n))
         cfg_copy["integrals"] = new_integrals
@@ -425,7 +425,7 @@ def map_selftest_cfg(m, cfg, ref, a37_bg, a37_sm, n):
     # Сдвиги
     for key in ("shift_scan", "shift_scan_wide"):
         if key in cfg_copy:
-            cfg_copy[key] = {kk: vv * b for kk, vv in cfg_copy[key].items()}   # правка Claude: скан -- словарь lo/hi/step
+            cfg_copy[key] = {kk: vv * b for kk, vv in cfg_copy[key].items()}   # скан -- словарь lo/hi/step
     
     # Сетка
     if "joint_grid" in cfg_copy:
@@ -583,7 +583,7 @@ def autopreset(B, S, cal_bg=None, manual=None, ref=None, verbose=True) -> dict:
             )
     
     # Проверка тождественности
-    ident = bool(is_identity(m, n, ref))   # правка Claude: bool, не np.bool_
+    ident = bool(is_identity(m, n, ref))   # bool, не np.bool_
     
     if ident:
         register_kw = dict(ref["register"])

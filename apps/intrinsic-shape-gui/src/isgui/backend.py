@@ -1,5 +1,5 @@
 """Обработчики без интерфейса: кнопки окна вызывают эти функции в фоновом потоке (isgui.widgets.Job).
-Сгенерировано gen_code.py (qwen3.8:27b) по specs/backend.md, 2026-10-10; правки Claude помечены."""
+Сгенерировано gen_code.py (qwen3.8:27b) по specs/backend.md, 2026-10-10."""
 import io
 import sys
 import re
@@ -42,7 +42,7 @@ def capture(fn, *args, log=None, **kwargs):
 def friendly(exc) -> str:
     if isinstance(exc, UserError):
         return str(exc)
-    if type(exc).__name__ == "Cancelled":   # правка Claude: отмена из окна
+    if type(exc).__name__ == "Cancelled":   # отмена из окна
         return "Отменено: " + str(exc)
     if isinstance(exc, FileNotFoundError):
         return "Файл не найден: " + str(getattr(exc, "filename", "") or exc)
@@ -110,7 +110,7 @@ def pair_info(bg_path, sample_path) -> dict:
     if b["n_ch"] != s["n_ch"]:
         raise UserError("Разное число каналов: фон %d, образец %d" % (b["n_ch"], s["n_ch"]))
         
-    # правка Claude (#LABR-8): окна пресетов пересчитываются по собственным структурам (автопресет) -- предупреждение
+    # окна пресетов пересчитываются по собственным структурам (автопресет) -- предупреждение
     # только для «образца», который является продолжением того же измерения, что и фон
     from gamma.calibration.intrinsic_shape.pipeline import nested_pair
     warning = nested_pair(bg_path, sample_path)
@@ -214,7 +214,7 @@ def run_ecal(bg_path, sample_path, h, preset=None, out_json=None, log=None) -> d
     if not isinstance(h, list) or len(h) != 3:
         raise UserError("Сначала выполните «Совместить»: нет коэффициентов h")
         
-    path = pathlib.Path(preset) if preset else default_ecal_preset()   # правка Claude: строка -> Path
+    path = pathlib.Path(preset) if preset else default_ecal_preset()   # строка -> Path
     cfg = json.loads(path.read_text("utf-8"))
     
     def _go():

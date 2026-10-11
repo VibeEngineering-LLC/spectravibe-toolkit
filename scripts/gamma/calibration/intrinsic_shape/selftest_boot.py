@@ -76,7 +76,7 @@ def joint_grid(c, S, B, k, bg_var, mask, pivot, g):
     return (float(best_d), float(best_s), float(best_a), bool(at_edge))
 
 def shifts_cfg(c, S, B, k, bg_var, wins, ds, cfg):
-    """Правка Claude (v3): α-окна из cfg['wide_scan_windows'] сканируются по cfg['shift_scan_wide'] (+-4 кан)."""
+    """α-окна из cfg['wide_scan_windows'] сканируются по cfg['shift_scan_wide'] (+-4 кан)."""
     wide = set(cfg.get("wide_scan_windows", [])) if "shift_scan_wide" in cfg else set()
     narrow = [w for w in wins if w[0] not in wide]
     out = window_shifts(c, S, B, k, bg_var, narrow, ds) if narrow else {}

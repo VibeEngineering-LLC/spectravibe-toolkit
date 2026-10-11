@@ -111,6 +111,6 @@ python scripts/gamma/dose/compare_methods.py \
 ## Историческая раскладка
 
 Первый прогон и сырьё OCR — в
-`<DATA_DIR>\Atom GS5050 PRO MAX\dose_curve\` (вне проекта, под
+в отдельной локальной папке автора (`<DATA_DIR>/dose_curve/`, вне проекта, под
 отдельным локальным git; копирайт-PDF/JPG в .gitignore). Этот пакет — канонизированная
 переиспользуемая версия под git+GitHub проекта (§20-избыточность).

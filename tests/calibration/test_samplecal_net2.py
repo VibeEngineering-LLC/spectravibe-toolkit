@@ -65,7 +65,7 @@ def _write_like(tmp_path, name, counts, cal=None):
 
 
 def _med_repers(clicks=MED_CLICKS, shift_E=None):
-    """Реперы фикстуры образца по кликам (как PeakPicker; при «мультиплет» -- двойной фит). Правка Claude: генерация
+    """Реперы фикстуры образца по кликам (как PeakPicker; при «мультиплет» -- двойной фит). генерация
     подгоняла по массиву каналов вместо клика и искала «мультиплет» как элемент списка."""
     S = load_spectrum(MED)["counts"].astype(float)
     reps = []
@@ -146,7 +146,7 @@ def test_transfer_thresholds(tmp_path):
     if f_w:
         repers.append(sc.reper_from_choice(f_w, weak_line[1], weak_line[0]))
         
-    # правка Claude: репер 2000 кэВ сильный в исходном спектре и слабый (значимость < 5) в новом -- порог переноса
+    # репер 2000 кэВ сильный в исходном спектре и слабый (значимость < 5) в новом -- порог переноса
     c_q = float(poly_inverse(cal, 2000.0, hi=n + 200))
     fw_q = sc.fwhm_guess(c_q, n)
     f_q = sc.fit_click(B + y + _gauss(n, c_q, fw_q, 3000.0), c_q, fw_q)
@@ -168,7 +168,7 @@ def test_transfer_thresholds(tmp_path):
             r["ch"] += 0.8 * fwhm_val
             break
             
-    # правка Claude: смещение 10 кан (перенос обязан учитывать c0), линия 2000 кэВ в новом спектре -- площадь 160 (значимость подгонки ~3.9, ниже порога 5)
+    # смещение 10 кан (перенос обязан учитывать c0), линия 2000 кэВ в новом спектре -- площадь 160 (значимость подгонки ~3.9, ниже порога 5)
     s2 = rebin_conserve(B + y, 10.0 + 1.03 * (np.arange(n + 1) - 0.5), n) + _gauss(n, 10.0 + 1.03 * c_q, 1.03 * fw_q, 160.0)
     new, m, dropped = sc.apply_to(data, s2, cal, verbose=False)
     assert abs(m[1] - 1.03) < 0.01
@@ -198,7 +198,7 @@ def test_medallion_sum_anchor_not_visible():
 
 
 def test_fwhm_points_exclude_weak_reper(tmp_path):
-    """Правка Claude: по спецификации -- синтетика как в тесте 4, реперы подгонкой клика (генерация задавала ПШПВ 8 кан)."""
+    """по спецификации -- синтетика как в тесте 4, реперы подгонкой клика (генерация задавала ПШПВ 8 кан)."""
     n = 2048
     x = np.arange(n, dtype=float)
     y, cs = _lines_on(TRUE3, REPER_LINES, n)

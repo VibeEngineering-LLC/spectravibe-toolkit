@@ -5,7 +5,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path[0:0] = [str(ROOT / "src"), str(ROOT.parents[1] / "scripts")]
 import numpy as np
 from isgui import backend, backend_pair
-from PySide6 import QtWidgets as _QW   # правка Claude: модальные окна ошибок в приёмке не блокируют, а пишутся в журнал
+from PySide6 import QtWidgets as _QW   # модальные окна ошибок в приёмке не блокируют, а пишутся в журнал
 _QW.QMessageBox.critical = staticmethod(lambda *a, **k: print("[DIALOG] %s" % (a[1:3],)))
 _QW.QMessageBox.warning = staticmethod(lambda *a, **k: print("[DIALOG] %s" % (a[1:3],)))
 FW = backend.default_fwhm_points()
@@ -36,12 +36,12 @@ def step_b(tmp):
     gui = tmp / "gui"
     gui.mkdir(parents=True, exist_ok=True)
     
-    # правка Claude (раунд 4): B идёт через backend_pair -- тот же обработчик, что у окна
+    # B идёт через backend_pair -- тот же обработчик, что у окна
     r = backend_pair.run_register(str(BG), str(SM))
     e = backend_pair.run_ecal(str(BG), str(SM), r["h"])
     s = backend_pair.run_subtract(str(BG), str(SM), r["h"], e, [tuple(p) for p in e["fwhm_points"]],
                                   str(gui / "net.xml"), str(gui / "net_signed.xml"), reg_json=r["h_json"])
-    ref_dir = os.environ.get("ISGUI_REF_DIR", "")   # правка Claude (перенос в toolkit): эталон -- вне репозитория, через переменную
+    ref_dir = os.environ.get("ISGUI_REF_DIR", "")   # эталон -- вне репозитория, через переменную
     if not ref_dir:
         print("[SKIP] B0: не задана ISGUI_REF_DIR (папка замороженного выхода net.xml/net_signed.xml)")
     for nm in (("net.xml", "net_signed.xml") if ref_dir else ()):   # регрессия против замороженного выхода e5498c7 (до раунда 4)
@@ -182,7 +182,7 @@ def step_e(tmp, app, w):
     record("E3 график построен", n_items >= 3, "кривых %d" % n_items)
 
 def wait_ui(app, w, timeout=900):
-    """Правка Claude: дождаться конца фоновой задачи окна и доставки сигнала done в UI-поток."""
+    """дождаться конца фоновой задачи окна и доставки сигнала done в UI-поток."""
     t0 = time.time()
     while time.time() - t0 < timeout:
         app.processEvents()
@@ -200,7 +200,7 @@ def main():
     print("[TMP]", tmp)
     t0 = time.time()
     
-    import hashlib   # правка Claude (раунд 4): критерии -- файлом с sha до прогона; ISGUI_ACC_ONLY -- подмножество шагов
+    import hashlib   # критерии -- файлом с sha до прогона; ISGUI_ACC_ONLY -- подмножество шагов
     print("[CRITERIA] tests/acceptance_criteria.json sha256 %s" % hashlib.sha256((ROOT / "tests" / "acceptance_criteria.json").read_bytes()).hexdigest())
     only = os.environ.get("ISGUI_ACC_ONLY", "BCDEFGH")
     r, e = None, None
@@ -233,7 +233,7 @@ def main():
         else:
             record("E выполнен", False, "пропущено из-за ошибки в D")
 
-    import acceptance_pair   # правка Claude: пара 8192, грунт (линии образца), кнопка «Новый спектр»
+    import acceptance_pair   # пара 8192, грунт (линии образца), кнопка «Новый спектр»
     acceptance_pair.run(tmp, record, INTERP, app, w, (lambda: wait_ui(app, w)) if w is not None else None,
                         only="".join(x for x in "FGH" if x in only))
 

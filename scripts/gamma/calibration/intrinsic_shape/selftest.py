@@ -13,7 +13,7 @@ DEFAULT_CFG = HERE / "presets" / "labr3_selftest.json"
 
 
 def mask_windows(cfg, names, n=N_CH):
-    m = np.zeros(n, dtype=bool)   # правка Claude: длина -- из данных (любое число каналов)
+    m = np.zeros(n, dtype=bool)   # длина -- из данных (любое число каналов)
     for n in names:
         lo, hi = cfg["windows"][n]
         m[lo:hi + 1] = True
@@ -106,7 +106,7 @@ def joint_fit(c, S, B, k, bg_var, mask, pivot):
 
 
 def check_set(c, S, B, k, bg_var, cfg, names, prefix):
-    # правка Claude (v2): при sigma_method=bootstrap -- глобальный минимум на сетке + бутстрап-сигма (robust_shift.py)
+    # при sigma_method=bootstrap -- глобальный минимум на сетке + бутстрап-сигма (robust_shift.py)
     if cfg.get("sigma_method") == "bootstrap":
         from . import selftest_boot as robust_shift
         return robust_shift.check_set_boot(c, S, B, k, bg_var, cfg, names, prefix)
@@ -167,11 +167,11 @@ def register_all(S, B, k, bg_var, cfg):
         "A": mask_windows(cfg, cfg["half_A"], len(B)),
         "B": mask_windows(cfg, cfg["half_B"], len(B)),
     }
-    if "info_holdout" in cfg:   # правка Claude (v3): информационная регистрация вне зачёта
+    if "info_holdout" in cfg:   # информационная регистрация вне зачёта
         masks["info"] = mask_windows(cfg, cfg["info_holdout"]["fit"], len(B))
     regs = {}
     for key in masks:
-        regs[key] = sr.register(S, B, k, masks[key], anchor, bg_var=bg_var, verbose=False, **cfg["registration"])   # правка Claude: n_ms и окна регистрации (автопресет)
+        regs[key] = sr.register(S, B, k, masks[key], anchor, bg_var=bg_var, verbose=False, **cfg["registration"])   # n_ms и окна регистрации (автопресет)
         c = regs[key]["c"]
         hv = np.round(sr.hvals(c, cfg["registration"].get("test_ch")), 3)
         print("[REG] fit=%s c=[%.6f, %.7f, %.4e] chi2/ndf=%.4f h(%s)=%s" % (
@@ -215,7 +215,7 @@ def load_alt_bg(fname, B, live_b, cfg=None):
     if np.array_equal(A, B):
         raise RuntimeError("background identical; mutation is vacuous")
     kk = alt["live"] / live_b
-    cfg = cfg or {}   # правка Claude: якорь, маска и окна регистрации -- из конфига (автопресет)
+    cfg = cfg or {}   # якорь, маска и окна регистрации -- из конфига (автопресет)
     a = cfg.get("anchor", {})
     anchor = sr.anchor37(B, A, verbose=False, **({"x_bg": a["x_bg"], "x_sm": a["x_sm"], "w0": a["w0"], "hw": a["hw"]} if a else {}))
     rk = dict(cfg.get("registration", {}), n_ms=10)
@@ -242,7 +242,7 @@ def main(bg_path, sample_path, cfg_path=None, alt_bg=(), auto=True, manual=None)
     print("[CFG] %s sha256=%s" % (cfg_path.name, hashlib.sha256(raw).hexdigest()))
 
     S, B, k, live_s, live_b = sr.load_inputs(bg_path, sample_path)
-    if auto:   # правка Claude: окна конфига -- в каналах этого прибора (автопресет по собственным структурам фона)
+    if auto:   # окна конфига -- в каналах этого прибора (автопресет по собственным структурам фона)
         from . import autopreset as ap
         cfg = ap.selftest_cfg_for(ap.autopreset(B, S, load_spectrum(bg_path)["cal"], manual=manual), cfg)
 

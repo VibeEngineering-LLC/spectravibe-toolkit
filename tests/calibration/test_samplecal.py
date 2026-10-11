@@ -2,7 +2,7 @@
 центроидов, перенос набора реперов, источник энергии и дублеты, отказы fit_click, двойной фит, ранжирование линий,
 собственная шкала фона, отмена. Решение о шкале XML и разность на сетке пробы -- test_samplecal_net*.py (живые
 проверки на обезличенной фикстуре, без пропуска). Сгенерировано gen_code.py (qwen3.8:27b) по спецификации, 2026-10-10;
-правка Claude 2026-10-11 -- тесты удалённого кода сняты."""
+тесты удалённого кода сняты."""
 
 import os
 import re
@@ -89,7 +89,7 @@ def _repers_by_click(counts, centers, lines, shift=2.0):
 
 
 def _write_like(tmp_path, name, counts, cal=None):
-    """Спектр в XML по образцу фона фикстуры; при cal -- своя энергетическая калибровка (правка Claude: ответ модели
+    """Спектр в XML по образцу фона фикстуры; при cal -- своя энергетическая калибровка (ответ модели
     не заменял DataPoint)."""
     text = BG.read_text("utf-8")
     vals = iter(np.round(np.maximum(counts, 0)).astype(int))
@@ -277,7 +277,7 @@ def test_anchors_of_degenerate_spectrum_no_crash():
 
 
 def test_bg_own_scale_corrects_file_calibration():
-    """Правка Claude: шкала фона по своим структурам (2 точки, полином отвергнут) -- калибровка файла с поправкой
+    """шкала фона по своим структурам (2 точки, полином отвергнут) -- калибровка файла с поправкой
     E' = a + b*E_файла проходит через обе точки."""
     cal_b = [-5.0, 1.40, 1.0e-4]
     pts = [{"ch": 300.0, "E": 450.0}, {"ch": 900.0, "E": 1400.0}]
@@ -294,7 +294,7 @@ def test_bg_own_scale_corrects_file_calibration():
 
 
 def test_false_intrinsic_anchor_dropped():
-    """Найдено живым прогоном (правка Claude): «пик 37 кэВ» сильной пробы на 82 кэВ по шкале её реперов отбрасывается,
+    """Найдено живым прогоном (): «пик 37 кэВ» сильной пробы на 82 кэВ по шкале её реперов отбрасывается,
     верная опора остаётся."""
     rep = [{"name": "p%d" % i, "ch": float(poly_inverse(ECAL_REF, E)), "ch_err": 0.05, "E": E, "dE": 0.05,
             "source": sc.SRC_LIB, "nuclide": "X", "fwhm": 8.0, "signif": 50.0} for i, E in enumerate((351.932, 661.657, 1120.287, 1764.494))]
@@ -309,7 +309,7 @@ def test_false_intrinsic_anchor_dropped():
 
 
 def test_cancel_flag_stops_stages(tmp_path):
-    """LABR-11 п.7: флаг отмены останавливает «Шкалу», «Вычесть» и «Шкалу по пробе» между этапами (правка Claude)."""
+    """LABR-11 п.7: флаг отмены останавливает «Шкалу», «Вычесть» и «Шкалу по пробе» между этапами ()."""
     from gamma.calibration.intrinsic_shape import robust as rb
     rb.CANCEL["flag"] = True
     try:

@@ -70,7 +70,7 @@ def poly_deriv(coeffs, x):
 def poly_inverse(coeffs, E, lo=-0.5, hi=N_CH - 0.5 + 200, n_grid=40001):
     g = np.linspace(lo, hi, n_grid)
     y = poly_eval(coeffs, g)
-    # Правка вручную (Claude): полином файла фона 4-й степени перестаёт расти
+    # Ручная правка: полином файла фона 4-й степени перестаёт расти
     # около канала ~2240 — берём монотонный префикс сетки, за ним линейная экстраполяция.
     dy = np.diff(y)
     bad = np.nonzero(dy <= 0)[0]
@@ -107,7 +107,7 @@ def rebin_conserve(counts, src_edges_in_dst, n_dst=N_CH) -> np.ndarray:
 
 
 def rebin_conserve_var(counts, src_edges_in_dst, n_dst=N_CH):
-    """Правка Claude (после первого прогона stage5): та же перебинировка, плюс честная
+    """та же перебинировка, плюс честная
     дисперсия var_j = sum_i f_ij^2 n_i. С дисперсией = счёт хи-квадрат получал
     модуляцию с периодом 1 канал (дробный сдвиг усредняет соседние каналы) -> ложные минимумы."""
     e = np.asarray(src_edges_in_dst, dtype=float)

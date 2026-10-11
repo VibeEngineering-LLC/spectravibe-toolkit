@@ -88,7 +88,7 @@ CLI-only: `-DBUILD_CAMBIO_COMMAND_LINE=ON -DBUILD_CAMBIO_GUI=OFF`.
 > send or receive any information over the network (i.e., nothing is downloaded
 > to, or leaves from your computer).
 
-Без сетевой телеметрии — можно использовать на машине оператора без опсек-рисков
+Без сетевой телеметрии — можно использовать на машине автора без опсек-рисков
 (в отличие от инструментов, требующих cloud-вызовов).
 
 ## Когда вспомнить про Cambio в нашей работе

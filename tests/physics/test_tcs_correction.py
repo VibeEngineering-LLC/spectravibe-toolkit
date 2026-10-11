@@ -28,7 +28,7 @@ test items.
 
 This file uses scaffolds drafted via local Ollama qwen3-coder:30b
 (see ``audit/_drafts/_ollama_helpers/gen_tcs_module_scaffolds.py``)
-and reviewed/fixed by Claude on 2026-06-03 — bugs corrected:
+and reviewed/fixed on 2026-06-03 — bugs corrected:
 
 * Captured ``report_diagnostics`` as a local variable before passing
   (Ollama scaffold inlined the dict literal, losing the reference).

@@ -12,7 +12,7 @@ from . import autopreset as ap
 from . import pairref as pr
 from . import register as reg
 from . import robust as rb
-from . import samplecal_q as q   # правка Claude (круг 1): качество шкалы, ранжирование линий, двойной фит
+from . import samplecal_q as q   # качество шкалы, ранжирование линий, двойной фит
 
 HERE = pathlib.Path(__file__).resolve().parent
 FORMAT = "labr3_samplecal/1"
@@ -43,7 +43,7 @@ def intrinsic_energies():
 def fit_click(counts, x_click, fwhm_ch, fwhm_expected=None):
     """Подгонка пика в окрестности клика. Возвращает словарь с параметрами или None."""
     hw = max(3, int(math.ceil(2.0 * fwhm_ch)))
-    # правка Claude (круг 1): без ступеньки -- у слабых пиков на наклонном континууме её свободная высота сдвигает центроид
+    # без ступеньки -- у слабых пиков на наклонном континууме её свободная высота сдвигает центроид
     # на 4-6 кан (медальон, 1764 кэВ: 3686.6 со ступенькой, 3681.1 без, независимая подгонка 3680.6)
     r = fit_peak(np.asarray(counts, float), float(x_click), float(fwhm_ch), half_window=hw, step=False)
 
@@ -53,14 +53,14 @@ def fit_click(counts, x_click, fwhm_ch, fwhm_expected=None):
         return None
     if not (r.get("area", 1.0) > 0 and np.isfinite(r["fwhm"]) and r["centroid_err"] <= q.CENTROID_ERR_MAX * r["fwhm"]
             and abs(r["centroid"] - x_click) <= hw and 0.0 <= r["centroid"] <= len(counts) - 1 and r["signif"] >= q.SIGNIF_REFUSE):
-        return None   # правка Claude: подгонка выродилась -- площадь <= 0, центроид не определён (ошибка >= ПШПВ) или вне окна
+        return None   # подгонка выродилась -- площадь <= 0, центроид не определён (ошибка >= ПШПВ) или вне окна
 
     warn = []
     if r["signif"] < SIGNIF_MIN:
         warn.append("незначимый пик (значимость %.1f < %.0f)" % (r["signif"], SIGNIF_MIN))
     if fwhm_expected is not None:
         ratio = r["fwhm"] / fwhm_expected
-        if ratio > q.MULTIPLET_RATIO:   # правка Claude (круг 1): широкий пик -- вероятно мультиплет
+        if ratio > q.MULTIPLET_RATIO:   # широкий пик -- вероятно мультиплет
             warn.append("ПШПВ %.2f кан больше ожидаемой %.2f в %.1f раза -- вероятно мультиплет, предложен двойной фит" % (r["fwhm"], fwhm_expected, ratio))
         elif ratio < 1.0 / FWHM_RATIO_MAX:
             warn.append("ПШПВ %.2f кан отличается от ожидаемой %.2f больше чем в %.1f раза" % (r["fwhm"], fwhm_expected, FWHM_RATIO_MAX))
@@ -77,11 +77,11 @@ def fit_click(counts, x_click, fwhm_ch, fwhm_expected=None):
 
 def candidate_lines(E_est, nuclides=None, min_int=0.5, n_max=15, e_min=10.0, e_max=4000.0, fwhm_keV=None, visible_series=()):
     """Кандидаты линий: близость x интенсивность x ряды, видимые в пробе; чужие нуклиды ниже; дублеты одного нуклида --
-    эффективная энергия (правка Claude, круг 1)."""
+    эффективная энергия (, круг 1)."""
     if nuclides is None:
         nuclides = tuple(pr.SAMPLE_NUCLIDES) + tuple(pr.EXTRA_NUCLIDES)
     lines = pr.library_lines(nuclides, min_int=min_int, e_min=e_min, e_max=e_max)
-    return q.rank_candidates(lines, E_est, fwhm_keV or max(3.0, 0.03 * E_est), visible_series, n_max)   # правка Claude (круг 1)
+    return q.rank_candidates(lines, E_est, fwhm_keV or max(3.0, 0.03 * E_est), visible_series, n_max)
 
 
 def make_reper(fit, E, source, nuclide=None, dE=None):
@@ -118,7 +118,7 @@ def make_reper(fit, E, source, nuclide=None, dE=None):
 
 def anchors_of(counts, cal):
     """Возвращает словарь опор LaBr3 с их видимостью и параметрами."""
-    try:   # правка Claude (круг 1): пустое окно поиска («argmax of an empty sequence») -- опоры невидимы, без падения
+    try:   # пустое окно поиска («argmax of an empty sequence») -- опоры невидимы, без падения
         a = _autopreset_anchors(counts, cal)
     except (ValueError, IndexError, KeyError) as exc:
         a = {k: {"ok": False, "reason": str(exc)} for k in ("a37", "edge", "sum")}
@@ -176,7 +176,7 @@ def valid_repers(repers):
         if not (np.isfinite(r["ch"]) and np.isfinite(r["ch_err"]) and np.isfinite(r["E"]) and r["ch_err"] > 0):
             dropped.append(r["name"])
             continue
-        dup = duplicate_of(r, good)   # правка Claude (VERIFY8): одна линия -- один репер
+        dup = duplicate_of(r, good)   # одна линия -- один репер
         if dup is not None:
             dropped.append("%s (повтор %s)" % (r["name"], dup["name"]))
         else:
@@ -185,7 +185,7 @@ def valid_repers(repers):
 
 
 def duplicate_of(r, repers):
-    """Правка Claude (VERIFY8): репер из repers, совпадающий с r по энергии или по каналу в пределах 0.5 ПШПВ, иначе None.
+    """репер из repers, совпадающий с r по энергии или по каналу в пределах 0.5 ПШПВ, иначе None.
     ПШПВ в кэВ -- ПШПВ в каналах, умноженная на наклон шкалы (реперы r и кандидата), иначе 3 % энергии."""
     fw_r = r.get("fwhm", np.nan)
     for k in repers:
@@ -233,12 +233,12 @@ def scale_from_repers(repers, counts, cal, verbose=True):
         "auto": {"anchors": {}},
     }
 
-    res = q.select_degree(cfg, ctx, verbose)   # правка Claude (архитектура «на шкале пробы»): степень по LOO, без гейтов -- решение в samplecal_net
+    res = q.select_degree(cfg, ctx, verbose)   # степень по LOO, без гейтов -- решение в samplecal_net
     return dict(res, dropped=dropped, n_repers=len(good))
 
 
 def save_json(path, repers, device, n_ch, anchors, cal=None):
-    """Сохраняет набор реперов в JSON (правка Claude, круг 1: калибровка файла, значимость и предупреждения)."""
+    """Сохраняет набор реперов в JSON (, круг 1: калибровка файла, значимость и предупреждения)."""
     data = {
         "cal": [float(c) for c in cal] if cal is not None else None,
         "format": FORMAT,
@@ -272,7 +272,7 @@ def load_json(path):
     """Загружает набор реперов из JSON."""
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
-    for r in data.get("repers", []):   # правка Claude (круг 1): наборы без значимости/предупреждений -- без KeyError
+    for r in data.get("repers", []):   # наборы без значимости/предупреждений -- без KeyError
         r.setdefault("signif", float("nan"))
         r.setdefault("warn", [])
     if data.get("format") != FORMAT:
@@ -297,11 +297,11 @@ def apply_to(data, counts, cal, refit=True, verbose=True):
     if verbose:
         print("[SCAL] перенос набора: отображение опор x' = %.4f + %.6f*x по %d опорам" % (c0, c1, len(common_keys)))
 
-    if data.get("cal"):   # правка Claude (круг 1): физичность усиления против калибровок файлов
+    if data.get("cal"):   # физичность усиления против калибровок файлов
         ok, ratio, g_file = q.gain_check(c1, data["cal"], cal, float(np.mean(src_x)))
     else:
         ok, ratio, g_file = q.GAIN_RANGE[0] <= c1 <= q.GAIN_RANGE[1], c1, 1.0
-    if not ok:   # правка Claude (VERIFY7 п.4): согласованные опоры -- виновата калибровка файла приёмника, не опоры
+    if not ok:   # согласованные опоры -- виновата калибровка файла приёмника, не опоры
         dev = np.abs(c0 + c1 * src_x - dst_x) / np.array([fwhm_guess(x, len(counts)) for x in dst_x])
         agree = (len(common_keys) >= 3 and float(dev.max()) <= 0.5) or (len(common_keys) == 2 and q.GAIN_RANGE[0] <= c1 <= q.GAIN_RANGE[1])
         tail = ("опоры согласованы между собой -- вероятно, неверна калибровка файла приёмника" if agree
@@ -331,7 +331,7 @@ def apply_to(data, counts, cal, refit=True, verbose=True):
             
             if refit:
                 f = fit_click(counts, x, fwhm_new)
-                if f is not None and abs(f["ch"] - x) <= 0.5 * fwhm_new and f["signif"] >= SIGNIF_MIN:   # правка Claude: промах > 0.5 ПШПВ или значимость < 5 -- отбросить
+                if f is not None and abs(f["ch"] - x) <= 0.5 * fwhm_new and f["signif"] >= SIGNIF_MIN:   # промах > 0.5 ПШПВ или значимость < 5 -- отбросить
                     new_r = dict(r)
                     new_r["ch"] = f["ch"]
                     new_r["ch_err"] = f["ch_err"]
@@ -369,7 +369,7 @@ def register_by_visible(S_anc, B_anc):
     
     resid = {}
     for k in keys:
-        pred = c0 + c1 * S_anc[k]["x"]   # правка Claude: в генерации c0 и c1 были переставлены
+        pred = c0 + c1 * S_anc[k]["x"]   # в генерации c0 и c1 были переставлены
         resid[k] = float(B_anc[k]["x"] - pred)
         
     return {
@@ -380,7 +380,7 @@ def register_by_visible(S_anc, B_anc):
 
 
 def reper_from_choice(fit, E, nuclide=None, tol=0.05, fwhm_keV=None):
-    """Правка Claude: источник энергии по выбору в диалоге -- линия библиотеки или дублет одного нуклида (эффективная
+    """источник энергии по выбору в диалоге -- линия библиотеки или дублет одного нуклида (эффективная
     энергия по интенсивностям), иначе «ручная»."""
     if nuclide:
         hit = q.library_energy(nuclide, float(E), fwhm_keV or max(3.0, 0.03 * float(E)), tol)
@@ -390,7 +390,7 @@ def reper_from_choice(fit, E, nuclide=None, tol=0.05, fwhm_keV=None):
 
 
 def fwhm_guess(x, n_ch):
-    """Правка Claude: ожидаемая ПШПВ (кан) в канале x по опорным точкам ПШПВ пресета, пересчёт на число каналов."""
+    """ожидаемая ПШПВ (кан) в канале x по опорным точкам ПШПВ пресета, пересчёт на число каналов."""
     ref = ap.load_ref()
     r0 = n_ch / ref["n_ch"]
     pts = sorted((p[0] * r0, p[1] * r0) for p in ref["fwhm_points"])
@@ -400,7 +400,7 @@ def fwhm_guess(x, n_ch):
 
 
 def _autopreset_anchors(counts, cal):
-    """Правка Claude: опоры автопресета; если сумм-пик не найден или β-край с ним не согласован (прогноз по отношению к пику 37 кэВ не учитывает
+    """опоры автопресета; если сумм-пик не найден или β-край с ним не согласован (прогноз по отношению к пику 37 кэВ не учитывает
     смещение нуля), окно поиска сдвигается по сетке отношений 0.75..1.25 и берётся самый значимый годный пик."""
     counts = np.asarray(counts, float)
     a = ap.autopreset(counts, counts, list(cal), verbose=False)["anchors"]
@@ -424,13 +424,13 @@ INTR_TOL = {"a37": 15.0, "edge": 0.03 * 788.74, "sum": 0.02 * 1471.0}   # кэВ
 
 
 def check_intrinsic(S_anc, intr, user_repers, counts, cal, verbose=True):
-    """Правка Claude: «видимая» в сильной пробе опора LaBr3 может быть линией пробы (напр. рентген 75-93 кэВ вместо 37);
+    """«видимая» в сильной пробе опора LaBr3 может быть линией пробы (напр. рентген 75-93 кэВ вместо 37);
     при двух и более реперах пробы от 100 кэВ опора, чья энергия по их шкале дальше допуска INTR_TOL, отбрасывается."""
     user = valid_repers([r for r in user_repers if r["E"] >= 100.0])[0]
     if len(user) < 2:
         return intr
     pre = scale_from_repers(user, counts, cal, verbose=False)
-    # правка Claude (круг 1): отвергнутая шкала = калибровка файла -- лучшая доступная, проверка опор всё равно по ней
+    # отвергнутая шкала = калибровка файла -- лучшая доступная, проверка опор всё равно по ней
     en = intrinsic_energies()
     for k, (E, dE, name) in en.items():
         if S_anc[k]["visible"]:
@@ -448,10 +448,10 @@ BG_SPAN_MIN = 3.0   # отношение крайних энергий точе�
 
 
 BG_EXTRA_E = (609.312, 1120.294, 1764.491, 2614.511)   # линии фона (Bi-214, Tl-208) -- доп. опоры шкалы фона; K-40 1460.8 не берётся (рядом сумм-структура LaBr3)
-# правка Claude (VERIFY7 п.3): поправка шкалы фона -- больше двух опор, если они есть. Сгенерировано gen_code.py (qwen3.8:27b), 2026-10-11.
+# поправка шкалы фона -- больше двух опор, если они есть. Сгенерировано gen_code.py (qwen3.8:27b), 2026-10-11.
 
 def bg_own_scale(own_b, cal_b, B):
-    """Правка Claude: «своя шкала» фона -- по его собственным структурам; если полином по ним отвергнут, а точек >= 2 -- калибровка
+    """«своя шкала» фона -- по его собственным структурам; если полином по ним отвергнут, а точек >= 2 -- калибровка
 файла с поправкой по энергии E' = g(E_файла), опоры: собственные структуры + линии фона BG_EXTRA_E, найденные со значимостью >= 5
 в пределах 0.5 ПШПВ от прогноза; поправка квадратичная при >= 4 опорах, иначе линейная. Последняя опора ниже 2614.5 кэВ --
 в описании предупреждение об экстраполяции. Возвращает (коэффициенты, описание)."""
@@ -499,7 +499,7 @@ def bg_own_scale(own_b, cal_b, B):
 
 
 def anchors_for_save(counts, cal, repers, verbose=True):
-    """Правка Claude (круг 1): опоры для JSON -- после проверки против шкалы по реперам пробы (ложная a37 не сохраняется)."""
+    """опоры для JSON -- после проверки против шкалы по реперам пробы (ложная a37 не сохраняется)."""
     anc = anchors_of(counts, cal)
     check_intrinsic(anc, [], repers, counts, cal, verbose)
     return anc

@@ -7,12 +7,12 @@
 > **F-293 / v1.17.19 (закреплено навсегда)** — **файлы библиотеки физически
 > перенесены** из `references/books/` в папку
 > `books_library/` **в корне проекта** (рабочая копия):
-> `D:\...\0_Work\gamma-spectrum-analysis\books_library\`. В
+> `<ROOT>\books_library\`. В
 > `references/books/` остался только этот `INDEX.md` — каталог с
 > метаданными.
 >
 > **Архивы библиотеки** хранятся отдельно от релизных архивов проекта в
-> `D:\...\1_Version\books_library\gamma-books_vYYYY-MM-DD.zip`,
+> `<ROOT>\..\..\1_Version\books_library\gamma-books_vYYYY-MM-DD.zip`,
 > упаковываются вручную через `python scripts/build_books_archive.py`.
 >
 > См. также `scripts/verify_books_inventory.py` (auto-sanity-check перед

@@ -25,7 +25,7 @@ Design notes
 * Idempotent: if output file already exists, re-running overwrites it with
   a fresh sweep.
 
-* 31-worker multiprocessing (Phase 1 MAXIMUM mandate, private-dev-skill SKILL.md §«Compute policy»).
+* 31-worker multiprocessing (Phase 1 MAXIMUM mandate).
 
 RAG-ID: [F-QC-01], [RAG-041]
 Cite: spectrum_qc_methodology_v2_2026-06-03.md; KNOWN_AND_FIXED_ISSUES.md:1292

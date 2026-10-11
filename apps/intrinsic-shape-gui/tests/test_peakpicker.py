@@ -46,7 +46,7 @@ INITIAL_ROWS = []
 
 def _dialog_auto(choice):
     def exec_(self):
-        INITIAL_ROWS.append(self.table.currentRow())   # правка Claude (круг 1): строка не выбирается молча
+        INITIAL_ROWS.append(self.table.currentRow())   # строка не выбирается молча
         if choice == "lib":
             self.radio_lib.setChecked(True)
             self.table.selectRow(0)
@@ -91,7 +91,7 @@ def test_click_fit_dialog_table_edit_delete(monkeypatch=None):
         assert abs(r["ch"] - c) < 0.5
         assert panel.table.rowCount() == 1
         assert len(panel.marks) == 1
-        _click(panel, c + 1.0)   # правка Claude (VERIFY8): повтор той же линии не добавляется
+        _click(panel, c + 1.0)   # повтор той же линии не добавляется
         assert len(panel.repers) == 1 and any("повтор" in m for m in msgs)
         assert INITIAL_ROWS and all(r == -1 for r in INITIAL_ROWS)
 
@@ -102,12 +102,12 @@ def test_click_fit_dialog_table_edit_delete(monkeypatch=None):
         assert abs(panel.repers[0]["ch"] - r["ch"]) < 1e-9
         assert "ручных 1" in panel.summary.text()
 
-        panel.table.setCurrentCell(0, 1)   # правка Claude: как щелчок пользователя по ячейке (не selectRow)
+        panel.table.setCurrentCell(0, 1)   # как щелчок пользователя по ячейке (не selectRow)
         panel._delete()
         assert panel.repers == []
         assert panel.table.rowCount() == 0
         assert panel.marks == []
-        import pyqtgraph as pg   # правка Claude: линии реально сняты с графика, а не только из списка
+        import pyqtgraph as pg   # линии реально сняты с графика, а не только из списка
         assert not any(isinstance(i, pg.InfiniteLine) for i in panel.plot.getPlotItem().items)
 
         pp.ReperDialog.exec = _dialog_auto("lib")
@@ -121,7 +121,7 @@ def test_click_fit_dialog_table_edit_delete(monkeypatch=None):
 def test_main_window_sample_scale_fills_h_and_ecal():
     _app()
     from isgui.main_window import MainWindow
-    from isgui import backend_sample   # правка Claude: архитектура «разность на шкале пробы»
+    from isgui import backend_sample   # архитектура «разность на шкале пробы»
     w = MainWindow()
     names = [w.tabs.tabText(i) for i in range(w.tabs.count())]
     assert "2б. Шкала по пробе" in names
@@ -138,7 +138,7 @@ def test_main_window_sample_scale_fills_h_and_ecal():
     assert "Шкала XML" in txt and "Калибровка файла пробы" in txt and "Фон переведён на сетку пробы" in txt
     assert w.fw_points_edit.text().strip() != ""
     assert all(b in w.buttons for b in w.picker.buttons)
-    assert not w.apply_scale_btn.isEnabled() and w.sc_table.rowCount() == 0   # правка Claude (VERIFY7): без рекомендации -- файл
+    assert not w.apply_scale_btn.isEnabled() and w.sc_table.rowCount() == 0   # без рекомендации -- файл
     rec = dict(r, decision=dict(r["decision"], recommend=True, why=""), branch_rows=[("Tl208_2615", "репер", 4978.3, 2614.5, 15.0, 0.4, 1.1)])
     w._show_sample_cal(rec)
     assert w.apply_scale_btn.isEnabled() and w.ecal == r["decision"]["coeffs_file"]
@@ -155,7 +155,7 @@ def test_main_window_sample_scale_fills_h_and_ecal():
     assert w.sample_res is None   # смена пары сбрасывает результат режима «по пробе»
 
 def test_reper_scale_button_state():
-    """Правка Claude (VERIFY8): кнопка гаснет после применения, при смене пары, «Новый спектр», запуске задачи; без
+    """кнопка гаснет после применения, при смене пары, «Новый спектр», запуске задачи; без
     рекомендации запись не запускается; «что нужно для замены» -- в окне."""
     _app()
     from isgui.main_window import MainWindow
