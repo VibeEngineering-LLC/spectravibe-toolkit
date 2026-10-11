@@ -34,7 +34,10 @@ def load_windows_kev(path=None):
             "name": w.get("name", ""),
             "e_lo": float(w.get("e_lo", 0.0)),
             "e_hi": float(w.get("e_hi", 0.0)),
-            "source": w.get("source", "")
+            "source": w.get("source", ""),
+            "reference": bool(w.get("reference", False)),
+            "overlap_lines_kev": [float(v) for v in w.get("overlap_lines_kev", [])],
+            "overlap_note": w.get("overlap_note", "")
         })
     return result
 
@@ -56,12 +59,22 @@ def windows_to_channels(wins_kev, scale, n):
         hi = min(n - 2, hi)
         if hi - lo < 4:
             continue
+        # каналы линий образца, перекрывающих окно (линия найдена -- её канал внутри окна исключения)
+        overlap_ch = []
+        for e_line in w.get("overlap_lines_kev", []):
+            try:
+                overlap_ch.append(float(poly_inverse(scale, e_line, hi=n + 200)))
+            except Exception:
+                pass
         result[name] = {
             "lo": lo,
             "hi": hi,
             "e_lo": e_lo,
             "e_hi": e_hi,
-            "source": source
+            "source": source,
+            "reference": bool(w.get("reference", False)),
+            "overlap_ch": overlap_ch,
+            "overlap_note": w.get("overlap_note", "")
         }
     return result
 
@@ -166,9 +179,21 @@ def window_verdict(net, var, name, w, excl, fwhm_fn, steps_ch=(), k40=None, z_th
         "dependent": False,
         "k40": None,
         "n_steps": 0,
-        "noise_infl": 0.0
+        "noise_infl": 0.0,
+        "reference": bool(w.get("reference", False)),
+        "overlap": ""
     }
-    
+
+    # линия образца, способная дать остаток в окне, найдена в пробе -- окно не оценивается и красного не даёт
+    for ch in w.get("overlap_ch", []):
+        hit = [p for p in excl if p[0] <= ch <= p[1]]
+        if hit:
+            res["overlap"] = w.get("overlap_note", "")
+            res["status"] = "перекрыто линией образца"
+            res["reason"] = "в пробе найдена линия %s (исключены кан %d-%d); остаток окна не оценивается" % (
+                res["overlap"], hit[0][0], hit[0][1])
+            return res
+
     # Проверка скрытых долей
     if max(frac_l, frac_r) > hide_max:
         res["reason"] = "скрыто линиями образца %.0f %% окна (левая половина %.0f %%, правая %.0f %%), порог %.0f %% на половину" % (
@@ -347,7 +372,9 @@ def structure_verdict(net, var, windows, excl, fwhm_fn, steps_ch=(), k40=None, *
 
 
 def summarize(checks, min_eval_frac=0.5):
-    """Сводит результаты в итоговую статистику."""
+    """Сводит результаты в итоговую статистику. Справочные окна (reference) в итог не входят, перечислены отдельно."""
+    ref = [c for c in checks if c.get("reference")]
+    checks = [c for c in checks if not c.get("reference")]
     n = len(checks)
     ev = [c for c in checks if c["evaluated"]]
     n_ok = sum(1 for c in ev if c["ok"])
@@ -362,7 +389,9 @@ def summarize(checks, min_eval_frac=0.5):
         "n_ok": n_ok,
         "n_not_eval": n - len(ev),
         "dependent": bool(dependent),
-        "not_eval": [c["name"] for c in checks if not c["evaluated"]]
+        "not_eval": [c["name"] for c in checks if not c["evaluated"]],
+        "ref": [{"name": c["name"], "status": c["status"]} for c in ref],
+        "ref_not_ok": [c["name"] for c in ref if c["evaluated"] and not c["ok"]]
     }
 
 
@@ -390,7 +419,9 @@ def format_table(checks, title):
         
         if reason:
             line += " (" + reason + ")"
-        
+        if c.get("reference"):
+            line += " [справочное окно, в итог не входит]"
+
         lines.append(line)
         
         # Дополнительная строка для K-40

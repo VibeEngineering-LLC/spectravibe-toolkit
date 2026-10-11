@@ -648,6 +648,8 @@ class MainWindow(QtWidgets.QMainWindow):
         first_name = r["files"][0]["name"] if r["files"] else "результат"
         self.sub_view.setHtml(backend_pair.subtract_html(r) +
                               "<p>Откройте «%s» в BecqMoni. График — на вкладке «График».</p>" % html.escape(first_name))
+        if r.get("struct_warning"):
+            self.log.append_text("ПРЕДУПРЕЖДЕНИЕ: %s\n" % r["struct_warning_text"])
         self.tabs.setCurrentWidget(self.plot_tab)
 
     def _open_out_dir(self):

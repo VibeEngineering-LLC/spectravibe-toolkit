@@ -79,6 +79,19 @@ def apply_mutation(name):
             _MASK_SWITCH_BROKEN = False
         return _undo
         
+    elif name == "G3_nomask":   # исключение линий образца выключено во всех прогонах
+        return masking_off()
+
+    elif name == "G6_nowarn":
+        orig_sub = backend_pair.run_subtract
+        backend_pair.run_subtract = lambda *a, **kw: dict(orig_sub(*a, **kw), struct_warning=False, struct_warning_text="")
+        return lambda: setattr(backend_pair, "run_subtract", orig_sub)
+
+    elif name == "G7_nooverlap":
+        orig_w2c = vd.windows_to_channels
+        vd.windows_to_channels = lambda *a, **kw: {nm: dict(w, overlap_ch=[]) for nm, w in orig_w2c(*a, **kw).items()}
+        return lambda: setattr(vd, "windows_to_channels", orig_w2c)
+
     elif name == "G5_lu":
         backend_pair.markers_from = lambda r: _MARKERS(r) + [{"name": "Lu176_202", "ch": 142.9, "E": 201.83}]
         return lambda: setattr(backend_pair, "markers_from", _MARKERS)
@@ -269,12 +282,17 @@ def step_g(tmp, record, interp, crit, app=None, w=None, wait_job=None):
     finally:
         undo()
         
-    ok_g3 = not rm["structure_summary"]["struct_ok"]
-    detail_g3 = "без исключения линий: исключено окон %d, оценено %d, в норме %d, struct_ok %s" % (
-        len(rm["robust"]["excluded"]), rm["structure_summary"]["n_eval"], 
-        rm["structure_summary"]["n_ok"], rm["structure_summary"]["struct_ok"]
-    )
-    record("G3 мутация «линии образца не учитывать» красит итог окон", ok_g3, detail_g3)
+    # различимость прогонов с исключением линий образца и без него -- по z якоря 37 кэВ и z_χ² окна сумм-пика
+    c3 = crit["G3"]
+    za, zb = r["anchor_z"], rm["anchor_z"]
+    wa, wb = win(r["structure"], c3["window"]), win(rm["structure"], c3["window"])
+    qa = wa["z_chi2"] if wa and wa["evaluated"] else float("nan")
+    qb = wb["z_chi2"] if wb and wb["evaluated"] else float("nan")
+    ok_g3 = (abs(za) <= c3["anchor_z_max"] and abs(zb) - abs(za) >= c3["anchor_dz_min"] and
+             qa <= c3["zchi2_max"] and qb - qa >= c3["dzchi2_min"])
+    detail_g3 = "z якоря: с исключением %+.2f, без %+.2f; z_χ² %s: с исключением %+.2f, без %+.2f; исключено окон %d / %d" % (
+        za, zb, c3["window"], qa, qb, len(r["robust"]["excluded"]), len(rm["robust"]["excluded"]))
+    record("G3 грунт: прогон с исключением линий образца отличим от прогона без него", ok_g3, detail_g3)
     
     # G4
     kk = kr["k40"] if kr else None
@@ -284,7 +302,21 @@ def step_g(tmp, record, interp, crit, app=None, w=None, wait_job=None):
     else:
         detail_g4 = "нет"
     record("G4 грунт: K-40 под сумм-пиком -- отдельная гауссиана в окне, площадь ± σ", ok_g4, detail_g4)
-    
+
+    # G6: итог окон не в норме -- отдельное предупреждение, all_ok не меняется
+    sm_ = s["struct_summary"]
+    txt6 = "окон собственных структур в норме %d из %d; не оценено %d" % (sm_["n_ok"], sm_["n"], sm_["n_not_eval"])
+    ok_g6 = (not sm_["struct_ok"] and s.get("struct_warning") is True and
+             s.get("struct_warning_text", "").startswith(txt6))
+    record("G6 грунт: итог окон не в норме -- поле предупреждения", ok_g6, "struct_warning %s: %s; all_ok %s" % (
+        s.get("struct_warning"), s.get("struct_warning_text"), s["all_ok"]))
+
+    # G7: окно 20-60 кэВ при найденной линии Cs-137 -- «перекрыто линией образца», не красное
+    lw = win(s["struct"], "low_37")
+    ok_g7 = bool(lw) and lw["status"] == "перекрыто линией образца" and not lw["evaluated"] and lw["reference"]
+    record("G7 грунт: окно 20-60 кэВ перекрыто линией образца", ok_g7,
+           "%s: %s (%s)" % (lw["name"], lw["status"], lw["reason"]) if lw else "окна нет")
+
     # G5
     if app is None or w is None or wait_job is None:
         record("G5 грунт: подписи на графике окна -- реперы пары, не лютециевые", False, "нет окна")
@@ -321,6 +353,10 @@ def step_g(tmp, record, interp, crit, app=None, w=None, wait_job=None):
         ", ".join(drawn), ", ".join(sorted(expected)), bad or "нет"
     )
     record("G5 грунт: подписи на графике окна -- реперы пары, не лютециевые", ok_g5, detail_g5)
+
+    log_lines = [l for l in w.log.toPlainText().splitlines() if l.startswith("ПРЕДУПРЕЖДЕНИЕ: окон собственных структур")]
+    ok_g6w = bool(log_lines) and "окон собственных структур" in w.sub_view.toPlainText()
+    record("G6 окно: предупреждение окон в журнале и на вкладке «Вычесть»", ok_g6w, log_lines[-1] if log_lines else "нет строки")
 
 def step_h(tmp, record, interp, app, w, wait_job):
     """

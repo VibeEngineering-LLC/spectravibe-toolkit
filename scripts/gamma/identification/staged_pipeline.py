@@ -990,7 +990,7 @@ def _resolve_pathology_fallback(
 
 
 # F-160 (2026-06-20) — auto-loader LSRM ground-truth FWHM-anchors.
-# Оператор: «всегда нужно делать калибровку по fwhm полагаться на
+# Решение проекта: «всегда нужно делать калибровку по fwhm полагаться на
 # расчетную кривую нельзя». Эталонные спектры поверочного набора
 # Гамма-1С имеют зафиксированную LSRM-кривую FWHM(E) в
 # references/lsrm_ground_truth/<base>/fwhm_calibration_lsrm.json
@@ -1365,7 +1365,7 @@ def build_fwhm_model(spec) -> Tuple["FwhmModel", str]:
          alpha*sqrt(E) model. Same pathology guard applied.
       3. **F-449 / agent-a-math-2 (2026-06-20)** — bootstrap FWHM(E)
          from significant, isolated peaks of the spectrum itself (method
-         2 of the operator-locked F-rule «FWHM любого пика»). This is the
+         2 of the author-locked F-rule «FWHM любого пика»). This is the
          intended path when no trustworthy stored FWHM curve is
          available: free-σ on isolated anchors → fit FWHM²(E)=a+b·E+c·E²
          → curve becomes the lock for all downstream consumers. The
@@ -2175,7 +2175,7 @@ def analyze_lsrm_spe(
         f332_bg_on_grid = np.array(
             bg_sub_result.background_counts_on_sample_grid, dtype=np.float64
         ).copy()
-        # F-451 B1 (operator-locked 2026-06-22): scale_factor is the
+        # F-451 B1 (author-locked 2026-06-22): scale_factor is the
         # LEGACY t_s/t_bg ratio. Downstream spec keeps **sample-scale**
         # counts (net = sample − bg·(t_s/t_bg), legacy "bg up to sample")
         # and the original `spec.live_time` / `spec.real_time` — so that

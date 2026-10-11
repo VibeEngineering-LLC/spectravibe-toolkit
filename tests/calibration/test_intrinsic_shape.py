@@ -442,6 +442,25 @@ def test_verdict_overlap_not_evaluated_and_net_xml_has_no_background(tmp_path):
         assert t.count("<DataPoint>") == len(ctx["B"])
 
 
+def test_verdict_reference_window_overlapped_by_sample_line():
+    """Справочное окно 20-60 кэВ: линия Cs-137 найдена (её канал в окне исключения) -- «перекрыто линией образца»;
+    без неё избыток в окне красит окно; справочное окно в итог окон не входит."""
+    from gamma.calibration.intrinsic_shape import verdict as vd
+    ctx = pl.setup(BG, SAMPLE, verbose=False)
+    w = ctx["windows"]["low_37"]
+    assert w["reference"] and len(w["overlap_ch"]) == 1
+    net, var = reg.apply(H_REF, ctx["S"], ctx["B"], ctx["k"])
+    net = np.array(net, float)
+    c0 = (w["lo"] + w["hi"]) // 2
+    net[c0 - 2:c0 + 3] += 50 * np.sqrt(var[c0 - 2:c0 + 3])   # избыток в окне
+    ch = int(round(w["overlap_ch"][0]))
+    free = vd.window_verdict(net, var, "low_37", w, [], ctx["fwhm_fn"])
+    hit = vd.window_verdict(net, var, "low_37", w, [[ch - 5, ch + 5]], ctx["fwhm_fn"])
+    assert free["evaluated"] and not free["ok"]
+    assert hit["status"] == "перекрыто линией образца" and not hit["evaluated"] and not hit["ok"]
+    assert vd.summarize([free])["n"] == 0 and vd.summarize([free])["ref_not_ok"] == ["low_37"]
+
+
 @pytest.mark.parametrize("lt_out", ["sample", "bg"])
 def test_net_cps_equivalence_any_output_live_time(tmp_path, lt_out):
     """Раунд 4, п.11: net/LT_out == S/LT_s - B/LT_b с точностью округления до целого; cps не зависит от выбора LT_out."""

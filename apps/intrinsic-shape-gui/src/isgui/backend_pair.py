@@ -291,6 +291,12 @@ def run_subtract(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signe
     )
 
     all_ok = bool(fw_ok and files_ok and converged)   # вердикт окон справочный, в all_ok не входит
+    # отдельное предупреждение (жёлтый статус): итог окон не в норме при зелёном all_ok
+    struct_warning = not struct_ok
+    struct_warning_text = "окон собственных структур в норме %d из %d; не оценено %d" % (
+        summ["n_ok"], summ["n"], summ["n_not_eval"])
+    if summ.get("ref_not_ok"):
+        struct_warning_text += "; справочные окна вне нормы: " + ", ".join(summ["ref_not_ok"])
 
     return {
         "k": float(res["k"]),
@@ -316,6 +322,8 @@ def run_subtract(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signe
         "live_out": float(res.get("live_out", 0.0)),
         "excluded": res["excluded"],
         "all_ok": all_ok,
+        "struct_warning": bool(struct_warning),
+        "struct_warning_text": struct_warning_text,
         "channels": np.arange(len(B)),
         "energy": energy,
         "sample": s_on_bg,
@@ -346,14 +354,16 @@ def struct_table_html(checks, title="Окна собственных струк�
             "<tr><th>Окно</th><th>кэВ</th><th>Каналы</th><th>Скрыто линиями образца</th><th>z суммы</th>"
             "<th>z диполя</th><th>z χ²</th><th>Итог</th></tr>"]
     for c in checks:
-        if not c.get("evaluated"):
+        if c.get("overlap"):
+            st, col = "перекрыто линией образца", "#b8860b"
+        elif not c.get("evaluated"):
             st, col = "не оценено", "#b8860b"   # жёлтый: окно скрыто, а не «в норме»
         else:
             st, col = ("в норме", "#333") if c["ok"] else ("вне нормы", "#c62828")   # нейтральный, не зелёный
         why = (" (" + c["reason"] + ")") if c.get("reason") else ""
         rows.append("<tr><td>%s</td><td>%.0f–%.0f</td><td>%d–%d</td><td>%.0f %%</td><td>%+.2f</td><td>%+.2f</td>"
                     '<td>%+.2f</td><td style="color:%s">%s</td></tr>' % (
-                        html.escape(c["name"]), c["e_lo"], c["e_hi"], c["lo"], c["hi"], 100.0 * c["hidden_frac"],
+                        html.escape(c["name"] + (" (справочное)" if c.get("reference") else "")), c["e_lo"], c["e_hi"], c["lo"], c["hi"], 100.0 * c["hidden_frac"],
                         c["z_sum"], c["z_dip"], c["z_chi2"], col, html.escape(st + why)))
         rows.extend(_k40_row(c))
     rows.append("</table>")
@@ -576,6 +586,8 @@ def subtract_html(r):
         parts.append(status(True, "Файлы, ПШПВ и сходимость в порядке"))
     else:
         parts.append(status(False, "Есть проблемы"))
+    if r.get("struct_warning"):
+        parts.append('<p><span style="color:#b8860b; font-weight:bold">⚠ %s</span></p>' % html.escape(r["struct_warning_text"]))
 
     parts.append(f"<p>k = {r['k']:.6f}</p>")
     parts.append(f"<p>Разность в cps по каналам: net_cps = S'/LT_s − B̃/LT_b, LT_s = {r['live_s']:.1f} с, LT_b = {r['live_b']:.1f} с; "
