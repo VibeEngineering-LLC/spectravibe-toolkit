@@ -6,13 +6,13 @@ Detector profile for **RadiaCode-103** — handheld CsI(Tl) scintillator-spectro
 - **DAQ software:** RadiaCode Android app + RadiaCode Studio (export to XML/RC3)
 - **Form factor:** карманный, 25×123×123 мм, ~150 г
 - **Serial seen:** <серийный номер> (владелец данных, 2026-06-13)
-- **Shielding (HARD, operator-locked 2026-06-13):** ШИЛЬДА НЕТ. RC-103 — handheld
+- **Shielding (HARD, author-locked 2026-06-13):** ШИЛЬДА НЕТ. RC-103 — handheld
   без свинцового домика. Любая интерпретация пиков 73-90 keV как «Pb K-XRF от шильда»
   для этого детектора — **ошибка**. Pb K-X-rays на спектре RC-103 могут возникать
   ТОЛЬКО эндогенно: из внутренней конверсии (IC) в дочках Ra-226 / Th-232 в образце
   (Pb-214, Bi-214 → Pb K-Xα 74.97, Kα 72.80, Kβ 84.9) или как Th/U L-X-rays
   (Th Lα1 12.97, Pb Lα 10.55). НЕ ассоциировать с shielding XRF никогда.
-- **Background rate (operator-locked 2026-06-13):** обычный фон RC-103 без шильда —
+- **Background rate (author-locked 2026-06-13):** обычный фон RC-103 без шильда —
   **8-10 cps** в полном спектре (intergral 25-2800 keV). Если sample cps в 2-5 раз
   выше — образец активен. Sample 5.3 ч на 2026-06-13 показал ~12-15 cps integral
   → слабо активный (apatite Th + Ra + K).
@@ -21,7 +21,7 @@ Detector profile for **RadiaCode-103** — handheld CsI(Tl) scintillator-spectro
 - **Reference spectra archive:** `reference_spectra/<date>_<label>/` — копии sample+bg
   XML каждой пройденной сессии для regression и обучения. Текущие: апатит 2026-06-13,
   камень с Ra-226 2026-06-13.
-- **Primary reference catalog (operator-locked 2026-06-13):**
+- **Primary reference catalog (author-locked 2026-06-13):**
   `references/Руководство_спектроскописта_V1.05_Соловьев_2024.pdf` + summary
   `references/руководство_спектроскописта_v1_05_summary.md` — справочник 14 нуклидов
   на RC-103 CsI(Tl) 1см³ + таблица L/K x-rays для всех элементов. Используется как
@@ -171,7 +171,7 @@ deconvolutions.
 
 ---
 
-## 5. Workflow notes (HARD operator rule)
+## 5. Workflow notes (HARD author rule)
 
 См. главный CLAUDE.md → «Порядок: фон → net → sample-операции». Для RC-103
 конкретно:
@@ -184,7 +184,7 @@ deconvolutions.
 4. `σ_net = √(σ²_s + σ²_b)`
 5. Все subsequent шаги (peak search, identification) — на net
 
-**Если фон НЕ предоставлен**: спросить оператора, не запускать identification
+**Если фон НЕ предоставлен**: запросить фон у пользователя, не запускать identification
 на raw sample (false positives от K-40, Tl-208, Bi-214 окружения).
 
 ---
@@ -203,9 +203,9 @@ UTF-8 XML напрямую — кодировка в файловом `open()` �
 
 ---
 
-## 7. Operator preview budget
+## 7. Author preview budget
 
-См. CLAUDE.md → «Operator preview-запросы — бюджет ~20k токенов». На RC-103
+См. CLAUDE.md → «Author preview-запросы — бюджет ~20k токенов». На RC-103
 preview-запросы («посмотри спектр», «полный анализ без активности») — один
 скрипт solo, без `agent-a-math`, без 11 отдельных шагов. Полный пайплайн —
 только по явной просьбе («ГОСТ Layer 2», «как для поверки»).
@@ -216,10 +216,10 @@ preview-запросы («посмотри спектр», «полный ана
 
 | Дата | Run folder | Что измерялось | Вывод |
 |---|---|---|---|
-| 2026-06-13 | `1_Version/v1.30.0/analysis_runs/2026-06-13_RC103_unknown_vs_bg20d/` + `reference_spectra/2026-06-13_apatite/` | Образец **минерал апатит** (оператор, post-hoc) 5.3 ч vs фон 20 сут; без расчёта активности. Статистика слабая, R(662)≈11.4% | Th-232 chain в равновесии: Pb-212 238, Ac-228 338/(911+969 merged)/463 tent., Tl-208 510+583. Pb K-X-rays 70-75 keV — **эндогенные** (IC от Ra-226 chain в матрице апатита, шильда у RC-103 нет). Ожидается также Ra/U-238 chain (Bi-214 609/1764) и K-40 1460 — pipeline на 5.3 ч их не выделил из-за слабой статистики |
-| 2026-06-13 | `demo_reports/2026-06-13_22-58_RC103_Stone_Ra_2026-05-30/` + `reference_spectra/2026-06-13_stone_Ra226/` | **Камень с Ra-226 (природный минерал)** 30 мин vs фон 199 сут; без расчёта активности. R(662)≈11% | **Ra-226 цепочка в равновесии**: ²²⁶Ra 186 (+ возможно ²³⁵U 185 — неразделимы на CsI), ²¹⁴Pb 295/352, ²¹⁴Bi 609, ²¹⁴Bi 1764 (слабо), ²⁰⁸Tl 583 (Th-232 background contribution от стен). **CRITICAL — operator HARD-LOCK 2026-06-13**: при обнаружении ²²⁶Ra 186 на природном образце ОБЯЗАТЕЛЬНО подозревать U-238/U-235 (см. §9 ниже). Pipeline ложно атрибутил 3 пика (94, 186, 292 кэВ) как **Ga-67** — это process-bug environment-context library (медицинские нуклиды не должны матчиться на природный камень). Ga-67 fix отложен. |
+| 2026-06-13 | `1_Version/v1.30.0/analysis_runs/2026-06-13_RC103_unknown_vs_bg20d/` + `reference_spectra/2026-06-13_apatite/` | Образец **минерал апатит** (автор проекта, post-hoc) 5.3 ч vs фон 20 сут; без расчёта активности. Статистика слабая, R(662)≈11.4% | Th-232 chain в равновесии: Pb-212 238, Ac-228 338/(911+969 merged)/463 tent., Tl-208 510+583. Pb K-X-rays 70-75 keV — **эндогенные** (IC от Ra-226 chain в матрице апатита, шильда у RC-103 нет). Ожидается также Ra/U-238 chain (Bi-214 609/1764) и K-40 1460 — pipeline на 5.3 ч их не выделил из-за слабой статистики |
+| 2026-06-13 | `demo_reports/2026-06-13_22-58_RC103_Stone_Ra_2026-05-30/` + `reference_spectra/2026-06-13_stone_Ra226/` | **Камень с Ra-226 (природный минерал)** 30 мин vs фон 199 сут; без расчёта активности. R(662)≈11% | **Ra-226 цепочка в равновесии**: ²²⁶Ra 186 (+ возможно ²³⁵U 185 — неразделимы на CsI), ²¹⁴Pb 295/352, ²¹⁴Bi 609, ²¹⁴Bi 1764 (слабо), ²⁰⁸Tl 583 (Th-232 background contribution от стен). **CRITICAL — author HARD-LOCK 2026-06-13**: при обнаружении ²²⁶Ra 186 на природном образце ОБЯЗАТЕЛЬНО подозревать U-238/U-235 (см. §9 ниже). Pipeline ложно атрибутил 3 пика (94, 186, 292 кэВ) как **Ga-67** — это process-bug environment-context library (медицинские нуклиды не должны матчиться на природный камень). Ga-67 fix отложен. |
 
-### Apatite (Ca₅(PO₄)₃(F,Cl,OH)) — что ожидать (operator-locked 2026-06-13)
+### Apatite (Ca₅(PO₄)₃(F,Cl,OH)) — что ожидать (author-locked 2026-06-13)
 
 Природный апатит — фосфатный минерал, regularly содержит:
 - **Th-232 chain** (через изоморфное замещение Ca²⁺ → Th⁴⁺): Pb-212 238, Ac-228 338/463/911/969, Tl-208 510/583/2614
@@ -244,7 +244,7 @@ preview-запросы («посмотри спектр», «полный ана
 
 ---
 
-## 9. HARD-LOCK: Ra-226 186 → suspect U-238/U-235 (operator-locked 2026-06-13, навсегда)
+## 9. HARD-LOCK: Ra-226 186 → suspect U-238/U-235 (author-locked 2026-06-13, навсегда)
 
 **Зафиксировано по решению автора 2026-06-13** при анализе спектра «Камень с Ra-226»
 на RC-103: «когда ты нашел 186 Ra226 ты сразу должен подозревать наличие урана 238/235
@@ -280,7 +280,7 @@ zircon, торий-содержащий песок, K-feldspar) обнаруже
 - Пик в окрестности 186 кэВ → НЕ называть «²²⁶Ra 186» автоматически.
   Правильно: «**²²⁶Ra+²³⁵U 186 keV (merged on CsI(Tl) R~11-17%)**» или
   `Ra-226_U235_186` в JSON-полях.
-- В operator-facing отчёте (`<run>/reports/report_full.html`) — пометить, что
+- В user-facing отчёте (`<run>/reports/report_full.html`) — пометить, что
   разрешить ²³⁵U 185 vs ²²⁶Ra 186 на RC-103 невозможно. Для дифференциации нужны:
   (a) долгая набирка HPGe (>24 ч), (b) количественный изотопный анализ через
   estimate ²³⁵U/²³⁸U = 0.00725 (природное отношение), (c) cross-check через
@@ -300,6 +300,6 @@ Ga-67 атрибуция — process-bug pipeline, fix в `gamma/id/candidates.p
 
 - **handheld no-shield rule** (CLAUDE.md): Pb K-X-rays 70-90 кэВ на RC-103
   всегда эндогенные → не отбрасывать как «фон шильда», они часть U/Ra-226 сигнатуры.
-- **Operator preview budget ~20k**: при подозрении на U — НЕ запускать полный
+- **Author preview budget ~20k**: при подозрении на U — НЕ запускать полный
   11-шаговый пайплайн через `agent-a-math`. Один скрипт solo + проверка 4-5 U-линий
   через `references/руководство_спектроскописта_v1_05_summary.md` §2.
