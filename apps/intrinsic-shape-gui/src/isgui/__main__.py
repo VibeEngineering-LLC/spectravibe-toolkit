@@ -25,8 +25,9 @@ win = MainWindow()
 win.show()
 smoke = os.environ.get("ISGUI_SMOKE_FILE")
 if smoke:
-    QtCore.QTimer.singleShot(0, lambda: pathlib.Path(smoke).write_text("shown %.3f visible=%s title=%s" % (
-        time.time() - _T0, win.isVisible(), win.windowTitle()), encoding="utf-8"))
+    QtCore.QTimer.singleShot(0, lambda: pathlib.Path(smoke).write_text("shown %.3f visible=%s title=%s profiles=%s" % (
+        time.time() - _T0, win.isVisible(), win.windowTitle(),
+        ",".join(win.det_combo.itemData(i) for i in range(win.det_combo.count()))), encoding="utf-8"))
     if os.environ.get("ISGUI_SMOKE_PNG"):   # снимок окна для приёмки
         QtCore.QTimer.singleShot(150, lambda: win.grab().save(os.environ["ISGUI_SMOKE_PNG"]))
     QtCore.QTimer.singleShot(int(os.environ.get("ISGUI_SMOKE_HOLD_MS", "300")), app.quit)

@@ -3,3 +3,4 @@ dist/
 *.log
 __pycache__/
 tests/mutlogs/
+src/isgui/_build_sha.txt

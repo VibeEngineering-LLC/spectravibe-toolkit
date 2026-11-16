@@ -1,6 +1,7 @@
 """Главное окно. Сгенерировано gen_code.py (qwen3.8:27b) по specs/main_window.md, 2026-10-10.
 Расчёты -- только через isgui.backend в фоновом потоке (isgui.widgets.Job)."""
 import json
+import os
 import pathlib
 import html
 
@@ -11,6 +12,8 @@ from PySide6 import QtCore, QtGui, QtWidgets
 from . import backend, backend_pair, backend_sample   # обработчики пары (автопресет, линии образца, ветвь шкалы)
 from .panels import LowScalePlot, AnchorBox
 from .peakpicker import PeakPickerPanel   # калибровка по пробе
+from . import backend_nai   # слой детекторов (4 профиля), метод NaI, справка
+from .nai_panel import NaiPanel
 from .widgets import Job, LogView, SpectrumPlot, FwhmPlot, fill_table, status_html, OpTimer
 
 
@@ -19,10 +22,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Калибровка по форме собственных структур (LaBr3) — вычитание фона для BecqMoni — тестовая версия")
+        self.setWindowTitle("Калибровка по форме собственных структур (LaBr3 La-138; NaI — экспериментально) — "
+                            "вычитание фона для BecqMoni — тестовая версия " + backend_nai.version())
         self.resize(1250, 900)
 
-        self.settings = QtCore.QSettings("SpectraVibe", "IntrinsicShapeGUI")
+        ini = os.environ.get("ISGUI_SETTINGS_INI")   # тесты: настройки в файле, не в реестре пользователя
+        self.settings = (QtCore.QSettings(ini, QtCore.QSettings.IniFormat) if ini
+                         else QtCore.QSettings("SpectraVibe", "IntrinsicShapeGUI"))
+        self.det_warning = ""   # предупреждение о несовпадении профиля и прибора в файле
 
         # Состояние
         self.h = None
@@ -59,6 +66,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.tabs.addTab(self._build_fwhm(), "ПШПВ")
         self.tabs.addTab(self._build_backgrounds(), "Фоны")
         self.tabs.addTab(self._build_selftest(), "Самопроверка")
+        self.la_tabs = [self.tabs.widget(i) for i in range(self.tabs.count())]   # вкладки метода La-138
+        self.nai = NaiPanel()   # метод NaI (экспериментально) -- своя вкладка, у La-138 скрыта
+        self.nai.run_requested.connect(self._do_nai)
+        self.buttons.extend(self.nai.buttons)
+        self.tabs.addTab(self.nai, "NaI: линии ЕРН (экспериментально)")
         splitter.addWidget(self.tabs)
 
         log_widget = QtWidgets.QWidget()
@@ -86,6 +98,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.statusBar().showMessage("Выберите файл фона и файл образца")
 
+        help_menu = self.menuBar().addMenu("Справка")
+        help_menu.addAction("О программе", self._about)
+        self._restore_detector()   # профиль из настроек окна; вкладки метода -- по профилю
+
+    def _about(self):
+        """О программе: версия, детекторы со статусами, ограничения, методика."""
+        QtWidgets.QMessageBox.about(self, "О программе", backend_nai.about_html())
     # --- Вспомогательные методы ---
 
     def _btn(self, text, slot):
@@ -146,8 +165,12 @@ class MainWindow(QtWidgets.QMainWindow):
         """Получить пути к файлам фона и образца."""
         return (self.bg_edit.text().strip(), self.sample_edit.text().strip())
 
-    def _run(self, title, fn, args, kwargs, on_done):
-        """Запустить фоновую задачу."""
+    def _run(self, title, fn, args, kwargs, on_done, method=backend_nai.LA_METHOD):
+        """Запустить фоновую задачу. method -- метод команды: у профиля другого метода пути к ней нет (как код 2 в CLI)."""
+        cur = backend_nai.method_of(self.det_combo.currentData())
+        if method != cur:
+            self._error("Команда метода «%s» недоступна для выбранного профиля (метод «%s»)" % (method, cur))
+            return
         if self.job is not None and self.job.isRunning():
             self._error("Дождитесь окончания текущей операции")
             return
@@ -242,22 +265,93 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pair_label.setTextFormat(QtCore.Qt.RichText)
         layout.addWidget(self.pair_label, 2, 0, 1, 3)
 
-        # Строка 3: профиль детектора (пресеты в каналах эталона прибора)
-        from gamma.calibration.intrinsic_shape import profiles
+        # Строка 3: профиль детектора -- 4 профиля из слоя профилей (La-138 и NaI), список в GUI не дублируется
         layout.addWidget(QtWidgets.QLabel("Детектор:"), 3, 0)
         self.det_combo = QtWidgets.QComboBox()
-        self.det_combo.addItem("Авто — по имени прибора в файле фона", "auto")
-        for p in profiles.list_profiles():
-            self.det_combo.addItem("%s (%s кан)" % (p.get("title", p["id"]), p.get("n_ch", "?")), p["id"])
-        self.det_combo.currentIndexChanged.connect(self._on_detector)
+        for row in backend_nai.profile_rows():
+            self.det_combo.addItem(row["label"], row["id"])
         layout.addWidget(self.det_combo, 3, 1)
+        self.auto_det = QtWidgets.QCheckBox("Автовыбор по прибору в файле фона")
+        self.auto_det.setChecked(str(self.settings.value("auto_detect", "true")).lower() in ("true", "1"))
+        self.auto_det.setToolTip("Для La-138 профиль выбирается по имени прибора в XML фона; у профилей NaI шаблона имени нет — выбор вручную")
+        self.auto_det.toggled.connect(lambda on: self.settings.setValue("auto_detect", "true" if on else "false"))
+        layout.addWidget(self.auto_det, 3, 2, 1, 2)
+        self.passport = QtWidgets.QLabel("")
+        self.passport.setWordWrap(True)
+        self.passport.setTextFormat(QtCore.Qt.RichText)
+        layout.addWidget(self.passport, 4, 0, 1, 4)
+        self.det_combo.currentIndexChanged.connect(self._on_detector)
         return group
 
     def _on_detector(self, _i):
-        """смена профиля детектора -- пара пересчитывается заново (результаты сбрасываются)."""
-        backend.DETECTOR = self.det_combo.currentData()
+        """смена профиля: паспорт, вкладки метода, запоминание; пара пересчитывается (результаты сбрасываются)."""
+        pid = self.det_combo.currentData()
+        if pid is None:
+            return
+        backend.DETECTOR = pid
+        self.settings.setValue("detector", pid)
+        self.passport.setText(backend_nai.passport_html(pid))
+        self._apply_method(backend_nai.method_of(pid))
+        self.nai.set_profile(pid, self.det_combo.currentText())
         self._pair_key = None
         self._update_pair()
+
+    def _restore_detector(self):
+        """профиль из настроек окна (иначе -- первый, по умолчанию AtomNano); вызывается в конце __init__."""
+        pid = self.settings.value("detector", "")
+        i = self.det_combo.findData(pid) if pid else -1
+        if i < 0:
+            i = self.det_combo.findData("labr_atomnano5pro")
+        if i < 0:
+            i = 0
+        self.det_combo.blockSignals(True)
+        self.det_combo.setCurrentIndex(i)
+        self.det_combo.blockSignals(False)
+        self._on_detector(i)
+
+    def _apply_method(self, method):
+        """вкладки чужого метода скрыты и недоступны: La-138 -- 8 вкладок пары, NaI -- своя вкладка."""
+        is_la = method == backend_nai.LA_METHOD
+        for w in self.la_tabs:
+            i = self.tabs.indexOf(w)
+            self.tabs.setTabVisible(i, is_la)
+            self.tabs.setTabEnabled(i, is_la)
+        i = self.tabs.indexOf(self.nai)
+        self.tabs.setTabVisible(i, not is_la)
+        self.tabs.setTabEnabled(i, not is_la)
+        if not self.tabs.isTabVisible(self.tabs.currentIndex()):
+            self.tabs.setCurrentWidget(self.la_tabs[0] if is_la else self.nai)
+
+    def _auto_detect(self, bg):
+        """прибор в XML фона: автовыбор профиля La-138 (если включён) и предупреждение о несовпадении; True -- профиль переключён."""
+        self.det_warning = ""
+        self._det = {"device": "", "pid": None, "message": ""}
+        if not bg or not pathlib.Path(bg).is_file():
+            return False
+        det = backend_nai.detect_for(bg)
+        self._det = det
+        cur = self.det_combo.currentData()
+        if self.auto_det.isChecked() and det["pid"] and det["pid"] != cur:
+            i = self.det_combo.findData(det["pid"])
+            if i >= 0:
+                self.log.append_text("Детектор выбран по прибору в файле фона: %s\n" % det["message"])
+                self.det_combo.setCurrentIndex(i)   # обработчик смены профиля пересчитает пару
+                return True
+        self.det_warning = backend_nai.mismatch_text(cur, det)
+        if self.det_warning:
+            self.log.append_text("ПРЕДУПРЕЖДЕНИЕ: %s\n" % self.det_warning)
+            self.statusBar().showMessage(self.det_warning)
+        return False
+
+    def _do_nai(self):
+        """метод NaI (экспериментально) в фоновом потоке: отмена и счётчик времени -- как у прочих операций."""
+        bg, sm = self._paths()
+        if not bg or not sm:
+            self._error("Выберите файл фона и файл образца")
+            return
+        self.nai.default_out(sm)
+        p = self.nai.params()
+        self._run("Метод NaI (экспериментально)", backend_nai.run_nai, (bg, sm, self.det_combo.currentData()), p, self.nai.show_result, method=backend_nai.NAI_METHOD)
 
     def _choose_bg(self):
         """Выбрать файл фона."""
@@ -290,6 +384,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.plot.clear_data()
 
         bg, sm = self._paths()
+        self.nai.clear()
+        if self._auto_detect(bg):   # профиль переключён -- пару уже пересчитал обработчик смены профиля
+            return
         if not bg or not sm:
             self.pair_label.setText("Выберите оба файла")
             return
@@ -297,7 +394,11 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             p = backend.pair_info(bg, sm)
         except Exception as exc:
-            self.pair_label.setText(status_html(False, html.escape(backend.friendly(exc))))
+            msg = backend.friendly(exc)
+            if self.det_warning:
+                self.pair_label.setText(status_html(False, html.escape(msg)) + "<br>" + status_html(False, html.escape(self.det_warning)))
+            else:
+                self.pair_label.setText(status_html(False, html.escape(msg)))
             return
 
         self.n_ch = p["bg"]["n_ch"]   # число каналов пары (ПШПВ, параметры прибора)
@@ -318,7 +419,14 @@ class MainWindow(QtWidgets.QMainWindow):
         pr = p.get("profile") or {}
         parts.append("Профиль детектора: <b>%s</b>; прибор в файле фона: %s" % (html.escape(pr.get("text", "?")), html.escape(pr.get("device") or "не указан")))
         for w in pr.get("warnings", []):
+            if "распознан как" in w:
+                continue   # несовпадение прибора -- одно предупреждение окна, det_warning
             parts.append(status_html(False, html.escape(w)))
+        if self.det_warning:
+            parts.append(status_html(False, html.escape(self.det_warning)))
+        if backend_nai.method_of(self.det_combo.currentData()) == backend_nai.NAI_METHOD:
+            parts.append(html.escape(backend_nai.hint_text(self._det)))
+            self.nai.default_out(sm)
         self.pair_label.setText("<br>".join(parts))
         try:   # спектр пробы -- на вкладку выбора пиков
             self.picker.set_sample(sm)
@@ -342,6 +450,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.h = self.h_json = self.ecal = self.ecal_res = self.net = self.manual = None
         self.ecal_points = []; self.n_ch = 2048; self.saved = False; self.sample_res = None
         self._reset_views()
+        self.nai.clear()
         self._reset_sample_scale()
         self.log.append_text("\n=== Новый спектр: файлы и результаты сброшены ===\n")
         self.statusBar().showMessage("Выберите файл фона и файл образца")
@@ -669,6 +778,7 @@ class MainWindow(QtWidgets.QMainWindow):
                               "<p>Откройте «%s» в BecqMoni. График — на вкладке «График».</p>" % html.escape(first_name))
         if r.get("struct_warning"):
             self.log.append_text("ПРЕДУПРЕЖДЕНИЕ: %s\n" % r["struct_warning_text"])
+        self.plot.plot.setTitle("Профиль: " + html.escape(self.det_combo.currentText()))   # подпись профиля на графике
         self.tabs.setCurrentWidget(self.plot_tab)
 
     def _open_out_dir(self):
