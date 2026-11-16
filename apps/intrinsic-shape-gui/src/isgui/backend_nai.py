@@ -160,7 +160,7 @@ def run_nai(bg_path, sm_path, pid, kind="sample", force=None, nuclides=None, out
         try:
             data = load_spectrum(p)
         except Exception as e:
-            raise backend.UserError("Не удалось прочитать спектр %s: %s" % (name, e))
+            raise backend.UserError("Не удалось прочитать спектр %s: %s" % (name, backend.friendly(e)))
         if data["counts"].sum() <= 0:
             raise backend.UserError("В файле %s нет отсчётов спектра" % name)
         if data["live"] <= 0:
@@ -296,5 +296,6 @@ def about_html() -> str:
         if row["status_note"]:
             parts.append("<li>%s: %s</li>" % (e(row["title"]), e(row["status_note"])))
     parts.append("</ul>")
+    parts.append("<p>Метод NaI, режим фон-фон: в режиме фон-фон шкала не оценивается; в файлах только пометка [экспериментально].</p>")
     parts.append("<p>Методика: %s (в репозитории spectravibe-toolkit).</p>" % e(METHODOLOGY))
     return "".join(parts)

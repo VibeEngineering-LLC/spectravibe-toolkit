@@ -22,9 +22,12 @@ a = Analysis([os.path.join(ROOT, "src", "isgui", "__main__.py")], pathex=[os.pat
                                     "samplecal", "samplecal_q", "samplecal_net", "profiles")]   # «по пробе» и профили детекторов (ленивый импорт)
                   + ["gamma.data", "gamma.data.nuclide_library", "gamma.io.readers", "gamma.io.atomspectra_xml"]
                   + collect_submodules("gamma.calibration.nai_shape")   # метод NaI (ленивый импорт из backend_nai)
-                  + collect_submodules("pyqtgraph", filter=lambda n: not any(s in n for s in ("opengl", "examples", "jupyter"))),
+                  + collect_submodules("pyqtgraph", filter=lambda n: not any(s in n for s in ("opengl", "examples", "jupyter", "numba"))),
     excludes=["tkinter", "matplotlib", "PIL", "pandas", "PyQt5", "PyQt6", "PySide2", "torch", "IPython",
-              "pyqtgraph.opengl", "OpenGL", "PySide6.QtWebEngineCore", "PySide6.Qt3DCore"],
+              "pyqtgraph.opengl", "OpenGL", "PySide6.QtWebEngineCore", "PySide6.Qt3DCore",
+              # не нужны окну, gamma.* и nai_shape на импорте (grep импортов + запуск exe с расчётом NaI); тянулись из окружения
+              "numba", "llvmlite", "pythonwin", "win32com", "win32api", "win32con", "pywintypes", "pythoncom",
+              "psutil", "markupsafe", "jinja2", "setuptools", "pkg_resources", "pytest", "_pytest", "pluggy"],
     noarchive=False)
 pyz = PYZ(a.pure)
 exe = EXE(pyz, a.scripts, [], exclude_binaries=True, name="IntrinsicShapeGUI", console=False, upx=False)

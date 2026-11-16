@@ -18,6 +18,15 @@ if os.environ.get("ISGUI_SMOKE_CALC"):   # приёмка сборки: "фон|
     pathlib.Path(out, "calc.txt").write_text("all_ok=%s struct_ok=%s n_ch=%d low=%s selftest_preset=%s %s" % (
         s["all_ok"], s["struct_ok"], r["n_ch"], "low" in e, st.DEFAULT_CFG.is_file(), sc_txt), encoding="utf-8")
     sys.exit(0)
+if os.environ.get("ISGUI_SMOKE_NAI"):   # приёмка сборки, метод NaI: "фон|образец|папка" -> run_nai (nai_gamma1s) без окна, итог в папка/nai.txt
+    from isgui import backend_nai as bn
+    bg, sm, out = os.environ["ISGUI_SMOKE_NAI"].split("|"); pathlib.Path(out).mkdir(parents=True, exist_ok=True)
+    try:
+        r = bn.run_nai(bg, sm, "nai_gamma1s", out_dir=out); res = r["res"]
+        txt = "nai_ok mode=%s verified=%s flag=%s files=%s" % (res.get("mode_auto"), res.get("scale_verified"), res.get("flag"), ",".join(sorted(r["paths"])))
+    except Exception as exc:
+        txt = "nai_error=%s: %s" % (type(exc).__name__, exc)
+    pathlib.Path(out, "nai.txt").write_text(txt, encoding="utf-8"); sys.exit(0 if txt.startswith("nai_ok") else 1)
 from PySide6 import QtCore, QtWidgets
 from isgui.main_window import MainWindow
 app = QtWidgets.QApplication.instance() or QtWidgets.QApplication(sys.argv)

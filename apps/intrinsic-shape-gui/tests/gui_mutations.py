@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Мутационная поверка тестов окна (tests/test_gui_detectors.py): каждая точечная мутация логики GUI портит одну
+"""Мутационная поверка тестов окна (tests/test_gui_detectors.py, tests/test_gui_nai_details.py): каждая точечная мутация логики GUI портит одну
 проверяемую величину в копии src/, тесты прогоняются на копии (переменная ISGUI_SRC); мутация убита, если покраснел хотя бы
 один тест. Исправная версия обязана быть зелёной. Итог -- таблица в файл отчёта (аргумент 1, по умолчанию
 <корень репозитория>/audit/gui_4detectors_mutations.md). Запуск: python apps/intrinsic-shape-gui/tests/gui_mutations.py.
@@ -18,7 +18,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]  # apps/intrinsic-shape-gui
 TK = ROOT.parents[1]  # корень репозитория
-TEST = ROOT / "tests" / "test_gui_detectors.py"
+TESTS = [str(ROOT / "tests" / n) for n in ("test_gui_detectors.py", "test_gui_nai_details.py")]
 
 # Список мутаций: (имя, цель на русском, файл в src/isgui/, старый фрагмент, новый фрагмент)
 MUTS = [
@@ -52,6 +52,12 @@ MUTS = [
     ("M9_peaks_nuclides", "режим по линиям: явный список нуклидов", "backend_nai.py",
      "            nuclides = nuclides or sorted(n for n in nuclide_names(pid) if n in anchors)",
      "            pass"),
+    ("F_live0", "нулевое живое время -- понятная ошибка", "backend_nai.py",
+     '        if data["live"] <= 0:', '        if data["live"] < 0:'),
+    ("G_bgk", "кривая фон·k без множителя k", "backend_nai.py",
+     '"bg_k": np.asarray(bg["counts"], float) * float(res.get("k", 1.0)),', '"bg_k": np.asarray(bg["counts"], float),'),
+    ("J_bgforce", "фон-фон: выбранный режим не сбрасывается", "backend_nai.py",
+     '    if kind == "background":\n        force = None\n', ""),
 ]
 
 
@@ -83,7 +89,7 @@ def apply(src, rel, old, new):
 def run_tests(src):
     """Прогоняет pytest на копии src/ и возвращает (rc, список упавших тестов, строка итога, секунды)."""
     env = dict(os.environ, ISGUI_SRC=str(src), QT_QPA_PLATFORM="offscreen", PYTHONIOENCODING="utf-8")
-    cmd = [sys.executable, "-X", "utf8", "-m", "pytest", str(TEST), "-q", "-p", "no:cacheprovider", "-rf"]
+    cmd = [sys.executable, "-X", "utf8", "-m", "pytest", *TESTS, "-q", "-p", "no:cacheprovider", "-rf"]
     t0 = time.monotonic()
     proc = subprocess.run(
         cmd, cwd=str(TK), env=env, capture_output=True, text=True,
@@ -135,7 +141,7 @@ def main():
     report.parent.mkdir(parents=True, exist_ok=True)
     lines = []
     lines.append("# Мутационная поверка тестов окна: 4 детектора\n\n")
-    lines.append("Тесты: `apps/intrinsic-shape-gui/tests/test_gui_detectors.py`; прогон: `python apps/intrinsic-shape-gui/tests/gui_mutations.py`.\n\n")
+    lines.append("Тесты: `apps/intrinsic-shape-gui/tests/test_gui_detectors.py`, `test_gui_nai_details.py`; прогон: `python apps/intrinsic-shape-gui/tests/gui_mutations.py`.\n\n")
     lines.append("Исправная версия: %s\n\n" % base_summ)
     lines.append("| Мутация | Что портит | Файл | Итог | Покраснели тесты |\n")
     lines.append("|---|---|---|---|---|\n")

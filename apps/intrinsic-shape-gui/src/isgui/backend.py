@@ -49,7 +49,7 @@ def friendly(exc) -> str:
     if isinstance(exc, PermissionError):
         return "Нет доступа к файлу (открыт в другой программе?): " + str(getattr(exc, "filename", "") or exc)
     if "ParseError" in type(exc).__name__:
-        return "Файл не является корректным XML: " + str(exc)
+        return "Не удалось разобрать файл: обрезан или повреждён"   # без английского текста парсера
     if isinstance(exc, UnicodeDecodeError):
         return "Файл не в кодировке UTF-8 (не XML BecqMoni?)"
     if isinstance(exc, ValueError):
