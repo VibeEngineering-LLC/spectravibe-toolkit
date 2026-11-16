@@ -236,7 +236,10 @@ def summarize(label, checks):
 
 def main(bg_path, sample_path, cfg_path=None, alt_bg=(), auto=True, manual=None):
     """Код возврата 0: у исправной нет провалов сверх known_base_failures и каждая мутация даёт >=1 НОВЫЙ провал."""
-    cfg_path = pathlib.Path(cfg_path or DEFAULT_CFG)
+    if cfg_path is None:   # конфиг активного профиля детектора (по умолчанию -- AtomNano, DEFAULT_CFG)
+        from . import profiles
+        cfg_path = profiles.preset_path("selftest")
+    cfg_path = pathlib.Path(cfg_path)
     raw = cfg_path.read_bytes()
     cfg = json.loads(raw.decode("utf-8"))
     print("[CFG] %s sha256=%s" % (cfg_path.name, hashlib.sha256(raw).hexdigest()))

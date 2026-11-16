@@ -23,8 +23,9 @@ INFL_MAX = 2.0            # рост шума суммы/диполя от не�
 
 def load_windows_kev(path=None):
     """Читает JSON с окнами и возвращает список словарей."""
-    if path is None:
-        path = HERE / "presets" / "labr3_struct_windows.json"
+    if path is None:   # окна активного профиля детектора
+        from . import profiles
+        path = profiles.preset_path("struct_windows")
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
     windows = data.get("windows", [])
@@ -38,13 +39,14 @@ def load_windows_kev(path=None):
             "reference": bool(w.get("reference", False)),
             "overlap_lines_kev": [float(v) for v in w.get("overlap_lines_kev", [])],
             "overlap_note": w.get("overlap_note", ""),
-            "reference_note": w.get("reference_note", "")
+            "reference_note": w.get("reference_note", ""),
+            "sum_rel": w.get("sum_rel")   # [lo, hi] в долях канала сумм-пика или None (окно в кэВ)
         })
     return result
 
 
-def windows_to_channels(wins_kev, scale, n):
-    """Преобразует окна в кэВ в каналы."""
+def windows_to_channels(wins_kev, scale, n, sum_ch=None):
+    """Преобразует окна в кэВ в каналы; окно с sum_rel -- в долях канала сумм-пика sum_ch (если он задан)."""
     result = {}
     for w in wins_kev:
         name = w["name"]
@@ -52,8 +54,11 @@ def windows_to_channels(wins_kev, scale, n):
         e_hi = w["e_hi"]
         source = w.get("source", "")
         try:
-            lo = int(math.ceil(poly_inverse(scale, e_lo, hi=n + 200)))
-            hi = int(math.floor(poly_inverse(scale, e_hi, hi=n + 200)))
+            if w.get("sum_rel") and sum_ch:   # α AS2PRO: кэВ шкалы пары плывут между сеансами, доля сумм-пика -- нет
+                lo, hi = int(math.ceil(w["sum_rel"][0] * sum_ch)), int(math.floor(w["sum_rel"][1] * sum_ch))
+            else:
+                lo = int(math.ceil(poly_inverse(scale, e_lo, hi=n + 200)))
+                hi = int(math.floor(poly_inverse(scale, e_hi, hi=n + 200)))
         except Exception:
             continue
         lo = max(0, lo)

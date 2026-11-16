@@ -20,6 +20,9 @@ from . import pairref as pr
 from . import lowscale as lw
 from . import ops
 from . import verdict as vd
+from . import profiles
+
+METHOD = "la138_intrinsic"   # метод этого конвейера; профиль другого метода (NaI и т. п.) отвергается в setup
 
 STRUCT_NAMES = ("La_beta_edge", "La_compton", "La_sum_K40", "Tl208_alpha1", "alpha2", "alpha3")
 E_SUM = 1471.0
@@ -43,6 +46,7 @@ def nested_pair(bg_path, sample_path, S=None, B=None):
 
 
 def setup(bg_path, sample_path, auto=True, manual=None, verbose=True):
+    profiles.require_method(METHOD)
     S, B, k, live_s, live_b = reg.load_inputs(bg_path, sample_path)
     cal = list(load_spectrum(bg_path)["cal"])
     nested = nested_pair(bg_path, sample_path, S, B)
@@ -72,7 +76,7 @@ def setup(bg_path, sample_path, auto=True, manual=None, verbose=True):
     k40 = A["sum"]["x"] - (E_SUM - E_K40) / poly_deriv(scale, A["sum"]["x"])
     
     # окна структур -- в энергиях (ядерные данные), каналы -- через шкалу пары
-    windows = vd.windows_to_channels(vd.load_windows_kev(), scale, len(B))
+    windows = vd.windows_to_channels(vd.load_windows_kev(), scale, len(B), sum_ch=A["sum"]["x"])
 
     return {
         "S": S, "B": B, "k": k, "live_s": live_s, "live_b": live_b,
@@ -509,7 +513,7 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
     hh = _h_from(h)
     n = ctx["n"]
     
-    preset_cfg = _load_json(preset or (ap.HERE / "presets" / "labr3_ecal.json"))
+    preset_cfg = _load_json(preset or profiles.preset_path("ecal"))
     cfg0 = ap.ecal_cfg_for(ctx["auto"], preset_cfg) if auto else preset_cfg
     
     net, var = reg.apply(hh, ctx["S"], ctx["B"], ctx["k"])
@@ -568,7 +572,7 @@ def run_ecal(bg_path, sample_path, h, preset=None, auto=True, manual=None, low=T
     if low and res.get("rejected") and verbose:
         print("[LOWE] ветвь ниже 100 кэВ не строится: основная шкала отвергнута")
     if low and not res.get("rejected"):
-        lowe = _load_json(ap.HERE / "presets" / "labr3_lowE.json")
+        lowe = profiles.load_preset("lowE")
         if e37 is not None:
             lowe["e37_gamma"] = float(e37)
         
@@ -693,7 +697,7 @@ def run_subtract(bg_path, sample_path, h, ecal, fw_points, out_zeroed, out_signe
         excluded = rj.get("excluded_ch") or [[int(e[0]), int(e[1])] for e in rj.get("excluded", [])]
         steps, converged = rj.get("steps_ch", []), bool(rj.get("converged", True))
     rb.check_cancel("перед проверкой окон")
-    windows = vd.windows_to_channels(vd.load_windows_kev(), E["coeffs"], ctx["n"])
+    windows = vd.windows_to_channels(vd.load_windows_kev(), E["coeffs"], ctx["n"], sum_ch=ctx["auto"]["anchors"]["sum"]["x"])
     checks = vd.structure_verdict(res["resid"], res["var"], windows, **verdict_kw(ctx, excluded, steps))
     if verbose:
         if not converged:

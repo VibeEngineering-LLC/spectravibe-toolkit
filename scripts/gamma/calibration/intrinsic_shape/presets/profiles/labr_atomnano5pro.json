@@ -1,0 +1,20 @@
+{
+ "id": "labr_atomnano5pro",
+ "title": "LaBr AtomNano 5 PRO",
+ "aliases": ["atomnano5pro_labr3"],
+ "crystal": "LaBr3(Ce)",
+ "size": "эталонный прибор метода",
+ "n_ch": 2048,
+ "method": "la138_intrinsic",
+ "default": true,
+ "scan_tol_ch": 3.0,
+ "match": ["AtomNano\\s*5\\s*PRO.*LaBr"],
+ "_note": "Профиль по умолчанию: пресеты метода в каналах этого прибора (фон tests/fixtures/intrinsic_shape/labr3_background.xml). Файлы пресетов -- те же, что до появления профилей (presets/labr3_*.json), не перемещались.",
+ "presets": {
+  "reference": "labr3_reference.json",
+  "ecal": "labr3_ecal.json",
+  "lowE": "labr3_lowE.json",
+  "struct_windows": "labr3_struct_windows.json",
+  "selftest": "labr3_selftest.json"
+ }
+}

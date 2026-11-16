@@ -1,0 +1,23 @@
+{
+ "id": "labr_as2pro",
+ "title": "LaBr AtomSpectra 2 Pro (25×25)",
+ "aliases": ["as2pro_labr3"],
+ "crystal": "LaBr3(Ce)",
+ "size": "цилиндр 25x25 мм",
+ "n_ch": 8192,
+ "method": "la138_intrinsic",
+ "default": false,
+ "scan_tol_ch": 12.0,
+ "sample_a37_near": true,
+ "_sample_a37_near_note": "пик ~37 кэВ образца ищется в окне x0.85..1.15 от пика фона (autopreset.find_a37, near): у образца с Am-241 линия 59.5 кэВ выше пика 37 кэВ и без окна берётся за якорь; у профиля AtomNano флага нет -- поиск как в 2ca4d15",
+ "_scan_tol_note": "допуск ecal.scan (разброс центроида по 5 окнам и ошибка подгонки, кан): у AtomNano 3 кан при ~1.4 кэВ/кан; у AS2PRO ~0.38 кэВ/кан и край 789 кэВ даёт ошибку ~4.3 кан (эталонный фон) -- с допуском 3 кан край не принимается ни в одном окне. Обоснование по 13 фонам (отложенная проверка): для двух принятых окон нужно 1.75-5.5 кан (медиана 3.0), для трёх -- до 6.25; допуск 3 не хватает на 5 из 13 (на четырёх 0 окон), 12 принимает >= 3 окон на 13 из 13 (запас 2.2 / 1.9)",
+ "match": ["AtomSpectra\\s*(2\\s*)?Pro\\s*LaBr", "AS2\\s*PRO"],
+ "_note": "Пресеты в каналах эталонного фона AS2PRO: встроенный фон длинного измерения образца Am-241 (живое время 1 310 061 с, 8192 канала, ~0.38 кэВ/кан). Опоры, ПШПВ и окна α измерены по данным AS2PRO 2026-11-15 (audit/as2pro_profile_report.md), не пересчитаны с AtomNano.",
+ "presets": {
+  "reference": "as2pro_labr3_reference.json",
+  "ecal": "as2pro_labr3_ecal.json",
+  "lowE": "as2pro_labr3_lowE.json",
+  "struct_windows": "as2pro_labr3_struct_windows.json",
+  "selftest": "as2pro_labr3_selftest.json"
+ }
+}

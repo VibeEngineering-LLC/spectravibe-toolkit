@@ -14,14 +14,15 @@ import numpy as np
 from .core import poly_eval, poly_deriv, poly_inverse, smooth_gauss
 from .peakfit import fit_peak
 from .ecal import scan
+from . import profiles
 
 HERE = pathlib.Path(__file__).resolve().parent
-REF_PATH = HERE / "presets" / "labr3_reference.json"
+REF_PATH = HERE / "presets" / "labr3_reference.json"   # эталон профиля по умолчанию (AtomNano 5 PRO)
 
 
 def load_ref(path=None) -> dict:
-    """Загружает эталонный файл пресетов."""
-    p = path or REF_PATH
+    """Загружает эталонный файл пресетов активного профиля детектора (profiles.activate / profiles.using)."""
+    p = path or profiles.preset_path("reference")
     with open(p, "r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -51,7 +52,7 @@ def _peak_ok(r, fwhm_exp) -> (bool, str):
     return True, ""
 
 
-def find_a37(counts, ref) -> dict:
+def find_a37(counts, ref, near=None) -> dict:   # near: пик фона -- в образце поиск near x 0.85..1.15 (Am-241 59.5 выше 37)
     """Ищет пик 37 кэВ в начале шкалы."""
     n = len(counts)
     r0 = n / ref["n_ch"]
@@ -63,7 +64,8 @@ def find_a37(counts, ref) -> dict:
     i0 = nz[0]
     lo = int(i0 + max(2, round(2 * r0)))
     hi = max(lo + 5, n // 16)
-    
+    if near is not None and np.isfinite(near):
+        lo, hi = max(lo, int(near * 0.85)), max(int(near * 1.15) + 1, int(near * 0.85) + 5)
     sm = smooth_gauss(counts.astype(float), max(1.0, r0))
     xg = lo + int(np.argmax(sm[lo:hi]))
     
@@ -483,7 +485,8 @@ def autopreset(B, S, cal_bg=None, manual=None, ref=None, verbose=True) -> dict:
     
     # Поиск опор
     a37 = find_a37(B, ref)
-    a37s = find_a37(S, ref)
+    near_on = bool(profiles.get().get("sample_a37_near", False))   # только у профиля с флагом; AtomNano -- как в 2ca4d15
+    a37s = find_a37(S, ref, near=a37["x"] if (near_on and a37["ok"]) else None)
     
     # Ручные значения для a37 и a37_sample
     if "a37" in manual:

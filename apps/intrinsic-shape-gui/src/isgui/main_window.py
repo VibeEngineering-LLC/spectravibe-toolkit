@@ -242,7 +242,22 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pair_label.setTextFormat(QtCore.Qt.RichText)
         layout.addWidget(self.pair_label, 2, 0, 1, 3)
 
+        # Строка 3: профиль детектора (пресеты в каналах эталона прибора)
+        from gamma.calibration.intrinsic_shape import profiles
+        layout.addWidget(QtWidgets.QLabel("Детектор:"), 3, 0)
+        self.det_combo = QtWidgets.QComboBox()
+        self.det_combo.addItem("Авто — по имени прибора в файле фона", "auto")
+        for p in profiles.list_profiles():
+            self.det_combo.addItem("%s (%s кан)" % (p.get("title", p["id"]), p.get("n_ch", "?")), p["id"])
+        self.det_combo.currentIndexChanged.connect(self._on_detector)
+        layout.addWidget(self.det_combo, 3, 1)
         return group
+
+    def _on_detector(self, _i):
+        """смена профиля детектора -- пара пересчитывается заново (результаты сбрасываются)."""
+        backend.DETECTOR = self.det_combo.currentData()
+        self._pair_key = None
+        self._update_pair()
 
     def _choose_bg(self):
         """Выбрать файл фона."""
@@ -300,6 +315,10 @@ class MainWindow(QtWidgets.QMainWindow):
         if p["warning"]:
             parts.append(status_html(False, html.escape(p["warning"])))
 
+        pr = p.get("profile") or {}
+        parts.append("Профиль детектора: <b>%s</b>; прибор в файле фона: %s" % (html.escape(pr.get("text", "?")), html.escape(pr.get("device") or "не указан")))
+        for w in pr.get("warnings", []):
+            parts.append(status_html(False, html.escape(w)))
         self.pair_label.setText("<br>".join(parts))
         try:   # спектр пробы -- на вкладку выбора пиков
             self.picker.set_sample(sm)

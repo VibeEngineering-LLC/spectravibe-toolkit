@@ -1,0 +1,18 @@
+{
+ "_note": "Реперы шкалы AS2PRO (LaBr3(Ce) 25x25 мм, 8192 канала) в каналах эталонного фона AS2PRO. Энергии и их неопределённости -- те же, что у AtomNano (ядерные данные, presets/labr3_ecal.json). x0: β-край и сумм-пик -- опоры эталона (as2pro_labr3_reference.json), остальные -- канал энергии по калибровке файла эталонного фона (audit/as2pro_measure/convert.py); w0 -- ПШПВ AS2PRO по линиям образцов (у края -- сигма края, измерена ~26 кан), hw -- отношение hw/w0 AtomNano. В эталонном фоне AS2PRO (экранированном) Pb-214 352 и аннигиляция 511 незначимы (значимость < 2): реперы отбрасываются, если пика нет. h_err_ch -- 0.15 кан AtomNano x ~4.5 (каналов AS2PRO на канал AtomNano).",
+ "degree": 2,
+ "h_err_ch": 0.7,
+ "points": [
+  {"name": "Pb214_352",      "spectrum": "bg",     "kind": "peak", "x0": 934.5,   "w0": 43.0,  "hw": 75,  "E": 351.93,   "dE": 0.05},
+  {"name": "Ann511",         "spectrum": "bg",     "kind": "peak", "x0": 1346.3,  "w0": 55.0,  "hw": 90,  "E": 510.9,    "dE": 0.3},
+  {"name": "La138_789_edge", "spectrum": "bg",     "kind": "edge", "x0": 2063.8,  "w0": 26.0,  "hw": 90,  "E": 788.74,   "dE": 1.0},
+  {"name": "La138_sum1473",  "spectrum": "bg",     "kind": "peak", "x0": 3816.8,  "w0": 137.0, "hw": 190, "E": 1471.00605, "dE": 1.0913},
+  {"name": "HfKa_blend",     "spectrum": "sample", "kind": "peak", "x0": 158.8,   "w0": 17.5,  "hw": 27,  "E": 55.36,    "dE": 0.5},
+  {"name": "Lu176_202",      "spectrum": "sample", "kind": "peak", "x0": 543.6,   "w0": 31.9,  "hw": 44,  "E": 201.83,   "dE": 0.05},
+  {"name": "Lu176_307",      "spectrum": "sample", "kind": "peak", "x0": 817.2,   "w0": 39.8,  "hw": 50,  "E": 306.78,   "dE": 0.05}
+ ],
+ "checks": [
+  {"name": "intrinsic_37keV", "spectrum": "bg",     "x0": 107.27, "w0": 14.7, "hw": 28},
+  {"name": "Lu176_sum509",    "spectrum": "sample", "x0": 1341.4, "w0": 49.0, "hw": 70}
+ ]
+}

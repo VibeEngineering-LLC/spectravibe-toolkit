@@ -1,0 +1,50 @@
+{
+ "_note": "Конфиг selftest для AS2PRO (LaBr3(Ce) 25x25 мм, 8192 канала), каналы эталонного фона AS2PRO. Структура, пороги, доли мутаций (растяжение 0.2 %, k 1 %), половины hold-out -- как в labr3_selftest.json. Окна La-138 -- окна AtomNano, перенесённые через энергию (audit/as2pro_measure/convert.py): La_beta_edge 735-900 кэВ, La_compton 1150-1353 кэВ, La_sum_K40 1384-1532 кэВ. Окна α -- ИЗМЕРЕННЫЕ группы AS2PRO alpha1..alpha3 (as2pro_labr3_struct_windows.json, каналы эталона); группа alpha4 (у края шкалы, у части фонов обрезана) в selftest не входит. Сдвиги (скан, мутации ±0.3 кан AtomNano, сетка совместной подгонки) умножены на 5 -- каналов AS2PRO на канал AtomNano в области La-138 (4.3-5.7). known_base_failures -- по прогону исправной версии на паре AS2PRO (audit/as2pro_profile_report.md).",
+ "known_base_failures": [],
+ "anchor": {"x_bg": 107.27, "x_sm": 107.0, "w0": 14.7, "hw": 28},
+ "windows": {
+  "La_beta_edge": [1926, 2350],
+  "La_compton":   [2999, 3529],
+  "La_sum_K40":   [3611, 4001],
+  "alpha1":       [5700, 6282],
+  "alpha2":       [6282, 6957],
+  "alpha3":       [6957, 7297]
+ },
+ "half_A": ["La_beta_edge", "alpha1", "alpha3"],
+ "half_B": ["La_sum_K40", "La_compton", "alpha2"],
+ "info_holdout": {"fit": ["La_compton", "alpha1", "alpha3"], "check": ["La_beta_edge", "La_sum_K40", "alpha2"]},
+ "full_mask": [1880, 7450],
+ "integrals": [[1880, 7450], [1880, 8190]],
+ "_mask_note": "низ маски и интегралов 1880 кан эталона (было 1744 и 1400): 1744 ~664-672 кэВ лежит на Cs-137 661.66 кэВ, 1400 ~530 кэВ захватывает Cs-137 и β-континуум Lu-176 до 597 кэВ; 1880 -- 716.9-724.8 кэВ на 13 фонах при пороге 661.66 + 2 ПШПВ(662) = 709.1 кэВ (audit/as2pro_measure/mask_low.py). Второй интеграл остаётся шире первого вверх (до 8190).",
+ "_pair_note": "selftest проверяет обнаружение мутаций на паре, где исправная версия зелёная; пара с линиями образца в окнах La (U/Ra/Th, K-40, Cs-137 выше маски) для selftest не годится -- провалы исправной у неё свойство образца (методика § 5б).",
+ "pivot_joint": 3817.0,
+ "shift_scan": {"lo": -10.0, "hi": 10.0, "step": 0.25},
+ "shift_scan_wide": {"lo": -20.0, "hi": 20.0, "step": 0.25},
+ "wide_scan_windows": ["alpha1", "alpha2", "alpha3"],
+ "sigma_method": "bootstrap",
+ "n_boot": 20,
+ "seed": 20261010,
+ "joint_grid": {"d_lo": -7.5, "d_hi": 7.5, "d_step": 0.25, "s_lo": -0.004, "s_hi": 0.004, "s_step": 0.0002},
+ "thresholds": {
+  "z_dip": 3.0,
+  "z_chi2": 3.0,
+  "z_shift_win": 3.0,
+  "z_joint_shift": 3.0,
+  "z_joint_scale": 3.0,
+  "z_joint_amp": 3.0,
+  "z_dist": 3.0,
+  "z_int": 3.0,
+  "dchi2_reg": 9.0
+ },
+ "registration": {"n_ms": 10},
+ "mutations": [
+  {"name": "shift+1.5",             "kind": "shift",   "value": 1.5},
+  {"name": "shift-1.5",             "kind": "shift",   "value": -1.5},
+  {"name": "stretch+0.2%@3817",     "kind": "stretch", "value": 0.002,  "pivot": 3817.0},
+  {"name": "stretch-0.2%@3817",     "kind": "stretch", "value": -0.002, "pivot": 3817.0},
+  {"name": "stretch+0.2%@0",        "kind": "stretch", "value": 0.002,  "pivot": 0.0},
+  {"name": "stretch-0.2%@0",        "kind": "stretch", "value": -0.002, "pivot": 0.0},
+  {"name": "k+1%",                  "kind": "k",       "value": 0.01},
+  {"name": "k-1%",                  "kind": "k",       "value": -0.01}
+ ]
+}

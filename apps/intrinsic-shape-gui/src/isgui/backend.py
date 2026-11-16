@@ -114,13 +114,28 @@ def pair_info(bg_path, sample_path) -> dict:
     # только для «образца», который является продолжением того же измерения, что и фон
     from gamma.calibration.intrinsic_shape.pipeline import nested_pair
     warning = nested_pair(bg_path, sample_path)
-        
+    profile = activate_profile(bg_path, b["n_ch"])   # профиль детектора -- до любого прогона пары
+
     return {
         "bg": b,
         "sample": s,
         "k": s["live"] / b["live"],
-        "warning": warning
+        "warning": warning,
+        "profile": profile
     }
+
+
+DETECTOR = "auto"   # выбор в GUI: "auto" (по имени прибора в XML) или id профиля
+
+
+def activate_profile(bg_path, n_ch=None) -> dict:
+    """Выбирает и включает профиль детектора для пары; неизвестный прибор -- предупреждение, профиль по умолчанию."""
+    from gamma.calibration.intrinsic_shape import profiles
+    from gamma.io.readers import read_spectrum
+    dev = getattr(read_spectrum(str(bg_path)), "detector_id", "") or ""
+    pid, warns = profiles.resolve(DETECTOR, dev, n_ch)
+    profiles.activate(pid)
+    return {"id": pid, "text": profiles.describe(pid), "device": dev, "warnings": warns}
 
 
 INTERP_HELP = {
@@ -206,9 +221,15 @@ def run_register(bg_path, sample_path, mask=(430, 1700), anchor_bg=28.9, anchor_
 
 
 def default_ecal_preset() -> pathlib.Path:
-    from gamma.calibration.intrinsic_shape import ops
-    return pathlib.Path(ops.__file__).resolve().parent / "presets" / "labr3_ecal.json"
+    """пресет реперов шкалы активного профиля детектора (по умолчанию -- presets/labr3_ecal.json AtomNano)."""
+    from gamma.calibration.intrinsic_shape import profiles
+    return profiles.preset_path("ecal")
 
+
+def default_fwhm_points() -> list:
+    """точки ПШПВ «канал, ширина» эталона активного профиля (AtomNano: (29.20, 2.47) ... (847.10, 11.63))."""
+    from gamma.calibration.intrinsic_shape import profiles
+    return [tuple(p) for p in profiles.load_preset("reference")["fwhm_points"]]
 
 def run_ecal(bg_path, sample_path, h, preset=None, out_json=None, log=None) -> dict:
     if not isinstance(h, list) or len(h) != 3:
@@ -238,8 +259,6 @@ def run_ecal(bg_path, sample_path, h, preset=None, out_json=None, log=None) -> d
     return result
 
 
-def default_fwhm_points() -> list:
-    return [(29.20, 2.47), (142.87, 6.14), (211.97, 7.29), (338.14, 8.62), (847.10, 11.63)]
 
 
 def parse_points(text) -> list:

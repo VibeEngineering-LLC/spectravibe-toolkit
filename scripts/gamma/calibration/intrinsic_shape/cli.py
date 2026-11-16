@@ -52,6 +52,35 @@ def _monotone(value):
     return float(value)
 
 
+def _activate_profile(args):
+    """--detector: профиль детектора по ключу или автоопределением по имени прибора в файле фона (образец -- сверка).
+    Нечитаемый файл -- профиль выбирается без имени прибора; ошибку входа сообщает сама команда."""
+    from . import profiles
+    from gamma.io.readers import read_spectrum
+
+    def _dev(path):
+        try:
+            s = read_spectrum(str(path))
+            return (getattr(s, "detector_id", "") or "", getattr(s, "n_channels_raw", 0) or len(s.counts))
+        except Exception:
+            return ("", None)
+
+    dev, n = _dev(args.bg)
+    pid, warns = profiles.resolve(args.detector, dev, n)
+
+    dev_s, _ = _dev(args.sample)
+    det_s, _ = profiles.detect(dev_s)
+    if det_s is not None and det_s != pid:
+        warns.append("образец снят прибором '%s' (профиль '%s'), а выбран профиль '%s'" % (dev_s, det_s, pid))
+
+    profiles.activate(pid)
+
+    print("[PROFILE] %s; прибор в файле фона: '%s'" % (profiles.describe(), dev or "не указан"))
+
+    for w in warns:
+        print("[PROFILE] ПРЕДУПРЕЖДЕНИЕ: " + w)
+
+    return pid
 def _manual(args):
     """Ручная поправка опор автопресета: --anchors-ch A37 SUM [EDGE] (каналы фона)."""
     v = getattr(args, "anchors_ch", None)
@@ -199,6 +228,31 @@ def _cmd_selftest(args):
     return selftest.main(args.bg, args.sample, args.config, alt_bg=args.alt_bg, auto=not args.no_auto, manual=_manual(args))
 
 
+def _cmd_nai(args):
+    """nai-shape: метод NaI (ЭКСПЕРИМЕНТАЛЬНО) -- совмещение по форме и вычитание фона через nai_shape.api (run + write_outputs)."""
+    from . import profiles
+    from .core import load_spectrum
+    from gamma.calibration.nai_shape import api as nai_api
+
+    pid = profiles.active_id()
+    prof = nai_api.load_profile(pid)
+    print("[NAI] ЭКСПЕРИМЕНТАЛЬНО: " + nai_api.EXPERIMENTAL_NOTE)
+    bg = load_spectrum(args.bg)
+    sm = load_spectrum(args.sample)
+    try:
+        res = nai_api.run(bg, sm, prof, args.nuclides, kind=args.kind, force=args.force)
+    except ValueError as exc:
+        print("Ошибка: %s" % exc, file=sys.stderr)
+        return 2
+    stem = args.stem or pathlib.Path(args.sample).stem
+    paths = nai_api.write_outputs(res, sm, args.out_dir, stem, args.date)
+    print("[NAI] профиль %s; режим %s; статус %s" % (pid, res.get("mode_auto"), res.get("status")))
+    print("[NAI] шкала проверена: %s; флаг: %s" % ("да" if res.get("scale_verified") else "нет", res.get("flag") or "нет"))
+    for key, path in paths.items():
+        print("[NAI] %s: %s" % (key, path))
+    return 0
+
+
 def main(argv=None):
     try:
         sys.stdout.reconfigure(encoding="utf-8")
@@ -314,14 +368,45 @@ def main(argv=None):
     for sp in (p_reg, p_sub, p_ec, p_st):   # автопресет (#LABR-8)
         sp.add_argument("--no-auto", action="store_true", help="не пересчитывать пресеты под прибор (каналы эталона 2048)")
         sp.add_argument("--anchors-ch", nargs="+", type=float, default=None, help="ручная поправка опор фона: A37 SUM [EDGE], каналы")
+    # nai-shape -- метод NaI (экспериментально), профили nai_*
+    p_nai = subparsers.add_parser("nai-shape", help="NaI: совмещение по форме и вычитание фона (ЭКСПЕРИМЕНТАЛЬНО; --detector nai_gamma1s|nai_gs2020)")
+    p_nai.add_argument("--bg", required=True, help="Файл фона")
+    p_nai.add_argument("--sample", required=True, help="Файл образца (при --kind background -- второй фон)")
+    p_nai.add_argument("--kind", choices=["sample", "background"], default="sample", help="sample -- образец минус фон; background -- проверка пары фон-фон")
+    p_nai.add_argument("--nuclides", nargs="+", default=None, help="нуклиды образца (по умолчанию -- все из профиля)")
+    p_nai.add_argument("--force", choices=["shape", "peaks"], default=None, help="режим совмещения для --kind sample (по умолчанию -- по доле фона)")
+    p_nai.add_argument("--out-dir", required=True, help="каталог вывода CSV, XML (обнулённый и со знаком), JSON")
+    p_nai.add_argument("--stem", default=None, help="основа имён выходных файлов (по умолчанию -- имя файла образца)")
+    p_nai.add_argument("--date", default=datetime.date.today().isoformat(), help="Дата")
+    p_nai.set_defaults(func=_cmd_nai, method="nai")
+
+    from . import profiles
+
+    for sp in (p_reg, p_sub, p_ec, p_st, p_sc, p_nai):  # профиль детектора: labr_* -- метод La-138, nai_* -- метод NaI
+        sp.add_argument("--detector", choices=["auto"] + profiles.ids(aliases=True, all_methods=True), default="auto",
+                        help="профиль детектора: labr_* (La-138) или nai_* (NaI, экспериментально); auto -- по имени прибора в XML фона (неизвестный -- предупреждение и профиль по умолчанию)")
+
     args = parser.parse_args(argv)
 
+    if getattr(args, "detector", None) is not None:
+        _activate_profile(args)
+        need = getattr(args, "method", "la138_intrinsic")
+        try:
+            profiles.require_method(need)
+        except ValueError as exc:
+            alt = ", ".join(p["id"] for p in profiles.list_profiles(all_methods=True) if p.get("method") == need)
+            print("Ошибка: %s; профили этой команды: %s" % (exc, alt), file=sys.stderr)
+            return 2
+
     if args.cmd == "selftest" and args.config is None:
-        from . import selftest
-        args.config = str(selftest.DEFAULT_CFG)
+        args.config = str(profiles.preset_path("selftest"))
 
-    return args.func(args)
-
+    from .register import AnchorFitError
+    try:
+        return args.func(args)
+    except AnchorFitError as exc:   # пик-якорь не подгоняется -- отказ по данным пары, не трассировка
+        print("Ошибка: %s" % exc, file=sys.stderr)
+        return 2
 
 if __name__ == "__main__":
     sys.exit(main())

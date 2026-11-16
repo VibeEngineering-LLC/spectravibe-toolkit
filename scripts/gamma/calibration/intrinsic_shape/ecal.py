@@ -148,7 +148,9 @@ def scan(counts, a, kind):
         cs.append(r["centroid"] if kind == "peak" else r["edge"])
         es.append(r["centroid_err"] if kind == "peak" else r["edge_err"])
     cs, es = np.array(cs), np.array(es)
-    ok = (np.abs(cs - np.median(cs)) < 3.0) & (es < 3.0)      # выбросы подгонки (расходящееся окно) отбрасываем
+    from . import profiles   # допуск в каналах прибора: AtomNano 3 кан (~1.4 кэВ/кан), у профиля -- scan_tol_ch
+    tol = float(profiles.get().get("scan_tol_ch", 3.0))
+    ok = (np.abs(cs - np.median(cs)) < tol) & (es < tol)      # выбросы подгонки (расходящееся окно) отбрасываем
     print("      окон принято %d из %d" % (ok.sum(), len(cs)))
     cs, es = cs[ok], es[ok]
     return cs.mean(), float(np.hypot(cs.std(ddof=1), np.mean(es))), cs

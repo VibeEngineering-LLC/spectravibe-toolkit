@@ -1,0 +1,29 @@
+{
+ "_note": "Эталон регрессии AtomNano 5 PRO: выход main 2ca4d15 (до слоя профилей) на парах фикстур этой папки. Команды (cli): register --bg B --sample S --out reg.json; ecal --bg B --sample S --h reg.json --out ecal.json; subtract --bg B --sample S --h reg.json --ecal ecal.json --out-zeroed net0.xml --out-signed nets.xml --date 2026-11-15; sample-cal --bg B --sample S --out-zeroed sc0.xml --out-signed scs.xml --date 2026-11-15. sha256 содержимого после замены CRLF на LF (вывод на Windows пишется с CRLF). Снято на Windows, Python 3.14, numpy из окружения разработки; на другой платформе возможны отличия в последних разрядах чисел.",
+ "pairs": {
+  "2048": {
+   "bg": "labr3_background.xml",
+   "sample": "labr3_lu176_sample.xml",
+   "sha256_lf": {
+    "reg.json": "06f448780ed33e47de919644b25d9004424774b7bb7345d2c6d6a932888eeb7e",
+    "ecal.json": "11d1d2af350335beec074109375a8273fc46324b656628904231efb3f37c6c79",
+    "net0.xml": "57738db2984c60746198208523069d16548c49a85462e37c68555c1f61e83bbc",
+    "nets.xml": "f14c6d3759daf4dc9edbf8f09c07358bd76dd44555b8b50b2a59f02aee0470c9",
+    "sc0.xml": "4286ef0203e25e0f2c5552b8e14f87153d6d48abafa8ec094bc9c154c413c107",
+    "scs.xml": "f99164fd2418d2ea6ad4ff951a39029980bcb6eb8bedb05af41e27157d1d9ffd"
+   }
+  },
+  "8192": {
+   "bg": "labr3_8192_background.xml",
+   "sample": "labr3_8192_sample_th_u.xml",
+   "sha256_lf": {
+    "reg.json": "82105d57f1ccace9ff4215909a7d8f6e4804962e6b3ed4000a1a56df0bce1fb9",
+    "ecal.json": "518bc54d0ace91ce2276754214a27f2fb2cd96554acc2821aa3b77949807ca8b",
+    "net0.xml": "0dfee572d1dd3844b41f0778538f9bd351aca8861c8fe413f79dba2cc7126fbe",
+    "nets.xml": "4b9d1b40462c9ae5e9a257ec012d911fe86d072683195948d363379676dbd396",
+    "sc0.xml": "1f4938da9441c589c5866cbb60b31be31b1b1fc29eac3508f8c9dd5d5389cc84",
+    "scs.xml": "c520e371f642d664409a4d826fe8d3e55f8c7ca7826c81638eb106ae898c1e02"
+   }
+  }
+ }
+}

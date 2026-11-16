@@ -12,7 +12,7 @@ a = Analysis([os.path.join(ROOT, "src", "isgui", "__main__.py")], pathex=[os.pat
            (os.path.join(TK, "data", "xray_lines_lsrm.csv"), "data")],
     hiddenimports=[IS + m for m in ("core", "register", "ops", "ecal", "peakfit", "fwhm", "netxml", "background",
                                     "selftest", "selftest_boot", "autopreset", "robust", "pairref", "lowscale", "pipeline", "verdict",
-                                    "samplecal", "samplecal_q", "samplecal_net")]   # модули режима «по пробе» (ленивый импорт)
+                                    "samplecal", "samplecal_q", "samplecal_net", "profiles")]   # «по пробе» и профили детекторов (ленивый импорт)
                   + ["gamma.data", "gamma.data.nuclide_library"]
                   + collect_submodules("pyqtgraph", filter=lambda n: not any(s in n for s in ("opengl", "examples", "jupyter"))),
     excludes=["tkinter", "matplotlib", "PIL", "pandas", "PyQt5", "PyQt6", "PySide2", "torch", "IPython",

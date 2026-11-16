@@ -39,7 +39,11 @@ def blur_bg(mapping, b, var_b=None):
     return out, var
 
 
-def scan_centroid(counts, x0, w0, hw):
+class AnchorFitError(RuntimeError):
+    """пик-якорь (~37 кэВ) не подгоняется: отказ по данным пары (CLI -- сообщение и код 2, не трассировка)."""
+
+
+def scan_centroid(counts, x0, w0, hw, what="спектре"):
     """
     Source: make_net_xml.py:58-71 (peak branch only)
     """
@@ -54,9 +58,13 @@ def scan_centroid(counts, x0, w0, hw):
     
     cs = np.array(cs)
     es = np.array(es)
-    ok = (np.abs(cs - np.median(cs)) < 3.0) & (es < 3.0)
+    from . import profiles   # допуск в каналах прибора: AtomNano 3 кан, у профиля -- scan_tol_ch (как ecal.scan)
+    tol = float(profiles.get().get("scan_tol_ch", 3.0))
+    ok = (np.abs(cs - np.median(cs)) < tol) & (es < tol)
     if ok.sum() < 2:
-        raise RuntimeError("Not enough valid centroids in scan_centroid")
+        raise AnchorFitError("якорь (пик ~37 кэВ) в %s не подгоняется у канала %.1f: годных подгонок %d из %d (нужно >= 2); "
+                             "совмещение по этому пику невозможно -- сильные линии ниже 100 кэВ? задайте якорь вручную "
+                             "(--anchor-bg/--anchor-sample)" % (what, x0, int(ok.sum()), len(ok)))
     
     cs = cs[ok]
     es = es[ok]
@@ -73,8 +81,8 @@ def scan_centroid(counts, x0, w0, hw):
 
 
 def anchor37(bg_counts, sm_counts, x_bg=28.9, x_sm=28.6, w0=3.3, hw=6, verbose=True):
-    a = scan_centroid(bg_counts, x_bg, w0, hw)
-    s = scan_centroid(sm_counts, x_sm, w0, hw)
+    a = scan_centroid(bg_counts, x_bg, w0, hw, "фоне")
+    s = scan_centroid(sm_counts, x_sm, w0, hw, "образце")
     
     xs = s['mean']
     xb = a['mean']

@@ -23,11 +23,10 @@ SRC_LIB, SRC_MANUAL, SRC_LABR = "библиотека", "ручная", "LaBr3"
 
 
 def intrinsic_energies():
-    """Читает пресеты LaBr3 и возвращает словарь энергий собственных структур."""
-    with open(HERE / "presets" / "labr3_ecal.json", "r", encoding="utf-8") as f:
-        ecal = json.load(f)
-    with open(HERE / "presets" / "labr3_lowE.json", "r", encoding="utf-8") as f:
-        lowE = json.load(f)
+    """Читает пресеты LaBr3 активного профиля детектора и возвращает словарь энергий собственных структур."""
+    from . import profiles
+    ecal = profiles.load_preset("ecal")
+    lowE = profiles.load_preset("lowE")
 
     points = ecal["points"]
     edge_pt = next(p for p in points if p["name"] == "La138_789_edge")
