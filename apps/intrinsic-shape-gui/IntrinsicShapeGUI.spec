@@ -6,7 +6,12 @@ TK = os.path.abspath(os.path.join(ROOT, "..", ".."))   # корень репоз
 SCRIPTS = os.path.join(TK, "scripts")
 PRESETS = os.path.join(SCRIPTS, "gamma", "calibration", "intrinsic_shape", "presets")
 IS = "gamma.calibration.intrinsic_shape."
-a = Analysis([os.path.join(ROOT, "src", "isgui", "__main__.py")], pathex=[os.path.join(ROOT, "src"), SCRIPTS],
+import PySide6   # плагины Qt явно: штатный хук PySide6 в этом окружении их не собрал (exe без platforms\qwindows.dll падал)
+QT_PLUGINS = os.path.join(os.path.dirname(PySide6.__file__), "plugins")
+QT_BINS = [(os.path.join(QT_PLUGINS, sub, f), os.path.join("PySide6", "plugins", sub))
+           for sub in ("platforms", "styles", "imageformats", "iconengines") if os.path.isdir(os.path.join(QT_PLUGINS, sub))
+           for f in os.listdir(os.path.join(QT_PLUGINS, sub)) if f.endswith(".dll")]
+a = Analysis([os.path.join(ROOT, "src", "isgui", "__main__.py")], pathex=[os.path.join(ROOT, "src"), SCRIPTS], binaries=QT_BINS,
     datas=[(PRESETS, "gamma/calibration/intrinsic_shape/presets"),   # ecal/selftest ищут пресеты рядом с модулем
            (os.path.join(TK, "data", "nuclides.json"), "data"),   # ядерные данные toolkit (реперы пары)
            (os.path.join(TK, "data", "xray_lines_lsrm.csv"), "data"),
